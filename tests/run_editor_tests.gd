@@ -12,6 +12,8 @@ const PresetLibraryTests := preload("res://tests/editor/test_preset_library.gd")
 const EditorSaveServiceTests := preload("res://tests/editor/test_editor_save_service.gd")
 const PhaseTabsTests := preload("res://tests/editor/test_phase_tabs.gd")
 const LayerStackTests := preload("res://tests/editor/test_layer_stack.gd")
+const SchemaReaderTests := preload("res://tests/editor/test_schema_reader.gd")
+const CommonInspectorTests := preload("res://tests/editor/test_common_inspectors.gd")
 
 
 func _init() -> void:
@@ -27,5 +29,7 @@ func _init() -> void:
 	EditorSaveServiceTests.run(tests)
 	PhaseTabsTests.run(tests)
 	LayerStackTests.run(tests)
+	SchemaReaderTests.run(tests)
+	CommonInspectorTests.run(tests)
 	print("EDITOR_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

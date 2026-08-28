@@ -11,7 +11,11 @@ const VfxPresetEditSessionModel := preload("res://src/editor/session/vfx_preset_
 const VfxPresetHistoryModel := preload("res://src/editor/session/vfx_preset_history.gd")
 const VfxPresetSkeletonFactoryModel := preload("res://src/editor/factories/vfx_preset_skeleton_factory.gd")
 const VfxLayerFactoryModel := preload("res://src/editor/factories/vfx_layer_factory.gd")
+const VfxStructureChangeServiceModel := preload("res://src/editor/factories/vfx_structure_change_service.gd")
 const VfxLayerStackModel := preload("res://src/editor/workspace/vfx_layer_stack.gd")
+const VfxSchemaReaderModel := preload("res://src/editor/inspector/vfx_schema_reader.gd")
+const VfxPresetInspectorModel := preload("res://src/editor/inspector/vfx_preset_inspector.gd")
+const VfxLayerInspectorModel := preload("res://src/editor/inspector/vfx_layer_inspector.gd")
 const VfxPresetLibraryModel := preload("res://src/editor/library/vfx_preset_library.gd")
 const VfxPresetLibraryEntryModel := preload("res://src/editor/library/vfx_preset_library_entry.gd")
 const VfxEditorSaveServiceModel := preload("res://src/editor/persistence/vfx_editor_save_service.gd")
@@ -24,6 +28,7 @@ var _session: VfxPresetEditSession
 var _history: VfxPresetHistory
 var _skeleton_factory: RefCounted
 var _layer_factory: RefCounted
+var _structure_change_service: RefCounted
 var _library: RefCounted
 var _save_service: RefCounted
 var _issues: Array[VfxIssue] = []
@@ -34,6 +39,8 @@ var _file_dialog_action := ""
 var _pending_overwrite_path := ""
 var _phase_tabs
 var _layer_stack
+var _preset_inspector: VfxPresetInspector
+var _layer_inspector: VfxLayerInspector
 var _selected_phase := ""
 var _selected_layer_id := ""
 
@@ -48,6 +55,7 @@ func _init() -> void:
 	_history = VfxPresetHistoryModel.new()
 	_skeleton_factory = VfxPresetSkeletonFactoryModel.new(_registry)
 	_layer_factory = VfxLayerFactoryModel.new(_registry)
+	_structure_change_service = VfxStructureChangeServiceModel.new(_skeleton_factory, _layer_factory)
 	_library = VfxPresetLibraryModel.new(_pipeline, _paths)
 	_save_service = VfxEditorSaveServiceModel.new(_pipeline, codec, _paths)
 
@@ -163,6 +171,25 @@ func configure_workspace(phase_tabs, layer_stack) -> void:
 	reconcile_selection()
 
 
+func configure_inspectors(preset_inspector: VfxPresetInspector, layer_inspector: VfxLayerInspector) -> void:
+	_preset_inspector = preset_inspector
+	_layer_inspector = layer_inspector
+	var reader := VfxSchemaReaderModel.new(_registry)
+	_preset_inspector.set_schema_reader(reader)
+	_layer_inspector.set_schema_reader(reader)
+	if not _preset_inspector.preset_field_commit.is_connected(_on_preset_field_commit):
+		_preset_inspector.preset_field_commit.connect(_on_preset_field_commit)
+	if not _preset_inspector.lifecycle_change_requested.is_connected(_on_lifecycle_change_requested):
+		_preset_inspector.lifecycle_change_requested.connect(_on_lifecycle_change_requested)
+	if not _layer_inspector.layer_field_commit.is_connected(_on_layer_field_commit):
+		_layer_inspector.layer_field_commit.connect(_on_layer_field_commit)
+	if not _layer_inspector.space_override_changed.is_connected(_on_space_override_changed):
+		_layer_inspector.space_override_changed.connect(_on_space_override_changed)
+	if not _layer_inspector.layer_type_change_requested.is_connected(_on_layer_type_change_requested):
+		_layer_inspector.layer_type_change_requested.connect(_on_layer_type_change_requested)
+	_refresh_workspace()
+
+
 func select_phase(phase_name: String) -> void:
 	if _phase_names().has(phase_name):
 		_selected_phase = phase_name
@@ -206,6 +233,50 @@ func set_active_layer_enabled(layer_id: String, enabled: bool) -> bool:
 	if _selected_phase.is_empty():
 		return false
 	return _commit_workspace_change("Set Layer Enabled", VfxLayerStackModel.set_layer_enabled_in_phase(_session.working_copy(), _selected_phase, layer_id, enabled))
+
+
+func commit_preset_field(json_pointer: String, value: Variant) -> bool:
+	return _commit_workspace_change("Edit Preset Field", _replace_json_pointer(_session.working_copy(), json_pointer, _duplicate_value(value)))
+
+
+func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if _selected_phase.is_empty() or index < 0:
+		return false
+	var layer_pointer := "/phases/%s/layers/%d%s" % [_escape_pointer_segment(_selected_phase), index, json_pointer]
+	return _commit_workspace_change("Edit Layer Field", _replace_json_pointer(_session.working_copy(), layer_pointer, _duplicate_value(value)))
+
+
+func set_selected_layer_space_override(mode_or_inherit: String) -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if _selected_phase.is_empty() or index < 0:
+		return false
+	var next := _session.working_copy()
+	var layer: Dictionary = next["phases"][_selected_phase]["layers"][index]
+	if mode_or_inherit == VfxLayerInspectorModel.INHERIT_DEFAULT:
+		layer.erase("space_mode")
+	else:
+		layer["space_mode"] = mode_or_inherit
+	return _commit_workspace_change("Set Layer Space Override", next)
+
+
+func change_lifecycle(target_mode: String) -> bool:
+	var replaced: VfxResult = _structure_change_service.replace_lifecycle(_session.working_copy(), target_mode)
+	if not replaced.success:
+		_issues = replaced.issues.duplicate()
+		return false
+	return _commit_workspace_change("Change Lifecycle", replaced.value)
+
+
+func change_selected_layer_type(target_type: String) -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if _selected_phase.is_empty() or index < 0:
+		return false
+	var replaced: VfxResult = _structure_change_service.replace_layer_type(_session.working_copy(), _selected_phase, index, target_type)
+	if not replaced.success:
+		_issues = replaced.issues.duplicate()
+		return false
+	return _commit_workspace_change("Change Layer Type", replaced.value)
 
 
 func undo() -> void:
@@ -344,6 +415,26 @@ func _on_layer_enabled_requested(layer_id: String, enabled: bool) -> void:
 	set_active_layer_enabled(layer_id, enabled)
 
 
+func _on_preset_field_commit(json_pointer: String, value: Variant) -> void:
+	commit_preset_field(json_pointer, value)
+
+
+func _on_lifecycle_change_requested(target_mode: String) -> void:
+	change_lifecycle(target_mode)
+
+
+func _on_layer_field_commit(json_pointer: String, value: Variant) -> void:
+	commit_selected_layer_field(json_pointer, value)
+
+
+func _on_space_override_changed(mode_or_inherit: String) -> void:
+	set_selected_layer_space_override(mode_or_inherit)
+
+
+func _on_layer_type_change_requested(target_type: String) -> void:
+	change_selected_layer_type(target_type)
+
+
 func _commit_workspace_change(label: String, next_data: Dictionary) -> bool:
 	var before := _session.working_copy()
 	if before == next_data:
@@ -388,6 +479,50 @@ func _refresh_workspace() -> void:
 		_phase_tabs.select_phase(_selected_phase)
 	if _layer_stack != null:
 		_layer_stack.set_phase(_session.working_copy(), _selected_phase)
+	if _preset_inspector != null:
+		_preset_inspector.set_preset(_session.working_copy())
+	if _layer_inspector != null:
+		var index := _selected_layer_index(_selected_layer_id)
+		_layer_inspector.visible = index >= 0
+		_layer_inspector.set_layer(_session.working_copy()["phases"][_selected_phase]["layers"][index] if index >= 0 else {})
+
+
+func _replace_json_pointer(source: Dictionary, pointer: String, value: Variant) -> Dictionary:
+	if not pointer.begins_with("/"):
+		return source.duplicate(true)
+	var next := source.duplicate(true)
+	var segments := pointer.trim_prefix("/").split("/")
+	var current: Variant = next
+	for index in segments.size() - 1:
+		var segment := segments[index].replace("~1", "/").replace("~0", "~")
+		if current is Dictionary:
+			if not current.has(segment):
+				return source.duplicate(true)
+			current = current[segment]
+		elif current is Array:
+			if not segment.is_valid_int() or int(segment) < 0 or int(segment) >= current.size():
+				return source.duplicate(true)
+			current = current[int(segment)]
+		else:
+			return source.duplicate(true)
+	var final_segment := segments[segments.size() - 1].replace("~1", "/").replace("~0", "~")
+	if current is Dictionary:
+		if not current.has(final_segment):
+			return source.duplicate(true)
+		current[final_segment] = value
+	elif current is Array and final_segment.is_valid_int() and int(final_segment) >= 0 and int(final_segment) < current.size():
+		current[int(final_segment)] = value
+	else:
+		return source.duplicate(true)
+	return next
+
+
+func _duplicate_value(value: Variant) -> Variant:
+	return value.duplicate(true) if value is Dictionary or value is Array else value
+
+
+func _escape_pointer_segment(value: String) -> String:
+	return value.replace("~", "~0").replace("/", "~1")
 
 
 func _policy_failure(code: String, message: String, path: String) -> VfxResult:
