@@ -41,7 +41,7 @@ Only the JSON Schema subset used by v1 is implemented:
 
 - `type`, `properties`, `required`, `enum`, `default`
 - `minimum`, `maximum`, `minItems`, `maxItems`
-- `additionalProperties`, `pattern`
+- `items`, `additionalProperties`, `pattern`
 - local `$defs` and local `$ref`
 
 `$ref` supports only `#/$defs/...` references in the loaded Schema. External files, URLs, other Schema documents, unresolved references, and reference cycles are Schema configuration errors.

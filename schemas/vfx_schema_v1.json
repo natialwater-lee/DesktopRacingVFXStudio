@@ -1,0 +1,637 @@
+{
+  "schema_id": "desktop_racing_vfx_schema_v1",
+  "schema_version": 1,
+  "type": "object",
+  "required": [
+    "schema_version",
+    "preset_id",
+    "display_name",
+    "category",
+    "lifecycle",
+    "default_space_mode",
+    "runtime_inputs",
+    "phases"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [1]
+    },
+    "preset_id": {
+      "$ref": "#/$defs/logical_id"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "category": {
+      "$ref": "#/$defs/category"
+    },
+    "lifecycle": {
+      "$ref": "#/$defs/lifecycle"
+    },
+    "default_space_mode": {
+      "$ref": "#/$defs/space_mode"
+    },
+    "runtime_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "phases": {
+      "$ref": "#/$defs/phases"
+    }
+  },
+  "$defs": {
+    "logical_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "BOOST",
+        "SLIP",
+        "SPECIAL_EQUIPMENT",
+        "RACE_TALENT",
+        "WEATHER",
+        "FINISH",
+        "RESULT_UI",
+        "UTILITY"
+      ]
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["ONE_SHOT", "START_LOOP_END"]
+        }
+      }
+    },
+    "space_mode": {
+      "type": "string",
+      "enum": [
+        "VEHICLE_LOCAL",
+        "VEHICLE_FOLLOW_WORLD_TRAIL",
+        "WORLD_AREA",
+        "SCREEN_UI"
+      ]
+    },
+    "anchor": {
+      "type": "string",
+      "enum": [
+        "CENTER",
+        "FRONT",
+        "REAR_CENTER",
+        "REAR_LEFT",
+        "REAR_RIGHT",
+        "LEFT_SIDE",
+        "RIGHT_SIDE",
+        "TIRE_FL",
+        "TIRE_FR",
+        "TIRE_RL",
+        "TIRE_RR",
+        "EQUIPMENT_CENTER",
+        "WING_LEFT",
+        "WING_RIGHT"
+      ]
+    },
+    "importance": {
+      "type": "string",
+      "enum": ["CORE", "DETAIL", "EXTRA"]
+    },
+    "blend_mode": {
+      "type": "string",
+      "enum": ["ALPHA", "ADDITIVE"]
+    },
+    "render_plane": {
+      "type": "string",
+      "enum": ["UNDER_VEHICLE", "OVER_VEHICLE", "WORLD", "SCREEN_UI"]
+    },
+    "number_vector2": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "number"
+      }
+    },
+    "color_rgba": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    },
+    "transform": {
+      "type": "object",
+      "required": ["offset", "rotation_degrees", "scale"],
+      "additionalProperties": false,
+      "properties": {
+        "offset": {
+          "$ref": "#/$defs/number_vector2",
+          "default": [0.0, 0.0]
+        },
+        "rotation_degrees": {
+          "type": "number",
+          "default": 0.0
+        },
+        "scale": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number",
+            "minimum": 0.001
+          },
+          "default": [1.0, 1.0]
+        }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "required": ["id", "type", "importance", "blend_mode", "render_plane", "parameters"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/logical_id"
+        },
+        "type": {
+          "type": "string"
+        },
+        "importance": {
+          "$ref": "#/$defs/importance"
+        },
+        "blend_mode": {
+          "$ref": "#/$defs/blend_mode"
+        },
+        "render_plane": {
+          "$ref": "#/$defs/render_plane"
+        },
+        "sort_order": {
+          "type": "integer",
+          "minimum": -100,
+          "maximum": 100,
+          "default": 0
+        },
+        "space_mode": {
+          "$ref": "#/$defs/space_mode"
+        },
+        "anchors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/anchor"
+          }
+        },
+        "transform": {
+          "$ref": "#/$defs/transform",
+          "default": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.0]
+          }
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "parameters": {
+          "type": "object"
+        }
+      }
+    },
+    "phase_layers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "one_shot_phase": {
+      "type": "object",
+      "required": ["duration_seconds", "layers"],
+      "additionalProperties": false,
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "layers": {
+          "$ref": "#/$defs/phase_layers"
+        }
+      }
+    },
+    "timed_phase": {
+      "type": "object",
+      "required": ["duration_seconds", "layers"],
+      "additionalProperties": false,
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "layers": {
+          "$ref": "#/$defs/phase_layers"
+        }
+      }
+    },
+    "loop_phase": {
+      "type": "object",
+      "required": ["layers"],
+      "additionalProperties": false,
+      "properties": {
+        "layers": {
+          "$ref": "#/$defs/phase_layers"
+        }
+      }
+    },
+    "phases": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "one_shot": {
+          "$ref": "#/$defs/one_shot_phase"
+        },
+        "start": {
+          "$ref": "#/$defs/timed_phase"
+        },
+        "loop": {
+          "$ref": "#/$defs/loop_phase"
+        },
+        "end": {
+          "$ref": "#/$defs/timed_phase"
+        }
+      }
+    },
+    "emitter": {
+      "type": "object",
+      "required": ["shape"],
+      "additionalProperties": false,
+      "properties": {
+        "shape": {
+          "type": "string",
+          "enum": ["POINT", "CIRCLE", "BOX", "CONE", "LINE"]
+        },
+        "radius": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "size": {
+          "$ref": "#/$defs/number_vector2"
+        },
+        "angle_degrees": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 360.0
+        },
+        "length": {
+          "type": "number",
+          "minimum": 0.0
+        }
+      }
+    },
+    "particle_parameters": {
+      "type": "object",
+      "required": ["emission_mode", "emitter", "sprite_asset_ref", "lifetime_seconds"],
+      "additionalProperties": false,
+      "properties": {
+        "emission_mode": {
+          "type": "string",
+          "enum": ["BURST", "CONTINUOUS"]
+        },
+        "emitter": {
+          "$ref": "#/$defs/emitter"
+        },
+        "sprite_asset_ref": {
+          "$ref": "#/$defs/logical_id"
+        },
+        "burst_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "emission_rate_per_second": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "max_particles": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "lifetime_seconds": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "direction_degrees": {
+          "type": "number",
+          "default": 0.0
+        },
+        "spread_degrees": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 360.0,
+          "default": 0.0
+        },
+        "speed_min": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 0.0
+        },
+        "speed_max": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 0.0
+        },
+        "acceleration": {
+          "$ref": "#/$defs/number_vector2",
+          "default": [0.0, 0.0]
+        },
+        "rotation_min_degrees": {
+          "type": "number",
+          "default": 0.0
+        },
+        "rotation_max_degrees": {
+          "type": "number",
+          "default": 0.0
+        },
+        "angular_velocity_min_degrees_per_second": {
+          "type": "number",
+          "default": 0.0
+        },
+        "angular_velocity_max_degrees_per_second": {
+          "type": "number",
+          "default": 0.0
+        },
+        "size_start": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 1.0
+        },
+        "size_end": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 1.0
+        },
+        "color_rgba": {
+          "$ref": "#/$defs/color_rgba",
+          "default": [1.0, 1.0, 1.0, 1.0]
+        }
+      }
+    },
+    "trail_parameters": {
+      "type": "object",
+      "required": ["texture_asset_ref", "width_start", "width_end", "max_points", "lifetime_seconds"],
+      "additionalProperties": false,
+      "properties": {
+        "texture_asset_ref": {
+          "$ref": "#/$defs/logical_id"
+        },
+        "width_start": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "width_end": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "max_points": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "lifetime_seconds": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "color_rgba": {
+          "$ref": "#/$defs/color_rgba",
+          "default": [1.0, 1.0, 1.0, 1.0]
+        }
+      }
+    },
+    "ring_parameters": {
+      "type": "object",
+      "required": ["radius_start", "radius_end", "width", "duration_seconds"],
+      "additionalProperties": false,
+      "properties": {
+        "radius_start": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "radius_end": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "width": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "repeat_interval_seconds": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 0.0
+        },
+        "color_rgba": {
+          "$ref": "#/$defs/color_rgba",
+          "default": [1.0, 1.0, 1.0, 1.0]
+        }
+      }
+    },
+    "glow_parameters": {
+      "type": "object",
+      "required": ["radius", "opacity"],
+      "additionalProperties": false,
+      "properties": {
+        "radius": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "pulse_hz": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 0.0
+        },
+        "color_rgba": {
+          "$ref": "#/$defs/color_rgba",
+          "default": [1.0, 1.0, 1.0, 1.0]
+        }
+      }
+    },
+    "shield_parameters": {
+      "type": "object",
+      "required": ["radius", "arc_degrees", "thickness", "opacity"],
+      "additionalProperties": false,
+      "properties": {
+        "radius": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "arc_degrees": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 360.0,
+          "default": 360.0
+        },
+        "thickness": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "scroll_speed": {
+          "type": "number",
+          "default": 0.0
+        },
+        "texture_asset_ref": {
+          "$ref": "#/$defs/logical_id"
+        },
+        "color_rgba": {
+          "$ref": "#/$defs/color_rgba",
+          "default": [1.0, 1.0, 1.0, 1.0]
+        }
+      }
+    }
+  },
+  "x_vfx_layer_types": {
+    "PARTICLE": {
+      "parameters_ref": "#/$defs/particle_parameters"
+    },
+    "TRAIL": {
+      "parameters_ref": "#/$defs/trail_parameters"
+    },
+    "RING": {
+      "parameters_ref": "#/$defs/ring_parameters"
+    },
+    "GLOW": {
+      "parameters_ref": "#/$defs/glow_parameters"
+    },
+    "SHIELD": {
+      "parameters_ref": "#/$defs/shield_parameters"
+    }
+  },
+  "x_vfx_runtime_inputs": {
+    "intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 1.0
+    },
+    "speed_normalized": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
+    },
+    "vehicle_velocity": {
+      "$ref": "#/$defs/number_vector2",
+      "default": [0.0, 0.0]
+    },
+    "turn_strength": {
+      "type": "number",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0
+    },
+    "effect_radius": {
+      "type": "number",
+      "minimum": 0.0,
+      "default": 0.0
+    },
+    "surface_type": {
+      "$ref": "#/$defs/logical_id",
+      "default": "surface.default"
+    }
+  },
+  "x_vfx_rules": [
+    {
+      "name": "LIFECYCLE_PHASE_STRUCTURE",
+      "lifecycle_path": "/lifecycle",
+      "phases_path": "/phases"
+    },
+    {
+      "name": "PRESET_HAS_LAYER",
+      "phases_path": "/phases"
+    },
+    {
+      "name": "UNIQUE_LAYER_IDS_ACROSS_PHASES",
+      "phases_path": "/phases",
+      "id_field": "id"
+    },
+    {
+      "name": "TYPE_DISPATCHED_PARAMETER_SCHEMA",
+      "phases_path": "/phases",
+      "type_field": "type",
+      "parameters_field": "parameters",
+      "layer_types_path": "/x_vfx_layer_types"
+    },
+    {
+      "name": "PARTICLE_EMISSION_CONFIGURATION",
+      "phases_path": "/phases",
+      "particle_type": "PARTICLE",
+      "parameters_field": "parameters"
+    },
+    {
+      "name": "PARTICLE_EMITTER_SHAPE",
+      "phases_path": "/phases",
+      "particle_type": "PARTICLE",
+      "parameters_field": "parameters",
+      "emitter_field": "emitter"
+    },
+    {
+      "name": "PARTICLE_MOTION_RANGE_ORDER",
+      "phases_path": "/phases",
+      "particle_type": "PARTICLE",
+      "parameters_field": "parameters",
+      "ranges": [
+        {
+          "minimum_field": "speed_min",
+          "maximum_field": "speed_max"
+        },
+        {
+          "minimum_field": "rotation_min_degrees",
+          "maximum_field": "rotation_max_degrees"
+        },
+        {
+          "minimum_field": "angular_velocity_min_degrees_per_second",
+          "maximum_field": "angular_velocity_max_degrees_per_second"
+        }
+      ]
+    },
+    {
+      "name": "RUNTIME_INPUT_NAMES",
+      "runtime_inputs_path": "/runtime_inputs",
+      "contract_path": "/x_vfx_runtime_inputs"
+    },
+    {
+      "name": "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS",
+      "phases_path": "/phases",
+      "default_space_field": "default_space_mode",
+      "layer_space_field": "space_mode",
+      "anchors_field": "anchors"
+    },
+    {
+      "name": "RENDER_PLANE_FOR_EFFECTIVE_SPACE",
+      "phases_path": "/phases",
+      "default_space_field": "default_space_mode",
+      "layer_space_field": "space_mode",
+      "render_plane_field": "render_plane"
+    }
+  ]
+}

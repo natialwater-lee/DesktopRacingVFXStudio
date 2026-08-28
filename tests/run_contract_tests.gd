@@ -3,6 +3,7 @@ extends SceneTree
 const TestAssertHelper := preload("res://tests/support/test_assert.gd")
 const ResultModelTests := preload("res://tests/unit/test_result_models.gd")
 const PresetCodecTests := preload("res://tests/unit/test_preset_codec.gd")
+const SchemaArtifactTests := preload("res://tests/unit/test_schema_artifact.gd")
 
 
 func _init() -> void:
@@ -10,4 +11,5 @@ func _init() -> void:
 	tests.expect_true(true, "test runner executes assertions")
 	ResultModelTests.run(tests)
 	PresetCodecTests.run(tests)
+	SchemaArtifactTests.run(tests)
 	quit(1 if tests.failure_count() > 0 else 0)
