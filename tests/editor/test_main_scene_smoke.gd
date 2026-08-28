@@ -38,7 +38,10 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(editor.get_node("InspectorPanel") is ScrollContainer, "Inspector is a scrollable authoring region at normal launch")
 	tests.expect_true(editor.get_node("DiagnosticsPanel") is ScrollContainer, "Diagnostics is a scrollable authoring region at normal launch")
 	tests.expect_true(is_equal_approx((editor.get_node("InspectorPanel") as Control).anchor_right, 1.0) and is_equal_approx((editor.get_node("InspectorPanel") as Control).anchor_bottom, 1.0), "Inspector anchors to the resizable authoring surface")
-	tests.expect_true(is_equal_approx((editor.get_node("DiagnosticsPanel") as Control).anchor_right, 1.0) and is_equal_approx((editor.get_node("DiagnosticsPanel") as Control).anchor_bottom, 1.0), "Diagnostics anchors to the resizable authoring surface")
+	var inspector_panel := editor.get_node("InspectorPanel") as ScrollContainer
+	var diagnostics_region := editor.get_node("DiagnosticsPanel") as Control
+	tests.expect_true(is_equal_approx(diagnostics_region.anchor_top, 1.0) and is_equal_approx(diagnostics_region.anchor_bottom, 1.0) and diagnostics_region.offset_top < 0.0 and is_equal_approx(diagnostics_region.offset_bottom, 0.0), "Diagnostics is bottom-wide rather than a full-rect overlay")
+	tests.expect_true(inspector_panel.follow_focus, "Inspector scroll follows focused authoring controls")
 	tests.expect_true(int(ProjectSettings.get_setting("display/window/size/initial_width", 0)) >= 1024 and int(ProjectSettings.get_setting("display/window/size/initial_height", 0)) >= 720, "project declares a sensible initial editor window size")
 	tests.expect_true(int(ProjectSettings.get_setting("display/window/size/min_width", 0)) >= 1024 and int(ProjectSettings.get_setting("display/window/size/min_height", 0)) >= 720, "project declares a non-clipping minimum editor window size")
 	tests.expect_true(editor.get_node("Toolbar/NewButton").is_connected("pressed", Callable(editor.editor_controller, "_on_new_pressed")), "New button opens the schema-derived new dialog")
@@ -110,9 +113,11 @@ static func run(tests: TestAssert) -> void:
 	var blend_mode := editor.get_node_or_null("InspectorPanel/InspectorContents/LayerInspector/BlendMode") as OptionButton
 	tests.expect_true(editor.get_viewport().gui_get_focus_owner() == blend_mode, "Layer common-field diagnostic activation focuses the matching editable control")
 	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "minimum", "invalid", "/phases/start/layers/0/parameters/radius")])
+	inspector_panel.scroll_vertical = 0
 	diagnostics_panel.activate_issue(0)
 	var radius := editor.get_node_or_null("InspectorPanel/InspectorContents/LayerInspector/Parameters/radius/Input") as SpinBox
 	tests.expect_true(radius != null and editor.get_viewport().gui_get_focus_owner() == radius.get_line_edit(), "nested Layer parameter diagnostic activation focuses the Schema-owned editable control")
+	tests.expect_true(inspector_panel.scroll_vertical > 0, "nested parameter diagnostic focus scrolls its editable field into the Inspector viewport")
 	var focus_before_unsupported := editor.get_viewport().gui_get_focus_owner()
 	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "additionalProperties", "unexpected", "/phases/start/layers/0/parameters/not_declared")])
 	diagnostics_panel.activate_issue(0)

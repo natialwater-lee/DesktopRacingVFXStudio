@@ -37,9 +37,14 @@ func focus_json_pointer(json_pointer: String) -> bool:
 	if control == null or not control.is_inside_tree():
 		return false
 	if control is SpinBox:
-		(control as SpinBox).get_line_edit().grab_focus()
+		var line_edit := (control as SpinBox).get_line_edit()
+		line_edit.grab_focus()
+		if line_edit.has_focus():
+			_ensure_visible(line_edit)
 	else:
 		control.grab_focus()
+		if control.has_focus():
+			_ensure_visible(control)
 	return control.has_focus() or (control is SpinBox and (control as SpinBox).get_line_edit().has_focus())
 
 
@@ -137,6 +142,15 @@ func _find_control_by_pointer(parent: Node, json_pointer: String) -> Control:
 		if nested != null:
 			return nested
 	return null
+
+
+func _ensure_visible(control: Control) -> void:
+	var ancestor := control.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer:
+			(ancestor as ScrollContainer).ensure_control_visible(control)
+			return
+		ancestor = ancestor.get_parent()
 
 
 func _select_text(control: OptionButton, value: String) -> void:
