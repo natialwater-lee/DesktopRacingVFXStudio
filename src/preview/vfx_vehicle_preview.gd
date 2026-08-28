@@ -42,6 +42,7 @@ func edit_zoom() -> float:
 func set_profile_data(profile_data: Dictionary) -> void:
 	_shared_state.set_profile_data(profile_data)
 	_rebuild_anchor_controls()
+	_request_edit_scroll_center()
 
 
 func set_profile_edit_session(profile_session: RefCounted) -> void:
@@ -49,6 +50,7 @@ func set_profile_edit_session(profile_session: RefCounted) -> void:
 	if _profile_session != null:
 		_shared_state.set_profile_data(_profile_session.working_copy())
 	_rebuild_anchor_controls()
+	_request_edit_scroll_center()
 
 
 func set_profile_repository(profile_repository: RefCounted) -> void:
@@ -232,6 +234,7 @@ func _select_profile_path(profile_path: String) -> void:
 	_shared_state.set_profile_data(_profile_session.working_copy())
 	_select_profile_option(profile_path)
 	_rebuild_anchor_controls()
+	_request_edit_scroll_center()
 
 
 func _select_profile_option(profile_path: String) -> void:
@@ -343,6 +346,12 @@ func _anchor_y() -> SpinBox:
 
 func _edit_canvas() -> Control:
 	return get_node_or_null("PreviewSurface/EditScroll/EditCanvas") as Control
+
+
+func _request_edit_scroll_center() -> void:
+	var edit_canvas: Control = _edit_canvas()
+	if edit_canvas != null:
+		edit_canvas.request_scroll_center()
 
 
 func _game_canvas() -> Control:
