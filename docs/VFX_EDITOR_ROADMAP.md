@@ -6,7 +6,7 @@ Create the independent Godot 4.7.1 project, strict Schema v1, examples, contract
 
 ## Phase 1: Preset library and Layer Stack authoring
 
-Build a Layer Stack-oriented editor around the frozen contract: preset browsing, Phase tabs (`ONE SHOT` or `START | LOOP | END`), Layer ordering, common properties, and type-specific forms. The editor writes `.vfx.json` source and shows structured field diagnostics. It does not introduce a Node Graph.
+Shipped: a Layer Stack-oriented editor around the frozen contract with authoring-root Preset browse/open, New, valid-only Save/Save As, dirty-state protection, Undo/Redo, validation diagnostics, lifecycle Phase tabs (`ONE SHOT` or `START | LOOP | END`), Layer ordering, schema-driven common/type-specific properties, anchors, and Runtime Input declarations. The editor writes `.vfx.json` source only and does not introduce a Node Graph, preview renderer, export system, performance analyzer, migration framework, or Desktop Idle Racing dependency.
 
 ## Phase 2: preview and real-size readability
 

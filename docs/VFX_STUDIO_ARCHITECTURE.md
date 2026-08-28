@@ -6,7 +6,7 @@ DesktopRacingVFXStudio is an independent Godot 4.7.1 stable project for authorin
 
 The Studio owns how an effect looks. The game owns when an effect is created, which vehicle or world position receives it, gameplay targeting, and the lifetime of a START_LOOP_END loop.
 
-Phase 0 establishes only the project foundation and data contract. It does not include an editor UI, a Particle Renderer, preview rendering, an export pipeline, generated assets, or changes to the Desktop Idle Racing project.
+Phase 0 establishes the project foundation and data contract. Phase 1 adds a contract-backed Layer Stack authoring surface for `.vfx.json` Presets. Neither phase includes a Particle Renderer, preview rendering, an export pipeline, generated assets, or changes to the Desktop Idle Racing project.
 
 ## Source of truth and boundaries
 
@@ -94,9 +94,10 @@ At actual game size, CORE layers must preserve effect identity before DETAIL or 
 
 ## Project responsibilities
 
-The following boundaries are intentionally reserved but unimplemented in Phase 0:
+Phase 1 implements `editor/` as a Godot `Control` application that composes one authoring-path policy, Contract Pipeline, loaded Schema Registry, mutable edit session/history, schema-aware factories, Library, valid-only save service, diagnostics navigator, and Layer Stack controls through `VfxEditorController`. It writes only validated `.vfx.json` documents under `res://presets/`; an empty new Skeleton is deliberately in-memory only until it passes the existing Contract rules.
 
-- `editor/`: Layer Stack authoring UI.
+The following boundaries remain intentionally reserved after Phase 1:
+
 - `preview/`: real-size vehicle readability checks.
 - `rendering/`: Layer renderers and cleanup behavior.
 - `performance/`: Analyzer and LOD application.

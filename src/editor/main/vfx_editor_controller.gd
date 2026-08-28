@@ -49,6 +49,7 @@ var _selected_phase := ""
 var _selected_layer_id := ""
 var _diagnostics_panel
 var _diagnostics_navigator: RefCounted
+var _toolbar: HBoxContainer
 var _unsaved_changes_dialog
 var _structure_change_dialog
 var _pending_transition: Callable
@@ -56,6 +57,7 @@ var _pending_transition_name := ""
 var _pending_structure_kind := ""
 var _pending_structure_target := ""
 var _transition_performed := false
+var _refreshing_workspace := false
 
 
 func _init() -> void:
@@ -213,6 +215,11 @@ func configure_workspace(phase_tabs, layer_stack) -> void:
 	if not _layer_stack.layer_enabled_requested.is_connected(_on_layer_enabled_requested):
 		_layer_stack.layer_enabled_requested.connect(_on_layer_enabled_requested)
 	reconcile_selection()
+
+
+func configure_toolbar(toolbar: HBoxContainer) -> void:
+	_toolbar = toolbar
+	_refresh_toolbar()
 
 
 func configure_diagnostics_panel(panel) -> void:
@@ -437,11 +444,13 @@ func request_selected_layer_type_change(target_type: String) -> bool:
 func undo() -> void:
 	if _history.can_undo():
 		_history.undo()
+	_refresh_toolbar()
 
 
 func redo() -> void:
 	if _history.can_redo():
 		_history.redo()
+	_refresh_toolbar()
 
 
 func refresh_validation() -> Array[VfxIssue]:
@@ -547,6 +556,7 @@ func _on_overwrite_confirmed() -> void:
 func _save_to(target_path: String) -> VfxResult:
 	var saved: VfxResult = _save_service.save(_session, target_path)
 	_set_issues(saved.issues)
+	_refresh_toolbar()
 	return saved
 
 
@@ -646,6 +656,8 @@ func _focus_diagnostics() -> void:
 
 
 func _on_phase_selected(phase_name: String) -> void:
+	if _refreshing_workspace:
+		return
 	select_phase(phase_name)
 
 
@@ -745,6 +757,7 @@ func _selected_layer_index(layer_id: String) -> int:
 
 
 func _refresh_workspace() -> void:
+	_refreshing_workspace = true
 	if _phase_tabs != null:
 		_phase_tabs.set_preset(_session.working_copy())
 		_phase_tabs.select_phase(_selected_phase)
@@ -758,6 +771,29 @@ func _refresh_workspace() -> void:
 		var layer: Dictionary = _session.working_copy()["phases"][_selected_phase]["layers"][index] if index >= 0 else {}
 		_layer_inspector.set_layer(layer)
 		_layer_inspector.set_effective_space(_effective_space_for_layer(layer))
+	_refreshing_workspace = false
+	_refresh_toolbar()
+
+
+func _refresh_toolbar() -> void:
+	if _toolbar == null:
+		return
+	var has_session := not _session.working_copy().is_empty()
+	var save_button := _toolbar.get_node_or_null("SaveButton") as Button
+	var save_as_button := _toolbar.get_node_or_null("SaveAsButton") as Button
+	var undo_button := _toolbar.get_node_or_null("UndoButton") as Button
+	var redo_button := _toolbar.get_node_or_null("RedoButton") as Button
+	var dirty_indicator := _toolbar.get_node_or_null("DirtyIndicator") as Label
+	if save_button != null:
+		save_button.disabled = not has_session or _session.source_path().is_empty()
+	if save_as_button != null:
+		save_as_button.disabled = not has_session
+	if undo_button != null:
+		undo_button.disabled = not _history.can_undo()
+	if redo_button != null:
+		redo_button.disabled = not _history.can_redo()
+	if dirty_indicator != null:
+		dirty_indicator.text = "Unsaved" if has_session and _session.is_dirty() else ""
 
 
 func _commit_default_space_mode(target_space: String) -> bool:
