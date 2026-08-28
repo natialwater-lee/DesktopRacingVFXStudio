@@ -28,7 +28,7 @@ func _validate_into(value: Variant, schema: Dictionary, pointer: String, issue_k
 		issues.append(VfxIssue.new(issue_kind, "type", "Expected %s." % schema["type"], _type_pointer(pointer)))
 		return
 
-	if schema.has("enum") and not schema["enum"].has(value):
+	if schema.has("enum") and not _enum_contains(schema["enum"], value):
 		issues.append(VfxIssue.new(issue_kind, "invalid_enum", "Value is not an allowed enum member.", pointer))
 
 	if _is_number(value):
@@ -86,6 +86,16 @@ func _matches_type(value: Variant, expected_type: String) -> bool:
 
 func _is_number(value: Variant) -> bool:
 	return typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT
+
+
+func _enum_contains(values: Array, value: Variant) -> bool:
+	for enum_value in values:
+		if _is_number(enum_value) and _is_number(value):
+			if is_equal_approx(float(enum_value), float(value)):
+				return true
+		elif enum_value == value:
+			return true
+	return false
 
 
 func _child_pointer(pointer: String, segment: String) -> String:
