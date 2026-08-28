@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/preview/vfx_vehicle_preview.gd" id="1_preview"]
+[ext_resource type="Script" path="res://src/preview/vfx_vehicle_preview_canvas.gd" id="2_canvas"]
+
+[node name="VfxVehiclePreview" type="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("1_preview")
+
+[node name="PreviewControls" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PreviewTitle" type="Label" parent="PreviewControls"]
+layout_mode = 2
+text = "VEHICLE PREVIEW"
+
+[node name="PreviewSurface" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_vertical = 3
+clip_contents = true
+
+[node name="EditScroll" type="ScrollContainer" parent="PreviewSurface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EditCanvas" type="Control" parent="PreviewSurface/EditScroll"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+script = ExtResource("2_canvas")
+
+[node name="GameSizeInset" type="PanelContainer" parent="PreviewSurface"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -126.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="GameInsetContents" type="VBoxContainer" parent="PreviewSurface/GameSizeInset"]
+layout_mode = 2
+
+[node name="GameTitle" type="Label" parent="PreviewSurface/GameSizeInset/GameInsetContents"]
+layout_mode = 2
+text = "GAME 100%"
+horizontal_alignment = 1
+
+[node name="GameCanvas" type="Control" parent="PreviewSurface/GameSizeInset/GameInsetContents"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_canvas")
