@@ -200,13 +200,16 @@ func _validate_rule_contract_coverage(issues: Array[VfxIssue]) -> void:
 				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
 				_validate_root_object_path(rule["layer_types_path"], "%s/layer_types_path" % pointer, issues)
 			"PARTICLE_EMISSION_CONFIGURATION":
-				_validate_layer_rule_fields(rule, pointer, {"parameters_field": "object"}, issues)
+				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
+				_validate_particle_type_dispatch_binding(rule, pointer, issues)
 				_validate_emission_rule_coverage(rule, pointer, issues)
 			"PARTICLE_EMITTER_SHAPE":
-				_validate_layer_rule_fields(rule, pointer, {"parameters_field": "object"}, issues)
+				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
+				_validate_particle_type_dispatch_binding(rule, pointer, issues)
 				_validate_emitter_rule_coverage(rule, pointer, issues)
 			"PARTICLE_MOTION_RANGE_ORDER":
-				_validate_layer_rule_fields(rule, pointer, {"parameters_field": "object"}, issues)
+				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
+				_validate_particle_type_dispatch_binding(rule, pointer, issues)
 				_validate_motion_rule_coverage(rule, pointer, issues)
 			"RUNTIME_INPUT_NAMES":
 				_validate_schema_type(_schema_at_preset_path(rule["runtime_inputs_path"], "%s/runtime_inputs_path" % pointer, issues), "array", "%s/runtime_inputs_path" % pointer, issues)
@@ -260,6 +263,16 @@ func _validate_motion_rule_coverage(rule: Dictionary, pointer: String, issues: A
 	for index in rule["ranges"].size():
 		var range_definition: Dictionary = rule["ranges"][index]
 		_validate_property_fields(parameters_schema, [range_definition["minimum_field"], range_definition["maximum_field"]], "%s/ranges/%d" % [pointer, index], issues, "number")
+
+
+func _validate_particle_type_dispatch_binding(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
+	var dispatch_rule: Dictionary = {}
+	for configured_rule in _active_schema["x_vfx_rules"]:
+		if configured_rule["name"] == "TYPE_DISPATCHED_PARAMETER_SCHEMA":
+			dispatch_rule = configured_rule
+			break
+	if dispatch_rule.is_empty() or rule["type_field"] != dispatch_rule["type_field"] or rule["parameters_field"] != dispatch_rule["parameters_field"]:
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Particle rule fields must match the type-dispatch rule configuration.", pointer))
 
 
 func _validate_anchor_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:

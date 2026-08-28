@@ -6,9 +6,9 @@ const _STRING_KEYS_BY_RULE := {
 	"PRESET_HAS_LAYER": ["phases_path"],
 	"UNIQUE_LAYER_IDS_ACROSS_PHASES": ["phases_path", "id_field"],
 	"TYPE_DISPATCHED_PARAMETER_SCHEMA": ["phases_path", "type_field", "parameters_field", "layer_types_path"],
-	"PARTICLE_EMISSION_CONFIGURATION": ["phases_path", "particle_type", "parameters_field", "emission_mode_field"],
-	"PARTICLE_EMITTER_SHAPE": ["phases_path", "particle_type", "parameters_field", "emitter_field", "shape_field", "issue_code", "message"],
-	"PARTICLE_MOTION_RANGE_ORDER": ["phases_path", "particle_type", "parameters_field", "issue_code", "message"],
+	"PARTICLE_EMISSION_CONFIGURATION": ["phases_path", "particle_type", "type_field", "parameters_field", "emission_mode_field"],
+	"PARTICLE_EMITTER_SHAPE": ["phases_path", "particle_type", "type_field", "parameters_field", "emitter_field", "shape_field", "issue_code", "message"],
+	"PARTICLE_MOTION_RANGE_ORDER": ["phases_path", "particle_type", "type_field", "parameters_field", "issue_code", "message"],
 	"RUNTIME_INPUT_NAMES": ["runtime_inputs_path", "contract_path", "issue_code", "message"],
 	"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS": ["phases_path", "default_space_field", "layer_space_field", "anchors_field", "missing_anchor_issue_code", "missing_anchor_message", "unexpected_anchor_issue_code", "unexpected_anchor_message"],
 	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["phases_path", "default_space_field", "layer_space_field", "render_plane_field", "layer_schema_ref", "issue_code", "message"]

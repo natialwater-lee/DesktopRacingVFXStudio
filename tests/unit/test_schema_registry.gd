@@ -76,6 +76,11 @@ static func run(tests: TestAssert) -> void:
 		var wrong_layer_space_field := registry.load_data(wrong_layer_space_field_schema, "wrong_layer_space_field_schema.json")
 		tests.expect_true(not wrong_layer_space_field.success, "rule configuration must use the declared Space Mode enum for Layer space")
 
+		var wrong_particle_parameters_field_schema := registry.schema()
+		_rule_by_name(wrong_particle_parameters_field_schema, "PARTICLE_EMISSION_CONFIGURATION")["parameters_field"] = "transform"
+		var wrong_particle_parameters_field := registry.load_data(wrong_particle_parameters_field_schema, "wrong_particle_parameters_field_schema.json")
+		tests.expect_true(not wrong_particle_parameters_field.success, "particle rules must use the type-dispatched parameters field")
+
 
 static func _rule_by_name(schema: Dictionary, rule_name: String) -> Dictionary:
 	for rule in schema["x_vfx_rules"]:

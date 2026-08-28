@@ -204,7 +204,7 @@ func _validate_render_plane(preset: Dictionary, rule: Dictionary, issues: Array[
 func _particle_entries(preset: Dictionary, rule: Dictionary) -> Array[Dictionary]:
 	var entries: Array[Dictionary] = []
 	for entry in _layer_entries(preset, rule["phases_path"]):
-		if entry["layer"]["type"] == rule["particle_type"]:
+		if entry["layer"][rule["type_field"]] == rule["particle_type"]:
 			entries.append(entry)
 	return entries
 

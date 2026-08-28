@@ -592,6 +592,7 @@
       "name": "PARTICLE_EMISSION_CONFIGURATION",
       "phases_path": "/phases",
       "particle_type": "PARTICLE",
+      "type_field": "type",
       "parameters_field": "parameters",
       "emission_mode_field": "emission_mode",
       "mode_requirements": {
@@ -613,6 +614,7 @@
       "name": "PARTICLE_EMITTER_SHAPE",
       "phases_path": "/phases",
       "particle_type": "PARTICLE",
+      "type_field": "type",
       "parameters_field": "parameters",
       "emitter_field": "emitter",
       "shape_field": "shape",
@@ -630,6 +632,7 @@
       "name": "PARTICLE_MOTION_RANGE_ORDER",
       "phases_path": "/phases",
       "particle_type": "PARTICLE",
+      "type_field": "type",
       "parameters_field": "parameters",
       "ranges": [
         {
