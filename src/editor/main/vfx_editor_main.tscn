@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
+[ext_resource type="Script" path="res://src/editor/dialogs/vfx_new_preset_dialog.gd" id="2_new_dialog"]
 
 [node name="VfxEditorMain" type="Control"]
 layout_mode = 3
@@ -86,3 +87,8 @@ layout_mode = 0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 layout_mode = 0
+
+[node name="NewPresetDialog" type="ConfirmationDialog" parent="."]
+layout_mode = 0
+title = "New VFX Preset"
+script = ExtResource("2_new_dialog")

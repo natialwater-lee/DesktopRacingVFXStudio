@@ -8,6 +8,8 @@ const PresetHistoryTests := preload("res://tests/editor/test_preset_history.gd")
 const PresetSkeletonFactoryTests := preload("res://tests/editor/test_preset_skeleton_factory.gd")
 const LayerFactoryTests := preload("res://tests/editor/test_layer_factory.gd")
 const StructureChangeServiceTests := preload("res://tests/editor/test_structure_change_service.gd")
+const PresetLibraryTests := preload("res://tests/editor/test_preset_library.gd")
+const EditorSaveServiceTests := preload("res://tests/editor/test_editor_save_service.gd")
 
 
 func _init() -> void:
@@ -19,5 +21,7 @@ func _init() -> void:
 	PresetSkeletonFactoryTests.run(tests)
 	LayerFactoryTests.run(tests)
 	StructureChangeServiceTests.run(tests)
+	PresetLibraryTests.run(tests)
+	EditorSaveServiceTests.run(tests)
 	print("EDITOR_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

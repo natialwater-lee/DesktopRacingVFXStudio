@@ -45,6 +45,10 @@ func write_file(path: String, value: Variant) -> VfxResult:
 	var encoded := encode(value)
 	if not encoded.success:
 		return encoded
+	return write_text_file(path, encoded.value)
+
+
+func write_text_file(path: String, text: String) -> VfxResult:
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		return VfxResult.failure([
@@ -56,6 +60,6 @@ func write_file(path: String, value: Variant) -> VfxResult:
 				path
 			)
 		])
-	file.store_string(encoded.value)
+	file.store_string(text)
 	file.close()
-	return encoded
+	return VfxResult.ok(text)
