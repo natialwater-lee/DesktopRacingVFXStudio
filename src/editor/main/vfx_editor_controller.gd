@@ -200,6 +200,10 @@ func can_undo() -> bool:
 	return _history.can_undo()
 
 
+func can_redo() -> bool:
+	return _history.can_redo()
+
+
 func configure_workspace(phase_tabs, layer_stack) -> void:
 	_phase_tabs = phase_tabs
 	_layer_stack = layer_stack

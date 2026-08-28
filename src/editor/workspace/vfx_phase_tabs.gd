@@ -10,6 +10,7 @@ var _duration_edit_start: Dictionary = {}
 var _duration_last_committed: Dictionary = {}
 var _phase_data: Dictionary = {}
 var _selected_phase_name := ""
+var _rebuilding_duration_controls := false
 
 
 func _ready() -> void:
@@ -18,13 +19,15 @@ func _ready() -> void:
 
 
 func set_preset(preset: Dictionary) -> void:
+	_rebuilding_duration_controls = true
 	_phase_data = preset.get("phases", {}).duplicate(true) if preset.get("phases") is Dictionary else {}
-	_duration_edit_start.clear()
-	_duration_last_committed.clear()
 	_phase_names.clear()
 	for phase_name_variant in _phase_data:
 		_phase_names.append(str(phase_name_variant))
 	_rebuild_tabs()
+	_duration_edit_start.clear()
+	_duration_last_committed.clear()
+	_rebuilding_duration_controls = false
 	if not _phase_names.has(_selected_phase_name):
 		_selected_phase_name = _phase_names[0] if not _phase_names.is_empty() else ""
 	_select_current_tab()
@@ -104,6 +107,8 @@ func _on_tab_changed(index: int) -> void:
 
 
 func _on_duration_focus_entered(phase_name: String, duration: SpinBox) -> void:
+	if _rebuilding_duration_controls or not duration.is_inside_tree():
+		return
 	if not _duration_edit_start.has(phase_name):
 		_duration_edit_start[phase_name] = duration.value
 
@@ -119,7 +124,7 @@ func _on_duration_submitted(_text: String, phase_name: String, duration: SpinBox
 
 
 func _commit_duration_if_changed(phase_name: String, duration: SpinBox) -> void:
-	if not phase_has_duration(phase_name):
+	if _rebuilding_duration_controls or not duration.is_inside_tree() or not phase_has_duration(phase_name):
 		return
 	var initial := float(_duration_edit_start.get(phase_name, _phase_data.get(phase_name, {}).get("duration_seconds", duration.value)))
 	_duration_edit_start.erase(phase_name)

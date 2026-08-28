@@ -153,9 +153,13 @@ static func run(tests: TestAssert) -> void:
 		duration_line_edit.emit_signal("text_submitted", "250")
 		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 250.0), "duration Enter commit accepts values above the old implicit maximum")
 		tests.expect_true(start_duration.has_focus() or start_duration.get_line_edit().has_focus(), "duration Enter commit preserves an editing focus target")
+		editor.editor_controller.undo()
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75) and editor.editor_controller.can_redo(), "immediate Undo while duration LineEdit owns focus restores exactly and preserves Redo")
+		editor.editor_controller.redo()
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 250.0) and not editor.editor_controller.can_redo(), "Redo remains valid after focus-owned duration Undo")
 		duration_focus_target.grab_focus()
 		editor.editor_controller.undo()
-		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration duplicate suppression keeps Enter and focus exit as one action")
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration duplicate suppression keeps Enter and later focus exit as one action")
 
 	# The focused close/diagnostics path does not depend on tab-selection events.
 	# Blocking those events avoids exercising PhaseTabs' separate rebuild behavior here.
