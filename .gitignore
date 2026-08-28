@@ -1,0 +1,13 @@
+# Godot generated editor/import cache
+/.godot/
+
+# Mono/.NET build artifacts if the project ever enables them
+/.mono/
+
+# Local editor and operating-system files
+.vscode/
+.idea/
+*.tmp
+*.temp
+Thumbs.db
+Desktop.ini
