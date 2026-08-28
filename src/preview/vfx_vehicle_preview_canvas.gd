@@ -101,6 +101,10 @@ func ghost_positions() -> Array[Vector2]:
 	return positions
 
 
+func visible_ghost_positions() -> Array[Vector2]:
+	return ghost_positions() if _interactive else []
+
+
 func visible_anchor_labels() -> Array[String]:
 	var labels: Array[String] = []
 	if not _interactive or _shared_state == null or not _shared_state.show_anchors():
@@ -195,7 +199,7 @@ func _draw_anchor_overlay(scale: Vector2) -> void:
 	if _shared_state == null:
 		return
 	var ghost_color := Color("ff66cf")
-	for ghost_position in ghost_positions():
+	for ghost_position in visible_ghost_positions():
 		draw_rect(Rect2(ghost_position - Vector2(2.5, 2.5), Vector2(5.0, 5.0)), ghost_color, false, 1.5)
 	var layer_positions := resolved_layer_anchor_positions()
 	if _interactive and _shared_state.show_anchors():

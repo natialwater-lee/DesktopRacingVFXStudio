@@ -58,7 +58,7 @@ static func _test_multi_anchor_and_game_readability_policy(tests: TestAssert) ->
 	tests.expect_true(canvas.ghost_positions().size() == 4, "vehicle-local offset creates one ghost marker per selected Anchor")
 	tests.expect_true(canvas.visible_anchor_labels().size() == 14, "Edit Canvas keeps labels available for Profile authoring")
 	canvas.set_interactive(false)
-	tests.expect_true(canvas.visible_anchor_labels().is_empty() and canvas.resolved_layer_anchor_positions().size() == 4, "Game Canvas suppresses labels but retains tiny selected-Layer markers")
+	tests.expect_true(canvas.visible_anchor_labels().is_empty() and canvas.visible_ghost_positions().is_empty() and canvas.resolved_layer_anchor_positions().size() == 4, "Game Canvas suppresses labels and ghost diagnostics but retains tiny selected-Layer markers")
 	tree.root.remove_child(canvas)
 	canvas.free()
 
