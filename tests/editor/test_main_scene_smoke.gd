@@ -35,6 +35,12 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(editor.get_node_or_null("LayerStack/Rows/AddControls/AddLayerButton") is Button, "Layer Stack scene creates its concrete Add control")
 	tests.expect_true(editor.get_node_or_null("InspectorPanel") != null, "inspector region exists")
 	tests.expect_true(editor.get_node_or_null("DiagnosticsPanel") != null, "diagnostics region exists")
+	tests.expect_true(editor.get_node("InspectorPanel") is ScrollContainer, "Inspector is a scrollable authoring region at normal launch")
+	tests.expect_true(editor.get_node("DiagnosticsPanel") is ScrollContainer, "Diagnostics is a scrollable authoring region at normal launch")
+	tests.expect_true(is_equal_approx((editor.get_node("InspectorPanel") as Control).anchor_right, 1.0) and is_equal_approx((editor.get_node("InspectorPanel") as Control).anchor_bottom, 1.0), "Inspector anchors to the resizable authoring surface")
+	tests.expect_true(is_equal_approx((editor.get_node("DiagnosticsPanel") as Control).anchor_right, 1.0) and is_equal_approx((editor.get_node("DiagnosticsPanel") as Control).anchor_bottom, 1.0), "Diagnostics anchors to the resizable authoring surface")
+	tests.expect_true(int(ProjectSettings.get_setting("display/window/size/initial_width", 0)) >= 1024 and int(ProjectSettings.get_setting("display/window/size/initial_height", 0)) >= 720, "project declares a sensible initial editor window size")
+	tests.expect_true(int(ProjectSettings.get_setting("display/window/size/min_width", 0)) >= 1024 and int(ProjectSettings.get_setting("display/window/size/min_height", 0)) >= 720, "project declares a non-clipping minimum editor window size")
 	tests.expect_true(editor.get_node("Toolbar/NewButton").is_connected("pressed", Callable(editor.editor_controller, "_on_new_pressed")), "New button opens the schema-derived new dialog")
 	tests.expect_true(editor.get_node("Toolbar/OpenButton").is_connected("pressed", Callable(editor.editor_controller, "_on_open_pressed")), "Open button starts the authoring-root file selection flow")
 	tests.expect_true(editor.get_node("Toolbar/SaveButton").is_connected("pressed", Callable(editor.editor_controller, "_on_save_pressed")), "Save button uses the valid-only persistence flow")
@@ -85,6 +91,32 @@ static func run(tests: TestAssert) -> void:
 	if invalid_library_row != null:
 		invalid_library_row.emit_signal("pressed")
 		tests.expect_true(not editor.editor_controller.current_issues().is_empty(), "selecting an invalid Library row displays its Contract diagnostics")
+
+	var focus_created := editor.editor_controller.create_new_preset("utility.diagnostic_focus", "Diagnostic Focus", "UTILITY", "START_LOOP_END", "WORLD_AREA")
+	tests.expect_true(focus_created.success, "diagnostic focus fixture creates a multi-phase Preset")
+	editor.editor_controller.add_active_layer("GLOW")
+	var focus_layer_id: String = editor.editor_controller.working_preset()["phases"]["start"]["layers"][0]["id"]
+	var diagnostics_panel := editor.get_node("DiagnosticsPanel") as VfxDiagnosticsPanel
+	var display_name := editor.get_node_or_null("InspectorPanel/InspectorContents/PresetInspector/DisplayName") as LineEdit
+	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "required", "missing", "/display_name")])
+	diagnostics_panel.activate_issue(0)
+	tests.expect_true(editor.get_viewport().gui_get_focus_owner() == display_name, "root diagnostic activation focuses the matching Preset editable field")
+	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "minimum", "invalid", "/phases/start/duration_seconds")])
+	diagnostics_panel.activate_issue(0)
+	var diagnostic_duration := editor.get_node_or_null("PhaseTabs/Start/DurationSeconds") as SpinBox
+	tests.expect_true(diagnostic_duration != null and editor.get_viewport().gui_get_focus_owner() == diagnostic_duration.get_line_edit(), "phase duration diagnostic activation focuses its editable SpinBox field")
+	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "enum", "invalid", "/phases/start/layers/0/blend_mode")])
+	diagnostics_panel.activate_issue(0)
+	var blend_mode := editor.get_node_or_null("InspectorPanel/InspectorContents/LayerInspector/BlendMode") as OptionButton
+	tests.expect_true(editor.get_viewport().gui_get_focus_owner() == blend_mode, "Layer common-field diagnostic activation focuses the matching editable control")
+	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "minimum", "invalid", "/phases/start/layers/0/parameters/radius")])
+	diagnostics_panel.activate_issue(0)
+	var radius := editor.get_node_or_null("InspectorPanel/InspectorContents/LayerInspector/Parameters/radius/Input") as SpinBox
+	tests.expect_true(radius != null and editor.get_viewport().gui_get_focus_owner() == radius.get_line_edit(), "nested Layer parameter diagnostic activation focuses the Schema-owned editable control")
+	var focus_before_unsupported := editor.get_viewport().gui_get_focus_owner()
+	diagnostics_panel.set_issues([VfxIssue.new("PRESET_VALIDATION", "additionalProperties", "unexpected", "/phases/start/layers/0/parameters/not_declared")])
+	diagnostics_panel.activate_issue(0)
+	tests.expect_true(editor.get_viewport().gui_get_focus_owner() == focus_before_unsupported, "unsupported diagnostic targets remain visible without guessing a focus destination")
 
 	var created := editor.editor_controller.create_new_preset("utility.close_guard", "Close Guard", "UTILITY", "ONE_SHOT", "WORLD_AREA")
 	tests.expect_true(created.success, "scene close guard fixture creates a dirty in-memory Preset")

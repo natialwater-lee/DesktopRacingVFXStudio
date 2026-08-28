@@ -1,5 +1,5 @@
 class_name VfxDiagnosticsPanel
-extends PanelContainer
+extends ScrollContainer
 
 signal issue_activated(issue: VfxIssue)
 

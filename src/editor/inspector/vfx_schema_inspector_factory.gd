@@ -68,6 +68,7 @@ func _build_object_fields(schema: Dictionary, value: Dictionary, pointer_prefix:
 func _build_field(property_name: String, pointer: String, schema: Dictionary, value: Variant, has_display_value: bool) -> Control:
 	var field := SchemaField.new()
 	field.name = property_name
+	field.set_meta("vfx_json_pointer", pointer)
 	var resolved_result := _reader.resolve(schema)
 	if not resolved_result.success:
 		_add_field_title(field, property_name)

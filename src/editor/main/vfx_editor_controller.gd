@@ -688,8 +688,27 @@ func _on_diagnostic_issue_activated(issue: VfxIssue) -> void:
 	elif phase_name.is_empty():
 		_selected_layer_id = ""
 		_refresh_workspace()
-	if _preset_inspector != null and layer_id.is_empty():
-		_preset_inspector.grab_focus()
+	var json_pointer: String = route.get("json_pointer", "")
+	if not layer_id.is_empty() and _layer_inspector != null:
+		_layer_inspector.focus_json_pointer(_layer_pointer_suffix(json_pointer, phase_name, layer_id))
+	elif not phase_name.is_empty() and _phase_tabs != null:
+		_phase_tabs.focus_json_pointer(json_pointer)
+	elif phase_name.is_empty() and _preset_inspector != null:
+		_preset_inspector.focus_json_pointer(json_pointer)
+
+
+func _layer_pointer_suffix(json_pointer: String, phase_name: String, layer_id: String) -> String:
+	var phases: Variant = _session.working_copy().get("phases")
+	if not phases is Dictionary or not phases.has(phase_name) or not phases[phase_name] is Dictionary:
+		return ""
+	var layers: Variant = phases[phase_name].get("layers")
+	if not layers is Array:
+		return ""
+	for index in layers.size():
+		if layers[index] is Dictionary and layers[index].get("id") == layer_id:
+			var prefix := "/phases/%s/layers/%d" % [_escape_pointer_segment(phase_name), index]
+			return json_pointer.trim_prefix(prefix)
+	return ""
 
 
 func _focus_diagnostics() -> void:

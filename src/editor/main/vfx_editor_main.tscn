@@ -21,8 +21,10 @@ grow_vertical = 2
 script = ExtResource("1_main")
 
 [node name="Toolbar" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 1152.0
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
 offset_bottom = 40.0
 
 [node name="NewButton" type="Button" parent="Toolbar"]
@@ -58,10 +60,12 @@ layout_mode = 2
 text = ""
 
 [node name="LibraryPanel" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchor_bottom = 1.0
 offset_top = 48.0
 offset_right = 260.0
-offset_bottom = 620.0
+offset_bottom = -180.0
+grow_vertical = 2
 script = ExtResource("10_library")
 
 [node name="Search" type="LineEdit" parent="LibraryPanel"]
@@ -75,27 +79,38 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="PhaseTabs" type="TabContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchor_right = 1.0
+grow_horizontal = 2
 offset_left = 268.0
 offset_top = 48.0
-offset_right = 760.0
+offset_right = -392.0
 offset_bottom = 180.0
 script = ExtResource("3_phase_tabs")
 
 [node name="LayerStack" type="PanelContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 offset_left = 268.0
 offset_top = 188.0
-offset_right = 760.0
-offset_bottom = 620.0
+offset_right = -392.0
+offset_bottom = -180.0
 script = ExtResource("4_layer_stack")
 
-[node name="InspectorPanel" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_left = 768.0
+[node name="InspectorPanel" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+offset_left = -384.0
 offset_top = 48.0
-offset_right = 1152.0
-offset_bottom = 620.0
+offset_bottom = -180.0
 
 [node name="InspectorContents" type="VBoxContainer" parent="InspectorPanel"]
 layout_mode = 2
@@ -108,11 +123,14 @@ script = ExtResource("5_preset_inspector")
 layout_mode = 2
 script = ExtResource("6_layer_inspector")
 
-[node name="DiagnosticsPanel" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_top = 628.0
-offset_right = 1152.0
-offset_bottom = 800.0
+[node name="DiagnosticsPanel" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_top = -172.0
 script = ExtResource("7_diagnostics")
 
 [node name="PresetFileDialog" type="FileDialog" parent="."]

@@ -8,6 +8,7 @@ var _phase_names: Array[String] = []
 var _duration_schemas: Dictionary = {}
 var _duration_edit_start: Dictionary = {}
 var _duration_last_committed: Dictionary = {}
+var _duration_controls: Dictionary = {}
 var _phase_data: Dictionary = {}
 var _selected_phase_name := ""
 var _rebuilding_duration_controls := false
@@ -61,7 +62,24 @@ func phase_has_duration(phase_name: String) -> bool:
 	return _duration_schemas.has(phase_name)
 
 
+func focus_duration(phase_name: String) -> bool:
+	var duration: SpinBox = _duration_controls.get(phase_name)
+	if duration == null or not duration.is_inside_tree():
+		return false
+	duration.get_line_edit().grab_focus()
+	return duration.get_line_edit().has_focus()
+
+
+func focus_json_pointer(json_pointer: String) -> bool:
+	for phase_name in _duration_controls:
+		var duration = _duration_controls[phase_name]
+		if duration is SpinBox and str(duration.get_meta("vfx_json_pointer", "")) == json_pointer:
+			return focus_duration(phase_name)
+	return false
+
+
 func _rebuild_tabs() -> void:
+	_duration_controls.clear()
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
@@ -74,6 +92,7 @@ func _rebuild_tabs() -> void:
 		if phase_has_duration(phase_name):
 			var duration := SpinBox.new()
 			duration.name = "DurationSeconds"
+			duration.set_meta("vfx_json_pointer", "/phases/%s/duration_seconds" % _escape_pointer_segment(phase_name))
 			duration.focus_mode = Control.FOCUS_ALL
 			var duration_schema: Dictionary = _duration_schemas[phase_name]
 			duration.min_value = float(duration_schema["minimum"]) if duration_schema.has("minimum") else -INF
@@ -87,6 +106,7 @@ func _rebuild_tabs() -> void:
 			duration_line_edit.focus_exited.connect(_on_duration_focus_exited.bind(phase_name, duration))
 			duration_line_edit.text_submitted.connect(_on_duration_submitted.bind(phase_name, duration))
 			phase_page.add_child(duration)
+			_duration_controls[phase_name] = duration
 		add_child(phase_page)
 
 
@@ -134,3 +154,7 @@ func _commit_duration_if_changed(phase_name: String, duration: SpinBox) -> void:
 		return
 	duration_commit_requested.emit(phase_name, duration.value)
 	_duration_last_committed[phase_name] = duration.value
+
+
+func _escape_pointer_segment(value: String) -> String:
+	return value.replace("~", "~0").replace("/", "~1")

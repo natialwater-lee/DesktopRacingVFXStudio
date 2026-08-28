@@ -55,6 +55,12 @@ func set_effective_space(effective_space: String) -> void:
 		_anchor_editor.set_effective_space(effective_space)
 
 
+func focus_json_pointer(json_pointer: String) -> bool:
+	if json_pointer.begins_with("/parameters/"):
+		return _focus_first_editable_descendant(_find_parameter_field(json_pointer.trim_prefix("/parameters")))
+	return _focus_editable_control(_find_control_by_pointer(self, json_pointer))
+
+
 func apply_space_override(layer: Dictionary, mode_or_inherit: String) -> Dictionary:
 	var next := layer.duplicate(true)
 	if mode_or_inherit == INHERIT_DEFAULT:
@@ -86,6 +92,7 @@ func _ensure_controls() -> void:
 	_add_label("Layer ID")
 	_id_edit = LineEdit.new()
 	_id_edit.name = "LayerId"
+	_id_edit.set_meta("vfx_json_pointer", "/id")
 	_id_edit.focus_exited.connect(_on_id_focus_exited)
 	add_child(_id_edit)
 	_importance = _add_schema_enum("Importance", "importance", "/importance")
@@ -93,16 +100,19 @@ func _ensure_controls() -> void:
 	_render_plane = _add_schema_enum("RenderPlane", "render_plane", "/render_plane")
 	_add_label("Sort Order")
 	_sort_order = create_numeric_control("SortOrder", _property("sort_order").value)
+	_sort_order.set_meta("vfx_json_pointer", "/sort_order")
 	_sort_order.get_line_edit().focus_exited.connect(_on_sort_focus_exited)
 	add_child(_sort_order)
 	_add_label("Enabled")
 	_enabled = CheckBox.new()
 	_enabled.name = "Enabled"
+	_enabled.set_meta("vfx_json_pointer", "/enabled")
 	_enabled.toggled.connect(_on_enabled_toggled)
 	add_child(_enabled)
 	_add_label("Space Mode")
 	_space_mode = OptionButton.new()
 	_space_mode.name = "SpaceMode"
+	_space_mode.set_meta("vfx_json_pointer", "/space_mode")
 	_space_mode.add_item("INHERIT DEFAULT")
 	for value in _reader.enum_values(_property("space_mode").value):
 		_space_mode.add_item(str(value))
@@ -111,6 +121,7 @@ func _ensure_controls() -> void:
 	_add_label("Layer Type")
 	_type = OptionButton.new()
 	_type.name = "LayerType"
+	_type.set_meta("vfx_json_pointer", "/type")
 	for layer_type in _reader.layer_type_values():
 		_type.add_item(str(layer_type))
 	_type.item_selected.connect(_on_type_selected)
@@ -138,14 +149,17 @@ func _append_transform_controls() -> void:
 	var item_schema: Dictionary = offset_schema.get("items", {})
 	_add_label("Offset X")
 	_offset_x = create_numeric_control("OffsetX", item_schema)
+	_offset_x.set_meta("vfx_json_pointer", "/transform/offset/0")
 	_offset_x.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["offset", 0], _offset_x))
 	add_child(_offset_x)
 	_add_label("Offset Y")
 	_offset_y = create_numeric_control("OffsetY", item_schema)
+	_offset_y.set_meta("vfx_json_pointer", "/transform/offset/1")
 	_offset_y.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["offset", 1], _offset_y))
 	add_child(_offset_y)
 	_add_label("Rotation Degrees")
 	_rotation = create_numeric_control("RotationDegrees", _reader.property_schema(transform_schema, "rotation_degrees").value)
+	_rotation.set_meta("vfx_json_pointer", "/transform/rotation_degrees")
 	_rotation.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["rotation_degrees"], _rotation))
 	add_child(_rotation)
 	var scale_result := _reader.property_schema(transform_schema, "scale")
@@ -153,10 +167,12 @@ func _append_transform_controls() -> void:
 	var scale_item_schema: Dictionary = scale_schema.get("items", {})
 	_add_label("Scale X")
 	_scale_x = create_numeric_control("ScaleX", scale_item_schema)
+	_scale_x.set_meta("vfx_json_pointer", "/transform/scale/0")
 	_scale_x.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["scale", 0], _scale_x))
 	add_child(_scale_x)
 	_add_label("Scale Y")
 	_scale_y = create_numeric_control("ScaleY", scale_item_schema)
+	_scale_y.set_meta("vfx_json_pointer", "/transform/scale/1")
 	_scale_y.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["scale", 1], _scale_y))
 	add_child(_scale_y)
 
@@ -212,6 +228,7 @@ func _add_schema_enum(node_name: String, property_name: String, pointer: String)
 	_add_label(property_name.capitalize())
 	var control := OptionButton.new()
 	control.name = node_name
+	control.set_meta("vfx_json_pointer", pointer)
 	for value in _reader.enum_values(_property(property_name).value):
 		control.add_item(str(value))
 	control.item_selected.connect(_on_enum_selected.bind(pointer, control))
@@ -221,6 +238,55 @@ func _add_schema_enum(node_name: String, property_name: String, pointer: String)
 
 func _property(property_name: String) -> VfxResult:
 	return _reader.property_schema(_layer_schema, property_name)
+
+
+func _find_parameter_field(json_pointer_suffix: String) -> Control:
+	if _parameter_fields == null:
+		return null
+	return _find_schema_field_by_pointer(_parameter_fields, json_pointer_suffix)
+
+
+func _find_control_by_pointer(parent: Node, json_pointer: String) -> Control:
+	for child in parent.get_children():
+		if child is Control and child.has_meta("vfx_json_pointer") and str(child.get_meta("vfx_json_pointer")) == json_pointer:
+			return child
+		var nested := _find_control_by_pointer(child, json_pointer)
+		if nested != null:
+			return nested
+	return null
+
+
+func _find_schema_field_by_pointer(parent: Node, json_pointer_suffix: String) -> Control:
+	for child in parent.get_children():
+		if child is Control and child.has_meta("vfx_json_pointer") and str(child.get_meta("vfx_json_pointer")) == json_pointer_suffix:
+			return child
+		var nested := _find_schema_field_by_pointer(child, json_pointer_suffix)
+		if nested != null:
+			return nested
+	return null
+
+
+func _focus_first_editable_descendant(control: Control) -> bool:
+	if control == null:
+		return false
+	if control is LineEdit or control is SpinBox or control is OptionButton or control is CheckBox:
+		return _focus_editable_control(control)
+	for child in control.get_children():
+		if child is Control:
+			var focused := _focus_first_editable_descendant(child)
+			if focused:
+				return true
+	return false
+
+
+func _focus_editable_control(control: Control) -> bool:
+	if not control.is_inside_tree():
+		return false
+	if control is SpinBox:
+		(control as SpinBox).get_line_edit().grab_focus()
+		return (control as SpinBox).get_line_edit().has_focus()
+	control.grab_focus()
+	return control.has_focus()
 
 
 func _add_label(text_value: String) -> void:

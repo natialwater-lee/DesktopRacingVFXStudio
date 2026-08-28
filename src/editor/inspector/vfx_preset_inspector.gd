@@ -32,6 +32,17 @@ func set_preset(preset: Dictionary) -> void:
 	_refresh_controls()
 
 
+func focus_json_pointer(json_pointer: String) -> bool:
+	var control := _find_control_by_pointer(self, json_pointer)
+	if control == null or not control.is_inside_tree():
+		return false
+	if control is SpinBox:
+		(control as SpinBox).get_line_edit().grab_focus()
+	else:
+		control.grab_focus()
+	return control.has_focus() or (control is SpinBox and (control as SpinBox).get_line_edit().has_focus())
+
+
 func _ready() -> void:
 	_ensure_controls()
 	_refresh_controls()
@@ -49,12 +60,13 @@ func _ensure_controls() -> void:
 	_add_label("Lifecycle")
 	var lifecycle := _reader.property_schema(_reader.root_schema(), "lifecycle")
 	var mode_schema := _reader.property_schema(lifecycle.value, "mode") if lifecycle.success else VfxResult.failure([])
-	_lifecycle = _add_enum_control("Lifecycle", mode_schema, "", true)
+	_lifecycle = _add_enum_control("Lifecycle", mode_schema, "/lifecycle/mode", true)
 	_add_label("Default Space")
 	_default_space = _add_enum_control("DefaultSpace", _reader.property_schema(_reader.root_schema(), "default_space_mode"), "/default_space_mode")
 	_add_label("Runtime Inputs")
 	_runtime_inputs_editor = VfxRuntimeInputsEditorModel.new()
 	_runtime_inputs_editor.name = "RuntimeInputs"
+	_runtime_inputs_editor.set_meta("vfx_json_pointer", "/runtime_inputs")
 	_runtime_inputs_editor.runtime_inputs_committed.connect(func(inputs: Array[String]) -> void: runtime_inputs_committed.emit(inputs))
 	add_child(_runtime_inputs_editor)
 
@@ -80,6 +92,7 @@ func _add_label(text_value: String) -> void:
 func _add_text_control(node_name: String, pointer: String) -> LineEdit:
 	var control := LineEdit.new()
 	control.name = node_name
+	control.set_meta("vfx_json_pointer", pointer)
 	control.focus_exited.connect(_on_text_focus_exited.bind(pointer, control))
 	add_child(control)
 	return control
@@ -88,6 +101,7 @@ func _add_text_control(node_name: String, pointer: String) -> LineEdit:
 func _add_enum_control(node_name: String, schema_result: VfxResult, pointer: String, lifecycle: bool = false) -> OptionButton:
 	var control := OptionButton.new()
 	control.name = node_name
+	control.set_meta("vfx_json_pointer", pointer)
 	if schema_result.success:
 		for value in _reader.enum_values(schema_result.value):
 			control.add_item(str(value))
@@ -113,6 +127,16 @@ func _on_enum_selected(index: int, pointer: String, control: OptionButton) -> vo
 func _on_lifecycle_selected(index: int) -> void:
 	if index >= 0:
 		lifecycle_change_requested.emit(_lifecycle.get_item_text(index))
+
+
+func _find_control_by_pointer(parent: Node, json_pointer: String) -> Control:
+	for child in parent.get_children():
+		if child is Control and child.has_meta("vfx_json_pointer") and str(child.get_meta("vfx_json_pointer")) == json_pointer:
+			return child
+		var nested := _find_control_by_pointer(child, json_pointer)
+		if nested != null:
+			return nested
+	return null
 
 
 func _select_text(control: OptionButton, value: String) -> void:
