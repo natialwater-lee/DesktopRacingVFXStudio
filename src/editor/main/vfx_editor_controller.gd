@@ -848,6 +848,7 @@ func _refresh_workspace(refresh_phase_tabs: bool = true) -> void:
 		_phase_tabs.select_phase(_selected_phase)
 	if _layer_stack != null:
 		_layer_stack.set_phase(_session.working_copy(), _selected_phase)
+		_layer_stack.set_selected_layer_id(_selected_layer_id)
 	if _preset_inspector != null:
 		_preset_inspector.set_preset(_session.working_copy())
 	if _layer_inspector != null:

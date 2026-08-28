@@ -12,6 +12,7 @@ var _layer_factory: RefCounted
 var _phase_name := ""
 var _layers: Array = []
 var _available_layer_types: Array[String] = []
+var _selected_layer_id := ""
 
 
 func _init(layer_factory: RefCounted = null) -> void:
@@ -32,6 +33,13 @@ func set_available_layer_types(layer_types: Array) -> void:
 func set_phase(preset: Dictionary, phase_name: String) -> void:
 	_phase_name = phase_name if preset.get("phases") is Dictionary and preset["phases"].has(phase_name) else ""
 	_layers = preset["phases"][_phase_name].get("layers", []).duplicate(true) if not _phase_name.is_empty() else []
+	if not _layers.any(func(layer: Variant) -> bool: return layer is Dictionary and layer.get("id") == _selected_layer_id):
+		_selected_layer_id = ""
+	_rebuild_rows()
+
+
+func set_selected_layer_id(layer_id: String) -> void:
+	_selected_layer_id = layer_id
 	_rebuild_rows()
 
 
@@ -131,39 +139,72 @@ func _rebuild_rows() -> void:
 	rows.name = "Rows"
 	add_child(rows)
 	_append_add_controls(rows)
-	for layer in _layers:
+	for index in _layers.size():
+		var layer = _layers[index]
 		if layer is Dictionary:
-			_append_layer_row(rows, layer)
+			_append_layer_row(rows, layer, index)
 
 
-func _append_layer_row(rows: VBoxContainer, layer: Dictionary) -> void:
+func _append_layer_row(rows: VBoxContainer, layer: Dictionary, index: int) -> void:
 	var layer_id: String = layer.get("id", "")
 	var row := HBoxContainer.new()
-	var select_button := Button.new()
-	select_button.text = layer_id
-	select_button.pressed.connect(func() -> void: layer_selected.emit(layer_id))
-	row.add_child(select_button)
+	row.name = "LayerRow%d" % index
 	var enabled := CheckBox.new()
+	enabled.name = "Enabled"
 	enabled.button_pressed = layer.get("enabled", false)
+	enabled.tooltip_text = "Enabled"
 	enabled.toggled.connect(func(value: bool) -> void: layer_enabled_requested.emit(layer_id, value))
 	row.add_child(enabled)
+	var type_label := Label.new()
+	type_label.name = "Type"
+	type_label.text = str(layer.get("type", ""))
+	type_label.custom_minimum_size = Vector2(72, 0)
+	row.add_child(type_label)
+	var select_button := Button.new()
+	select_button.name = "SelectLayer"
+	select_button.text = layer_id
+	select_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	select_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	select_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	select_button.tooltip_text = layer_id
+	select_button.toggle_mode = true
+	select_button.button_pressed = layer_id == _selected_layer_id
+	select_button.pressed.connect(func() -> void: layer_selected.emit(layer_id))
+	row.add_child(select_button)
+	var importance_label := Label.new()
+	importance_label.name = "Importance"
+	importance_label.text = str(layer.get("importance", ""))
+	importance_label.custom_minimum_size = Vector2(56, 0)
+	row.add_child(importance_label)
+	if layer_id == _selected_layer_id:
+		_append_selected_actions(row, layer_id)
+	rows.add_child(row)
+
+
+func _append_selected_actions(row: HBoxContainer, layer_id: String) -> void:
+	var actions := HBoxContainer.new()
+	actions.name = "Actions"
 	var duplicate := Button.new()
+	duplicate.name = "Duplicate"
 	duplicate.text = "Duplicate"
 	duplicate.pressed.connect(func() -> void: duplicate_layer_requested.emit(layer_id))
-	row.add_child(duplicate)
+	actions.add_child(duplicate)
 	var up := Button.new()
+	up.name = "Up"
 	up.text = "Up"
 	up.pressed.connect(func() -> void: move_layer_requested.emit(layer_id, -1))
-	row.add_child(up)
+	actions.add_child(up)
 	var down := Button.new()
+	down.name = "Down"
 	down.text = "Down"
 	down.pressed.connect(func() -> void: move_layer_requested.emit(layer_id, 1))
-	row.add_child(down)
+	actions.add_child(down)
 	var delete := Button.new()
+	delete.name = "Delete"
 	delete.text = "Delete"
 	delete.pressed.connect(func() -> void: delete_layer_requested.emit(layer_id))
-	row.add_child(delete)
-	rows.add_child(row)
+	actions.add_child(delete)
+	row.add_child(actions)
 
 
 func _append_add_controls(rows: VBoxContainer) -> void:

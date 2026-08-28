@@ -31,6 +31,22 @@ static func run(tests: TestAssert) -> void:
 		return
 	source["phases"]["loop"]["layers"].append(second.value)
 	var stack := VfxLayerStackModel.new(layer_factory)
+	stack.set_available_layer_types(["GLOW"])
+	stack.set_phase(source, "loop")
+	stack.set_selected_layer_id(first.value["id"])
+	var selected_row := stack.get_node_or_null("Rows/LayerRow0") as HBoxContainer
+	tests.expect_true(selected_row != null, "Layer Stack creates one readable row per active-phase Layer")
+	if selected_row != null:
+		var select_layer := selected_row.get_node_or_null("SelectLayer") as Button
+		var type_label := selected_row.get_node_or_null("Type") as Label
+		var importance_label := selected_row.get_node_or_null("Importance") as Label
+		var enabled := selected_row.get_node_or_null("Enabled") as CheckBox
+		tests.expect_true(enabled != null and type_label != null and importance_label != null and select_layer != null, "Layer rows always show Enabled, Type, ID, and Importance")
+		tests.expect_true(type_label.text == "GLOW" and importance_label.text == first.value["importance"], "Layer row summaries reflect Contract data")
+		tests.expect_true(select_layer.button_pressed, "selected Layer uses the default pressed visual state")
+		tests.expect_true(selected_row.get_node_or_null("Actions/Duplicate") is Button and selected_row.get_node_or_null("Actions/Delete") is Button, "only the selected Layer exposes row actions")
+	var unselected_row := stack.get_node_or_null("Rows/LayerRow1") as HBoxContainer
+	tests.expect_true(unselected_row != null and unselected_row.get_node_or_null("Actions") == null, "unselected Layers keep their information area uncluttered")
 
 	var moved := stack.move_layer(source, "loop", 1, -1)
 	tests.expect_true(moved["phases"]["loop"]["layers"][0]["id"] == second.value["id"], "move up changes active phase order")
@@ -46,7 +62,6 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(duplicated["phases"]["loop"]["layers"].size() == 3, "duplicate appends an active-phase Layer")
 	tests.expect_true(duplicated["phases"]["loop"]["layers"][2]["id"] != cross_phase_candidate["id"], "duplicate avoids a candidate id already used in another phase")
 	tests.expect_true(VfxPresetPipelineModel.new().build_document_from_value(duplicated).success, "Layer Stack duplicate remains Contract-valid")
-	stack.set_available_layer_types(["GLOW"])
 	stack.set_phase(created.value, "start")
 	var requested_layer_type := {"value": ""}
 	stack.add_layer_requested.connect(func(layer_type: String) -> void: requested_layer_type["value"] = layer_type)
