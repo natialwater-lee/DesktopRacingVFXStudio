@@ -6,6 +6,7 @@ const PresetCodecTests := preload("res://tests/unit/test_preset_codec.gd")
 const SchemaArtifactTests := preload("res://tests/unit/test_schema_artifact.gd")
 const SchemaRegistryTests := preload("res://tests/unit/test_schema_registry.gd")
 const SchemaSubsetValidatorTests := preload("res://tests/unit/test_schema_subset_validator.gd")
+const PresetNormalizerTests := preload("res://tests/unit/test_preset_normalizer.gd")
 
 
 func _init() -> void:
@@ -16,4 +17,5 @@ func _init() -> void:
 	SchemaArtifactTests.run(tests)
 	SchemaRegistryTests.run(tests)
 	SchemaSubsetValidatorTests.run(tests)
+	PresetNormalizerTests.run(tests)
 	quit(1 if tests.failure_count() > 0 else 0)
