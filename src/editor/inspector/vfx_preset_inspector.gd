@@ -105,7 +105,7 @@ func _on_text_focus_exited(pointer: String, control: LineEdit) -> void:
 		preset_field_commit.emit(pointer, control.text)
 
 
-func _on_enum_selected(pointer: String, control: OptionButton, index: int) -> void:
+func _on_enum_selected(index: int, pointer: String, control: OptionButton) -> void:
 	if index >= 0:
 		preset_field_commit.emit(pointer, control.get_item_text(index))
 

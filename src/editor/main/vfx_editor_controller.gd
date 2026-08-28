@@ -244,6 +244,8 @@ func set_active_layer_enabled(layer_id: String, enabled: bool) -> bool:
 
 
 func commit_preset_field(json_pointer: String, value: Variant) -> bool:
+	if json_pointer == "/default_space_mode" and value is String:
+		return _commit_default_space_mode(value)
 	return _commit_workspace_change("Edit Preset Field", _replace_json_pointer(_session.working_copy(), json_pointer, _duplicate_value(value)))
 
 
@@ -326,7 +328,8 @@ func set_selected_layer_space_override(mode_or_inherit: String) -> bool:
 		layer.erase("space_mode")
 	else:
 		layer["space_mode"] = mode_or_inherit
-	_apply_effective_space_common_fields(layer)
+	if not _apply_effective_space_common_fields(layer):
+		return false
 	return _commit_workspace_change("Set Layer Space Override", next)
 
 
@@ -571,29 +574,68 @@ func _refresh_workspace() -> void:
 		_layer_inspector.set_effective_space(_effective_space_for_layer(layer))
 
 
-func _apply_effective_space_common_fields(layer: Dictionary) -> void:
+func _commit_default_space_mode(target_space: String) -> bool:
+	var root_schema := _registry.schema()
+	var render_rule := _rule_named(root_schema, "RENDER_PLANE_FOR_EFFECTIVE_SPACE")
+	if render_rule.is_empty():
+		return false
+	var default_space_field: String = render_rule.get("default_space_field", "")
+	var layer_space_field: String = render_rule.get("layer_space_field", "")
+	var phases_field: String = str(render_rule.get("phases_path", "")).trim_prefix("/")
+	if default_space_field.is_empty() or layer_space_field.is_empty() or phases_field.is_empty():
+		return false
+	var next := _session.working_copy()
+	next[default_space_field] = target_space
+	var phases: Variant = next.get(phases_field)
+	if not phases is Dictionary:
+		return false
+	for phase in phases.values():
+		if not phase is Dictionary:
+			continue
+		var layers: Variant = phase.get("layers")
+		if not layers is Array:
+			continue
+		for layer in layers:
+			if layer is Dictionary and not layer.has(layer_space_field):
+				if not _apply_effective_space_common_fields(layer, target_space):
+					return false
+	return _commit_workspace_change("Set Default Space Mode", next)
+
+
+func _apply_effective_space_common_fields(layer: Dictionary, inherited_default_space: String = "") -> bool:
 	var root_schema := _registry.schema()
 	var anchor_rule := _rule_named(root_schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")
 	var render_rule := _rule_named(root_schema, "RENDER_PLANE_FOR_EFFECTIVE_SPACE")
 	if anchor_rule.is_empty() or render_rule.is_empty():
-		return
-	var effective_space := _effective_space_for_layer(layer)
+		return false
+	var effective_space := _effective_space_for_layer(layer, inherited_default_space)
 	var anchors_field: String = anchor_rule.get("anchors_field", "")
-	if not anchor_rule.get("vehicle_space_modes", []).has(effective_space) and not anchors_field.is_empty():
+	if anchor_rule.get("vehicle_space_modes", []).has(effective_space):
+		var anchors: Variant = layer.get(anchors_field)
+		if anchors_field.is_empty() or not anchors is Array or anchors.is_empty():
+			var center_anchor: VfxResult = _layer_factory._center_anchor()
+			if not center_anchor.success:
+				_issues = center_anchor.issues.duplicate()
+				return false
+			layer[anchors_field] = [center_anchor.value]
+	elif not anchors_field.is_empty():
 		layer.erase(anchors_field)
 	var render_plane_field: String = render_rule.get("render_plane_field", "")
 	var allowed_planes: Variant = render_rule.get("allowed_planes_by_space", {}).get(effective_space, [])
 	if not render_plane_field.is_empty() and allowed_planes is Array and not allowed_planes.is_empty():
 		layer[render_plane_field] = allowed_planes[0]
+		return true
+	return false
 
 
-func _effective_space_for_layer(layer: Dictionary) -> String:
+func _effective_space_for_layer(layer: Dictionary, inherited_default_space: String = "") -> String:
 	var render_rule := _rule_named(_registry.schema(), "RENDER_PLANE_FOR_EFFECTIVE_SPACE")
 	var default_space_field: String = render_rule.get("default_space_field", "")
 	var layer_space_field: String = render_rule.get("layer_space_field", "")
 	if layer_space_field.is_empty() or default_space_field.is_empty():
 		return ""
-	return str(layer.get(layer_space_field, _session.working_copy().get(default_space_field, "")))
+	var default_space := inherited_default_space if not inherited_default_space.is_empty() else str(_session.working_copy().get(default_space_field, ""))
+	return str(layer.get(layer_space_field, default_space))
 
 
 func _replace_json_pointer(source: Dictionary, pointer: String, value: Variant) -> Dictionary:

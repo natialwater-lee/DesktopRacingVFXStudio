@@ -25,12 +25,12 @@ func set_schema(schema: Dictionary) -> void:
 			_vehicle_space_modes.append(space_mode)
 	_selected = _known_anchors(_selected)
 	_rebuild_checkboxes()
-	_apply_space_state(false)
+	_apply_space_state()
 
 
 func set_effective_space(effective_space: String) -> void:
 	_effective_space = effective_space
-	_apply_space_state(true)
+	_apply_space_state()
 
 
 func set_selected_anchors(anchors: Array) -> void:
@@ -69,7 +69,7 @@ func _rebuild_checkboxes() -> void:
 	_sync_checkboxes()
 
 
-func _apply_space_state(emit_clear: bool) -> void:
+func _apply_space_state() -> void:
 	var is_vehicle_space := _vehicle_space_modes.has(_effective_space)
 	visible = is_vehicle_space
 	for check_box_variant in _checkboxes.values():
@@ -78,8 +78,6 @@ func _apply_space_state(emit_clear: bool) -> void:
 	if not is_vehicle_space:
 		_selected.clear()
 		_sync_checkboxes()
-		if emit_clear:
-			anchors_cleared.emit()
 
 
 func _sync_checkboxes() -> void:
