@@ -16,13 +16,14 @@ func save(session: VfxPresetEditSession, target_path: String) -> VfxResult:
 	var policy := _validate_target_path(target_path)
 	if not policy.success:
 		return policy
-	var document_result := _pipeline.build_document_from_value(session.working_copy(), target_path)
+	var normalized_path: String = policy.value
+	var document_result := _pipeline.build_document_from_value(session.working_copy(), normalized_path)
 	if not document_result.success:
 		return document_result
 	var serialized := _pipeline.serialize_document(document_result.value)
 	if not serialized.success:
 		return serialized
-	var written := _codec.write_text_file(target_path, serialized.value)
+	var written := _codec.write_text_file(normalized_path, serialized.value)
 	if not written.success:
 		return written
 	session.mark_saved(document_result.value)

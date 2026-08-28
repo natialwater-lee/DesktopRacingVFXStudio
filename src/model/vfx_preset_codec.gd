@@ -61,5 +61,16 @@ func write_text_file(path: String, text: String) -> VfxResult:
 			)
 		])
 	file.store_string(text)
+	var write_error := file.get_error()
 	file.close()
+	if write_error != OK:
+		return VfxResult.failure([
+			VfxIssue.new(
+				"FILE_IO",
+				"write_failed",
+				error_string(write_error),
+				"",
+				path
+			)
+		])
 	return VfxResult.ok(text)

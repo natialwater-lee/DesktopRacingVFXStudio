@@ -6,13 +6,15 @@ const VfxPresetPipelineModel := preload("res://src/app/vfx_preset_pipeline.gd")
 const VfxAuthoringPathsModel := preload("res://src/editor/application/vfx_authoring_paths.gd")
 const VfxEditorControllerModel := preload("res://src/editor/main/vfx_editor_controller.gd")
 
-const TEST_DIRECTORY := "res://presets/_phase1_task5_library_test"
+const TEST_DIRECTORY := "res://presets/_phase1_task5_review_20260828"
 const INVALID_PATH := "%s/invalid.vfx.json" % TEST_DIRECTORY
 
 
 static func run(tests: TestAssert) -> void:
-	_cleanup_test_directory()
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(TEST_DIRECTORY))
+	var test_directory_created := _create_test_directory()
+	tests.expect_true(test_directory_created, "library test owns its unique authoring-root child")
+	if not test_directory_created:
+		return
 	var codec := VfxPresetCodecModel.new()
 	var invalid_write := codec.write_text_file(INVALID_PATH, "{\"schema_version\": 1}")
 	tests.expect_true(invalid_write.success, "library fixture writes invalid source text")
@@ -28,14 +30,19 @@ static func run(tests: TestAssert) -> void:
 	var filtered := library.filter("zero", "RACE_TALENT")
 	tests.expect_true(filtered.size() == 1 and filtered[0].preset_id == "talent.zero_zone", "library filtering uses display/id substring and exact category")
 	tests.expect_true(library.filter("zero", "UTILITY").is_empty(), "library category filtering excludes nonmatching rows")
-	_cleanup_test_directory()
+	_cleanup_test_directory(test_directory_created)
 
 
-static func _cleanup_test_directory() -> void:
+static func _create_test_directory() -> bool:
 	var directory_path := ProjectSettings.globalize_path(TEST_DIRECTORY)
-	if not DirAccess.dir_exists_absolute(directory_path):
+	if DirAccess.dir_exists_absolute(directory_path):
+		return false
+	return DirAccess.make_dir_recursive_absolute(directory_path) == OK
+
+
+static func _cleanup_test_directory(test_directory_created: bool) -> void:
+	if not test_directory_created:
 		return
-	var directory := DirAccess.open(directory_path)
-	if directory != null:
-		directory.remove("invalid.vfx.json")
-	DirAccess.remove_absolute(directory_path)
+	if FileAccess.file_exists(INVALID_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(INVALID_PATH))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(TEST_DIRECTORY))

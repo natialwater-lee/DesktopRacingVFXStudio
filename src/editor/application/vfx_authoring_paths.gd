@@ -17,4 +17,4 @@ func default_save_path(preset_id: String) -> String:
 
 
 func normalize_authoring_path(path: String) -> String:
-	return path.replace("\\", "/")
+	return path.replace("\\", "/").simplify_path()
