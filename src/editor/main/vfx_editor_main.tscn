@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
 [ext_resource type="Script" path="res://src/editor/dialogs/vfx_new_preset_dialog.gd" id="2_new_dialog"]
+[ext_resource type="Script" path="res://src/editor/workspace/vfx_phase_tabs.gd" id="3_phase_tabs"]
+[ext_resource type="Script" path="res://src/editor/workspace/vfx_layer_stack.gd" id="4_layer_stack"]
 
 [node name="VfxEditorMain" type="Control"]
 layout_mode = 3
@@ -61,6 +63,7 @@ offset_left = 268.0
 offset_top = 48.0
 offset_right = 760.0
 offset_bottom = 180.0
+script = ExtResource("3_phase_tabs")
 
 [node name="LayerStack" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -68,6 +71,7 @@ offset_left = 268.0
 offset_top = 188.0
 offset_right = 760.0
 offset_bottom = 620.0
+script = ExtResource("4_layer_stack")
 
 [node name="InspectorPanel" type="PanelContainer" parent="."]
 layout_mode = 0

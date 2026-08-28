@@ -8,7 +8,10 @@ const VfxSchemaRegistryModel := preload("res://src/model/vfx_schema_registry.gd"
 const VfxAuthoringPathsModel := preload("res://src/editor/application/vfx_authoring_paths.gd")
 const VfxDirtyTrackerModel := preload("res://src/editor/session/vfx_dirty_tracker.gd")
 const VfxPresetEditSessionModel := preload("res://src/editor/session/vfx_preset_edit_session.gd")
+const VfxPresetHistoryModel := preload("res://src/editor/session/vfx_preset_history.gd")
 const VfxPresetSkeletonFactoryModel := preload("res://src/editor/factories/vfx_preset_skeleton_factory.gd")
+const VfxLayerFactoryModel := preload("res://src/editor/factories/vfx_layer_factory.gd")
+const VfxLayerStackModel := preload("res://src/editor/workspace/vfx_layer_stack.gd")
 const VfxPresetLibraryModel := preload("res://src/editor/library/vfx_preset_library.gd")
 const VfxPresetLibraryEntryModel := preload("res://src/editor/library/vfx_preset_library_entry.gd")
 const VfxEditorSaveServiceModel := preload("res://src/editor/persistence/vfx_editor_save_service.gd")
@@ -18,7 +21,9 @@ var _paths: VfxAuthoringPaths
 var _pipeline: VfxPresetPipeline
 var _registry: VfxSchemaRegistry
 var _session: VfxPresetEditSession
+var _history: VfxPresetHistory
 var _skeleton_factory: RefCounted
+var _layer_factory: RefCounted
 var _library: RefCounted
 var _save_service: RefCounted
 var _issues: Array[VfxIssue] = []
@@ -27,6 +32,10 @@ var _preset_file_dialog: FileDialog
 var _overwrite_confirmation_dialog: ConfirmationDialog
 var _file_dialog_action := ""
 var _pending_overwrite_path := ""
+var _phase_tabs
+var _layer_stack
+var _selected_phase := ""
+var _selected_layer_id := ""
 
 
 func _init() -> void:
@@ -36,9 +45,16 @@ func _init() -> void:
 	_registry = VfxSchemaRegistryModel.new(codec, VfxRuleCatalogModel.new())
 	_registry.load(VfxPresetPipeline.DEFAULT_SCHEMA_PATH)
 	_session = VfxPresetEditSessionModel.new(VfxDirtyTrackerModel.new(codec))
+	_history = VfxPresetHistoryModel.new()
 	_skeleton_factory = VfxPresetSkeletonFactoryModel.new(_registry)
+	_layer_factory = VfxLayerFactoryModel.new(_registry)
 	_library = VfxPresetLibraryModel.new(_pipeline, _paths)
 	_save_service = VfxEditorSaveServiceModel.new(_pipeline, codec, _paths)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE and _history != null:
+		_history.dispose()
 
 
 func request_close() -> bool:
@@ -52,6 +68,7 @@ func create_new_preset(preset_id: String, display_name: String, category: String
 		return created
 	_session.begin_new(created.value)
 	_refresh_issues()
+	reconcile_selection()
 	return created
 
 
@@ -60,6 +77,7 @@ func open_library_entry(entry: RefCounted) -> VfxResult:
 		return _policy_failure("invalid_library_entry", "Only a valid Preset Library entry can be opened.", "")
 	_session.open_document(entry.document)
 	_refresh_issues()
+	reconcile_selection()
 	return VfxResult.ok(entry.document)
 
 
@@ -75,6 +93,7 @@ func open_path(path: String) -> VfxResult:
 		return loaded
 	_session.open_document(loaded.value)
 	_refresh_issues()
+	reconcile_selection()
 	return loaded
 
 
@@ -101,6 +120,103 @@ func scan_library() -> Array:
 
 func current_issues() -> Array[VfxIssue]:
 	return _issues.duplicate()
+
+
+func working_preset() -> Dictionary:
+	return _session.working_copy()
+
+
+func selected_phase_name() -> String:
+	return _selected_phase
+
+
+func selected_layer_id() -> String:
+	return _selected_layer_id
+
+
+func configure_workspace(phase_tabs, layer_stack) -> void:
+	_phase_tabs = phase_tabs
+	_layer_stack = layer_stack
+	_layer_stack.set_layer_factory(_layer_factory)
+	if not _phase_tabs.phase_selected.is_connected(_on_phase_selected):
+		_phase_tabs.phase_selected.connect(_on_phase_selected)
+	if not _layer_stack.layer_selected.is_connected(_on_layer_selected):
+		_layer_stack.layer_selected.connect(_on_layer_selected)
+	if not _layer_stack.add_layer_requested.is_connected(_on_add_layer_requested):
+		_layer_stack.add_layer_requested.connect(_on_add_layer_requested)
+	if not _layer_stack.delete_layer_requested.is_connected(_on_delete_layer_requested):
+		_layer_stack.delete_layer_requested.connect(_on_delete_layer_requested)
+	if not _layer_stack.duplicate_layer_requested.is_connected(_on_duplicate_layer_requested):
+		_layer_stack.duplicate_layer_requested.connect(_on_duplicate_layer_requested)
+	if not _layer_stack.move_layer_requested.is_connected(_on_move_layer_requested):
+		_layer_stack.move_layer_requested.connect(_on_move_layer_requested)
+	if not _layer_stack.layer_enabled_requested.is_connected(_on_layer_enabled_requested):
+		_layer_stack.layer_enabled_requested.connect(_on_layer_enabled_requested)
+	reconcile_selection()
+
+
+func select_phase(phase_name: String) -> void:
+	if _phase_names().has(phase_name):
+		_selected_phase = phase_name
+		_selected_layer_id = ""
+		reconcile_selection()
+
+
+func select_layer(layer_id: String) -> void:
+	_selected_layer_id = layer_id if _layer_exists_in_selected_phase(layer_id) else ""
+	_refresh_workspace()
+
+
+func add_active_layer(layer_type: String) -> bool:
+	if _selected_phase.is_empty():
+		return false
+	return _commit_workspace_change("Add Layer", VfxLayerStackModel.add_layer_with_factory(_layer_factory, _session.working_copy(), _selected_phase, layer_type))
+
+
+func delete_active_layer(layer_id: String) -> bool:
+	if _selected_phase.is_empty():
+		return false
+	return _commit_workspace_change("Delete Layer", VfxLayerStackModel.delete_layer_in_phase(_session.working_copy(), _selected_phase, layer_id))
+
+
+func duplicate_active_layer(layer_id: String) -> bool:
+	if _selected_phase.is_empty():
+		return false
+	return _commit_workspace_change("Duplicate Layer", VfxLayerStackModel.duplicate_layer_with_factory(_layer_factory, _session.working_copy(), _selected_phase, layer_id))
+
+
+func move_active_layer(layer_id: String, direction: int) -> bool:
+	if _selected_phase.is_empty():
+		return false
+	var index := _selected_layer_index(layer_id)
+	if index < 0:
+		return false
+	return _commit_workspace_change("Move Layer", VfxLayerStackModel.move_layer_in_phase(_session.working_copy(), _selected_phase, index, direction))
+
+
+func set_active_layer_enabled(layer_id: String, enabled: bool) -> bool:
+	if _selected_phase.is_empty():
+		return false
+	return _commit_workspace_change("Set Layer Enabled", VfxLayerStackModel.set_layer_enabled_in_phase(_session.working_copy(), _selected_phase, layer_id, enabled))
+
+
+func undo() -> void:
+	if _history.can_undo():
+		_history.undo()
+
+
+func redo() -> void:
+	if _history.can_redo():
+		_history.redo()
+
+
+func reconcile_selection() -> void:
+	var names := _phase_names()
+	if not names.has(_selected_phase):
+		_selected_phase = names[0] if not names.is_empty() else ""
+	if not _layer_exists_in_selected_phase(_selected_layer_id):
+		_selected_layer_id = ""
+	_refresh_workspace()
 
 
 func configure_new_preset_dialog(dialog: ConfirmationDialog) -> void:
@@ -190,6 +306,80 @@ func _show_file_dialog(mode: FileDialog.FileMode) -> void:
 func _refresh_issues() -> void:
 	var built := _pipeline.build_document_from_value(_session.working_copy(), _session.source_path())
 	_issues = built.issues.duplicate()
+
+
+func _on_phase_selected(phase_name: String) -> void:
+	select_phase(phase_name)
+
+
+func _on_layer_selected(layer_id: String) -> void:
+	select_layer(layer_id)
+
+
+func _on_add_layer_requested(layer_type: String) -> void:
+	add_active_layer(layer_type)
+
+
+func _on_delete_layer_requested(layer_id: String) -> void:
+	delete_active_layer(layer_id)
+
+
+func _on_duplicate_layer_requested(layer_id: String) -> void:
+	duplicate_active_layer(layer_id)
+
+
+func _on_move_layer_requested(layer_id: String, direction: int) -> void:
+	move_active_layer(layer_id, direction)
+
+
+func _on_layer_enabled_requested(layer_id: String, enabled: bool) -> void:
+	set_active_layer_enabled(layer_id, enabled)
+
+
+func _commit_workspace_change(label: String, next_data: Dictionary) -> bool:
+	var before := _session.working_copy()
+	if before == next_data:
+		return false
+	_history.record_snapshot(label, before, next_data, _restore_workspace_snapshot)
+	return true
+
+
+func _restore_workspace_snapshot(snapshot: Dictionary) -> void:
+	_session.replace_working_data(snapshot)
+	_refresh_issues()
+	reconcile_selection()
+
+
+func _phase_names() -> Array[String]:
+	var names: Array[String] = []
+	for phase_name_variant in _session.working_copy().get("phases", {}):
+		names.append(str(phase_name_variant))
+	return names
+
+
+func _layer_exists_in_selected_phase(layer_id: String) -> bool:
+	if layer_id.is_empty():
+		return false
+	for layer in _session.working_copy().get("phases", {}).get(_selected_phase, {}).get("layers", []):
+		if layer is Dictionary and layer.get("id") == layer_id:
+			return true
+	return false
+
+
+func _selected_layer_index(layer_id: String) -> int:
+	var layers: Array = _session.working_copy().get("phases", {}).get(_selected_phase, {}).get("layers", [])
+	for index in layers.size():
+		if layers[index] is Dictionary and layers[index].get("id") == layer_id:
+			return index
+	return -1
+
+
+func _refresh_workspace() -> void:
+	if _phase_tabs != null:
+		_phase_tabs.set_preset(_session.working_copy())
+		_phase_tabs.select_phase(_selected_phase)
+	if _layer_stack != null:
+		_layer_stack.set_phase(_session.working_copy(), _selected_phase)
 
 
 func _policy_failure(code: String, message: String, path: String) -> VfxResult:
