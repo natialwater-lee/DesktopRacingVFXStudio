@@ -20,15 +20,18 @@ func _init(schema_path: String = DEFAULT_SCHEMA_PATH) -> void:
 
 
 func load_and_validate(path: String) -> VfxResult:
+	var decoded := _codec.decode_file(path)
+	if not decoded.success:
+		return decoded
+	return build_document_from_value(decoded.value, path)
+
+
+func build_document_from_value(value: Variant, source_path: String = "") -> VfxResult:
 	var schema_result := _ensure_schema_loaded()
 	if not schema_result.success:
 		return schema_result
 
-	var decoded := _codec.decode_file(path)
-	if not decoded.success:
-		return decoded
-
-	var normalized := _normalizer.normalize(decoded.value, _registry.schema())
+	var normalized := _normalizer.normalize(value, _registry.schema())
 	if not normalized.success:
 		return normalized
 
@@ -36,7 +39,7 @@ func load_and_validate(path: String) -> VfxResult:
 	if not validation.success:
 		return validation
 
-	return VfxResult.ok(VfxPresetDocument.new(path, decoded.value, validation.value))
+	return VfxResult.ok(VfxPresetDocument.new(source_path, value, validation.value))
 
 
 func serialize_document(document: VfxPresetDocument) -> VfxResult:

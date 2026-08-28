@@ -18,6 +18,23 @@ static func run(tests: TestAssert) -> void:
 
 	var loaded := pipeline.load_and_validate("res://tests/fixtures/valid/zero_zone.vfx.json")
 	tests.expect_true(loaded.success, "valid Zero Zone fixture loads")
+	var memory_codec := VfxPresetCodecModel.new()
+	var raw: Variant = memory_codec.decode_file("res://tests/fixtures/valid/zero_zone.vfx.json").value
+	var built: VfxResult = pipeline.build_document_from_value(raw, "memory://zero_zone")
+	tests.expect_true(built.success, "in-memory valid value builds a document")
+	tests.expect_true(built.value.source_path == "memory://zero_zone", "generic build preserves supplied source path")
+	tests.expect_true(not raw["phases"]["loop"]["layers"][0].has("sort_order"), "generic build leaves raw value untouched")
+	var invalid: VfxResult = pipeline.build_document_from_value({"schema_version": 1}, "memory://invalid")
+	tests.expect_true(not invalid.success, "generic build reports Contract errors")
+	if built.success:
+		var built_serialized := pipeline.serialize_document(built.value)
+		var built_decoded := memory_codec.decode_text(built_serialized.value, "memory_round_trip.vfx.json")
+		var built_second := memory_codec.encode(built_decoded.value)
+		tests.expect_true(built_serialized.success, "in-memory document serializes")
+		tests.expect_true(built_decoded.success, "in-memory serialization decodes")
+		tests.expect_true(built_second.success, "in-memory decoded document serializes")
+		if built_serialized.success and built_decoded.success and built_second.success:
+			tests.expect_true(built_serialized.value == built_second.value, "in-memory serialization is deterministic")
 	if loaded.success:
 		var first := pipeline.serialize_document(loaded.value)
 		var codec := VfxPresetCodecModel.new()
