@@ -163,7 +163,7 @@ The supported `x_vfx_rules` are:
 - `EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS`
 - `RENDER_PLANE_FOR_EFFECTIVE_SPACE`
 
-An undeclared rule is never inferred. An unknown declared rule is a `SCHEMA_CONFIGURATION` error. The rule configuration also declares the lifecycle-to-phase mapping, Particle emission-mode field requirements, emitter shape-to-geometry mapping, vehicle Space Modes that require Anchors, and allowed render planes per Space Mode. Before it caches the Schema, the Registry resolves every configured path and field, verifies mapping coverage for the referenced Schema enum values, and allows only declared parameter fields. The GDScript handlers consume those values; they do not keep parallel enum or relationship tables.
+An undeclared rule is never inferred. An unknown declared rule is a `SCHEMA_CONFIGURATION` error. The rule configuration also declares the lifecycle-to-phase mapping, Particle emission-mode field requirements, emitter shape-to-geometry mapping, vehicle Space Modes that require Anchors, and allowed render planes per Space Mode. Before it caches the Schema, the Registry resolves every configured path and field, verifies each handler’s expected Schema type and enum shape, checks mapping coverage for the referenced Schema enum values, and allows only declared parameter fields. The GDScript handlers consume those values; they do not keep parallel enum or relationship tables.
 
 ## Strictness and defaults
 

@@ -44,7 +44,7 @@ Only the JSON Schema subset used by v1 is implemented:
 - `items`, `additionalProperties`, `pattern`
 - local `$defs` and local `$ref`
 
-`$ref` supports only `#/$defs/...` references in the loaded Schema. External files, URLs, other Schema documents, unresolved references, reference cycles, malformed subset keyword values, and malformed nested rule configuration are Schema configuration errors. Before caching, the Registry resolves every rule path and field reference, then cross-checks rule maps against their declared Schema enums and referenced parameter fields. No malformed or incomplete Schema is cached.
+`$ref` supports only `#/$defs/...` references in the loaded Schema. External files, URLs, other Schema documents, unresolved references, reference cycles, malformed subset keyword values, and malformed nested rule configuration are Schema configuration errors. Before caching, the Registry resolves every rule path and field reference, verifies each handler’s expected Schema type and enum shape, then cross-checks rule maps against their declared Schema enums and referenced parameter fields. No malformed or incomplete Schema is cached.
 
 No generic JSON Schema engine, `oneOf` processor, expression evaluator, dynamic code executor, Shader Graph, or Timeline editor is part of this project foundation.
 

@@ -61,6 +61,21 @@ static func run(tests: TestAssert) -> void:
 		var misspelled_anchor_field := registry.load_data(misspelled_anchor_field_schema, "misspelled_anchor_field_schema.json")
 		tests.expect_true(not misspelled_anchor_field.success, "rule configuration must reference declared Layer fields")
 
+		var wrong_anchor_field_type_schema := registry.schema()
+		_rule_by_name(wrong_anchor_field_type_schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")["anchors_field"] = "id"
+		var wrong_anchor_field_type := registry.load_data(wrong_anchor_field_type_schema, "wrong_anchor_field_type_schema.json")
+		tests.expect_true(not wrong_anchor_field_type.success, "rule configuration must use an array Schema for anchors")
+
+		var wrong_runtime_input_path_schema := registry.schema()
+		_rule_by_name(wrong_runtime_input_path_schema, "RUNTIME_INPUT_NAMES")["runtime_inputs_path"] = "/display_name"
+		var wrong_runtime_input_path := registry.load_data(wrong_runtime_input_path_schema, "wrong_runtime_input_path_schema.json")
+		tests.expect_true(not wrong_runtime_input_path.success, "rule configuration must use an array Schema for runtime inputs")
+
+		var wrong_layer_space_field_schema := registry.schema()
+		_rule_by_name(wrong_layer_space_field_schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")["layer_space_field"] = "id"
+		var wrong_layer_space_field := registry.load_data(wrong_layer_space_field_schema, "wrong_layer_space_field_schema.json")
+		tests.expect_true(not wrong_layer_space_field.success, "rule configuration must use the declared Space Mode enum for Layer space")
+
 
 static func _rule_by_name(schema: Dictionary, rule_name: String) -> Dictionary:
 	for rule in schema["x_vfx_rules"]:

@@ -195,36 +195,38 @@ func _validate_rule_contract_coverage(issues: Array[VfxIssue]) -> void:
 			"PRESET_HAS_LAYER":
 				_layer_schema_at_rule_phases(rule, pointer, issues)
 			"UNIQUE_LAYER_IDS_ACROSS_PHASES":
-				_validate_layer_rule_fields(rule, pointer, ["id_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"id_field": "string"}, issues)
 			"TYPE_DISPATCHED_PARAMETER_SCHEMA":
-				_validate_layer_rule_fields(rule, pointer, ["type_field", "parameters_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
 				_validate_root_object_path(rule["layer_types_path"], "%s/layer_types_path" % pointer, issues)
 			"PARTICLE_EMISSION_CONFIGURATION":
-				_validate_layer_rule_fields(rule, pointer, ["parameters_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"parameters_field": "object"}, issues)
 				_validate_emission_rule_coverage(rule, pointer, issues)
 			"PARTICLE_EMITTER_SHAPE":
-				_validate_layer_rule_fields(rule, pointer, ["parameters_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"parameters_field": "object"}, issues)
 				_validate_emitter_rule_coverage(rule, pointer, issues)
 			"PARTICLE_MOTION_RANGE_ORDER":
-				_validate_layer_rule_fields(rule, pointer, ["parameters_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"parameters_field": "object"}, issues)
 				_validate_motion_rule_coverage(rule, pointer, issues)
 			"RUNTIME_INPUT_NAMES":
-				_schema_at_preset_path(rule["runtime_inputs_path"], "%s/runtime_inputs_path" % pointer, issues)
+				_validate_schema_type(_schema_at_preset_path(rule["runtime_inputs_path"], "%s/runtime_inputs_path" % pointer, issues), "array", "%s/runtime_inputs_path" % pointer, issues)
 				_validate_root_object_path(rule["contract_path"], "%s/contract_path" % pointer, issues)
 			"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS":
-				_validate_layer_rule_fields(rule, pointer, ["layer_space_field", "anchors_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"layer_space_field": "string", "anchors_field": "array"}, issues)
 				_validate_anchor_rule_coverage(rule, pointer, issues)
 			"RENDER_PLANE_FOR_EFFECTIVE_SPACE":
-				_validate_layer_rule_fields(rule, pointer, ["layer_space_field", "render_plane_field"], issues)
+				_validate_layer_rule_fields(rule, pointer, {"layer_space_field": "string", "render_plane_field": "string"}, issues)
 				_validate_render_plane_rule_coverage(rule, pointer, issues)
 
 
 func _validate_lifecycle_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
 	var lifecycle_schema := _schema_at_preset_path(rule["lifecycle_path"], pointer, issues)
-	var mode_schema := _schema_property(lifecycle_schema, rule["mode_field"], "%s/mode_field" % pointer, issues)
-	var modes := _schema_enum(mode_schema, "%s/phase_names_by_mode" % pointer, issues)
+	_validate_schema_type(lifecycle_schema, "object", "%s/lifecycle_path" % pointer, issues)
+	var mode_schema := _schema_property_of_type(lifecycle_schema, rule["mode_field"], "string", "%s/mode_field" % pointer, issues)
+	var modes := _schema_string_enum(mode_schema, "%s/phase_names_by_mode" % pointer, issues)
 	_validate_enum_mapping(rule["phase_names_by_mode"], modes, "%s/phase_names_by_mode" % pointer, issues)
 	var phases_schema := _schema_at_preset_path(rule["phases_path"], "%s/phases_path" % pointer, issues)
+	_validate_schema_type(phases_schema, "object", "%s/phases_path" % pointer, issues)
 	for mode_name in rule["phase_names_by_mode"]:
 		for phase_name in rule["phase_names_by_mode"][mode_name]:
 			_schema_property(phases_schema, phase_name, "%s/phase_names_by_mode/%s" % [pointer, mode_name], issues)
@@ -232,8 +234,8 @@ func _validate_lifecycle_rule_coverage(rule: Dictionary, pointer: String, issues
 
 func _validate_emission_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
 	var parameters_schema := _particle_parameters_schema(rule, pointer, issues)
-	var emission_schema := _schema_property(parameters_schema, rule["emission_mode_field"], "%s/emission_mode_field" % pointer, issues)
-	var modes := _schema_enum(emission_schema, "%s/mode_requirements" % pointer, issues)
+	var emission_schema := _schema_property_of_type(parameters_schema, rule["emission_mode_field"], "string", "%s/emission_mode_field" % pointer, issues)
+	var modes := _schema_string_enum(emission_schema, "%s/mode_requirements" % pointer, issues)
 	var requirements: Dictionary = rule["mode_requirements"]
 	_validate_enum_mapping(requirements, modes, "%s/mode_requirements" % pointer, issues)
 	for mode_name in requirements:
@@ -244,9 +246,9 @@ func _validate_emission_rule_coverage(rule: Dictionary, pointer: String, issues:
 
 func _validate_emitter_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
 	var parameters_schema := _particle_parameters_schema(rule, pointer, issues)
-	var emitter_schema := _schema_property(parameters_schema, rule["emitter_field"], "%s/emitter_field" % pointer, issues)
-	var shape_schema := _schema_property(emitter_schema, rule["shape_field"], "%s/shape_field" % pointer, issues)
-	var shapes := _schema_enum(shape_schema, "%s/geometry_by_shape" % pointer, issues)
+	var emitter_schema := _schema_property_of_type(parameters_schema, rule["emitter_field"], "object", "%s/emitter_field" % pointer, issues)
+	var shape_schema := _schema_property_of_type(emitter_schema, rule["shape_field"], "string", "%s/shape_field" % pointer, issues)
+	var shapes := _schema_string_enum(shape_schema, "%s/geometry_by_shape" % pointer, issues)
 	var geometry_by_shape: Dictionary = rule["geometry_by_shape"]
 	_validate_enum_mapping(geometry_by_shape, shapes, "%s/geometry_by_shape" % pointer, issues)
 	for shape_name in geometry_by_shape:
@@ -257,21 +259,24 @@ func _validate_motion_rule_coverage(rule: Dictionary, pointer: String, issues: A
 	var parameters_schema := _particle_parameters_schema(rule, pointer, issues)
 	for index in rule["ranges"].size():
 		var range_definition: Dictionary = rule["ranges"][index]
-		_validate_property_fields(parameters_schema, [range_definition["minimum_field"], range_definition["maximum_field"]], "%s/ranges/%d" % [pointer, index], issues)
+		_validate_property_fields(parameters_schema, [range_definition["minimum_field"], range_definition["maximum_field"]], "%s/ranges/%d" % [pointer, index], issues, "number")
 
 
 func _validate_anchor_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
-	var space_schema := _schema_property(_active_schema, rule["default_space_field"], "%s/default_space_field" % pointer, issues)
-	var space_modes := _schema_enum(space_schema, "%s/vehicle_space_modes" % pointer, issues)
+	var space_schema := _schema_property_of_type(_active_schema, rule["default_space_field"], "string", "%s/default_space_field" % pointer, issues)
+	var space_modes := _schema_string_enum(space_schema, "%s/vehicle_space_modes" % pointer, issues)
+	var layer_schema := _layer_schema_at_rule_phases(rule, pointer, issues)
+	var layer_space_schema := _schema_property_of_type(layer_schema, rule["layer_space_field"], "string", "%s/layer_space_field" % pointer, issues)
+	_validate_matching_enums(space_modes, _schema_string_enum(layer_space_schema, "%s/layer_space_field" % pointer, issues), "%s/layer_space_field" % pointer, issues)
 	for space_mode in rule["vehicle_space_modes"]:
 		if not space_modes.has(space_mode):
 			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Vehicle Space Mode is not declared by the Schema.", "%s/vehicle_space_modes" % pointer))
 
 
-func _validate_layer_rule_fields(rule: Dictionary, pointer: String, rule_field_keys: Array, issues: Array[VfxIssue]) -> Dictionary:
+func _validate_layer_rule_fields(rule: Dictionary, pointer: String, rule_field_types: Dictionary, issues: Array[VfxIssue]) -> Dictionary:
 	var layer_schema := _layer_schema_at_rule_phases(rule, pointer, issues)
-	for rule_field_key in rule_field_keys:
-		_schema_property(layer_schema, rule[rule_field_key], "%s/%s" % [pointer, rule_field_key], issues)
+	for rule_field_key in rule_field_types:
+		_schema_property_of_type(layer_schema, rule[rule_field_key], rule_field_types[rule_field_key], "%s/%s" % [pointer, rule_field_key], issues)
 	return layer_schema
 
 
@@ -280,9 +285,11 @@ func _layer_schema_at_rule_phases(rule: Dictionary, pointer: String, issues: Arr
 	var resolved_phases := _resolve_schema_node(phases_schema, "%s/phases_path" % pointer, issues)
 	if resolved_phases.is_empty() or not resolved_phases.has("properties"):
 		return {}
+	_validate_schema_type(resolved_phases, "object", "%s/phases_path" % pointer, issues)
 	for phase_name in resolved_phases["properties"]:
 		var phase_schema := _schema_property(resolved_phases, phase_name, "%s/phases_path" % pointer, issues)
-		var layers_schema := _schema_property(phase_schema, "layers", "%s/phases_path" % pointer, issues)
+		_validate_schema_type(phase_schema, "object", "%s/phases_path" % pointer, issues)
+		var layers_schema := _schema_property_of_type(phase_schema, "layers", "array", "%s/phases_path" % pointer, issues)
 		var resolved_layers := _resolve_schema_node(layers_schema, "%s/phases_path" % pointer, issues)
 		if resolved_layers.has("items") and resolved_layers["items"] is Dictionary:
 			return _resolve_schema_node(resolved_layers["items"], "%s/phases_path" % pointer, issues)
@@ -308,16 +315,19 @@ func _root_value_at_path(path: String, pointer: String, issues: Array[VfxIssue])
 
 
 func _validate_render_plane_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
-	var space_schema := _schema_property(_active_schema, rule["default_space_field"], "%s/default_space_field" % pointer, issues)
-	var space_modes := _schema_enum(space_schema, "%s/allowed_planes_by_space" % pointer, issues)
+	var space_schema := _schema_property_of_type(_active_schema, rule["default_space_field"], "string", "%s/default_space_field" % pointer, issues)
+	var space_modes := _schema_string_enum(space_schema, "%s/allowed_planes_by_space" % pointer, issues)
+	var phase_layer_schema := _layer_schema_at_rule_phases(rule, pointer, issues)
+	var layer_space_schema := _schema_property_of_type(phase_layer_schema, rule["layer_space_field"], "string", "%s/layer_space_field" % pointer, issues)
+	_validate_matching_enums(space_modes, _schema_string_enum(layer_space_schema, "%s/layer_space_field" % pointer, issues), "%s/layer_space_field" % pointer, issues)
 	var allowed_planes_by_space: Dictionary = rule["allowed_planes_by_space"]
 	_validate_enum_mapping(allowed_planes_by_space, space_modes, "%s/allowed_planes_by_space" % pointer, issues)
 	var layer_result := resolve_local_ref(rule["layer_schema_ref"])
 	if not layer_result.success:
 		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", layer_result.issues[0].code, layer_result.issues[0].message, "%s/layer_schema_ref" % pointer))
 		return
-	var render_plane_schema := _schema_property(layer_result.value, rule["render_plane_field"], "%s/render_plane_field" % pointer, issues)
-	var render_planes := _schema_enum(render_plane_schema, "%s/allowed_planes_by_space" % pointer, issues)
+	var render_plane_schema := _schema_property_of_type(layer_result.value, rule["render_plane_field"], "string", "%s/render_plane_field" % pointer, issues)
+	var render_planes := _schema_string_enum(render_plane_schema, "%s/allowed_planes_by_space" % pointer, issues)
 	for space_mode in allowed_planes_by_space:
 		for render_plane in allowed_planes_by_space[space_mode]:
 			if not render_planes.has(render_plane):
@@ -333,6 +343,7 @@ func _particle_parameters_schema(rule: Dictionary, pointer: String, issues: Arra
 	if not parameters_result.success:
 		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", parameters_result.issues[0].code, parameters_result.issues[0].message, "%s/particle_type" % pointer))
 		return {}
+	_validate_schema_type(parameters_result.value, "object", "%s/particle_type" % pointer, issues)
 	return parameters_result.value
 
 
@@ -355,6 +366,20 @@ func _schema_property(schema: Dictionary, property_name: String, pointer: String
 	return _resolve_schema_node(resolved["properties"][property_name], pointer, issues)
 
 
+func _schema_property_of_type(schema: Dictionary, property_name: String, expected_type: String, pointer: String, issues: Array[VfxIssue]) -> Dictionary:
+	var property_schema := _schema_property(schema, property_name, pointer, issues)
+	_validate_schema_type(property_schema, expected_type, pointer, issues)
+	return property_schema
+
+
+func _validate_schema_type(schema: Dictionary, expected_type: String, pointer: String, issues: Array[VfxIssue]) -> void:
+	var resolved := _resolve_schema_node(schema, pointer, issues)
+	if resolved.is_empty():
+		return
+	if not resolved.has("type") or resolved["type"] != expected_type:
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule field does not resolve to the expected Schema type.", pointer))
+
+
 func _resolve_schema_node(schema: Dictionary, pointer: String, issues: Array[VfxIssue]) -> Dictionary:
 	var current := schema
 	while current.has("$ref"):
@@ -374,6 +399,11 @@ func _schema_enum(schema: Dictionary, pointer: String, issues: Array[VfxIssue]) 
 	return resolved["enum"]
 
 
+func _schema_string_enum(schema: Dictionary, pointer: String, issues: Array[VfxIssue]) -> Array:
+	_validate_schema_type(schema, "string", pointer, issues)
+	return _schema_enum(schema, pointer, issues)
+
+
 func _validate_enum_mapping(mapping: Dictionary, enum_values: Array, pointer: String, issues: Array[VfxIssue]) -> void:
 	for enum_value in enum_values:
 		if not mapping.has(enum_value):
@@ -383,13 +413,25 @@ func _validate_enum_mapping(mapping: Dictionary, enum_values: Array, pointer: St
 			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule configuration contains an undeclared enum value.", pointer))
 
 
-func _validate_property_fields(schema: Dictionary, fields: Array, pointer: String, issues: Array[VfxIssue]) -> void:
+func _validate_matching_enums(expected_values: Array, actual_values: Array, pointer: String, issues: Array[VfxIssue]) -> void:
+	if expected_values.size() != actual_values.size():
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule fields must resolve to matching Schema enum values.", pointer))
+		return
+	for expected_value in expected_values:
+		if not actual_values.has(expected_value):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule fields must resolve to matching Schema enum values.", pointer))
+			return
+
+
+func _validate_property_fields(schema: Dictionary, fields: Array, pointer: String, issues: Array[VfxIssue], expected_type: String = "") -> void:
 	var resolved := _resolve_schema_node(schema, pointer, issues)
 	if resolved.is_empty():
 		return
 	for field_name in fields:
 		if not resolved.has("properties") or not resolved["properties"].has(field_name):
 			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule configuration references an undeclared Schema property.", pointer))
+		elif not expected_type.is_empty():
+			_validate_schema_type(resolved["properties"][field_name], expected_type, pointer, issues)
 
 
 func _validate_reference_tree(value: Variant, pointer: String, active_references: Array[String], issues: Array[VfxIssue]) -> void:
