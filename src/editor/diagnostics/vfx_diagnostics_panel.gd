@@ -21,7 +21,18 @@ func activate_issue(index: int) -> void:
 		issue_activated.emit(_issues[index])
 
 
+func focus_diagnostics() -> void:
+	if not is_inside_tree():
+		return
+	var first_issue := _rows.get_child(0) as Control if _rows != null and _rows.get_child_count() > 0 else null
+	if first_issue != null:
+		first_issue.grab_focus()
+	else:
+		grab_focus()
+
+
 func _ready() -> void:
+	focus_mode = Control.FOCUS_ALL
 	_rebuild_rows()
 
 

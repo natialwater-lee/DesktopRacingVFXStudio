@@ -642,7 +642,7 @@ func _on_diagnostic_issue_activated(issue: VfxIssue) -> void:
 
 func _focus_diagnostics() -> void:
 	if _diagnostics_panel != null and _diagnostics_panel.is_inside_tree():
-		_diagnostics_panel.grab_focus()
+		_diagnostics_panel.focus_diagnostics()
 
 
 func _on_phase_selected(phase_name: String) -> void:

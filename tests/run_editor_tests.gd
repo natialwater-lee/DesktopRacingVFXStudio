@@ -22,6 +22,10 @@ const TransitionDialogTests := preload("res://tests/editor/test_transition_dialo
 
 
 func _init() -> void:
+	call_deferred("_run")
+
+
+func _run() -> void:
 	var tests := TestAssertHelper.new()
 	AuthoringPathsTests.run(tests)
 	MainSceneSmokeTests.run(tests)

@@ -36,6 +36,18 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(not navigator.navigate(invalid_issue, preset).get("handled", true), "out-of-range layer pointers remain visible and unhandled")
 	var configuration_issue := VfxIssueModel.new("SCHEMA_CONFIGURATION", "unsupported", "unsupported", "/preset_id")
 	tests.expect_true(not navigator.navigate(configuration_issue, preset).get("handled", true), "configuration issues are not routed to a guessed editor target")
+	for unsupported_pointer in [
+		"/preset_id/unknown",
+		"/phases/loop/unknown",
+		"/phases/loop/layers/1/unknown",
+		"/phases/loop/layers/1/parameters",
+		"/phases//layers/1/id",
+		"/phases/loop/layers/1/~2bad"
+	]:
+		var unsupported_issue := VfxIssueModel.new("PRESET_VALIDATION", "unknown", "unknown", unsupported_pointer)
+		tests.expect_true(not navigator.navigate(unsupported_issue, preset).get("handled", true), "navigator rejects unsupported JSON Pointer grammar: %s" % unsupported_pointer)
+	var common_layer_issue := VfxIssueModel.new("PRESET_VALIDATION", "required", "missing", "/phases/loop/layers/1/transform/offset/0")
+	tests.expect_true(navigator.navigate(common_layer_issue, preset).get("handled", false), "navigator accepts documented common Layer transform pointers")
 
 	var panel := VfxDiagnosticsPanelModel.new()
 	var activated := {"issue": null}
