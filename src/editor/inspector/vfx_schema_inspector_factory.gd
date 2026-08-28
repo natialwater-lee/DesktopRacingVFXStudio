@@ -58,12 +58,14 @@ func _build_object_fields(schema: Dictionary, value: Dictionary, pointer_prefix:
 			fields.append(_named_configuration_diagnostic(property_name, "Schema property must be an object."))
 			continue
 		var pointer := "%s/%s" % [pointer_prefix, _escape_pointer_segment(property_name)]
-		var property_value: Variant = value.get(property_name, _initial_value(property_schema_variant))
-		fields.append(_build_field(property_name, pointer, property_schema_variant, property_value))
+		var resolved_property := _reader.resolve(property_schema_variant)
+		var has_display_value: bool = value.has(property_name) or (resolved_property.success and resolved_property.value.has("default"))
+		var property_value: Variant = value[property_name] if value.has(property_name) else _initial_value(property_schema_variant)
+		fields.append(_build_field(property_name, pointer, property_schema_variant, property_value, has_display_value))
 	return fields
 
 
-func _build_field(property_name: String, pointer: String, schema: Dictionary, value: Variant) -> Control:
+func _build_field(property_name: String, pointer: String, schema: Dictionary, value: Variant, has_display_value: bool) -> Control:
 	var field := SchemaField.new()
 	field.name = property_name
 	var resolved_result := _reader.resolve(schema)
@@ -79,32 +81,35 @@ func _build_field(property_name: String, pointer: String, schema: Dictionary, va
 			select.name = "Input"
 			for option in resolved.get("enum", []):
 				select.add_item(str(option))
-			_select_text(select, str(value))
-			select.item_selected.connect(_on_enum_selected.bind(field, pointer, select))
+			if has_display_value:
+				_select_text(select, str(value))
+			else:
+				select.select(-1)
+			select.item_selected.connect(_on_enum_selected.bind(field, pointer, select, value, has_display_value))
 			field.add_child(select)
 		"SpinBox":
 			_add_field_title(field, property_name)
-			var spin := _number_input(resolved, value)
+			var spin := _number_input(resolved, value, has_display_value)
 			spin.name = "Input"
-			spin.get_line_edit().focus_exited.connect(_on_number_focus_exited.bind(field, pointer, spin, resolved.get("type") == "integer"))
+			spin.get_line_edit().focus_exited.connect(_on_number_focus_exited.bind(field, pointer, spin, resolved.get("type") == "integer", value, has_display_value))
 			field.add_child(spin)
 		"CheckBox":
 			var check := CheckBox.new()
 			check.name = "Input"
 			check.text = property_name.capitalize()
-			check.button_pressed = bool(value)
-			check.toggled.connect(_on_bool_toggled.bind(field, pointer))
+			check.button_pressed = bool(value) if has_display_value else false
+			check.toggled.connect(_on_bool_toggled.bind(field, pointer, value, has_display_value))
 			field.add_child(check)
 		"LineEdit":
 			_add_field_title(field, property_name)
 			var edit := LineEdit.new()
 			edit.name = "Input"
-			edit.text = str(value)
-			edit.focus_exited.connect(_on_string_focus_exited.bind(field, pointer, edit))
+			edit.text = str(value) if has_display_value else ""
+			edit.focus_exited.connect(_on_string_focus_exited.bind(field, pointer, edit, value, has_display_value))
 			field.add_child(edit)
 		"Vector2", "RGBA":
 			_add_field_title(field, property_name)
-			_add_number_array(field, pointer, resolved, value)
+			_add_number_array(field, pointer, resolved, value, has_display_value)
 		"Object":
 			_add_field_title(field, property_name)
 			var group := VBoxContainer.new()
@@ -159,7 +164,7 @@ func _visible_property_names(schema: Dictionary, value: Dictionary) -> Array:
 	return names
 
 
-func _add_number_array(field: SchemaField, pointer: String, schema: Dictionary, value: Variant) -> void:
+func _add_number_array(field: SchemaField, pointer: String, schema: Dictionary, value: Variant, has_display_value: bool) -> void:
 	var row := HBoxContainer.new()
 	row.name = "Input"
 	field.add_child(row)
@@ -170,22 +175,26 @@ func _add_number_array(field: SchemaField, pointer: String, schema: Dictionary, 
 	var source_values: Array = value if value is Array else []
 	var components: Array[SpinBox] = []
 	for index in count:
-		var component_value: Variant = source_values[index] if index < source_values.size() else _initial_value(item_schema)
-		var component := _number_input(item_schema, component_value)
+		var component_has_value := has_display_value and index < source_values.size()
+		var component_value: Variant = source_values[index] if component_has_value else null
+		var component := _number_input(item_schema, component_value, component_has_value)
 		component.name = labels[index]
 		row.add_child(component)
 		components.append(component)
 	for component in components:
-		component.get_line_edit().focus_exited.connect(_on_array_focus_exited.bind(field, pointer, components))
+		component.get_line_edit().focus_exited.connect(_on_array_focus_exited.bind(field, pointer, components, value, has_display_value))
 
 
-func _number_input(schema: Dictionary, value: Variant) -> SpinBox:
+func _number_input(schema: Dictionary, value: Variant, has_display_value: bool) -> SpinBox:
 	var spin := SpinBox.new()
 	spin.min_value = float(schema["minimum"]) if schema.has("minimum") else -INF
 	spin.max_value = float(schema["maximum"]) if schema.has("maximum") else INF
 	spin.step = 1.0 if schema.get("type") == "integer" else 0.001
 	spin.tooltip_text = "Minimum: %s\nMaximum: %s" % [str(schema["minimum"]) if schema.has("minimum") else "unbounded", str(schema["maximum"]) if schema.has("maximum") else "unbounded"]
-	spin.value = float(value) if value is int or value is float else float(schema.get("minimum", 0.0))
+	if has_display_value and (value is int or value is float):
+		spin.value = float(value)
+	if not has_display_value:
+		spin.get_line_edit().text = ""
 	return spin
 
 
@@ -196,22 +205,6 @@ func _initial_value(schema: Dictionary) -> Variant:
 	var resolved: Dictionary = resolved_result.value
 	if resolved.has("default"):
 		return _duplicate_value(resolved["default"])
-	if resolved.get("enum") is Array and not resolved["enum"].is_empty():
-		return _duplicate_value(resolved["enum"][0])
-	match resolved.get("type"):
-		"number", "integer":
-			return resolved.get("minimum", 0)
-		"boolean":
-			return false
-		"string":
-			return ""
-		"object":
-			return {}
-		"array":
-			var values: Array = []
-			for _index in int(resolved.get("minItems", 0)):
-				values.append(_initial_value(resolved.get("items", {})))
-			return values
 	return null
 
 
@@ -248,27 +241,46 @@ func _add_diagnostic_label(field: SchemaField, message: String) -> void:
 	field.add_child(diagnostic)
 
 
-func _on_enum_selected(index: int, field: SchemaField, pointer: String, select: OptionButton) -> void:
-	if index >= 0:
-		field.field_committed.emit(pointer, select.get_item_text(index))
-
-
-func _on_number_focus_exited(field: SchemaField, pointer: String, spin: SpinBox, is_integer: bool) -> void:
-	field.field_committed.emit(pointer, int(spin.value) if is_integer else spin.value)
-
-
-func _on_bool_toggled(value: bool, field: SchemaField, pointer: String) -> void:
+func _on_enum_selected(index: int, field: SchemaField, pointer: String, select: OptionButton, initial_value: Variant, has_initial_value: bool) -> void:
+	if index < 0:
+		return
+	var value := select.get_item_text(index)
+	if has_initial_value and value == str(initial_value):
+		return
 	field.field_committed.emit(pointer, value)
 
 
-func _on_string_focus_exited(field: SchemaField, pointer: String, edit: LineEdit) -> void:
+func _on_number_focus_exited(field: SchemaField, pointer: String, spin: SpinBox, is_integer: bool, initial_value: Variant, has_initial_value: bool) -> void:
+	if not has_initial_value and spin.get_line_edit().text.strip_edges().is_empty():
+		return
+	var value: Variant = int(spin.value) if is_integer else spin.value
+	if has_initial_value and value == initial_value:
+		return
+	field.field_committed.emit(pointer, value)
+
+
+func _on_bool_toggled(value: bool, field: SchemaField, pointer: String, initial_value: Variant, has_initial_value: bool) -> void:
+	if has_initial_value and value == initial_value:
+		return
+	field.field_committed.emit(pointer, value)
+
+
+func _on_string_focus_exited(field: SchemaField, pointer: String, edit: LineEdit, initial_value: Variant, has_initial_value: bool) -> void:
+	if (not has_initial_value and edit.text.is_empty()) or (has_initial_value and edit.text == str(initial_value)):
+		return
 	field.field_committed.emit(pointer, edit.text)
 
 
-func _on_array_focus_exited(field: SchemaField, pointer: String, components: Array[SpinBox]) -> void:
+func _on_array_focus_exited(field: SchemaField, pointer: String, components: Array[SpinBox], initial_value: Variant, has_initial_value: bool) -> void:
+	if not has_initial_value:
+		for component in components:
+			if component.get_line_edit().text.strip_edges().is_empty():
+				return
 	var values: Array = []
 	for component in components:
 		values.append(component.value)
+	if has_initial_value and values == initial_value:
+		return
 	field.field_committed.emit(pointer, values)
 
 

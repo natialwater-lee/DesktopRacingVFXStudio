@@ -240,7 +240,9 @@ func _on_space_mode_selected(index: int) -> void:
 
 func _on_type_selected(index: int) -> void:
 	if index >= 0 and _type.get_item_text(index) != _layer.get("type"):
-		layer_type_change_requested.emit(_type.get_item_text(index))
+		var target_type := _type.get_item_text(index)
+		_select_text(_type, str(_layer.get("type", "")))
+		layer_type_change_requested.emit(target_type)
 
 
 func _on_parameter_field_committed(json_pointer_suffix: String, value: Variant) -> void:
