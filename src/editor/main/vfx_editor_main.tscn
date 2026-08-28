@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
+
+[node name="VfxEditorMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="Toolbar" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 40.0
+
+[node name="NewButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "New"
+
+[node name="OpenButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "Open"
+
+[node name="SaveButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "Save"
+
+[node name="SaveAsButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "Save As"
+
+[node name="UndoButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "Undo"
+
+[node name="RedoButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "Redo"
+
+[node name="ValidateButton" type="Button" parent="Toolbar"]
+layout_mode = 2
+text = "Validate"
+
+[node name="DirtyIndicator" type="Label" parent="Toolbar"]
+layout_mode = 2
+text = ""
+
+[node name="LibraryPanel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 260.0
+offset_bottom = 620.0
+
+[node name="PhaseTabs" type="TabContainer" parent="."]
+layout_mode = 0
+offset_left = 268.0
+offset_top = 48.0
+offset_right = 760.0
+offset_bottom = 180.0
+
+[node name="LayerStack" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 268.0
+offset_top = 188.0
+offset_right = 760.0
+offset_bottom = 620.0
+
+[node name="InspectorPanel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 768.0
+offset_top = 48.0
+offset_right = 1152.0
+offset_bottom = 620.0
+
+[node name="DiagnosticsPanel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_top = 628.0
+offset_right = 1152.0
+offset_bottom = 800.0
+
+[node name="PresetFileDialog" type="FileDialog" parent="."]
+layout_mode = 0
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+layout_mode = 0
