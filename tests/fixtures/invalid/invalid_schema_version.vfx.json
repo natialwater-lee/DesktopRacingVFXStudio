@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "preset_id": "finish.invalid_schema_version",
+  "display_name": "Invalid Schema Version",
+  "category": "FINISH",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "WORLD_AREA",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.3,
+      "layers": [{
+        "id": "one_shot.core_glow",
+        "type": "GLOW",
+        "importance": "CORE",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "WORLD",
+        "parameters": { "radius": 12.0, "opacity": 0.8 }
+      }]
+    }
+  }
+}

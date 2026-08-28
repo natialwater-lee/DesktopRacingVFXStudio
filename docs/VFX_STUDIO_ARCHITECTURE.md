@@ -115,3 +115,16 @@ No dependency on `C:\GodotProjects\DesktopIdleRacing` is created.
 - `VfxPresetPipeline`: orchestrates the services in the documented order.
 
 Structured `VfxIssue` diagnostics distinguish file I/O, JSON parse, Schema configuration, normalization, and preset validation failures. JSON parse diagnostics use only API-provided line information; unavailable columns use `-1`. Contract diagnostics use JSON Pointer paths and do not invent source positions.
+
+## Phase 0 verification
+
+`tests/run_contract_tests.gd` executes the small dependency-free contract suite. It covers JSON Variants, Schema configuration, Schema subset validation, non-mutating normalization, semantic rules, Pipeline composition, valid examples, focused invalid fixtures, and deterministic normalized serialization.
+
+Use a Godot 4.7.1 stable console executable for short checks:
+
+```powershell
+& '<godot-4.7.1-console.exe>' --headless --path '<DesktopRacingVFXStudio>' --script res://tests/run_contract_tests.gd
+& '<godot-4.7.1-console.exe>' --headless --path '<DesktopRacingVFXStudio>' --editor --quit
+```
+
+The approved examples are `presets/examples/talent.zero_zone.vfx.json` and `presets/examples/finish.confetti_world.vfx.json`. They demonstrate contract data only; they are not renderer output or exported game resources.

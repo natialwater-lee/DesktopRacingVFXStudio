@@ -176,3 +176,9 @@ Array item contracts use the Schema `items` keyword. It is required to validate 
 ## Reference support
 
 Only local `#/$defs/...` references are valid. The Registry rejects external references, missing local references, and reference cycles before a Preset is processed.
+
+## Checked Phase 0 examples
+
+`presets/examples/talent.zero_zone.vfx.json` is a `START_LOOP_END` Race Talent combining start Glow/Ring, loop Glow/Ring/continuous energy-shard Particle, and an end burst Particle. All Layers inherit `VEHICLE_LOCAL` and explicitly use the `CENTER` Anchor.
+
+`presets/examples/finish.confetti_world.vfx.json` is a `ONE_SHOT` Finish effect with a World-area burst Particle and no vehicle Anchor. The logical references in these examples intentionally do not require a Godot texture or `.tres` resource in Phase 0.

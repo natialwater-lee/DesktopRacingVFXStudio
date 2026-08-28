@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "preset_id": "finish.invalid_continuous_particle",
+  "display_name": "Invalid Continuous Particle",
+  "category": "FINISH",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "WORLD_AREA",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.3,
+      "layers": [{
+        "id": "one_shot.continuous_particle",
+        "type": "PARTICLE",
+        "importance": "DETAIL",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "WORLD",
+        "parameters": {
+          "emission_mode": "CONTINUOUS",
+          "emitter": { "shape": "POINT" },
+          "sprite_asset_ref": "fx.energy_shard",
+          "lifetime_seconds": 0.3
+        }
+      }]
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "preset_id": "talent.zero_zone",
+  "display_name": "Zero Zone",
+  "category": "RACE_TALENT",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": [
+    "intensity"
+  ],
+  "phases": {
+    "start": {
+      "duration_seconds": 0.12,
+      "layers": [
+        {
+          "id": "start.deploy_glow",
+          "type": "GLOW",
+          "importance": "CORE",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": [
+            "CENTER"
+          ],
+          "parameters": {
+            "radius": 12.0,
+            "opacity": 0.9
+          }
+        },
+        {
+          "id": "start.expand_ring",
+          "type": "RING",
+          "importance": "DETAIL",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": [
+            "CENTER"
+          ],
+          "parameters": {
+            "radius_start": 4.0,
+            "radius_end": 20.0,
+            "width": 1.5,
+            "duration_seconds": 0.12
+          }
+        }
+      ]
+    },
+    "loop": {
+      "layers": [
+        {
+          "id": "loop.core_glow",
+          "type": "GLOW",
+          "importance": "CORE",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": [
+            "CENTER"
+          ],
+          "parameters": {
+            "radius": 15.0,
+            "opacity": 0.72,
+            "pulse_hz": 1.5
+          }
+        },
+        {
+          "id": "loop.zone_ring",
+          "type": "RING",
+          "importance": "DETAIL",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": [
+            "CENTER"
+          ],
+          "parameters": {
+            "radius_start": 17.0,
+            "radius_end": 17.0,
+            "width": 1.0,
+            "duration_seconds": 0.5,
+            "repeat_interval_seconds": 0.5
+          }
+        },
+        {
+          "id": "loop.energy_shards",
+          "type": "PARTICLE",
+          "importance": "DETAIL",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": [
+            "CENTER"
+          ],
+          "parameters": {
+            "emission_mode": "CONTINUOUS",
+            "emitter": {
+              "shape": "CIRCLE",
+              "radius": 10.0
+            },
+            "sprite_asset_ref": "fx.energy_shard",
+            "emission_rate_per_second": 12.0,
+            "max_particles": 8,
+            "lifetime_seconds": 0.48,
+            "direction_degrees": 270.0,
+            "spread_degrees": 40.0,
+            "speed_min": 6.0,
+            "speed_max": 12.0,
+            "size_start": 0.8,
+            "size_end": 0.2
+          }
+        }
+      ]
+    },
+    "end": {
+      "duration_seconds": 0.2,
+      "layers": [
+        {
+          "id": "end.fade_sparks",
+          "type": "PARTICLE",
+          "importance": "EXTRA",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": [
+            "CENTER"
+          ],
+          "parameters": {
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "CIRCLE",
+              "radius": 8.0
+            },
+            "sprite_asset_ref": "fx.energy_shard",
+            "burst_count": 6,
+            "lifetime_seconds": 0.28,
+            "spread_degrees": 360.0,
+            "speed_min": 8.0,
+            "speed_max": 18.0,
+            "size_start": 0.7,
+            "size_end": 0.1
+          }
+        }
+      ]
+    }
+  }
+}

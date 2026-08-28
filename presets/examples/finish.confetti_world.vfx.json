@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "preset_id": "finish.confetti_world",
+  "display_name": "Finish Confetti World",
+  "category": "FINISH",
+  "lifecycle": {
+    "mode": "ONE_SHOT"
+  },
+  "default_space_mode": "WORLD_AREA",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.8,
+      "layers": [
+        {
+          "id": "one_shot.confetti_burst",
+          "type": "PARTICLE",
+          "importance": "DETAIL",
+          "blend_mode": "ALPHA",
+          "render_plane": "WORLD",
+          "parameters": {
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                36.0,
+                12.0
+              ]
+            },
+            "sprite_asset_ref": "fx.confetti_square",
+            "burst_count": 24,
+            "lifetime_seconds": 0.8,
+            "direction_degrees": 270.0,
+            "spread_degrees": 80.0,
+            "speed_min": 14.0,
+            "speed_max": 30.0,
+            "acceleration": [
+              0.0,
+              36.0
+            ],
+            "angular_velocity_min_degrees_per_second": -180.0,
+            "angular_velocity_max_degrees_per_second": 180.0,
+            "size_start": 0.7,
+            "size_end": 0.7
+          }
+        }
+      ]
+    }
+  }
+}

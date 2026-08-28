@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "preset_id": "talent.invalid_render_plane",
+  "display_name": "Invalid Render Plane",
+  "category": "RACE_TALENT",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.3,
+      "layers": [{
+        "id": "one_shot.core_glow",
+        "type": "GLOW",
+        "importance": "CORE",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "WORLD",
+        "anchors": ["CENTER"],
+        "parameters": { "radius": 12.0, "opacity": 0.8 }
+      }]
+    }
+  }
+}

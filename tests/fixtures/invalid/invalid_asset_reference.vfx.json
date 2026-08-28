@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "preset_id": "finish.invalid_asset_reference",
+  "display_name": "Invalid Asset Reference",
+  "category": "FINISH",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "WORLD_AREA",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.3,
+      "layers": [{
+        "id": "one_shot.burst_particle",
+        "type": "PARTICLE",
+        "importance": "DETAIL",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "WORLD",
+        "parameters": {
+          "emission_mode": "BURST",
+          "emitter": { "shape": "POINT" },
+          "sprite_asset_ref": "C:\\absolute\\path",
+          "burst_count": 4,
+          "lifetime_seconds": 0.3
+        }
+      }]
+    }
+  }
+}

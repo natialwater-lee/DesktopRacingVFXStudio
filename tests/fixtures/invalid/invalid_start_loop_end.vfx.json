@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "preset_id": "talent.invalid_start_loop_end",
+  "display_name": "Invalid Start Loop End",
+  "category": "RACE_TALENT",
+  "lifecycle": { "mode": "START_LOOP_END" },
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": [],
+  "phases": {
+    "start": { "duration_seconds": 0.1, "layers": [] },
+    "loop": {
+      "layers": [{
+        "id": "loop.core_glow",
+        "type": "GLOW",
+        "importance": "CORE",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "UNDER_VEHICLE",
+        "anchors": ["CENTER"],
+        "parameters": { "radius": 12.0, "opacity": 0.8 }
+      }]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "preset_id": "talent.vehicle_without_anchor",
+  "display_name": "Vehicle Without Anchor",
+  "category": "RACE_TALENT",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.3,
+      "layers": [{
+        "id": "one_shot.core_glow",
+        "type": "GLOW",
+        "importance": "CORE",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "UNDER_VEHICLE",
+        "parameters": { "radius": 12.0, "opacity": 0.8 }
+      }]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "preset_id": "finish.world_with_anchor",
+  "display_name": "World With Anchor",
+  "category": "FINISH",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "WORLD_AREA",
+  "runtime_inputs": [],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 0.3,
+      "layers": [{
+        "id": "one_shot.core_glow",
+        "type": "GLOW",
+        "importance": "CORE",
+        "blend_mode": "ADDITIVE",
+        "render_plane": "WORLD",
+        "anchors": ["CENTER"],
+        "parameters": { "radius": 12.0, "opacity": 0.8 }
+      }]
+    }
+  }
+}
