@@ -7,6 +7,10 @@ signal layer_type_change_requested(target_type: String)
 
 const INHERIT_DEFAULT := "INHERIT_DEFAULT"
 const VfxSchemaInspectorFactoryModel := preload("res://src/editor/inspector/vfx_schema_inspector_factory.gd")
+const VfxAnchorEditorModel := preload("res://src/editor/inspector/vfx_anchor_editor.gd")
+
+signal anchors_committed(anchors: Array)
+signal anchors_cleared()
 
 var _reader: VfxSchemaReader
 var _layer: Dictionary = {}
@@ -26,6 +30,7 @@ var _scale_x: SpinBox
 var _scale_y: SpinBox
 var _parameter_fields: VBoxContainer
 var _schema_inspector_factory: RefCounted
+var _anchor_editor
 
 
 func set_schema_reader(reader: VfxSchemaReader) -> void:
@@ -34,6 +39,8 @@ func set_schema_reader(reader: VfxSchemaReader) -> void:
 	var layer_result := _reader.layer_schema()
 	_layer_schema = layer_result.value if layer_result.success else {}
 	_ensure_controls()
+	if _anchor_editor != null:
+		_anchor_editor.set_schema(_reader.root_schema())
 	_refresh_controls()
 
 
@@ -41,6 +48,11 @@ func set_layer(layer: Dictionary) -> void:
 	_layer = layer.duplicate(true)
 	_ensure_controls()
 	_refresh_controls()
+
+
+func set_effective_space(effective_space: String) -> void:
+	if _anchor_editor != null:
+		_anchor_editor.set_effective_space(effective_space)
 
 
 func apply_space_override(layer: Dictionary, mode_or_inherit: String) -> Dictionary:
@@ -103,6 +115,12 @@ func _ensure_controls() -> void:
 		_type.add_item(str(layer_type))
 	_type.item_selected.connect(_on_type_selected)
 	add_child(_type)
+	_add_label("Anchors")
+	_anchor_editor = VfxAnchorEditorModel.new()
+	_anchor_editor.name = "Anchors"
+	_anchor_editor.anchors_committed.connect(func(anchors: Array) -> void: anchors_committed.emit(anchors))
+	_anchor_editor.anchors_cleared.connect(func() -> void: anchors_cleared.emit())
+	add_child(_anchor_editor)
 	_append_transform_controls()
 	_add_label("Parameters")
 	_parameter_fields = VBoxContainer.new()
@@ -154,6 +172,7 @@ func _refresh_controls() -> void:
 	_enabled.button_pressed = bool(_layer.get("enabled", _reader.default_value(_property("enabled").value)))
 	_select_text(_space_mode, str(_layer.get("space_mode", "INHERIT DEFAULT")))
 	_select_text(_type, str(_layer.get("type", "")))
+	_anchor_editor.set_selected_anchors(_layer.get("anchors", []))
 	var default_transform: Dictionary = _reader.default_value(_property("transform").value)
 	var transform: Dictionary = _layer.get("transform", default_transform)
 	var offset: Array = transform.get("offset", [])

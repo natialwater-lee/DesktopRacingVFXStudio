@@ -183,12 +183,18 @@ func configure_inspectors(preset_inspector: VfxPresetInspector, layer_inspector:
 		_preset_inspector.preset_field_commit.connect(_on_preset_field_commit)
 	if not _preset_inspector.lifecycle_change_requested.is_connected(_on_lifecycle_change_requested):
 		_preset_inspector.lifecycle_change_requested.connect(_on_lifecycle_change_requested)
+	if not _preset_inspector.runtime_inputs_committed.is_connected(_on_runtime_inputs_committed):
+		_preset_inspector.runtime_inputs_committed.connect(_on_runtime_inputs_committed)
 	if not _layer_inspector.layer_field_commit.is_connected(_on_layer_field_commit):
 		_layer_inspector.layer_field_commit.connect(_on_layer_field_commit)
 	if not _layer_inspector.space_override_changed.is_connected(_on_space_override_changed):
 		_layer_inspector.space_override_changed.connect(_on_space_override_changed)
 	if not _layer_inspector.layer_type_change_requested.is_connected(_on_layer_type_change_requested):
 		_layer_inspector.layer_type_change_requested.connect(_on_layer_type_change_requested)
+	if not _layer_inspector.anchors_committed.is_connected(_on_anchors_committed):
+		_layer_inspector.anchors_committed.connect(_on_anchors_committed)
+	if not _layer_inspector.anchors_cleared.is_connected(_on_anchors_cleared):
+		_layer_inspector.anchors_cleared.connect(_on_anchors_cleared)
 	_refresh_workspace()
 
 
@@ -241,6 +247,20 @@ func commit_preset_field(json_pointer: String, value: Variant) -> bool:
 	return _commit_workspace_change("Edit Preset Field", _replace_json_pointer(_session.working_copy(), json_pointer, _duplicate_value(value)))
 
 
+func commit_runtime_inputs(inputs: Array[String]) -> bool:
+	var declared_inputs: Variant = _registry.schema().get("x_vfx_runtime_inputs", {})
+	if not declared_inputs is Dictionary:
+		return false
+	var requested: Dictionary = {}
+	for input_name in inputs:
+		requested[input_name] = true
+	var ordered: Array[String] = []
+	for input_name in declared_inputs:
+		if requested.has(input_name):
+			ordered.append(input_name)
+	return commit_preset_field("/runtime_inputs", ordered)
+
+
 func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
 	if json_pointer.begins_with("/parameters/"):
 		return commit_selected_layer_parameter(json_pointer.trim_prefix("/parameters"), value)
@@ -272,6 +292,30 @@ func commit_selected_layer_parameter(json_pointer_suffix: String, value: Variant
 	return _commit_workspace_change("Edit Layer Parameter", next)
 
 
+func commit_selected_layer_anchors(anchors: Array) -> bool:
+	var anchor_rule := _rule_named(_registry.schema(), "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")
+	var anchors_field: String = anchor_rule.get("anchors_field", "")
+	if anchors_field.is_empty():
+		return false
+	return commit_selected_layer_field("/%s" % _escape_pointer_segment(anchors_field), anchors)
+
+
+func clear_selected_layer_anchors() -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if _selected_phase.is_empty() or index < 0:
+		return false
+	var anchor_rule := _rule_named(_registry.schema(), "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")
+	var anchors_field: String = anchor_rule.get("anchors_field", "")
+	if anchors_field.is_empty():
+		return false
+	var next := _session.working_copy()
+	var layer: Dictionary = next["phases"][_selected_phase]["layers"][index]
+	if not layer.has(anchors_field):
+		return false
+	layer.erase(anchors_field)
+	return _commit_workspace_change("Clear Layer Anchors", next)
+
+
 func set_selected_layer_space_override(mode_or_inherit: String) -> bool:
 	var index := _selected_layer_index(_selected_layer_id)
 	if _selected_phase.is_empty() or index < 0:
@@ -282,6 +326,7 @@ func set_selected_layer_space_override(mode_or_inherit: String) -> bool:
 		layer.erase("space_mode")
 	else:
 		layer["space_mode"] = mode_or_inherit
+	_apply_effective_space_common_fields(layer)
 	return _commit_workspace_change("Set Layer Space Override", next)
 
 
@@ -448,12 +493,24 @@ func _on_lifecycle_change_requested(target_mode: String) -> void:
 	change_lifecycle(target_mode)
 
 
+func _on_runtime_inputs_committed(inputs: Array[String]) -> void:
+	commit_runtime_inputs(inputs)
+
+
 func _on_layer_field_commit(json_pointer: String, value: Variant) -> void:
 	commit_selected_layer_field(json_pointer, value)
 
 
 func _on_space_override_changed(mode_or_inherit: String) -> void:
 	set_selected_layer_space_override(mode_or_inherit)
+
+
+func _on_anchors_committed(anchors: Array) -> void:
+	commit_selected_layer_anchors(anchors)
+
+
+func _on_anchors_cleared() -> void:
+	clear_selected_layer_anchors()
 
 
 func _on_layer_type_change_requested(target_type: String) -> void:
@@ -509,7 +566,34 @@ func _refresh_workspace() -> void:
 	if _layer_inspector != null:
 		var index := _selected_layer_index(_selected_layer_id)
 		_layer_inspector.visible = index >= 0
-		_layer_inspector.set_layer(_session.working_copy()["phases"][_selected_phase]["layers"][index] if index >= 0 else {})
+		var layer: Dictionary = _session.working_copy()["phases"][_selected_phase]["layers"][index] if index >= 0 else {}
+		_layer_inspector.set_layer(layer)
+		_layer_inspector.set_effective_space(_effective_space_for_layer(layer))
+
+
+func _apply_effective_space_common_fields(layer: Dictionary) -> void:
+	var root_schema := _registry.schema()
+	var anchor_rule := _rule_named(root_schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")
+	var render_rule := _rule_named(root_schema, "RENDER_PLANE_FOR_EFFECTIVE_SPACE")
+	if anchor_rule.is_empty() or render_rule.is_empty():
+		return
+	var effective_space := _effective_space_for_layer(layer)
+	var anchors_field: String = anchor_rule.get("anchors_field", "")
+	if not anchor_rule.get("vehicle_space_modes", []).has(effective_space) and not anchors_field.is_empty():
+		layer.erase(anchors_field)
+	var render_plane_field: String = render_rule.get("render_plane_field", "")
+	var allowed_planes: Variant = render_rule.get("allowed_planes_by_space", {}).get(effective_space, [])
+	if not render_plane_field.is_empty() and allowed_planes is Array and not allowed_planes.is_empty():
+		layer[render_plane_field] = allowed_planes[0]
+
+
+func _effective_space_for_layer(layer: Dictionary) -> String:
+	var render_rule := _rule_named(_registry.schema(), "RENDER_PLANE_FOR_EFFECTIVE_SPACE")
+	var default_space_field: String = render_rule.get("default_space_field", "")
+	var layer_space_field: String = render_rule.get("layer_space_field", "")
+	if layer_space_field.is_empty() or default_space_field.is_empty():
+		return ""
+	return str(layer.get(layer_space_field, _session.working_copy().get(default_space_field, "")))
 
 
 func _replace_json_pointer(source: Dictionary, pointer: String, value: Variant) -> Dictionary:

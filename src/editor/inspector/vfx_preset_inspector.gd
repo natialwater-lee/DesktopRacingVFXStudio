@@ -11,11 +11,18 @@ var _display_name: LineEdit
 var _category: OptionButton
 var _lifecycle: OptionButton
 var _default_space: OptionButton
+var _runtime_inputs_editor
+
+const VfxRuntimeInputsEditorModel := preload("res://src/editor/inspector/vfx_runtime_inputs_editor.gd")
+
+signal runtime_inputs_committed(inputs: Array[String])
 
 
 func set_schema_reader(reader: VfxSchemaReader) -> void:
 	_reader = reader
 	_ensure_controls()
+	if _runtime_inputs_editor != null:
+		_runtime_inputs_editor.set_schema(_reader.root_schema())
 	_refresh_controls()
 
 
@@ -45,6 +52,11 @@ func _ensure_controls() -> void:
 	_lifecycle = _add_enum_control("Lifecycle", mode_schema, "", true)
 	_add_label("Default Space")
 	_default_space = _add_enum_control("DefaultSpace", _reader.property_schema(_reader.root_schema(), "default_space_mode"), "/default_space_mode")
+	_add_label("Runtime Inputs")
+	_runtime_inputs_editor = VfxRuntimeInputsEditorModel.new()
+	_runtime_inputs_editor.name = "RuntimeInputs"
+	_runtime_inputs_editor.runtime_inputs_committed.connect(func(inputs: Array[String]) -> void: runtime_inputs_committed.emit(inputs))
+	add_child(_runtime_inputs_editor)
 
 
 func _refresh_controls() -> void:
@@ -56,6 +68,7 @@ func _refresh_controls() -> void:
 	var lifecycle: Dictionary = _preset.get("lifecycle", {})
 	_select_text(_lifecycle, str(lifecycle.get("mode", "")))
 	_select_text(_default_space, str(_preset.get("default_space_mode", "")))
+	_runtime_inputs_editor.set_selected_inputs(_preset.get("runtime_inputs", []))
 
 
 func _add_label(text_value: String) -> void:
