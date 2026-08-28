@@ -18,6 +18,11 @@ text = "VEHICLE PREVIEW"
 [node name="DisplayRow" type="HBoxContainer" parent="PreviewControls"]
 layout_mode = 2
 
+[node name="ProfileSelect" type="OptionButton" parent="PreviewControls/DisplayRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Vehicle Anchor Profile"
+
 [node name="BackgroundSelect" type="OptionButton" parent="PreviewControls/DisplayRow"]
 layout_mode = 2
 tooltip_text = "Preview Background"

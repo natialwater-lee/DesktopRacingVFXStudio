@@ -22,6 +22,7 @@ static func run(tests: TestAssert) -> void:
 		if loaded.success:
 			tests.expect_true(loaded.value.data().get("category") == expected_categories[path], "%s keeps its official Category" % expected_categories[path])
 			tests.expect_true(loaded.value.data().get("anchors", {}).size() == 14, "%s Profile maps every Schema v1 vehicle Anchor" % expected_categories[path])
+	tests.expect_true(repository.list_profile_paths().size() == 4, "Profile repository enumerates exactly the four supported Studio vehicle Categories")
 
 	var formula: VfxResult = repository.load_profile("res://profiles/vehicles/formula.vehicle_profile.json")
 	if not formula.success:

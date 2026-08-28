@@ -37,6 +37,22 @@ func save_profile(path: String, profile: Dictionary) -> VfxResult:
 	return VfxResult.with_issues(VfxVehicleProfileDocumentModel.new(path, profile), issues)
 
 
+func list_profile_paths(root_path: String = "res://profiles/vehicles") -> Array[String]:
+	var paths: Array[String] = []
+	var directory := DirAccess.open(root_path)
+	if directory == null:
+		return paths
+	directory.list_dir_begin()
+	var file_name := directory.get_next()
+	while not file_name.is_empty():
+		if not directory.current_is_dir() and file_name.ends_with(".vehicle_profile.json"):
+			paths.append("%s/%s" % [root_path.trim_suffix("/"), file_name])
+		file_name = directory.get_next()
+	directory.list_dir_end()
+	paths.sort()
+	return paths
+
+
 func preflight_profile(profile: Dictionary, source_path: String = "") -> Array[VfxIssue]:
 	var issues: Array[VfxIssue] = []
 	var reference_value: Variant = profile.get("reference_image")

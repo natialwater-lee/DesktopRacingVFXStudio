@@ -10,9 +10,9 @@ Shipped: a Layer Stack-oriented editor around the frozen contract with authoring
 
 ## Phase 2: preview and real-size readability
 
-Add a top-down miniature vehicle preview, 100% game-size inspection, multi-anchor visualization, and LOD visibility review. This phase emphasizes whether CORE layers remain recognizable at the actual vehicle size instead of only at zoomed inspection size.
+Shipped: a Studio-owned top-down miniature vehicle Preview with 200%/400% Edit Canvas, scroll-safe authoring, and an always 100% Game Canvas for actual-size readability. It supports static, rotate, and simple source-local motion; multi-anchor highlights; vehicle-local offset ghosts; and separate empty FutureVfxHost transform boundaries for the later renderer. The Game Canvas deliberately suppresses Anchor labels and edit controls so a roughly 20 to 24 by 41 to 49 pixel vehicle remains readable.
 
-Phase 2 also introduces editable, storable Vehicle Anchor Profiles for the `Formula`, `Sports`, `GT`, and `Hyper` vehicle categories. A Profile maps the Schema v1 vehicle Anchors such as CENTER, FRONT, REAR, TIRE, and WING to positions on the actual vehicle Sprite for that category. It is preview authoring data, not a Schema v1 or Phase 0 feature.
+Phase 2 also ships editable, storable Vehicle Anchor Profiles for exactly `FORMULA`, `SPORTS`, `GT`, and `HYPER`. Each Profile maps Schema v1 vehicle Anchors such as CENTER, FRONT, REAR, TIRE, and WING to its Studio-owned reference Sprite. Profile data is independent from Preset editing and is not a Schema v1 or game-runtime resource. Phase 2 adds no VFX rendering, LOD evaluator, or game-repository dependency.
 
 ## Phase 3: focused 2D Layer rendering
 

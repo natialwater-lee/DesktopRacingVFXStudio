@@ -6,7 +6,7 @@ DesktopRacingVFXStudio is an independent Godot 4.7.1 stable project for authorin
 
 The Studio owns how an effect looks. The game owns when an effect is created, which vehicle or world position receives it, gameplay targeting, and the lifetime of a START_LOOP_END loop.
 
-Phase 0 establishes the project foundation and data contract. Phase 1 adds a contract-backed Layer Stack authoring surface for `.vfx.json` Presets. Neither phase includes a Particle Renderer, preview rendering, an export pipeline, generated assets, or changes to the Desktop Idle Racing project.
+Phase 0 establishes the project foundation and data contract. Phase 1 adds a contract-backed Layer Stack authoring surface for `.vfx.json` Presets. Phase 2 adds Studio-owned Vehicle Anchor Profiles and a miniature readability Preview. These phases do not include a Particle Renderer, an export pipeline, generated game assets, or changes to the Desktop Idle Racing project.
 
 ## Source of truth and boundaries
 
@@ -28,6 +28,26 @@ The normal flow is:
   -> usable VfxPresetDocument
   -> deterministic normalized pretty JSON
 ```
+
+## Studio and game repository isolation
+
+The permanent integration direction is one-way:
+
+```text
+DesktopRacingVFXStudio
+  -> VFX Export Package
+  -> DesktopIdleRacing importer/runtime
+```
+
+The Studio must not read from, modify, format, stage, commit, or use the DesktopIdleRacing repository as an output directory. It owns authoring source, Studio reference assets, Preview Profiles, and derived export packages only. A DesktopIdleRacing-specific importer/runtime project is responsible for accepting an exported package and for gameplay activation, targets, ownership, and runtime lifecycle.
+
+## Vehicle Preview and Anchor Profiles
+
+Phase 2 adds four editable Studio-owned vehicle Profile categories: `FORMULA`, `SPORTS`, `GT`, and `HYPER`. Each strict Profile JSON maps every Schema v1 vehicle Anchor to unscaled source-local pixels of its 256 by 512 reference PNG; it is separate from Preset `.vfx.json` data and from game runtime resources.
+
+The Preview always keeps its Game Canvas at native reference size multiplied only by `base_car_sprite_scale * car_visual_scale * selected_track_scale`. Its Edit Canvas independently uses 200% or 400% zoom with scrolling. Both project the same Profile and Preview-only transform state through their own stage centre and zoom. The Game Canvas is a readability inset, so it suppresses Anchor labels and edit handles; it shows only the vehicle, a tiny selected-Layer Anchor marker, and a Phase 3 insertion boundary.
+
+`VfxEditorController` owns Preset selection. It sends only a resolved immutable `VfxPreviewLayerContext`—Layer id, effective Space, declared Anchors, local transform offset, and render plane—to the Preview. Preview code never reads or modifies Preset JSON. Each Edit and Game Canvas exposes a separate empty `FutureVfxHost` with the vehicle's source-local transform; these are coordinate boundaries for Phase 3, not a renderer, particle hierarchy, pool, shader, or lifecycle implementation.
 
 The codec never assumes decoded JSON is a `Dictionary`. A valid JSON array, string, or number reaches validation and receives a `PRESET_VALIDATION` error at `/type`.
 
@@ -96,9 +116,8 @@ At actual game size, CORE layers must preserve effect identity before DETAIL or 
 
 Phase 1 implements `editor/` as a Godot `Control` application that composes one authoring-path policy, Contract Pipeline, loaded Schema Registry, mutable edit session/history, schema-aware factories, Library, valid-only save service, diagnostics navigator, and Layer Stack controls through `VfxEditorController`. It writes only validated `.vfx.json` documents under `res://presets/`; an empty new Skeleton is deliberately in-memory only until it passes the existing Contract rules.
 
-The following boundaries remain intentionally reserved after Phase 1:
+The following boundaries remain intentionally reserved after Phase 2:
 
-- `preview/`: real-size vehicle readability checks.
 - `rendering/`: Layer renderers and cleanup behavior.
 - `performance/`: Analyzer and LOD application.
 - `export/`: derived Godot resources and game-facing manifests.

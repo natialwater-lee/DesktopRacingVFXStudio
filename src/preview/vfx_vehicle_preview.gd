@@ -3,9 +3,12 @@ extends VBoxContainer
 
 const VfxPreviewSharedStateModel := preload("res://src/preview/vfx_preview_shared_state.gd")
 const VfxVehiclePreviewCanvasModel := preload("res://src/preview/vfx_vehicle_preview_canvas.gd")
+const VfxVehicleProfileEditSessionModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_edit_session.gd")
 
 var _shared_state: RefCounted = VfxPreviewSharedStateModel.new()
 var _profile_session: RefCounted
+var _profile_repository: RefCounted
+var _profile_documents_by_path: Dictionary = {}
 var _edit_zoom := 2.0
 
 
@@ -46,6 +49,24 @@ func set_profile_edit_session(profile_session: RefCounted) -> void:
 	if _profile_session != null:
 		_shared_state.set_profile_data(_profile_session.working_copy())
 	_rebuild_anchor_controls()
+
+
+func set_profile_repository(profile_repository: RefCounted) -> void:
+	_profile_repository = profile_repository
+
+
+func set_profile_documents(profile_documents: Array) -> void:
+	_profile_documents_by_path = {}
+	for document in profile_documents:
+		if document != null and not str(document.source_path).is_empty():
+			_profile_documents_by_path[str(document.source_path)] = document
+	if is_node_ready():
+		_rebuild_profile_select()
+
+
+func set_game_scale_contract(game_scale_contract: Dictionary) -> void:
+	_shared_state.set_game_scale_contract(game_scale_contract)
+	_rebuild_track_scales()
 
 
 func set_layer_context(layer_context: RefCounted) -> void:
@@ -92,6 +113,9 @@ func _configure_canvases() -> void:
 
 
 func _configure_controls() -> void:
+	var profile_select := _profile_select()
+	if profile_select != null and not profile_select.item_selected.is_connected(_on_profile_select_changed):
+		profile_select.item_selected.connect(_on_profile_select_changed)
 	var background_select := get_node_or_null("PreviewControls/DisplayRow/BackgroundSelect") as OptionButton
 	if background_select != null and background_select.item_count == 0:
 		for mode in ["DARK", "LIGHT", "TRACK_GRAY"]:
@@ -129,6 +153,7 @@ func _configure_controls() -> void:
 	if revert_button != null and not revert_button.pressed.is_connected(_on_revert_profile_pressed):
 		revert_button.pressed.connect(_on_revert_profile_pressed)
 	_rebuild_track_scales()
+	_rebuild_profile_select()
 	_rebuild_anchor_controls()
 
 
@@ -165,6 +190,58 @@ func _rebuild_anchor_controls() -> void:
 	var selected_anchor: String = previous if anchors.has(previous) else str(anchors.keys()[0]) if not anchors.is_empty() else ""
 	_select_profile_anchor(selected_anchor)
 	_set_profile_controls_enabled(not selected_anchor.is_empty())
+
+
+func _rebuild_profile_select() -> void:
+	var profile_select := _profile_select()
+	if profile_select == null:
+		return
+	var selected_path: String = _profile_session.source_path() if _profile_session != null else ""
+	profile_select.clear()
+	var paths: Array = _profile_documents_by_path.keys()
+	paths.sort()
+	for profile_path_variant in paths:
+		var profile_path: String = str(profile_path_variant)
+		var document: RefCounted = _profile_documents_by_path[profile_path]
+		var data: Dictionary = document.data()
+		profile_select.add_item("%s (%s)" % [str(data.get("display_name", "Vehicle")), str(data.get("category", ""))])
+		profile_select.set_item_metadata(profile_select.item_count - 1, profile_path)
+	if profile_select.item_count == 0:
+		profile_select.disabled = true
+		return
+	profile_select.disabled = false
+	var target_path: String = selected_path if _profile_documents_by_path.has(selected_path) else str(profile_select.get_item_metadata(0))
+	_select_profile_path(target_path)
+
+
+func _on_profile_select_changed(index: int) -> void:
+	var profile_select := _profile_select()
+	if profile_select != null:
+		_select_profile_path(str(profile_select.get_item_metadata(index)))
+
+
+func _select_profile_path(profile_path: String) -> void:
+	if not _profile_documents_by_path.has(profile_path) or _profile_repository == null:
+		return
+	if _profile_session != null and _profile_session.source_path() != profile_path and _profile_session.is_dirty():
+		_select_profile_option(_profile_session.source_path())
+		return
+	if _profile_session == null or _profile_session.source_path() != profile_path:
+		_profile_session = VfxVehicleProfileEditSessionModel.new(_profile_repository)
+		_profile_session.open_document(_profile_documents_by_path[profile_path])
+	_shared_state.set_profile_data(_profile_session.working_copy())
+	_select_profile_option(profile_path)
+	_rebuild_anchor_controls()
+
+
+func _select_profile_option(profile_path: String) -> void:
+	var profile_select := _profile_select()
+	if profile_select == null:
+		return
+	for index in profile_select.item_count:
+		if str(profile_select.get_item_metadata(index)) == profile_path:
+			profile_select.select(index)
+			return
 
 
 func _on_track_scale_changed(index: int) -> void:
@@ -250,6 +327,10 @@ func _set_profile_controls_enabled(enabled: bool) -> void:
 
 func _anchor_select() -> OptionButton:
 	return get_node_or_null("PreviewControls/ProfileEditRow/AnchorSelect") as OptionButton
+
+
+func _profile_select() -> OptionButton:
+	return get_node_or_null("PreviewControls/DisplayRow/ProfileSelect") as OptionButton
 
 
 func _anchor_x() -> SpinBox:

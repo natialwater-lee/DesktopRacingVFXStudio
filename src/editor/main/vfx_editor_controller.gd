@@ -24,6 +24,10 @@ const VfxPresetLibraryEntryModel := preload("res://src/editor/library/vfx_preset
 const VfxEditorSaveServiceModel := preload("res://src/editor/persistence/vfx_editor_save_service.gd")
 const VfxNewPresetDialogModel := preload("res://src/editor/dialogs/vfx_new_preset_dialog.gd")
 const VfxDiagnosticsNavigatorModel := preload("res://src/editor/diagnostics/vfx_diagnostics_navigator.gd")
+const VfxVehicleProfileCodecModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_codec.gd")
+const VfxVehicleProfileRepositoryModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_repository.gd")
+const VfxVehicleProfileValidatorModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_validator.gd")
+const VfxPreviewLayerContextResolverModel := preload("res://src/preview/vfx_preview_layer_context_resolver.gd")
 
 var _paths: VfxAuthoringPaths
 var _pipeline: VfxPresetPipeline
@@ -59,6 +63,9 @@ var _pending_structure_kind := ""
 var _pending_structure_target := ""
 var _transition_performed := false
 var _refreshing_workspace := false
+var _preview: Node
+var _preview_context_resolver: RefCounted
+var _vehicle_profile_repository: RefCounted
 
 
 func _init() -> void:
@@ -75,6 +82,8 @@ func _init() -> void:
 	_library = VfxPresetLibraryModel.new(_pipeline, _paths)
 	_save_service = VfxEditorSaveServiceModel.new(_pipeline, codec, _paths)
 	_diagnostics_navigator = VfxDiagnosticsNavigatorModel.new()
+	_preview_context_resolver = VfxPreviewLayerContextResolverModel.new(_registry)
+	_vehicle_profile_repository = VfxVehicleProfileRepositoryModel.new(VfxVehicleProfileCodecModel.new(codec), VfxVehicleProfileValidatorModel.new(_registry))
 
 
 func _notification(what: int) -> void:
@@ -227,6 +236,16 @@ func configure_workspace(phase_tabs, layer_stack) -> void:
 	if not _layer_stack.layer_enabled_requested.is_connected(_on_layer_enabled_requested):
 		_layer_stack.layer_enabled_requested.connect(_on_layer_enabled_requested)
 	reconcile_selection()
+
+
+func configure_preview(preview: Node) -> void:
+	_preview = preview
+	if _preview == null:
+		return
+	_preview.set_profile_repository(_vehicle_profile_repository)
+	_preview.set_profile_documents(_load_preview_profiles())
+	_preview.set_game_scale_contract(_load_preview_game_scale_contract())
+	_refresh_preview()
 
 
 func configure_toolbar(toolbar: HBoxContainer) -> void:
@@ -858,7 +877,30 @@ func _refresh_workspace(refresh_phase_tabs: bool = true) -> void:
 		_layer_inspector.set_layer(layer)
 		_layer_inspector.set_effective_space(_effective_space_for_layer(layer))
 	_refreshing_workspace = false
+	_refresh_preview()
 	_refresh_toolbar()
+
+
+func _refresh_preview() -> void:
+	if _preview == null or _preview_context_resolver == null:
+		return
+	_preview.set_layer_context(_preview_context_resolver.resolve(_session.working_copy(), _selected_phase, _selected_layer_id))
+
+
+func _load_preview_profiles() -> Array:
+	var documents: Array = []
+	if _vehicle_profile_repository == null:
+		return documents
+	for profile_path in _vehicle_profile_repository.list_profile_paths():
+		var loaded: VfxResult = _vehicle_profile_repository.load_profile(profile_path)
+		if loaded.success:
+			documents.append(loaded.value)
+	return documents
+
+
+func _load_preview_game_scale_contract() -> Dictionary:
+	var loaded: VfxResult = VfxPresetCodecModel.new().decode_file("res://profiles/preview/game_display_scale_v1.json")
+	return loaded.value.duplicate(true) if loaded.success and loaded.value is Dictionary else {}
 
 
 func _refresh_library() -> void:
