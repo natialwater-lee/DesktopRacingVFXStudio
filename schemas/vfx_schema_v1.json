@@ -563,7 +563,14 @@
     {
       "name": "LIFECYCLE_PHASE_STRUCTURE",
       "lifecycle_path": "/lifecycle",
-      "phases_path": "/phases"
+      "phases_path": "/phases",
+      "mode_field": "mode",
+      "phase_names_by_mode": {
+        "ONE_SHOT": ["one_shot"],
+        "START_LOOP_END": ["start", "loop", "end"]
+      },
+      "issue_code": "lifecycle_phase_structure",
+      "message": "Lifecycle does not have the required phase stack."
     },
     {
       "name": "PRESET_HAS_LAYER",
@@ -585,14 +592,39 @@
       "name": "PARTICLE_EMISSION_CONFIGURATION",
       "phases_path": "/phases",
       "particle_type": "PARTICLE",
-      "parameters_field": "parameters"
+      "parameters_field": "parameters",
+      "emission_mode_field": "emission_mode",
+      "mode_requirements": {
+        "BURST": {
+          "required_fields": ["burst_count"],
+          "forbidden_fields": ["emission_rate_per_second", "max_particles"],
+          "issue_code": "burst_emission_fields",
+          "message": "BURST particles require burst_count only."
+        },
+        "CONTINUOUS": {
+          "required_fields": ["emission_rate_per_second", "max_particles"],
+          "forbidden_fields": ["burst_count"],
+          "issue_code": "continuous_emission_fields",
+          "message": "CONTINUOUS particles require rate and authoring capacity."
+        }
+      }
     },
     {
       "name": "PARTICLE_EMITTER_SHAPE",
       "phases_path": "/phases",
       "particle_type": "PARTICLE",
       "parameters_field": "parameters",
-      "emitter_field": "emitter"
+      "emitter_field": "emitter",
+      "shape_field": "shape",
+      "geometry_by_shape": {
+        "POINT": [],
+        "CIRCLE": ["radius"],
+        "BOX": ["size"],
+        "CONE": ["angle_degrees", "radius"],
+        "LINE": ["length"]
+      },
+      "issue_code": "emitter_shape_geometry",
+      "message": "Emitter geometry does not match its shape."
     },
     {
       "name": "PARTICLE_MOTION_RANGE_ORDER",
@@ -612,26 +644,44 @@
           "minimum_field": "angular_velocity_min_degrees_per_second",
           "maximum_field": "angular_velocity_max_degrees_per_second"
         }
-      ]
+      ],
+      "issue_code": "motion_range_order",
+      "message": "Particle minimum cannot exceed maximum."
     },
     {
       "name": "RUNTIME_INPUT_NAMES",
       "runtime_inputs_path": "/runtime_inputs",
-      "contract_path": "/x_vfx_runtime_inputs"
+      "contract_path": "/x_vfx_runtime_inputs",
+      "issue_code": "unknown_runtime_input",
+      "message": "Runtime input is not declared by the Schema."
     },
     {
       "name": "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS",
       "phases_path": "/phases",
       "default_space_field": "default_space_mode",
       "layer_space_field": "space_mode",
-      "anchors_field": "anchors"
+      "anchors_field": "anchors",
+      "vehicle_space_modes": ["VEHICLE_LOCAL", "VEHICLE_FOLLOW_WORLD_TRAIL"],
+      "missing_anchor_issue_code": "vehicle_anchor_required",
+      "missing_anchor_message": "Vehicle Space Mode requires one or more Anchors.",
+      "unexpected_anchor_issue_code": "anchor_not_allowed",
+      "unexpected_anchor_message": "World and Screen Space Modes do not accept vehicle Anchors in v1."
     },
     {
       "name": "RENDER_PLANE_FOR_EFFECTIVE_SPACE",
       "phases_path": "/phases",
       "default_space_field": "default_space_mode",
       "layer_space_field": "space_mode",
-      "render_plane_field": "render_plane"
+      "render_plane_field": "render_plane",
+      "layer_schema_ref": "#/$defs/layer",
+      "allowed_planes_by_space": {
+        "VEHICLE_LOCAL": ["UNDER_VEHICLE", "OVER_VEHICLE"],
+        "VEHICLE_FOLLOW_WORLD_TRAIL": ["UNDER_VEHICLE", "OVER_VEHICLE"],
+        "WORLD_AREA": ["WORLD"],
+        "SCREEN_UI": ["SCREEN_UI"]
+      },
+      "issue_code": "render_plane_for_space",
+      "message": "Render plane is not valid for the effective Space Mode."
     }
   ]
 }

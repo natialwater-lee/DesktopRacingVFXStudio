@@ -163,7 +163,7 @@ The supported `x_vfx_rules` are:
 - `EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS`
 - `RENDER_PLANE_FOR_EFFECTIVE_SPACE`
 
-An undeclared rule is never inferred. An unknown declared rule is a `SCHEMA_CONFIGURATION` error.
+An undeclared rule is never inferred. An unknown declared rule is a `SCHEMA_CONFIGURATION` error. The rule configuration also declares the lifecycle-to-phase mapping, Particle emission-mode field requirements, emitter shape-to-geometry mapping, vehicle Space Modes that require Anchors, and allowed render planes per Space Mode. Before it caches the Schema, the Registry verifies each such map covers exactly the referenced Schema enum values and only names declared parameter fields. The GDScript handlers consume those values; they do not keep parallel enum or relationship tables.
 
 ## Strictness and defaults
 
@@ -175,7 +175,7 @@ Array item contracts use the Schema `items` keyword. It is required to validate 
 
 ## Reference support
 
-Only local `#/$defs/...` references are valid. The Registry rejects external references, missing local references, and reference cycles before a Preset is processed.
+Only local `#/$defs/...` references are valid. The Registry rejects external references, missing local references, reference cycles, malformed supported keyword values, and malformed nested rule configuration before a Preset is processed. It also rejects JSON Schema keywords outside the documented v1 subset.
 
 ## Checked Phase 0 examples
 

@@ -49,6 +49,10 @@ static func run(tests: TestAssert) -> void:
 	invalid_one_shot["lifecycle"]["mode"] = "ONE_SHOT"
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_one_shot), "lifecycle_phase_structure"), "ONE_SHOT rejects start-loop-end phases")
 
+	var preset_without_layers := _valid_start_loop_end()
+	preset_without_layers["phases"]["loop"]["layers"] = []
+	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, preset_without_layers), "preset_has_no_layers"), "Preset requires at least one Layer")
+
 	var vehicle_without_anchor := _valid_start_loop_end()
 	vehicle_without_anchor["phases"]["loop"]["layers"][0].erase("anchors")
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, vehicle_without_anchor), "vehicle_anchor_required"), "vehicle Layer requires Anchor")
@@ -71,6 +75,17 @@ static func run(tests: TestAssert) -> void:
 	invalid_emitter["phases"]["one_shot"]["layers"][0]["parameters"]["emitter"] = {"shape": "CIRCLE"}
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_emitter), "emitter_shape_geometry"), "emitter shape requires matching geometry")
 
+	for invalid_emitter_shape in _invalid_emitters_by_shape():
+		var invalid_shape_preset := _particle_preset()
+		invalid_shape_preset["phases"]["one_shot"]["layers"][0]["parameters"]["emitter"] = invalid_emitter_shape
+		tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_shape_preset), "emitter_shape_geometry"), "every configured emitter shape rejects mismatched geometry")
+
+	for range_pair in [["speed_min", "speed_max"], ["rotation_min_degrees", "rotation_max_degrees"], ["angular_velocity_min_degrees_per_second", "angular_velocity_max_degrees_per_second"]]:
+		var invalid_motion_range := _particle_preset()
+		invalid_motion_range["phases"]["one_shot"]["layers"][0]["parameters"][range_pair[0]] = 2.0
+		invalid_motion_range["phases"]["one_shot"]["layers"][0]["parameters"][range_pair[1]] = 1.0
+		tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_motion_range), "motion_range_order"), "every configured motion range enforces minimum before maximum")
+
 	var unknown_runtime_input := _valid_start_loop_end()
 	unknown_runtime_input["runtime_inputs"] = ["not_defined"]
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, unknown_runtime_input), "unknown_runtime_input"), "unknown runtime input is rejected")
@@ -78,6 +93,37 @@ static func run(tests: TestAssert) -> void:
 	var invalid_asset_ref := _particle_preset()
 	invalid_asset_ref["phases"]["one_shot"]["layers"][0]["parameters"]["sprite_asset_ref"] = "C:\\absolute\\path"
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_asset_ref), "pattern"), "logical asset reference rejects paths")
+
+	var configured_schema := root_schema.duplicate(true)
+	var emitter_rule := _rule_by_name(configured_schema, "PARTICLE_EMITTER_SHAPE")
+	emitter_rule["geometry_by_shape"] = {
+		"POINT": [],
+		"CIRCLE": [],
+		"BOX": ["size"],
+		"CONE": ["angle_degrees", "radius"],
+		"LINE": ["length"]
+	}
+	var configured_registry := VfxSchemaRegistryModel.new(VfxPresetCodecModel.new(), VfxRuleCatalogModel.new())
+	var configured_load := configured_registry.load_data(configured_schema, "configured_geometry_schema.json")
+	tests.expect_true(configured_load.success, "Schema accepts declared emitter geometry configuration")
+	if configured_load.success:
+		var configured_normalizer := VfxPresetNormalizerModel.new(configured_registry)
+		var configured_validator := VfxContractValidatorModel.new(configured_registry, VfxSchemaSubsetValidatorModel.new(configured_registry))
+		var circle_without_radius := _particle_preset()
+		circle_without_radius["phases"]["one_shot"]["layers"][0]["parameters"]["emitter"] = {"shape": "CIRCLE"}
+		tests.expect_true(_validate(configured_normalizer, configured_validator, configured_registry.schema(), circle_without_radius).success, "emitter geometry behavior follows Schema rule configuration")
+
+	var lifecycle_configured_schema := root_schema.duplicate(true)
+	_rule_by_name(lifecycle_configured_schema, "LIFECYCLE_PHASE_STRUCTURE")["phase_names_by_mode"]["START_LOOP_END"] = ["start", "loop"]
+	var lifecycle_configured_registry := VfxSchemaRegistryModel.new(VfxPresetCodecModel.new(), VfxRuleCatalogModel.new())
+	var lifecycle_configured_load := lifecycle_configured_registry.load_data(lifecycle_configured_schema, "configured_lifecycle_schema.json")
+	tests.expect_true(lifecycle_configured_load.success, "Schema accepts declared lifecycle phase configuration")
+	if lifecycle_configured_load.success:
+		var lifecycle_normalizer := VfxPresetNormalizerModel.new(lifecycle_configured_registry)
+		var lifecycle_validator := VfxContractValidatorModel.new(lifecycle_configured_registry, VfxSchemaSubsetValidatorModel.new(lifecycle_configured_registry))
+		var configured_start_loop := _valid_start_loop_end()
+		configured_start_loop["phases"].erase("end")
+		tests.expect_true(_validate(lifecycle_normalizer, lifecycle_validator, lifecycle_configured_registry.schema(), configured_start_loop).success, "lifecycle phase behavior follows Schema rule configuration")
 
 
 static func _validate(normalizer: VfxPresetNormalizer, validator: VfxContractValidator, root_schema: Dictionary, preset: Dictionary) -> VfxResult:
@@ -89,6 +135,23 @@ static func _validate(normalizer: VfxPresetNormalizer, validator: VfxContractVal
 
 static func _has_code(result: VfxResult, code: String) -> bool:
 	return result.issues.any(func(issue: VfxIssue) -> bool: return issue.code == code)
+
+
+static func _rule_by_name(schema: Dictionary, rule_name: String) -> Dictionary:
+	for rule in schema["x_vfx_rules"]:
+		if rule["name"] == rule_name:
+			return rule
+	return {}
+
+
+static func _invalid_emitters_by_shape() -> Array[Dictionary]:
+	return [
+		{"shape": "POINT", "radius": 1.0},
+		{"shape": "CIRCLE"},
+		{"shape": "BOX"},
+		{"shape": "CONE", "angle_degrees": 30.0},
+		{"shape": "LINE"}
+	]
 
 
 static func _valid_start_loop_end() -> Dictionary:

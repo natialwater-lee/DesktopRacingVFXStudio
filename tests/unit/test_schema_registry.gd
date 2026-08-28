@@ -40,3 +40,25 @@ static func run(tests: TestAssert) -> void:
 		invalid_default_schema["$defs"]["layer"]["properties"]["enabled"]["default"] = "yes"
 		var invalid_default := registry.load_data(invalid_default_schema, "invalid_default_schema.json")
 		tests.expect_true(not invalid_default.success, "default incompatible with subschema is rejected")
+
+		var malformed_range_rule_schema := registry.schema()
+		_rule_by_name(malformed_range_rule_schema, "PARTICLE_MOTION_RANGE_ORDER")["ranges"] = [{}]
+		var malformed_range_rule := registry.load_data(malformed_range_rule_schema, "malformed_range_rule_schema.json")
+		tests.expect_true(not malformed_range_rule.success, "malformed nested rule configuration is rejected")
+
+		var unsupported_keyword_type_schema := registry.schema()
+		unsupported_keyword_type_schema["properties"]["display_name"] = {"type": "not_a_supported_type"}
+		var unsupported_keyword_type := registry.load_data(unsupported_keyword_type_schema, "unsupported_keyword_type_schema.json")
+		tests.expect_true(not unsupported_keyword_type.success, "unsupported subset keyword type is rejected")
+
+		var incomplete_emitter_mapping_schema := registry.schema()
+		_rule_by_name(incomplete_emitter_mapping_schema, "PARTICLE_EMITTER_SHAPE")["geometry_by_shape"].erase("CIRCLE")
+		var incomplete_emitter_mapping := registry.load_data(incomplete_emitter_mapping_schema, "incomplete_emitter_mapping_schema.json")
+		tests.expect_true(not incomplete_emitter_mapping.success, "rule configuration must cover every declared emitter shape")
+
+
+static func _rule_by_name(schema: Dictionary, rule_name: String) -> Dictionary:
+	for rule in schema["x_vfx_rules"]:
+		if rule["name"] == rule_name:
+			return rule
+	return {}

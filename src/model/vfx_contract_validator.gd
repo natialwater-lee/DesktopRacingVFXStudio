@@ -56,14 +56,19 @@ func _validate_lifecycle_phase_structure(preset: Dictionary, rule: Dictionary, i
 	var phases = _value_at_pointer(preset, rule["phases_path"])
 	if not lifecycle is Dictionary or not phases is Dictionary:
 		return
-	var expected: Array = ["one_shot"] if lifecycle["mode"] == "ONE_SHOT" else ["start", "loop", "end"]
+	var mode_value = lifecycle.get(rule["mode_field"], null)
+	var phase_names_by_mode: Dictionary = rule["phase_names_by_mode"]
+	if not phase_names_by_mode.has(mode_value):
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "lifecycle_mode_configuration", "Lifecycle mode has no configured phase stack.", rule["phases_path"]))
+		return
+	var expected: Array = phase_names_by_mode[mode_value]
 	var actual: Array = phases.keys()
 	if actual.size() != expected.size():
-		issues.append(VfxIssue.new("PRESET_VALIDATION", "lifecycle_phase_structure", "Lifecycle does not have the required phase stack.", rule["phases_path"]))
+		issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], rule["phases_path"]))
 		return
 	for phase_name in expected:
 		if not phases.has(phase_name):
-			issues.append(VfxIssue.new("PRESET_VALIDATION", "lifecycle_phase_structure", "Lifecycle is missing phase %s." % phase_name, rule["phases_path"]))
+			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], "%s Missing phase %s." % [rule["message"], phase_name], rule["phases_path"]))
 			return
 
 
@@ -107,38 +112,44 @@ func _validate_particle_emission(preset: Dictionary, rule: Dictionary, issues: A
 	for entry in _particle_entries(preset, rule):
 		var parameters: Dictionary = entry["layer"][rule["parameters_field"]]
 		var pointer: String = "%s/%s" % [entry["pointer"], rule["parameters_field"]]
-		if parameters["emission_mode"] == "BURST":
-			if not parameters.has("burst_count") or parameters.has("emission_rate_per_second") or parameters.has("max_particles"):
-				issues.append(VfxIssue.new("PRESET_VALIDATION", "burst_emission_fields", "BURST particles require burst_count only.", pointer))
-		elif parameters["emission_mode"] == "CONTINUOUS":
-			if not parameters.has("emission_rate_per_second") or not parameters.has("max_particles") or parameters.has("burst_count"):
-				issues.append(VfxIssue.new("PRESET_VALIDATION", "continuous_emission_fields", "CONTINUOUS particles require rate and authoring capacity.", pointer))
+		var emission_mode = parameters[rule["emission_mode_field"]]
+		var mode_requirements: Dictionary = rule["mode_requirements"]
+		if not mode_requirements.has(emission_mode):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "emission_mode_configuration", "Emission mode has no configured field requirements.", pointer))
+			continue
+		var requirements: Dictionary = mode_requirements[emission_mode]
+		var valid := true
+		for required_field in requirements["required_fields"]:
+			if not parameters.has(required_field):
+				valid = false
+		for forbidden_field in requirements["forbidden_fields"]:
+			if parameters.has(forbidden_field):
+				valid = false
+		if not valid:
+			issues.append(VfxIssue.new("PRESET_VALIDATION", requirements["issue_code"], requirements["message"], pointer))
 
 
 func _validate_particle_emitter(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
-	var required_geometry := {
-		"POINT": [],
-		"CIRCLE": ["radius"],
-		"BOX": ["size"],
-		"CONE": ["angle_degrees", "radius"],
-		"LINE": ["length"]
-	}
 	for entry in _particle_entries(preset, rule):
 		var parameters: Dictionary = entry["layer"][rule["parameters_field"]]
 		var emitter: Dictionary = parameters[rule["emitter_field"]]
-		var shape: String = emitter["shape"]
+		var shape = emitter[rule["shape_field"]]
 		var pointer: String = "%s/%s/%s" % [entry["pointer"], rule["parameters_field"], rule["emitter_field"]]
-		var allowed: Array = ["shape"]
-		allowed.append_array(required_geometry[shape])
+		var geometry_by_shape: Dictionary = rule["geometry_by_shape"]
+		if not geometry_by_shape.has(shape):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "emitter_shape_configuration", "Emitter shape has no configured geometry.", pointer))
+			continue
+		var allowed: Array = [rule["shape_field"]]
+		allowed.append_array(geometry_by_shape[shape])
 		var valid := true
-		for geometry_name in required_geometry[shape]:
+		for geometry_name in geometry_by_shape[shape]:
 			if not emitter.has(geometry_name):
 				valid = false
 		for geometry_name in emitter:
 			if not allowed.has(geometry_name):
 				valid = false
 		if not valid:
-			issues.append(VfxIssue.new("PRESET_VALIDATION", "emitter_shape_geometry", "Emitter geometry does not match its shape.", pointer))
+			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], pointer))
 
 
 func _validate_particle_motion_ranges(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
@@ -148,7 +159,7 @@ func _validate_particle_motion_ranges(preset: Dictionary, rule: Dictionary, issu
 			var minimum_field: String = range_definition["minimum_field"]
 			var maximum_field: String = range_definition["maximum_field"]
 			if parameters[minimum_field] > parameters[maximum_field]:
-				issues.append(VfxIssue.new("PRESET_VALIDATION", "motion_range_order", "Particle minimum cannot exceed maximum.", "%s/%s/%s" % [entry["pointer"], rule["parameters_field"], minimum_field]))
+				issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], "%s/%s/%s" % [entry["pointer"], rule["parameters_field"], minimum_field]))
 
 
 func _validate_runtime_inputs(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
@@ -161,35 +172,33 @@ func _validate_runtime_inputs(preset: Dictionary, rule: Dictionary, issues: Arra
 		return
 	for index in inputs.size():
 		if not contract.has(inputs[index]):
-			issues.append(VfxIssue.new("PRESET_VALIDATION", "unknown_runtime_input", "Runtime input is not declared by the Schema.", "%s/%d" % [rule["runtime_inputs_path"], index]))
+			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], "%s/%d" % [rule["runtime_inputs_path"], index]))
 
 
 func _validate_effective_space_anchors(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
 	var default_space: String = preset[rule["default_space_field"]]
+	var vehicle_space_modes: Array = rule["vehicle_space_modes"]
 	for entry in _layer_entries(preset, rule["phases_path"]):
 		var layer: Dictionary = entry["layer"]
 		var effective_space: String = layer.get(rule["layer_space_field"], default_space)
 		var has_anchors := layer.has(rule["anchors_field"])
-		if effective_space == "VEHICLE_LOCAL" or effective_space == "VEHICLE_FOLLOW_WORLD_TRAIL":
+		if vehicle_space_modes.has(effective_space):
 			if not has_anchors or (layer[rule["anchors_field"]] as Array).is_empty():
-				issues.append(VfxIssue.new("PRESET_VALIDATION", "vehicle_anchor_required", "Vehicle Space Mode requires one or more Anchors.", entry["pointer"]))
+				issues.append(VfxIssue.new("PRESET_VALIDATION", rule["missing_anchor_issue_code"], rule["missing_anchor_message"], entry["pointer"]))
 		elif has_anchors:
-			issues.append(VfxIssue.new("PRESET_VALIDATION", "anchor_not_allowed", "World and Screen Space Modes do not accept vehicle Anchors in v1.", "%s/%s" % [entry["pointer"], rule["anchors_field"]]))
+			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["unexpected_anchor_issue_code"], rule["unexpected_anchor_message"], "%s/%s" % [entry["pointer"], rule["anchors_field"]]))
 
 
 func _validate_render_plane(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
-	var allowed_planes := {
-		"VEHICLE_LOCAL": ["UNDER_VEHICLE", "OVER_VEHICLE"],
-		"VEHICLE_FOLLOW_WORLD_TRAIL": ["UNDER_VEHICLE", "OVER_VEHICLE"],
-		"WORLD_AREA": ["WORLD"],
-		"SCREEN_UI": ["SCREEN_UI"]
-	}
 	var default_space: String = preset[rule["default_space_field"]]
+	var allowed_planes_by_space: Dictionary = rule["allowed_planes_by_space"]
 	for entry in _layer_entries(preset, rule["phases_path"]):
 		var layer: Dictionary = entry["layer"]
 		var effective_space: String = layer.get(rule["layer_space_field"], default_space)
-		if not allowed_planes[effective_space].has(layer[rule["render_plane_field"]]):
-			issues.append(VfxIssue.new("PRESET_VALIDATION", "render_plane_for_space", "Render plane is not valid for the effective Space Mode.", "%s/%s" % [entry["pointer"], rule["render_plane_field"]]))
+		if not allowed_planes_by_space.has(effective_space):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "render_plane_configuration", "Space Mode has no configured render planes.", entry["pointer"]))
+		elif not allowed_planes_by_space[effective_space].has(layer[rule["render_plane_field"]]):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], "%s/%s" % [entry["pointer"], rule["render_plane_field"]]))
 
 
 func _particle_entries(preset: Dictionary, rule: Dictionary) -> Array[Dictionary]:

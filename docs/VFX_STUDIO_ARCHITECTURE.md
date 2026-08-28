@@ -35,7 +35,7 @@ The codec never assumes decoded JSON is a `Dictionary`. A valid JSON array, stri
 
 `schemas/vfx_schema_v1.json` is the only declarative source for VFX field names, enums, required fields, defaults, ranges, strict object properties, Layer Type parameter schemas, supported runtime input names, and rule configuration.
 
-GDScript must not duplicate Schema enums, field lists, ranges, or defaults. It reads them through `VfxSchemaRegistry`. Code necessarily contains the small algorithms for the explicitly declared `x_vfx_rules`; the Schema selects which rules run and supplies their configuration.
+GDScript must not duplicate Schema enums, field lists, ranges, defaults, or semantic value relationships. It reads them through `VfxSchemaRegistry`. Code necessarily contains the small algorithms for the explicitly declared `x_vfx_rules`; the Schema selects which rules run and supplies their configuration, including lifecycle-to-phase mappings, particle mode field requirements, emitter shape geometry, vehicle-space anchor modes, and allowed render planes.
 
 Only the JSON Schema subset used by v1 is implemented:
 
@@ -44,7 +44,7 @@ Only the JSON Schema subset used by v1 is implemented:
 - `items`, `additionalProperties`, `pattern`
 - local `$defs` and local `$ref`
 
-`$ref` supports only `#/$defs/...` references in the loaded Schema. External files, URLs, other Schema documents, unresolved references, and reference cycles are Schema configuration errors.
+`$ref` supports only `#/$defs/...` references in the loaded Schema. External files, URLs, other Schema documents, unresolved references, reference cycles, malformed subset keyword values, and malformed nested rule configuration are Schema configuration errors. Before caching, the Registry also cross-checks rule maps against their declared Schema enums and referenced parameter fields. No malformed or incomplete Schema is cached.
 
 No generic JSON Schema engine, `oneOf` processor, expression evaluator, dynamic code executor, Shader Graph, or Timeline editor is part of this project foundation.
 
