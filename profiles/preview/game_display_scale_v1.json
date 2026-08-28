@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "base_car_sprite_scale": [0.38, 0.38],
+  "car_visual_scale": 0.25,
+  "track_scales": [1.0, 0.95, 0.9, 0.85]
+}

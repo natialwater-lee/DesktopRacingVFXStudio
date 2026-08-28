@@ -1,0 +1,26 @@
+{
+  "profile_version": 1,
+  "profile_id": "hyper",
+  "display_name": "Hyper",
+  "category": "HYPER",
+  "reference_image": {
+    "path": "res://assets/reference/vehicles/hyper_reference.png",
+    "expected_source_size_px": [256, 512]
+  },
+  "anchors": {
+    "CENTER": [0, 0],
+    "FRONT": [0, -224],
+    "REAR_CENTER": [0, 220],
+    "REAR_LEFT": [-52, 210],
+    "REAR_RIGHT": [52, 210],
+    "LEFT_SIDE": [-90, 0],
+    "RIGHT_SIDE": [90, 0],
+    "TIRE_FL": [-88, -126],
+    "TIRE_FR": [88, -126],
+    "TIRE_RL": [-90, 140],
+    "TIRE_RR": [90, 140],
+    "EQUIPMENT_CENTER": [0, 4],
+    "WING_LEFT": [-76, 210],
+    "WING_RIGHT": [76, 210]
+  }
+}

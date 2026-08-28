@@ -1,0 +1,26 @@
+{
+  "profile_version": 1,
+  "profile_id": "formula",
+  "display_name": "Formula",
+  "category": "FORMULA",
+  "reference_image": {
+    "path": "res://assets/reference/vehicles/formula_reference.png",
+    "expected_source_size_px": [256, 512]
+  },
+  "anchors": {
+    "CENTER": [0, 0],
+    "FRONT": [0, -226],
+    "REAR_CENTER": [0, 224],
+    "REAR_LEFT": [-58, 214],
+    "REAR_RIGHT": [58, 214],
+    "LEFT_SIDE": [-96, 0],
+    "RIGHT_SIDE": [96, 0],
+    "TIRE_FL": [-102, -126],
+    "TIRE_FR": [102, -126],
+    "TIRE_RL": [-102, 142],
+    "TIRE_RR": [102, 142],
+    "EQUIPMENT_CENTER": [0, 18],
+    "WING_LEFT": [-86, 216],
+    "WING_RIGHT": [86, 216]
+  }
+}

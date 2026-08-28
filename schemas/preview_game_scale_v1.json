@@ -1,0 +1,38 @@
+{
+  "schema_id": "preview_game_scale_v1",
+  "type": "object",
+  "required": [
+    "version",
+    "base_car_sprite_scale",
+    "car_visual_scale",
+    "track_scales"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "enum": [1]
+    },
+    "base_car_sprite_scale": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "number",
+        "minimum": 0.000001
+      }
+    },
+    "car_visual_scale": {
+      "type": "number",
+      "minimum": 0.000001
+    },
+    "track_scales": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number",
+        "minimum": 0.000001
+      }
+    }
+  }
+}
