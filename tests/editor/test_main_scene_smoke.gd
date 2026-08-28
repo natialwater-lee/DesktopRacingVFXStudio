@@ -132,24 +132,28 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(start_duration != null and editor.get_node_or_null("PhaseTabs/Loop/DurationSeconds") == null, "only Schema-timed phases expose duration controls")
 	if start_duration != null:
 		tests.expect_true(is_equal_approx(start_duration.min_value, 0.001) and start_duration.max_value > 250.0, "duration SpinBox derives its unbounded numeric range from the resolved Schema")
-		start_duration.grab_focus()
+		var duration_line_edit := start_duration.get_line_edit()
+		duration_line_edit.grab_focus()
 		start_duration.value = 0.5
 		start_duration.value = 0.75
 		tests.expect_true(not is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration edits do not snapshot or rebuild while the SpinBox value changes")
-		start_duration.emit_signal("focus_exited")
-		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration focus exit commits one controller mutation")
+		var duration_focus_target := editor.get_node("Toolbar/ValidateButton") as Button
+		duration_focus_target.grab_focus()
+		tests.expect_true(editor.get_viewport().gui_get_focus_owner() == duration_focus_target and is_instance_valid(start_duration), "real LineEdit focus transfer commits without rebuilding the active Phase tabs")
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "real LineEdit focus exit commits one controller mutation")
 		editor.editor_controller.undo()
 		tests.expect_true(not is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration commit is restored by Undo")
-		tests.expect_true(not editor.editor_controller.can_undo(), "multiple value changes before focus exit create one duration history action")
+		tests.expect_true(not editor.editor_controller.can_undo(), "SpinBox and LineEdit focus exits create one duration history action")
 		editor.editor_controller.redo()
 		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration commit reapplies through Redo")
 		start_duration = editor.get_node_or_null("PhaseTabs/Start/DurationSeconds") as SpinBox
-		start_duration.grab_focus()
+		duration_line_edit = start_duration.get_line_edit()
+		duration_line_edit.grab_focus()
 		start_duration.value = 250.0
-		start_duration.get_line_edit().emit_signal("text_submitted", "250")
+		duration_line_edit.emit_signal("text_submitted", "250")
 		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 250.0), "duration Enter commit accepts values above the old implicit maximum")
 		tests.expect_true(start_duration.has_focus() or start_duration.get_line_edit().has_focus(), "duration Enter commit preserves an editing focus target")
-		start_duration.emit_signal("focus_exited")
+		duration_focus_target.grab_focus()
 		editor.editor_controller.undo()
 		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration duplicate suppression keeps Enter and focus exit as one action")
 

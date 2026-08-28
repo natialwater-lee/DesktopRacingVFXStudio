@@ -7,6 +7,7 @@ signal duration_commit_requested(phase_name: String, duration_seconds: float)
 var _phase_names: Array[String] = []
 var _duration_schemas: Dictionary = {}
 var _duration_edit_start: Dictionary = {}
+var _duration_last_committed: Dictionary = {}
 var _phase_data: Dictionary = {}
 var _selected_phase_name := ""
 
@@ -18,6 +19,8 @@ func _ready() -> void:
 
 func set_preset(preset: Dictionary) -> void:
 	_phase_data = preset.get("phases", {}).duplicate(true) if preset.get("phases") is Dictionary else {}
+	_duration_edit_start.clear()
+	_duration_last_committed.clear()
 	_phase_names.clear()
 	for phase_name_variant in _phase_data:
 		_phase_names.append(str(phase_name_variant))
@@ -76,7 +79,10 @@ func _rebuild_tabs() -> void:
 			duration.value = float(_phase_data[phase_name].get("duration_seconds", 0.0))
 			duration.focus_entered.connect(_on_duration_focus_entered.bind(phase_name, duration))
 			duration.focus_exited.connect(_on_duration_focus_exited.bind(phase_name, duration))
-			duration.get_line_edit().text_submitted.connect(_on_duration_submitted.bind(phase_name, duration))
+			var duration_line_edit := duration.get_line_edit()
+			duration_line_edit.focus_entered.connect(_on_duration_focus_entered.bind(phase_name, duration))
+			duration_line_edit.focus_exited.connect(_on_duration_focus_exited.bind(phase_name, duration))
+			duration_line_edit.text_submitted.connect(_on_duration_submitted.bind(phase_name, duration))
 			phase_page.add_child(duration)
 		add_child(phase_page)
 
@@ -98,7 +104,8 @@ func _on_tab_changed(index: int) -> void:
 
 
 func _on_duration_focus_entered(phase_name: String, duration: SpinBox) -> void:
-	_duration_edit_start[phase_name] = duration.value
+	if not _duration_edit_start.has(phase_name):
+		_duration_edit_start[phase_name] = duration.value
 
 
 func _on_duration_focus_exited(phase_name: String, duration: SpinBox) -> void:
@@ -115,7 +122,10 @@ func _commit_duration_if_changed(phase_name: String, duration: SpinBox) -> void:
 	if not phase_has_duration(phase_name):
 		return
 	var initial := float(_duration_edit_start.get(phase_name, _phase_data.get(phase_name, {}).get("duration_seconds", duration.value)))
+	_duration_edit_start.erase(phase_name)
 	if is_equal_approx(initial, duration.value):
 		return
+	if _duration_last_committed.has(phase_name) and is_equal_approx(float(_duration_last_committed[phase_name]), duration.value):
+		return
 	duration_commit_requested.emit(phase_name, duration.value)
-	_duration_edit_start[phase_name] = duration.value
+	_duration_last_committed[phase_name] = duration.value
