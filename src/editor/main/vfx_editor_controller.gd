@@ -64,9 +64,12 @@ func open_library_entry(entry: RefCounted) -> VfxResult:
 
 
 func open_path(path: String) -> VfxResult:
-	if not _paths.contains_preset_path(path):
+	var normalized := _paths.normalize_authoring_path(path)
+	if not _paths.contains_preset_path(normalized):
 		return _policy_failure("outside_authoring_root", "Preset files must be opened below the configured authoring root.", path)
-	var loaded := _pipeline.load_and_validate(path)
+	if not normalized.ends_with(".vfx.json"):
+		return _policy_failure("invalid_preset_extension", "Preset files must use the .vfx.json extension.", path)
+	var loaded := _pipeline.load_and_validate(normalized)
 	if not loaded.success:
 		_issues = loaded.issues.duplicate()
 		return loaded

@@ -17,6 +17,7 @@ const TEST_DIRECTORY := "res://presets/_phase1_task5_review_20260828"
 const NORMALIZED_DIRECTORY := "%s/normalized" % TEST_DIRECTORY
 const VALID_PATH := "%s/utility.saved.vfx.json" % NORMALIZED_DIRECTORY
 const BACKSLASH_VALID_PATH := "%s\\utility.saved.vfx.json" % NORMALIZED_DIRECTORY
+const CONTAINED_OPEN_PATH := "%s\\nested\\..\\utility.saved.vfx.json" % NORMALIZED_DIRECTORY
 const INVALID_EXTENSION_PATH := "%s/utility.saved.json" % TEST_DIRECTORY
 const TRAVERSAL_PATH := "res://presets/../tests/escaped.vfx.json"
 
@@ -64,6 +65,12 @@ static func run(tests: TestAssert) -> void:
 	var controller := VfxEditorControllerModel.new()
 	var created := controller.create_new_preset("utility.controller_empty", "Controller Empty", "UTILITY", "ONE_SHOT", "WORLD_AREA")
 	tests.expect_true(created.success, "New creates a transient-invalid skeleton in the edit session")
+	var opened := controller.open_path(CONTAINED_OPEN_PATH)
+	tests.expect_true(opened.success and opened.value.source_path == VALID_PATH, "Open canonicalizes a contained dot-segment and backslash path before Pipeline load")
+	var open_traversal := controller.open_path(TRAVERSAL_PATH)
+	tests.expect_true(not open_traversal.success and _has_issue(open_traversal.issues, "outside_authoring_root") and not _has_issue(open_traversal.issues, "read_failed"), "Open rejects traversal before Pipeline file I/O")
+	var open_extension := controller.open_path(INVALID_EXTENSION_PATH)
+	tests.expect_true(not open_extension.success and _has_issue(open_extension.issues, "invalid_preset_extension"), "Open rejects a non-Preset extension before Pipeline file I/O")
 	var controller_traversal := controller.save_as(TRAVERSAL_PATH)
 	tests.expect_true(not controller_traversal.success and _has_issue(controller_traversal.issues, "outside_authoring_root"), "controller Save As rejects traversal before persistence")
 	var controller_extension := controller.save_as(INVALID_EXTENSION_PATH)
