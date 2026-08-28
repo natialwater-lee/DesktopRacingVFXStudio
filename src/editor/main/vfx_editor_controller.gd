@@ -28,6 +28,7 @@ const VfxVehicleProfileCodecModel := preload("res://src/model/vehicle_profiles/v
 const VfxVehicleProfileRepositoryModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_repository.gd")
 const VfxVehicleProfileValidatorModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_validator.gd")
 const VfxPreviewLayerContextResolverModel := preload("res://src/preview/vfx_preview_layer_context_resolver.gd")
+const VfxPreviewRenderPlanBuilderModel := preload("res://src/preview/rendering/vfx_preview_render_plan_builder.gd")
 
 var _paths: VfxAuthoringPaths
 var _pipeline: VfxPresetPipeline
@@ -65,6 +66,9 @@ var _transition_performed := false
 var _refreshing_workspace := false
 var _preview: Node
 var _preview_context_resolver: RefCounted
+var _preview_render_plan_builder: RefCounted
+var _last_preview_normalized_data: Dictionary = {}
+var _has_last_preview_normalized_data := false
 var _vehicle_profile_repository: RefCounted
 
 
@@ -83,6 +87,7 @@ func _init() -> void:
 	_save_service = VfxEditorSaveServiceModel.new(_pipeline, codec, _paths)
 	_diagnostics_navigator = VfxDiagnosticsNavigatorModel.new()
 	_preview_context_resolver = VfxPreviewLayerContextResolverModel.new(_registry)
+	_preview_render_plan_builder = VfxPreviewRenderPlanBuilderModel.new(_registry)
 	_vehicle_profile_repository = VfxVehicleProfileRepositoryModel.new(VfxVehicleProfileCodecModel.new(codec), VfxVehicleProfileValidatorModel.new(_registry))
 
 
@@ -242,6 +247,7 @@ func configure_preview(preview: Node) -> void:
 	_preview = preview
 	if _preview == null:
 		return
+	_preview.set_schema_registry(_registry)
 	_preview.set_profile_repository(_vehicle_profile_repository)
 	_preview.set_profile_documents(_load_preview_profiles())
 	_preview.set_game_scale_contract(_load_preview_game_scale_contract())
@@ -884,7 +890,22 @@ func _refresh_workspace(refresh_phase_tabs: bool = true) -> void:
 func _refresh_preview() -> void:
 	if _preview == null or _preview_context_resolver == null:
 		return
+	_preview.set_preview_phase(_selected_phase)
 	_preview.set_layer_context(_preview_context_resolver.resolve(_session.working_copy(), _selected_phase, _selected_layer_id))
+	var document_result: VfxResult = _pipeline.build_document_from_value(_session.working_copy())
+	if not document_result.success:
+		_preview.set_preview_validation_state(document_result.issues)
+		return
+	var normalized_data: Dictionary = document_result.value.normalized_data
+	if not _has_last_preview_normalized_data or _last_preview_normalized_data != normalized_data:
+		var plan_result: VfxResult = _preview_render_plan_builder.build(normalized_data)
+		if not plan_result.success:
+			_preview.set_preview_validation_state(plan_result.issues)
+			return
+		_preview.apply_render_plan(plan_result.value)
+		_last_preview_normalized_data = normalized_data.duplicate(true)
+		_has_last_preview_normalized_data = true
+	_preview.set_preview_validation_state([])
 
 
 func _load_preview_profiles() -> Array:

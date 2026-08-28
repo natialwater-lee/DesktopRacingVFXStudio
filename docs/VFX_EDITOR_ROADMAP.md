@@ -16,7 +16,9 @@ Phase 2 also ships editable, storable Vehicle Anchor Profiles for exactly `FORMU
 
 ## Phase 3: focused 2D Layer rendering
 
-Implement the approved Particle, Trail, Ring, Glow, and Shield Layer renderers. Resolve Phase activation, effective Space Mode, Layer residual lifetime, blend, transform, render plane, and importance-based LOD. Keep renderer mapping separate from authoring data and avoid a generic VFX runtime.
+Shipped: a Studio-only, valid-Plan-only Canvas preview for Particle, Trail, Ring, Glow, and Shield. It uses a shared fixed-tick playback clock for Edit and Game, deterministic Particle/Trail residuals, Phase-aware Auto/manual playback, declared render-plane/blend routing, and a small Preview asset catalog with a visible missing-asset fallback. A temporary invalid edit keeps the last valid Plan visible and reports a stale validation state instead of sending unvalidated values to a renderer.
+
+Phase 3 keeps the renderer mapping separate from Schema authoring data and retains Layer Importance on immutable Plan specs as the Phase 4 LOD/performance seam. It does not add a generic VFX runtime, game resources, Export, pools, a performance analyzer, LOD UI, Particle gameplay behavior, or a DesktopIdleRacing dependency.
 
 ## Phase 4: performance analysis
 

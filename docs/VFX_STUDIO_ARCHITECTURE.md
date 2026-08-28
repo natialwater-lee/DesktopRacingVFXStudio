@@ -6,7 +6,7 @@ DesktopRacingVFXStudio is an independent Godot 4.7.1 stable project for authorin
 
 The Studio owns how an effect looks. The game owns when an effect is created, which vehicle or world position receives it, gameplay targeting, and the lifetime of a START_LOOP_END loop.
 
-Phase 0 establishes the project foundation and data contract. Phase 1 adds a contract-backed Layer Stack authoring surface for `.vfx.json` Presets. Phase 2 adds Studio-owned Vehicle Anchor Profiles and a miniature readability Preview. These phases do not include a Particle Renderer, an export pipeline, generated game assets, or changes to the Desktop Idle Racing project.
+Phase 0 establishes the project foundation and data contract. Phase 1 adds a contract-backed Layer Stack authoring surface for `.vfx.json` Presets. Phase 2 adds Studio-owned Vehicle Anchor Profiles and a miniature readability Preview. Phase 3 adds a focused Studio-only Canvas preview for the five Schema v1 Layer Types. None of these phases includes an export pipeline, generated game assets, or changes to the Desktop Idle Racing project.
 
 ## Source of truth and boundaries
 
@@ -50,6 +50,42 @@ The Preview always keeps its Game Canvas at native reference size multiplied onl
 `VfxEditorController` owns Preset selection. It sends only a resolved immutable `VfxPreviewLayerContext`—Layer id, effective Space, declared Anchors, local transform offset, and render plane—to the Preview. Preview code never reads or modifies Preset JSON. Each Edit and Game Canvas exposes a separate empty `FutureVfxHost` with the vehicle's source-local transform; these are coordinate boundaries for Phase 3, not a renderer, particle hierarchy, pool, shader, or lifecycle implementation.
 
 The codec never assumes decoded JSON is a `Dictionary`. A valid JSON array, string, or number reaches validation and receives a `PRESET_VALIDATION` error at `/type`.
+
+## Phase 3 Preview Renderer
+
+The Preview accepts only a successful normalized `VfxPresetDocument` through a read-only `VfxPreviewRenderPlan`. The Editor controller builds that Plan after each content change; it does not pass a file path, a raw JSON value, or the mutable edit session to a renderer. Selecting a Layer still changes the independent overlay context but does not rebuild or mutate the active Plan.
+
+If a working edit is temporarily contract-invalid, the last valid Plan remains rendered and the Preview reports `PREVIEW STALE — VALIDATION ERROR`. If no valid Plan has ever been built, all render hosts are cleared. The Preview neither clamps nor repairs invalid Layer data. Preview asset misses are separate non-contract warnings: a valid Plan stays active and the Studio-owned resolver uses a conspicuous magenta fallback.
+
+One fixed-tick `VfxPreviewPlaybackController` drives Phase activation, residual drain, seeded Particle simulation, Trail sampling, and Preview motion. `ONE_SHOT` stops source emission at its declared duration and drains declared renderer residuals. Auto `START_LOOP_END` uses a Preview-only two-second Loop; it is not serialized. Manual playback isolates the selected Phase. Pause freezes both fixed simulation time and vehicle motion; Restart clears every active residual before beginning the selected route.
+
+Canonical packets contain no Control size, DPI, Edit zoom, or Game inset fitting. `VEHICLE_LOCAL` remains source-local beneath `FutureVfxHost`; `VEHICLE_FOLLOW_WORLD_TRAIL` captures transformed world positions once per spawn/sample; `WORLD_AREA` is stage-world data; and `SCREEN_UI` is viewport-pixel data. Edit and Game hosts consume the same canonical packets and apply only their own projection: 200%/400% stage zoom for Edit and exactly 100% for Game.
+
+Canvas ownership is deliberately concrete:
+
+```text
+VfxVehiclePreviewCanvas
+  background draw
+  StageWorldRoot (stage centre and Edit-only zoom)
+    WorldPlaneHost
+    UnderFollowWorldHost
+    FutureVfxHost (vehicle transform)
+      UnderVehicleLocalHost
+      VehicleArtHost
+      OverVehicleLocalHost
+    OverFollowWorldHost
+  OverlayHost
+```
+
+`WORLD`, under-vehicle, vehicle art, over-vehicle, and overlay therefore have observable ordering. The reusable Preview additionally owns per-view Screen UI host boundaries; these are viewport overlays rather than vehicle- or scroll-content descendants. `FutureVfxHost` remains the Phase 2 seam for a later game-facing Renderer architecture, but no game runtime node hierarchy is assumed by Phase 3.
+
+`VfxPreviewRendererFactory` checks its small implementation mapping against Schema `x_vfx_layer_types` at startup. It dispatches `PARTICLE`, `TRAIL`, `RING`, `GLOW`, and `SHIELD` only by Layer Type—never by Preset ID. Particle and Trail use compact deterministic CPU state; Ring and Glow produce direct Canvas geometry; a textured Shield uses a fixed polar-annulus shader adapter with immutable Alpha/Additive variants solely for Schema blend behavior and UV scrolling. There is no Shader Graph or material authoring surface. The renderer respects declared blend mode, transform, render plane, Source lifetime, and Layer order. `importance` remains present in immutable specs as the Phase 4 performance/LOD seam; Phase 3 does not add a LOD control or analyzer.
+
+Preview assets are declared in `assets/preview/vfx_preview_asset_catalog_v1.json` with logical IDs such as `fx.energy_shard` and `fx.trail_streak`. A catalog entry has a deliberately small `source`: `PROCEDURAL` retains the Studio primitive path, while `TEXTURE` resolves only its Studio-owned `texture_path` through `VfxPreviewAssetResolver`. Presets continue to serialize only logical IDs; they never serialize an `res://` texture path, and the catalog never discovers a game repository.
+
+For a Texture Particle, `size_start` and `size_end` retain the procedural Particle half-size meaning. The Texture's longest displayed dimension is `2 × packet.size`; native PNG dimensions provide aspect ratio only. Existing packet geometry scale then applies the declared Layer transform and its effective Space projection, exactly as for a procedural Particle. Canvas modulation multiplies texture RGB/alpha by the declared Particle `color_rgba`; it adds no color correction, automatic glow, or lifetime fade. Missing or invalid texture paths remain Preview-only warnings with a cached magenta fallback, so they do not invalidate a Preset contract.
+
+Studio production art lives under `assets/vfx/`. `fx.energy_shard` resolves `assets/vfx/energy_shard.png` and `fx.energy_spark` resolves `assets/vfx/energy_spark.png`; both remain logical IDs in Zero Zone Preset data. Their 64 by 64 and 32 by 32 native dimensions respectively affect only texture aspect, not the Particle display-size contract. The deliberately non-production `tests/fixtures/preview/texture_particle_test.png` entry remains for `utility.renderer_showcase` and regression coverage. The generic showcase continues to prove ordinary dispatch for all five v1 Layer Types.
 
 ## Contract ownership
 

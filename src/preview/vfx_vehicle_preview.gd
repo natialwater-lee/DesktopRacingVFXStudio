@@ -4,23 +4,42 @@ extends VBoxContainer
 const VfxPreviewSharedStateModel := preload("res://src/preview/vfx_preview_shared_state.gd")
 const VfxVehiclePreviewCanvasModel := preload("res://src/preview/vfx_vehicle_preview_canvas.gd")
 const VfxVehicleProfileEditSessionModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_edit_session.gd")
+const VfxPreviewRendererFactoryModel := preload("res://src/preview/rendering/vfx_preview_renderer_factory.gd")
+const VfxPreviewAssetRegistryModel := preload("res://src/preview/rendering/vfx_preview_asset_registry.gd")
+const VfxPreviewAssetResolverModel := preload("res://src/preview/rendering/vfx_preview_asset_resolver.gd")
+const VfxPreviewRenderRuntimeModel := preload("res://src/preview/rendering/vfx_preview_render_runtime.gd")
+const VfxPreviewPlaybackControllerModel := preload("res://src/preview/rendering/vfx_preview_playback_controller.gd")
+const VfxPreviewCanvasRenderHostModel := preload("res://src/preview/rendering/vfx_preview_canvas_render_host.gd")
 
 var _shared_state: RefCounted = VfxPreviewSharedStateModel.new()
 var _profile_session: RefCounted
 var _profile_repository: RefCounted
 var _profile_documents_by_path: Dictionary = {}
 var _edit_zoom := 2.0
+var _schema_registry: RefCounted
+var _active_render_plan: RefCounted
+var _render_runtime: RefCounted
+var _playback: RefCounted
+var _renderer_factory: RefCounted
+var _asset_resolver: RefCounted
+var _render_hosts: Dictionary = {}
+var _preview_status := "PREVIEW — NO VALID PLAN"
+var _preview_phase := ""
 
 
 func _ready() -> void:
 	_configure_canvases()
 	_configure_controls()
+	_configure_render_hosts()
+	_update_preview_status_label()
+	_rebuild_render_runtime()
 
 
 func set_shared_state(shared_state: RefCounted) -> void:
 	_shared_state = shared_state if shared_state != null else VfxPreviewSharedStateModel.new()
 	_configure_canvases()
 	_rebuild_track_scales()
+	_rebuild_render_runtime()
 
 
 func shared_state() -> RefCounted:
@@ -33,6 +52,7 @@ func set_edit_zoom(edit_zoom: float) -> void:
 		var edit_canvas: Control = _edit_canvas()
 		if edit_canvas != null:
 			edit_canvas.set_view_zoom(_edit_zoom)
+		_rebuild_render_runtime()
 
 
 func edit_zoom() -> float:
@@ -43,6 +63,7 @@ func set_profile_data(profile_data: Dictionary) -> void:
 	_shared_state.set_profile_data(profile_data)
 	_rebuild_anchor_controls()
 	_request_edit_scroll_center()
+	_rebuild_render_runtime()
 
 
 func set_profile_edit_session(profile_session: RefCounted) -> void:
@@ -51,6 +72,7 @@ func set_profile_edit_session(profile_session: RefCounted) -> void:
 		_shared_state.set_profile_data(_profile_session.working_copy())
 	_rebuild_anchor_controls()
 	_request_edit_scroll_center()
+	_rebuild_render_runtime()
 
 
 func set_profile_repository(profile_repository: RefCounted) -> void:
@@ -69,6 +91,50 @@ func set_profile_documents(profile_documents: Array) -> void:
 func set_game_scale_contract(game_scale_contract: Dictionary) -> void:
 	_shared_state.set_game_scale_contract(game_scale_contract)
 	_rebuild_track_scales()
+	_rebuild_render_runtime()
+
+
+func set_schema_registry(schema_registry: RefCounted) -> void:
+	_schema_registry = schema_registry
+	_rebuild_render_runtime()
+
+
+func set_preview_phase(phase_name: String) -> void:
+	_preview_phase = phase_name
+	if _playback != null and not _auto_playback_enabled():
+		_playback.set_manual_phase(_preview_phase)
+		_present_render_packets()
+
+
+func apply_render_plan(render_plan: RefCounted) -> void:
+	if render_plan == null:
+		return
+	_active_render_plan = render_plan
+	_preview_status = "PREVIEW READY"
+	_rebuild_render_runtime()
+
+
+func active_render_plan() -> RefCounted:
+	return _active_render_plan
+
+
+func set_preview_validation_state(issues: Array) -> void:
+	var has_error := false
+	for issue in issues:
+		if issue is VfxIssue and issue.severity != "WARNING":
+			has_error = true
+			break
+	if has_error:
+		_preview_status = "PREVIEW STALE — VALIDATION ERROR" if _active_render_plan != null else "PREVIEW — VALIDATION ERROR"
+		if _active_render_plan == null:
+			_clear_render_hosts()
+	else:
+		_preview_status = "PREVIEW READY" if _active_render_plan != null else "PREVIEW — NO VALID PLAN"
+	_update_preview_status_label()
+
+
+func preview_status_text() -> String:
+	return _preview_status
 
 
 func set_layer_context(layer_context: RefCounted) -> void:
@@ -82,7 +148,16 @@ func set_layer_context(layer_context: RefCounted) -> void:
 func _process(delta: float) -> void:
 	if _shared_state == null:
 		return
-	var next_time: float = float(_shared_state.motion_time()) + delta
+	if _playback != null and _playback.is_advancing():
+		_playback.advance(delta, _frame_context())
+		_apply_motion_at_time(_playback.simulation_time())
+		_present_render_packets()
+	elif _playback == null:
+		_apply_motion_at_time(float(_shared_state.motion_time()) + delta)
+	_layout_screen_ui_hosts()
+
+
+func _apply_motion_at_time(next_time: float) -> void:
 	match _shared_state.motion_mode():
 		"ROTATE":
 			_shared_state.set_motion("ROTATE", next_time, Vector2.ZERO, fmod(next_time * 45.0, 360.0))
@@ -90,6 +165,149 @@ func _process(delta: float) -> void:
 			_shared_state.set_motion("SIMPLE_MOTION", next_time, Vector2(sin(next_time * 0.9) * 160.0, 0.0), 0.0)
 		_:
 			_shared_state.set_motion("STATIC", next_time, Vector2.ZERO, 0.0)
+
+
+func _frame_context() -> Dictionary:
+	var scale_result: VfxResult = _shared_state.effective_game_scale()
+	var scale: Vector2 = scale_result.value if scale_result.success else Vector2.ONE
+	return {
+		"vehicle_translation_source": _shared_state.vehicle_translation_source(),
+		"vehicle_rotation_degrees": _shared_state.vehicle_rotation_degrees(),
+		"effective_game_scale": scale
+	}
+
+
+func _configure_render_hosts() -> void:
+	if not is_node_ready():
+		return
+	for canvas_name in ["EDIT", "GAME"]:
+		var canvas: Control = _edit_canvas() if canvas_name == "EDIT" else _game_canvas()
+		if canvas == null:
+			continue
+		_ensure_screen_ui_host(canvas_name, canvas)
+	_layout_screen_ui_hosts()
+
+
+func _ensure_screen_ui_host(canvas_name: String, canvas: Control) -> Node2D:
+	var key := "%s:SCREEN_UI" % canvas_name
+	var existing := _render_hosts.get(key) as Node2D
+	if existing != null:
+		return existing
+	var parent: Node = canvas
+	if canvas_name == "EDIT":
+		parent = get_node_or_null("PreviewSurface")
+	var screen_host := Node2D.new()
+	screen_host.name = "%sScreenUiPlaneHost" % canvas_name.capitalize()
+	screen_host.z_index = 100
+	parent.add_child(screen_host)
+	_render_hosts[key] = screen_host
+	return screen_host
+
+
+func _layout_screen_ui_hosts() -> void:
+	for canvas_name in ["EDIT", "GAME"]:
+		var canvas: Control = _edit_canvas() if canvas_name == "EDIT" else _game_canvas()
+		var screen_host := _render_hosts.get("%s:SCREEN_UI" % canvas_name) as Node2D
+		if canvas == null or screen_host == null:
+			continue
+		if canvas_name == "EDIT":
+			var scroll := canvas.get_parent() as ScrollContainer
+			screen_host.position = scroll.position + scroll.size * 0.5 if scroll != null else canvas.position + canvas.size * 0.5
+		else:
+			screen_host.position = canvas.position + canvas.size * 0.5
+
+
+func _rebuild_render_runtime() -> void:
+	if not is_node_ready():
+		return
+	_clear_render_hosts()
+	_render_runtime = null
+	_playback = null
+	if _active_render_plan == null or _schema_registry == null:
+		_update_preview_status_label()
+		return
+	_renderer_factory = VfxPreviewRendererFactoryModel.new()
+	var configuration: VfxResult = _renderer_factory.validate_configuration(_schema_registry)
+	if not configuration.success:
+		_preview_status = "PREVIEW — CONFIGURATION ERROR"
+		_update_preview_status_label()
+		return
+	_asset_resolver = VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new())
+	_render_runtime = VfxPreviewRenderRuntimeModel.new(_active_render_plan, _shared_state.profile_data(), _schema_registry, _renderer_factory, _asset_resolver)
+	_playback = VfxPreviewPlaybackControllerModel.new(_active_render_plan, _render_runtime)
+	_playback.set_auto_playback(_auto_playback_enabled())
+	if not _auto_playback_enabled():
+		_playback.set_manual_phase(_preview_phase)
+	_playback.restart(_frame_context())
+	if not _render_runtime.issues().is_empty():
+		_preview_status = "PREVIEW WARNING — ASSET FALLBACK"
+	_update_preview_status_label()
+	_present_render_packets()
+
+
+func _present_render_packets() -> void:
+	if _render_runtime == null:
+		return
+	var packets: Array = _render_runtime.draw_packets()
+	var routed: Dictionary = {}
+	for packet in packets:
+		if not packet is Dictionary:
+			continue
+		for canvas_name in ["EDIT", "GAME"]:
+			var host: Variant = _render_host_for_packet(canvas_name, packet)
+			if host == null:
+				continue
+			var key := str(host.get_instance_id())
+			if not routed.has(key):
+				routed[key] = {"host": host, "packets": []}
+			routed[key]["packets"].append(packet)
+	for host_entry in _render_hosts.values():
+		if host_entry is Node and host_entry.has_method("clear_packets"):
+			host_entry.clear_packets()
+	for route in routed.values():
+		var host: Variant = route["host"]
+		host.apply_packets(route["packets"])
+
+
+func _render_host_for_packet(canvas_name: String, packet: Dictionary) -> Node2D:
+	var render_plane := str(packet.get("render_plane", ""))
+	var effective_space := str(packet.get("space", ""))
+	var parent: Node2D
+	if render_plane == "SCREEN_UI":
+		parent = _ensure_screen_ui_host(canvas_name, _edit_canvas() if canvas_name == "EDIT" else _game_canvas())
+	else:
+		var canvas: VfxVehiclePreviewCanvas = _edit_canvas() if canvas_name == "EDIT" else _game_canvas()
+		parent = canvas.render_plane_host(render_plane, effective_space) if canvas != null else null
+	if parent == null:
+		return null
+	var blend_mode := str(packet.get("blend_mode", "ALPHA"))
+	var key := "%s:%s:%s" % [canvas_name, parent.get_path(), blend_mode]
+	var host := _render_hosts.get(key) as Node2D
+	if host == null:
+		host = VfxPreviewCanvasRenderHostModel.new()
+		host.name = "RenderHost_%s" % blend_mode
+		host.set_blend_mode(blend_mode)
+		parent.add_child(host)
+		_render_hosts[key] = host
+	return host
+
+
+func _clear_render_hosts() -> void:
+	for host in _render_hosts.values():
+		if host is Node and host.has_method("clear_packets"):
+			host.clear_packets()
+
+
+func _auto_playback_enabled() -> bool:
+	var toggle := get_node_or_null("PreviewControls/PlaybackRow/AutoPlayback") as CheckBox
+	return toggle == null or toggle.button_pressed
+
+
+func _update_preview_status_label() -> void:
+	var label := get_node_or_null("PreviewControls/PlaybackRow/PreviewStatus") as Label
+	if label != null:
+		label.text = _preview_status
+		label.tooltip_text = _preview_status
 
 
 func get_future_vfx_host(canvas_name: String) -> Node2D:
@@ -154,9 +372,48 @@ func _configure_controls() -> void:
 	var revert_button := get_node_or_null("PreviewControls/ProfileEditRow/RevertProfile") as Button
 	if revert_button != null and not revert_button.pressed.is_connected(_on_revert_profile_pressed):
 		revert_button.pressed.connect(_on_revert_profile_pressed)
+	var play_button := get_node_or_null("PreviewControls/PlaybackRow/PlayButton") as Button
+	if play_button != null and not play_button.pressed.is_connected(_on_play_preview_pressed):
+		play_button.pressed.connect(_on_play_preview_pressed)
+	var pause_button := get_node_or_null("PreviewControls/PlaybackRow/PauseButton") as Button
+	if pause_button != null and not pause_button.pressed.is_connected(_on_pause_preview_pressed):
+		pause_button.pressed.connect(_on_pause_preview_pressed)
+	var restart_button := get_node_or_null("PreviewControls/PlaybackRow/RestartButton") as Button
+	if restart_button != null and not restart_button.pressed.is_connected(_on_restart_preview_pressed):
+		restart_button.pressed.connect(_on_restart_preview_pressed)
+	var auto_playback := get_node_or_null("PreviewControls/PlaybackRow/AutoPlayback") as CheckBox
+	if auto_playback != null and not auto_playback.toggled.is_connected(_on_auto_playback_toggled):
+		auto_playback.toggled.connect(_on_auto_playback_toggled)
 	_rebuild_track_scales()
 	_rebuild_profile_select()
 	_rebuild_anchor_controls()
+
+
+func _on_play_preview_pressed() -> void:
+	if _playback != null:
+		_playback.play(_frame_context())
+
+
+func _on_pause_preview_pressed() -> void:
+	if _playback != null:
+		_playback.pause()
+
+
+func _on_restart_preview_pressed() -> void:
+	if _playback != null:
+		_playback.restart(_frame_context())
+		_present_render_packets()
+
+
+func _on_auto_playback_toggled(enabled: bool) -> void:
+	if _playback == null:
+		return
+	_playback.set_auto_playback(enabled)
+	if not enabled:
+		_playback.set_manual_phase(_preview_phase)
+	else:
+		_playback.restart(_frame_context())
+	_present_render_packets()
 
 
 func _rebuild_track_scales() -> void:
@@ -235,6 +492,7 @@ func _select_profile_path(profile_path: String) -> void:
 	_select_profile_option(profile_path)
 	_rebuild_anchor_controls()
 	_request_edit_scroll_center()
+	_rebuild_render_runtime()
 
 
 func _select_profile_option(profile_path: String) -> void:
@@ -251,6 +509,7 @@ func _on_track_scale_changed(index: int) -> void:
 	var track_select := get_node_or_null("PreviewControls/DisplayRow/TrackScaleSelect") as OptionButton
 	if track_select != null:
 		_shared_state.set_track_scale(float(track_select.get_item_metadata(index)))
+		_rebuild_render_runtime()
 
 
 func _on_show_anchors_toggled(show_anchors: bool) -> void:
@@ -271,6 +530,7 @@ func _on_canvas_anchor_dragged(anchor_name: String, source_position: Vector2) ->
 	if _profile_session != null and _profile_session.set_anchor(anchor_name, source_position):
 		_shared_state.set_profile_data(_profile_session.working_copy())
 		_select_profile_anchor(anchor_name)
+		_rebuild_render_runtime()
 
 
 func _on_anchor_numeric_changed(_value: float) -> void:
@@ -283,12 +543,14 @@ func _on_anchor_numeric_changed(_value: float) -> void:
 		return
 	if _profile_session.set_anchor(anchor_name, Vector2(anchor_x.value, anchor_y.value)):
 		_shared_state.set_profile_data(_profile_session.working_copy())
+		_rebuild_render_runtime()
 
 
 func _on_save_profile_pressed() -> void:
 	if _profile_session != null:
 		_profile_session.save()
 		_shared_state.set_profile_data(_profile_session.working_copy())
+		_rebuild_render_runtime()
 
 
 func _on_revert_profile_pressed() -> void:
@@ -296,6 +558,7 @@ func _on_revert_profile_pressed() -> void:
 		_profile_session.revert()
 		_shared_state.set_profile_data(_profile_session.working_copy())
 		_rebuild_anchor_controls()
+		_rebuild_render_runtime()
 
 
 func _select_profile_anchor(anchor_name: String) -> void:

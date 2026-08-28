@@ -1,0 +1,22 @@
+{
+  "catalog_version": 1,
+  "assets": {
+    "fx.procedural_particle_test": {
+      "source": "PROCEDURAL",
+      "primitive": "DIAMOND",
+      "size_px": [6, 8],
+      "color_rgba": [0.35, 0.88, 1.0, 1.0]
+    },
+    "fx.texture_particle_test": {
+      "source": "TEXTURE",
+      "texture_path": "res://tests/fixtures/preview/texture_particle_test.png"
+    },
+    "fx.texture_missing_path": {
+      "source": "TEXTURE"
+    },
+    "fx.texture_missing_file": {
+      "source": "TEXTURE",
+      "texture_path": "res://tests/fixtures/preview/not_present.png"
+    }
+  }
+}

@@ -2,6 +2,7 @@ class_name VfxVehiclePreviewCanvas
 extends Control
 
 const VfxPreviewTransformResolverModel := preload("res://src/preview/vfx_preview_transform_resolver.gd")
+const VfxPreviewPlaneHostsModel := preload("res://src/preview/rendering/vfx_preview_plane_hosts.gd")
 const EDIT_CONTENT_PADDING := 24.0
 
 signal anchor_selected(anchor_name: String)
@@ -13,6 +14,7 @@ var _interactive := false
 var _reference_texture: Texture2D
 var _reference_size := Vector2i.ZERO
 var _future_vfx_host: Node2D
+var _plane_hosts: Dictionary = {}
 var _drag_anchor := ""
 var _scroll_center_queued := false
 
@@ -22,6 +24,7 @@ func _ready() -> void:
 	_future_vfx_host = Node2D.new()
 	_future_vfx_host.name = "FutureVfxHost"
 	add_child(_future_vfx_host)
+	_plane_hosts = VfxPreviewPlaneHostsModel.ensure(self, _future_vfx_host)
 	_apply_input_policy()
 	_connect_edit_viewport()
 	_refresh()
@@ -63,6 +66,31 @@ func get_future_vfx_host() -> Node2D:
 	return _future_vfx_host
 
 
+func shared_state() -> RefCounted:
+	return _shared_state
+
+
+func render_plane_host(render_plane: String, effective_space: String) -> Node2D:
+	if effective_space == "VEHICLE_FOLLOW_WORLD_TRAIL":
+		return _plane_hosts.get("under_follow_world") if render_plane == "UNDER_VEHICLE" else _plane_hosts.get("over_follow_world")
+	match render_plane:
+		"UNDER_VEHICLE":
+			return _plane_hosts.get("under_local")
+		"OVER_VEHICLE":
+			return _plane_hosts.get("over_local")
+		"WORLD":
+			return _plane_hosts.get("world")
+	return null
+
+
+func project_anchor_position(anchor_name: String, additional_offset: Vector2 = Vector2.ZERO) -> Variant:
+	return _project_anchor(anchor_name, additional_offset)
+
+
+func layer_anchor_names() -> Array[String]:
+	return _layer_anchor_names()
+
+
 func request_scroll_center() -> void:
 	_request_scroll_center()
 
@@ -75,18 +103,6 @@ func _notification(what: int) -> void:
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), _background_color())
-	if _reference_texture == null or _reference_size == Vector2i.ZERO or _shared_state == null:
-		return
-	var scale_result: VfxResult = _shared_state.effective_game_scale()
-	if not scale_result.success:
-		return
-	var draw_size: Vector2 = VfxPreviewTransformResolverModel.reference_draw_size(_reference_size, scale_result.value, _view_zoom)
-	var draw_center: Vector2 = _vehicle_stage_position(scale_result.value)
-	var draw_transform := Transform2D(deg_to_rad(_shared_state.vehicle_rotation_degrees()), draw_center)
-	draw_set_transform_matrix(draw_transform)
-	draw_texture_rect(_reference_texture, Rect2(-draw_size * 0.5, draw_size), false)
-	draw_set_transform_matrix(Transform2D.IDENTITY)
-	_draw_anchor_overlay(scale_result.value)
 
 
 func resolved_layer_anchor_positions() -> Array[Vector2]:
@@ -166,6 +182,9 @@ func _refresh() -> void:
 	_load_reference_texture()
 	_update_future_vfx_host()
 	_update_edit_content_size()
+	var overlay: Node = _plane_hosts.get("overlay")
+	if overlay != null and overlay.has_method("refresh"):
+		overlay.refresh()
 	queue_redraw()
 
 
@@ -193,9 +212,16 @@ func _update_future_vfx_host() -> void:
 	var scale_result: VfxResult = _shared_state.effective_game_scale()
 	if not scale_result.success:
 		return
-	_future_vfx_host.position = _vehicle_stage_position(scale_result.value)
+	var stage_root := _plane_hosts.get("stage_root") as Node2D
+	if stage_root != null:
+		stage_root.position = _stage_center()
+		stage_root.scale = Vector2.ONE * _view_zoom
+	_future_vfx_host.position = Vector2(_shared_state.vehicle_translation_source().x * scale_result.value.x, _shared_state.vehicle_translation_source().y * scale_result.value.y)
 	_future_vfx_host.rotation = deg_to_rad(_shared_state.vehicle_rotation_degrees())
-	_future_vfx_host.scale = scale_result.value * _view_zoom
+	_future_vfx_host.scale = scale_result.value
+	var vehicle_art: Node = _plane_hosts.get("vehicle_art")
+	if vehicle_art != null and vehicle_art.has_method("set_reference"):
+		vehicle_art.set_reference(_reference_texture, _reference_size)
 
 
 func _update_edit_content_size() -> void:

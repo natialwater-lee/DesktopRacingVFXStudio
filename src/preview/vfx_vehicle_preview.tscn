@@ -81,6 +81,32 @@ layout_mode = 2
 text = "No Layer Selected"
 text_overrun_behavior = 3
 
+[node name="PlaybackRow" type="HBoxContainer" parent="PreviewControls"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="PreviewControls/PlaybackRow"]
+layout_mode = 2
+text = "Play"
+
+[node name="PauseButton" type="Button" parent="PreviewControls/PlaybackRow"]
+layout_mode = 2
+text = "Pause"
+
+[node name="RestartButton" type="Button" parent="PreviewControls/PlaybackRow"]
+layout_mode = 2
+text = "Restart"
+
+[node name="AutoPlayback" type="CheckBox" parent="PreviewControls/PlaybackRow"]
+layout_mode = 2
+text = "Auto"
+button_pressed = true
+
+[node name="PreviewStatus" type="Label" parent="PreviewControls/PlaybackRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "PREVIEW — NO VALID PLAN"
+text_overrun_behavior = 3
+
 [node name="PreviewSurface" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 112)
 layout_mode = 2

@@ -15,17 +15,41 @@
       "duration_seconds": 0.12,
       "layers": [
         {
-          "id": "start.deploy_glow",
+          "id": "start.inner_flash",
           "type": "GLOW",
           "importance": "CORE",
           "blend_mode": "ADDITIVE",
           "render_plane": "UNDER_VEHICLE",
-          "anchors": [
-            "CENTER"
-          ],
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.16]
+          },
           "parameters": {
-            "radius": 12.0,
-            "opacity": 0.9
+            "radius": 115.0,
+            "opacity": 0.9,
+            "pulse_hz": 0.0,
+            "color_rgba": [0.55, 0.92, 1.0, 0.95]
+          }
+        },
+        {
+          "id": "start.outer_flash",
+          "type": "GLOW",
+          "importance": "DETAIL",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.25]
+          },
+          "parameters": {
+            "radius": 155.0,
+            "opacity": 0.42,
+            "pulse_hz": 0.0,
+            "color_rgba": [0.06, 0.34, 0.95, 0.75]
           }
         },
         {
@@ -34,14 +58,44 @@
           "importance": "DETAIL",
           "blend_mode": "ADDITIVE",
           "render_plane": "OVER_VEHICLE",
-          "anchors": [
-            "CENTER"
-          ],
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.2]
+          },
           "parameters": {
-            "radius_start": 4.0,
-            "radius_end": 20.0,
-            "width": 1.5,
-            "duration_seconds": 0.12
+            "radius_start": 35.0,
+            "radius_end": 145.0,
+            "width": 13.0,
+            "duration_seconds": 0.12,
+            "color_rgba": [0.22, 0.85, 1.0, 0.84]
+          }
+        },
+        {
+          "id": "start.shard_burst",
+          "type": "PARTICLE",
+          "importance": "DETAIL",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": ["CENTER"],
+          "parameters": {
+            "emission_mode": "BURST",
+            "emitter": {"shape": "CIRCLE", "radius": 70.0},
+            "sprite_asset_ref": "fx.energy_shard",
+            "burst_count": 5,
+            "lifetime_seconds": 0.3,
+            "direction_degrees": 0.0,
+            "spread_degrees": 360.0,
+            "speed_min": 70.0,
+            "speed_max": 130.0,
+            "rotation_min_degrees": 0.0,
+            "rotation_max_degrees": 360.0,
+            "angular_velocity_min_degrees_per_second": -120.0,
+            "angular_velocity_max_degrees_per_second": 120.0,
+            "size_start": 15.0,
+            "size_end": 8.0,
+            "color_rgba": [0.22, 0.82, 1.0, 0.9]
           }
         }
       ]
@@ -49,62 +103,116 @@
     "loop": {
       "layers": [
         {
-          "id": "loop.core_glow",
+          "id": "loop.soft_outer_aura",
           "type": "GLOW",
           "importance": "CORE",
           "blend_mode": "ADDITIVE",
           "render_plane": "UNDER_VEHICLE",
-          "anchors": [
-            "CENTER"
-          ],
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.25]
+          },
           "parameters": {
-            "radius": 15.0,
-            "opacity": 0.72,
-            "pulse_hz": 1.5
+            "radius": 150.0,
+            "opacity": 0.32,
+            "pulse_hz": 0.0,
+            "color_rgba": [0.06, 0.34, 0.95, 0.8]
           }
         },
         {
-          "id": "loop.zone_ring",
+          "id": "loop.inner_focus_glow",
+          "type": "GLOW",
+          "importance": "CORE",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.16]
+          },
+          "parameters": {
+            "radius": 92.0,
+            "opacity": 0.72,
+            "pulse_hz": 0.0,
+            "color_rgba": [0.36, 0.88, 1.0, 1.0]
+          }
+        },
+        {
+          "id": "loop.inner_energy_ring",
           "type": "RING",
           "importance": "DETAIL",
           "blend_mode": "ADDITIVE",
           "render_plane": "OVER_VEHICLE",
-          "anchors": [
-            "CENTER"
-          ],
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.18]
+          },
           "parameters": {
-            "radius_start": 17.0,
-            "radius_end": 17.0,
-            "width": 1.0,
-            "duration_seconds": 0.5,
-            "repeat_interval_seconds": 0.5
+            "radius_start": 100.0,
+            "radius_end": 100.0,
+            "width": 13.0,
+            "duration_seconds": 0.9,
+            "repeat_interval_seconds": 0.9,
+            "color_rgba": [0.22, 0.85, 1.0, 0.78]
           }
         },
         {
-          "id": "loop.energy_shards",
+          "id": "loop.slow_energy_shards",
           "type": "PARTICLE",
           "importance": "DETAIL",
           "blend_mode": "ADDITIVE",
           "render_plane": "OVER_VEHICLE",
-          "anchors": [
-            "CENTER"
-          ],
+          "anchors": ["CENTER"],
           "parameters": {
             "emission_mode": "CONTINUOUS",
-            "emitter": {
-              "shape": "CIRCLE",
-              "radius": 10.0
-            },
+            "emitter": {"shape": "CIRCLE", "radius": 115.0},
             "sprite_asset_ref": "fx.energy_shard",
-            "emission_rate_per_second": 12.0,
-            "max_particles": 8,
-            "lifetime_seconds": 0.48,
-            "direction_degrees": 270.0,
-            "spread_degrees": 40.0,
-            "speed_min": 6.0,
-            "speed_max": 12.0,
-            "size_start": 0.8,
-            "size_end": 0.2
+            "emission_rate_per_second": 8.0,
+            "max_particles": 6,
+            "lifetime_seconds": 1.0,
+            "direction_degrees": 0.0,
+            "spread_degrees": 360.0,
+            "speed_min": 18.0,
+            "speed_max": 35.0,
+            "rotation_min_degrees": 0.0,
+            "rotation_max_degrees": 360.0,
+            "angular_velocity_min_degrees_per_second": -25.0,
+            "angular_velocity_max_degrees_per_second": 25.0,
+            "size_start": 18.0,
+            "size_end": 10.0,
+            "color_rgba": [0.12, 0.65, 1.0, 0.95]
+          }
+        },
+        {
+          "id": "loop.fast_energy_sparks",
+          "type": "PARTICLE",
+          "importance": "EXTRA",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": ["CENTER"],
+          "parameters": {
+            "emission_mode": "CONTINUOUS",
+            "emitter": {"shape": "CIRCLE", "radius": 85.0},
+            "sprite_asset_ref": "fx.energy_spark",
+            "emission_rate_per_second": 8.0,
+            "max_particles": 4,
+            "lifetime_seconds": 0.35,
+            "direction_degrees": 0.0,
+            "spread_degrees": 360.0,
+            "speed_min": 70.0,
+            "speed_max": 120.0,
+            "rotation_min_degrees": 0.0,
+            "rotation_max_degrees": 360.0,
+            "angular_velocity_min_degrees_per_second": -220.0,
+            "angular_velocity_max_degrees_per_second": 220.0,
+            "size_start": 14.0,
+            "size_end": 5.0,
+            "color_rgba": [0.62, 0.94, 1.0, 0.9]
           }
         }
       ]
@@ -113,28 +221,49 @@
       "duration_seconds": 0.2,
       "layers": [
         {
-          "id": "end.fade_sparks",
+          "id": "end.release_pulse",
+          "type": "RING",
+          "importance": "DETAIL",
+          "blend_mode": "ADDITIVE",
+          "render_plane": "OVER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, 0.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.18]
+          },
+          "parameters": {
+            "radius_start": 110.0,
+            "radius_end": 62.0,
+            "width": 13.0,
+            "duration_seconds": 0.2,
+            "color_rgba": [0.14, 0.62, 1.0, 0.65]
+          }
+        },
+        {
+          "id": "end.release_shards",
           "type": "PARTICLE",
           "importance": "EXTRA",
           "blend_mode": "ADDITIVE",
           "render_plane": "OVER_VEHICLE",
-          "anchors": [
-            "CENTER"
-          ],
+          "anchors": ["CENTER"],
           "parameters": {
             "emission_mode": "BURST",
-            "emitter": {
-              "shape": "CIRCLE",
-              "radius": 8.0
-            },
+            "emitter": {"shape": "CIRCLE", "radius": 75.0},
             "sprite_asset_ref": "fx.energy_shard",
-            "burst_count": 6,
-            "lifetime_seconds": 0.28,
+            "burst_count": 8,
+            "lifetime_seconds": 0.35,
+            "direction_degrees": 0.0,
             "spread_degrees": 360.0,
-            "speed_min": 8.0,
-            "speed_max": 18.0,
-            "size_start": 0.7,
-            "size_end": 0.1
+            "speed_min": 50.0,
+            "speed_max": 100.0,
+            "rotation_min_degrees": 0.0,
+            "rotation_max_degrees": 360.0,
+            "angular_velocity_min_degrees_per_second": -160.0,
+            "angular_velocity_max_degrees_per_second": 160.0,
+            "size_start": 12.0,
+            "size_end": 5.0,
+            "color_rgba": [0.36, 0.85, 1.0, 0.82]
           }
         }
       ]

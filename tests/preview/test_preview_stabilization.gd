@@ -43,9 +43,11 @@ static func _test_edit_canvas_uses_viewport_as_small_content_floor(tests: TestAs
 
 	canvas.size = Vector2(320.0, 240.0)
 	var future_host := canvas.get_future_vfx_host()
+	var stage_root := canvas.get_node_or_null("StageWorldRoot") as Node2D
 	var anchor_positions := canvas.resolved_layer_anchor_positions()
 	var ghost_positions := canvas.ghost_positions()
-	tests.expect_true(future_host != null and _same_vector(future_host.position, Vector2(160.0, 120.0)) and anchor_positions.size() == 1 and _same_vector(anchor_positions[0], Vector2(160.0, 120.0)) and ghost_positions.size() == 1 and _same_vector(ghost_positions[0], Vector2(160.57, 119.62)), "vehicle, Anchor, local ghost, and FutureVfxHost share the centered source-local stage transform")
+	var composed_vehicle_position := stage_root.position + future_host.position * stage_root.scale if stage_root != null and future_host != null else Vector2(-1.0, -1.0)
+	tests.expect_true(stage_root != null and future_host != null and _same_vector(composed_vehicle_position, Vector2(160.0, 120.0)) and anchor_positions.size() == 1 and _same_vector(anchor_positions[0], composed_vehicle_position) and ghost_positions.size() == 1 and _same_vector(ghost_positions[0], Vector2(160.57, 119.62)), "vehicle, Anchor, local ghost, and FutureVfxHost share the centered source-local transform through StageWorldRoot and the vehicle-local boundary")
 	scroll.size = Vector2(400.0, 300.0)
 	tests.expect_true(_same_vector(canvas.custom_minimum_size, Vector2(400.0, 300.0)), "Edit Canvas recomputes its viewport floor when a window or splitter resize changes the ScrollContainer")
 	tree.root.remove_child(scroll)
