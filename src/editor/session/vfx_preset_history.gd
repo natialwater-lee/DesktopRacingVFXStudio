@@ -1,7 +1,7 @@
 class_name VfxPresetHistory
 extends RefCounted
 
-var _undo_redo := UndoRedo.new()
+var _undo_redo: UndoRedo = UndoRedo.new()
 
 
 func record_snapshot(label: String, before: Dictionary, after: Dictionary, restore: Callable) -> void:
@@ -27,3 +27,11 @@ func can_undo() -> bool:
 
 func can_redo() -> bool:
 	return _undo_redo.has_redo()
+
+
+func dispose() -> void:
+	if _undo_redo == null:
+		return
+	if is_instance_valid(_undo_redo):
+		_undo_redo.free()
+	_undo_redo = null
