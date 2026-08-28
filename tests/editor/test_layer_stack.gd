@@ -23,6 +23,9 @@ static func run(tests: TestAssert) -> void:
 		return
 	var source: Dictionary = created.value.duplicate(true)
 	source["phases"]["loop"]["layers"].append(first.value)
+	var cross_phase_candidate: Dictionary = first.value.duplicate(true)
+	cross_phase_candidate["id"] = "loop.glow_2"
+	source["phases"]["start"]["layers"].append(cross_phase_candidate)
 	var second := layer_factory.duplicate("loop", first.value, source)
 	if not second.success:
 		return
@@ -32,7 +35,7 @@ static func run(tests: TestAssert) -> void:
 	var moved := stack.move_layer(source, "loop", 1, -1)
 	tests.expect_true(moved["phases"]["loop"]["layers"][0]["id"] == second.value["id"], "move up changes active phase order")
 	tests.expect_true(source["phases"]["loop"]["layers"][0]["id"] == first.value["id"], "move returns a deep-copied Preset")
-	tests.expect_true(moved["phases"]["start"]["layers"].is_empty() and moved["phases"]["end"]["layers"].is_empty(), "move leaves other phase arrays untouched")
+	tests.expect_true(moved["phases"]["start"]["layers"][0]["id"] == cross_phase_candidate["id"] and moved["phases"]["end"]["layers"].is_empty(), "move leaves other phase arrays untouched")
 
 	var toggled := stack.set_layer_enabled(source, "loop", first.value["id"], false)
 	tests.expect_true(not toggled["phases"]["loop"]["layers"][0]["enabled"], "toggle changes only the requested Layer")
@@ -41,8 +44,19 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(deleted["phases"]["loop"]["layers"].size() == 1, "delete removes exactly one active-phase Layer")
 	var duplicated := stack.duplicate_layer(source, "loop", first.value["id"])
 	tests.expect_true(duplicated["phases"]["loop"]["layers"].size() == 3, "duplicate appends an active-phase Layer")
-	tests.expect_true(duplicated["phases"]["loop"]["layers"][2]["id"] != first.value["id"], "duplicate creates an id unique across phases")
+	tests.expect_true(duplicated["phases"]["loop"]["layers"][2]["id"] != cross_phase_candidate["id"], "duplicate avoids a candidate id already used in another phase")
 	tests.expect_true(VfxPresetPipelineModel.new().build_document_from_value(duplicated).success, "Layer Stack duplicate remains Contract-valid")
+	stack.set_available_layer_types(["GLOW"])
+	stack.set_phase(created.value, "start")
+	var requested_layer_type := {"value": ""}
+	stack.add_layer_requested.connect(func(layer_type: String) -> void: requested_layer_type["value"] = layer_type)
+	var add_button := stack.get_node_or_null("Rows/AddControls/AddLayerButton") as Button
+	var type_selector := stack.get_node_or_null("Rows/AddControls/LayerTypeSelector") as OptionButton
+	tests.expect_true(add_button != null and not add_button.disabled, "Layer Stack exposes an enabled Add control for an empty active phase")
+	tests.expect_true(type_selector != null and type_selector.selected == 0 and type_selector.get_item_text(type_selector.selected) == "GLOW", "Layer Stack Add selector retains its configured first Layer Type")
+	if add_button != null:
+		add_button.emit_signal("pressed")
+	tests.expect_true(requested_layer_type["value"] == "GLOW", "Layer Stack Add control emits the selected Schema-provided Layer Type")
 	stack.free()
 
 	var controller := VfxEditorControllerModel.new()
@@ -57,6 +71,13 @@ static func run(tests: TestAssert) -> void:
 		controller.undo()
 		tests.expect_true(controller.working_preset()["phases"]["one_shot"]["layers"][0]["id"] == selected_id, "undo restores the deleted Layer data")
 		tests.expect_true(controller.selected_layer_id().is_empty(), "undo does not retain a stale deleted Layer id")
+		controller.add_active_layer("GLOW")
+		tests.expect_true(controller.can_undo(), "controller exposes history after a Preset A action")
+		var replacement := controller.create_new_preset("utility.replacement", "Replacement", "UTILITY", "ONE_SHOT", "WORLD_AREA")
+		tests.expect_true(replacement.success, "controller replaces Preset A with a new Preset B")
+		tests.expect_true(not controller.can_undo(), "replacing the active Preset clears old history")
+		controller.undo()
+		tests.expect_true(controller.working_preset()["preset_id"] == "utility.replacement" and controller.working_preset()["phases"]["one_shot"]["layers"].is_empty(), "undo cannot restore Preset A into Preset B")
 
 
 static func _loaded_registry() -> VfxSchemaRegistry:

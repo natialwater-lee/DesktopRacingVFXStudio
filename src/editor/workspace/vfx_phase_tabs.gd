@@ -3,6 +3,8 @@ extends TabContainer
 
 signal phase_selected(phase_name: String)
 
+const DURATION_PHASE_NAMES := ["one_shot", "start", "end"]
+
 var _phase_names: Array[String] = []
 var _phase_data: Dictionary = {}
 var _selected_phase_name := ""
@@ -44,7 +46,7 @@ func selected_phase_name() -> String:
 
 
 func phase_has_duration(phase_name: String) -> bool:
-	return _phase_data.get(phase_name, {}).get("duration_seconds", null) != null
+	return DURATION_PHASE_NAMES.has(phase_name)
 
 
 func _rebuild_tabs() -> void:

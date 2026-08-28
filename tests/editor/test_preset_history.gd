@@ -20,5 +20,7 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(restored_state["value"]["layers"][0]["nested"][0] == "after", "redo snapshot survives restored-data mutation")
 	tests.expect_true(not history.can_redo(), "redo is exhausted after restoring after snapshot")
 	tests.expect_true(history.can_undo(), "undo remains available after redo")
+	history.clear()
+	tests.expect_true(not history.can_undo() and not history.can_redo(), "clear discards snapshots from the previous document")
 	history.dispose()
 	history.dispose()

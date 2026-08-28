@@ -11,6 +11,7 @@ signal layer_enabled_requested(layer_id: String, enabled: bool)
 var _layer_factory: RefCounted
 var _phase_name := ""
 var _layers: Array = []
+var _available_layer_types: Array[String] = []
 
 
 func _init(layer_factory: RefCounted = null) -> void:
@@ -19,6 +20,13 @@ func _init(layer_factory: RefCounted = null) -> void:
 
 func set_layer_factory(layer_factory: RefCounted) -> void:
 	_layer_factory = layer_factory
+
+
+func set_available_layer_types(layer_types: Array) -> void:
+	_available_layer_types.clear()
+	for layer_type_variant in layer_types:
+		_available_layer_types.append(str(layer_type_variant))
+	_rebuild_rows()
 
 
 func set_phase(preset: Dictionary, phase_name: String) -> void:
@@ -122,6 +130,7 @@ func _rebuild_rows() -> void:
 	var rows := VBoxContainer.new()
 	rows.name = "Rows"
 	add_child(rows)
+	_append_add_controls(rows)
 	for layer in _layers:
 		if layer is Dictionary:
 			_append_layer_row(rows, layer)
@@ -155,3 +164,28 @@ func _append_layer_row(rows: VBoxContainer, layer: Dictionary) -> void:
 	delete.pressed.connect(func() -> void: delete_layer_requested.emit(layer_id))
 	row.add_child(delete)
 	rows.add_child(row)
+
+
+func _append_add_controls(rows: VBoxContainer) -> void:
+	var controls := HBoxContainer.new()
+	controls.name = "AddControls"
+	var type_selector := OptionButton.new()
+	type_selector.name = "LayerTypeSelector"
+	for layer_type in _available_layer_types:
+		type_selector.add_item(layer_type)
+	if not _available_layer_types.is_empty():
+		type_selector.select(0)
+	type_selector.disabled = _available_layer_types.is_empty()
+	controls.add_child(type_selector)
+	var add_button := Button.new()
+	add_button.name = "AddLayerButton"
+	add_button.text = "Add Layer"
+	add_button.disabled = _phase_name.is_empty() or _available_layer_types.is_empty()
+	add_button.pressed.connect(_on_add_pressed.bind(type_selector))
+	controls.add_child(add_button)
+	rows.add_child(controls)
+
+
+func _on_add_pressed(type_selector: OptionButton) -> void:
+	if type_selector.selected >= 0:
+		add_layer_requested.emit(type_selector.get_item_text(type_selector.selected))

@@ -29,6 +29,11 @@ func can_redo() -> bool:
 	return _undo_redo.has_redo()
 
 
+func clear() -> void:
+	if _undo_redo != null:
+		_undo_redo.clear_history()
+
+
 func dispose() -> void:
 	if _undo_redo == null:
 		return

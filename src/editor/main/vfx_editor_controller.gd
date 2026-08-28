@@ -66,6 +66,7 @@ func create_new_preset(preset_id: String, display_name: String, category: String
 	if not created.success:
 		_issues = created.issues.duplicate()
 		return created
+	_history.clear()
 	_session.begin_new(created.value)
 	_refresh_issues()
 	reconcile_selection()
@@ -75,6 +76,7 @@ func create_new_preset(preset_id: String, display_name: String, category: String
 func open_library_entry(entry: RefCounted) -> VfxResult:
 	if entry == null or not entry.is_openable():
 		return _policy_failure("invalid_library_entry", "Only a valid Preset Library entry can be opened.", "")
+	_history.clear()
 	_session.open_document(entry.document)
 	_refresh_issues()
 	reconcile_selection()
@@ -91,6 +93,7 @@ func open_path(path: String) -> VfxResult:
 	if not loaded.success:
 		_issues = loaded.issues.duplicate()
 		return loaded
+	_history.clear()
 	_session.open_document(loaded.value)
 	_refresh_issues()
 	reconcile_selection()
@@ -134,10 +137,15 @@ func selected_layer_id() -> String:
 	return _selected_layer_id
 
 
+func can_undo() -> bool:
+	return _history.can_undo()
+
+
 func configure_workspace(phase_tabs, layer_stack) -> void:
 	_phase_tabs = phase_tabs
 	_layer_stack = layer_stack
 	_layer_stack.set_layer_factory(_layer_factory)
+	_layer_stack.set_available_layer_types(_registry.schema().get("x_vfx_layer_types", {}).keys())
 	if not _phase_tabs.phase_selected.is_connected(_on_phase_selected):
 		_phase_tabs.phase_selected.connect(_on_phase_selected)
 	if not _layer_stack.layer_selected.is_connected(_on_layer_selected):
