@@ -244,7 +244,13 @@ func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
 	if _selected_phase.is_empty() or index < 0:
 		return false
 	var layer_pointer := "/phases/%s/layers/%d%s" % [_escape_pointer_segment(_selected_phase), index, json_pointer]
-	return _commit_workspace_change("Edit Layer Field", _replace_json_pointer(_session.working_copy(), layer_pointer, _duplicate_value(value)))
+	var before := _session.working_copy()
+	var next := _replace_json_pointer(before, layer_pointer, _duplicate_value(value))
+	if before == next:
+		return false
+	if json_pointer == "/id" and value is String:
+		_selected_layer_id = value
+	return _commit_workspace_change("Edit Layer Field", next)
 
 
 func set_selected_layer_space_override(mode_or_inherit: String) -> bool:

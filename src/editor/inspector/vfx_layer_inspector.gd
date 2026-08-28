@@ -54,10 +54,8 @@ func create_numeric_control(node_name: String, schema_or_ref: Dictionary) -> Spi
 	var schema := _reader.resolve(schema_or_ref)
 	if schema.success:
 		var resolved: Dictionary = schema.value
-		if resolved.has("minimum"):
-			control.min_value = float(resolved["minimum"])
-		if resolved.has("maximum"):
-			control.max_value = float(resolved["maximum"])
+		control.min_value = float(resolved["minimum"]) if resolved.has("minimum") else -INF
+		control.max_value = float(resolved["maximum"]) if resolved.has("maximum") else INF
 	return control
 
 
