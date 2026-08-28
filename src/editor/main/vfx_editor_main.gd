@@ -9,6 +9,7 @@ var editor_controller: VfxEditorControllerModel = VfxEditorControllerModel.new()
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
 	editor_controller.configure_toolbar($Toolbar)
+	editor_controller.configure_library_panel($LibraryPanel)
 	editor_controller.configure_new_preset_dialog($NewPresetDialog)
 	editor_controller.configure_preset_file_dialog($PresetFileDialog)
 	editor_controller.configure_overwrite_confirmation_dialog($ConfirmationDialog)

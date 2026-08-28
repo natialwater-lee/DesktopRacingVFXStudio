@@ -16,6 +16,7 @@ static func run(tests: TestAssert) -> void:
 		return
 
 	var tabs := VfxPhaseTabsModel.new()
+	tabs.set_duration_phase_names(["one_shot", "start", "end"])
 	tabs.set_preset(one_shot.value)
 	tests.expect_true(tabs.visible_phase_names() == ["one_shot"], "one-shot exposes its actual configured phase")
 	tests.expect_true(tabs.selected_phase_name() == "one_shot", "first available phase is selected")

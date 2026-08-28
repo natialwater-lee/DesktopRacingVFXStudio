@@ -2,10 +2,10 @@ class_name VfxPhaseTabs
 extends TabContainer
 
 signal phase_selected(phase_name: String)
-
-const DURATION_PHASE_NAMES := ["one_shot", "start", "end"]
+signal duration_changed(phase_name: String, duration_seconds: float)
 
 var _phase_names: Array[String] = []
+var _duration_phase_names: Array[String] = []
 var _phase_data: Dictionary = {}
 var _selected_phase_name := ""
 
@@ -37,6 +37,13 @@ func select_phase(phase_name: String) -> void:
 	phase_selected.emit(_selected_phase_name)
 
 
+func set_duration_phase_names(phase_names: Array) -> void:
+	_duration_phase_names.clear()
+	for phase_name_variant in phase_names:
+		_duration_phase_names.append(str(phase_name_variant))
+	_rebuild_tabs()
+
+
 func visible_phase_names() -> Array[String]:
 	return _phase_names.duplicate()
 
@@ -46,13 +53,13 @@ func selected_phase_name() -> String:
 
 
 func phase_has_duration(phase_name: String) -> bool:
-	return DURATION_PHASE_NAMES.has(phase_name)
+	return _duration_phase_names.has(phase_name)
 
 
 func _rebuild_tabs() -> void:
 	for child in get_children():
 		remove_child(child)
-		child.free()
+		child.queue_free()
 	for phase_name in _phase_names:
 		var phase_page := VBoxContainer.new()
 		phase_page.name = phase_name.capitalize()
@@ -65,6 +72,7 @@ func _rebuild_tabs() -> void:
 			duration.min_value = 0.001
 			duration.step = 0.001
 			duration.value = float(_phase_data[phase_name].get("duration_seconds", 0.001))
+			duration.value_changed.connect(func(value: float) -> void: duration_changed.emit(phase_name, value))
 			phase_page.add_child(duration)
 		add_child(phase_page)
 

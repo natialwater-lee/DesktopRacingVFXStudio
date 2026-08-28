@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
 [ext_resource type="Script" path="res://src/editor/dialogs/vfx_new_preset_dialog.gd" id="2_new_dialog"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://src/editor/diagnostics/vfx_diagnostics_panel.gd" id="7_diagnostics"]
 [ext_resource type="Script" path="res://src/editor/dialogs/vfx_unsaved_changes_dialog.gd" id="8_unsaved"]
 [ext_resource type="Script" path="res://src/editor/dialogs/vfx_structure_change_dialog.gd" id="9_structure"]
+[ext_resource type="Script" path="res://src/editor/library/vfx_preset_library_panel.gd" id="10_library"]
 
 [node name="VfxEditorMain" type="Control"]
 layout_mode = 3
@@ -56,11 +57,22 @@ text = "Validate"
 layout_mode = 2
 text = ""
 
-[node name="LibraryPanel" type="PanelContainer" parent="."]
+[node name="LibraryPanel" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_top = 48.0
 offset_right = 260.0
 offset_bottom = 620.0
+script = ExtResource("10_library")
+
+[node name="Search" type="LineEdit" parent="LibraryPanel"]
+layout_mode = 2
+placeholder_text = "Search Presets"
+
+[node name="CategoryFilter" type="OptionButton" parent="LibraryPanel"]
+layout_mode = 2
+
+[node name="Rows" type="VBoxContainer" parent="LibraryPanel"]
+layout_mode = 2
 
 [node name="PhaseTabs" type="TabContainer" parent="."]
 layout_mode = 0

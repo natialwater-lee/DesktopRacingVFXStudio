@@ -34,6 +34,7 @@ var _skeleton_factory: RefCounted
 var _layer_factory: RefCounted
 var _structure_change_service: RefCounted
 var _library: RefCounted
+var _library_panel
 var _save_service: RefCounted
 var _issues: Array[VfxIssue] = []
 var _new_preset_dialog: ConfirmationDialog
@@ -175,6 +176,10 @@ func scan_library() -> Array:
 	return _library.scan()
 
 
+func contract_services_ready() -> bool:
+	return _pipeline != null and not _registry.schema().is_empty()
+
+
 func current_issues() -> Array[VfxIssue]:
 	return _issues.duplicate()
 
@@ -198,10 +203,13 @@ func can_undo() -> bool:
 func configure_workspace(phase_tabs, layer_stack) -> void:
 	_phase_tabs = phase_tabs
 	_layer_stack = layer_stack
+	_phase_tabs.set_duration_phase_names(_schema_duration_phase_names())
 	_layer_stack.set_layer_factory(_layer_factory)
 	_layer_stack.set_available_layer_types(_registry.schema().get("x_vfx_layer_types", {}).keys())
 	if not _phase_tabs.phase_selected.is_connected(_on_phase_selected):
 		_phase_tabs.phase_selected.connect(_on_phase_selected)
+	if not _phase_tabs.duration_changed.is_connected(_on_phase_duration_changed):
+		_phase_tabs.duration_changed.connect(_on_phase_duration_changed)
 	if not _layer_stack.layer_selected.is_connected(_on_layer_selected):
 		_layer_stack.layer_selected.connect(_on_layer_selected)
 	if not _layer_stack.add_layer_requested.is_connected(_on_add_layer_requested):
@@ -220,6 +228,20 @@ func configure_workspace(phase_tabs, layer_stack) -> void:
 func configure_toolbar(toolbar: HBoxContainer) -> void:
 	_toolbar = toolbar
 	_refresh_toolbar()
+
+
+func configure_library_panel(panel) -> void:
+	_library_panel = panel
+	var reader := VfxSchemaReaderModel.new(_registry)
+	var category_schema := reader.property_schema(reader.root_schema(), "category")
+	_library_panel.set_categories(reader.enum_values(category_schema.value) if category_schema.success else [])
+	if not _library_panel.filter_changed.is_connected(_on_library_filter_changed):
+		_library_panel.filter_changed.connect(_on_library_filter_changed)
+	if not _library_panel.preset_open_requested.is_connected(_on_library_preset_open_requested):
+		_library_panel.preset_open_requested.connect(_on_library_preset_open_requested)
+	if not _library_panel.invalid_entry_selected.is_connected(_on_library_invalid_entry_selected):
+		_library_panel.invalid_entry_selected.connect(_on_library_invalid_entry_selected)
+	_refresh_library()
 
 
 func configure_diagnostics_panel(panel) -> void:
@@ -328,6 +350,12 @@ func commit_runtime_inputs(inputs: Array[String]) -> bool:
 		if requested.has(input_name):
 			ordered.append(input_name)
 	return commit_preset_field("/runtime_inputs", ordered)
+
+
+func commit_phase_duration(phase_name: String, duration_seconds: float) -> bool:
+	if not _schema_duration_phase_names().has(phase_name):
+		return false
+	return _commit_workspace_change("Edit Phase Duration", _replace_json_pointer(_session.working_copy(), "/phases/%s/duration_seconds" % _escape_pointer_segment(phase_name), duration_seconds))
 
 
 func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
@@ -556,6 +584,8 @@ func _on_overwrite_confirmed() -> void:
 func _save_to(target_path: String) -> VfxResult:
 	var saved: VfxResult = _save_service.save(_session, target_path)
 	_set_issues(saved.issues)
+	if saved.success:
+		reconcile_selection()
 	_refresh_toolbar()
 	return saved
 
@@ -659,6 +689,24 @@ func _on_phase_selected(phase_name: String) -> void:
 	if _refreshing_workspace:
 		return
 	select_phase(phase_name)
+
+
+func _on_phase_duration_changed(phase_name: String, duration_seconds: float) -> void:
+	commit_phase_duration(phase_name, duration_seconds)
+
+
+func _on_library_filter_changed(_query: String, _category: String) -> void:
+	_refresh_library_filter()
+
+
+func _on_library_preset_open_requested(entry: RefCounted) -> void:
+	request_transition("Open", func() -> void: open_library_entry(entry))
+
+
+func _on_library_invalid_entry_selected(entry: RefCounted) -> void:
+	if entry != null:
+		_set_issues(entry.issues)
+		_focus_diagnostics()
 
 
 func _on_layer_selected(layer_id: String) -> void:
@@ -775,6 +823,16 @@ func _refresh_workspace() -> void:
 	_refresh_toolbar()
 
 
+func _refresh_library() -> void:
+	_library.scan()
+	_refresh_library_filter()
+
+
+func _refresh_library_filter() -> void:
+	if _library_panel != null:
+		_library_panel.set_entries(_library.filter(_library_panel.current_query(), _library_panel.current_category()))
+
+
 func _refresh_toolbar() -> void:
 	if _toolbar == null:
 		return
@@ -792,8 +850,30 @@ func _refresh_toolbar() -> void:
 		undo_button.disabled = not _history.can_undo()
 	if redo_button != null:
 		redo_button.disabled = not _history.can_redo()
+	var validate_button := _toolbar.get_node_or_null("ValidateButton") as Button
+	if validate_button != null:
+		validate_button.disabled = not has_session
 	if dirty_indicator != null:
 		dirty_indicator.text = "Unsaved" if has_session and _session.is_dirty() else ""
+
+
+func _schema_duration_phase_names() -> Array[String]:
+	var reader := VfxSchemaReaderModel.new(_registry)
+	var phases_schema := reader.property_schema(reader.root_schema(), "phases")
+	if not phases_schema.success:
+		return []
+	var resolved_phases := reader.resolve(phases_schema.value)
+	if not resolved_phases.success:
+		return []
+	var names: Array[String] = []
+	for phase_name in (resolved_phases.value as Dictionary).get("properties", {}):
+		var phase_schema := reader.property_schema(resolved_phases.value, phase_name)
+		if not phase_schema.success:
+			continue
+		var duration_schema := reader.property_schema(phase_schema.value, "duration_seconds")
+		if duration_schema.success:
+			names.append(phase_name)
+	return names
 
 
 func _commit_default_space_mode(target_space: String) -> bool:

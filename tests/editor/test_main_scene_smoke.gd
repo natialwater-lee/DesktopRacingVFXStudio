@@ -1,6 +1,10 @@
 extends RefCounted
 
 const VfxEditorMainModel := preload("res://src/editor/main/vfx_editor_main.gd")
+const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
+
+const INVALID_LIBRARY_PATH := "res://presets/.phase1-task11-review-invalid.vfx.json"
+const WORKFLOW_SAVE_PATH := "res://presets/.phase1-task11-review-workflow.vfx.json"
 
 
 static func run(tests: TestAssert) -> void:
@@ -13,12 +17,19 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(editor != null, "editor scene instantiates its typed root")
 	if editor == null:
 		return
+	_remove_test_file(INVALID_LIBRARY_PATH)
+	_remove_test_file(WORKFLOW_SAVE_PATH)
+	var invalid_fixture := VfxPresetCodecModel.new().write_text_file(INVALID_LIBRARY_PATH, "{\"schema_version\": 1}")
+	tests.expect_true(invalid_fixture.success, "scene library fixture writes one invalid authoring file")
 	var tree := Engine.get_main_loop() as SceneTree
 	var original_auto_accept_quit := tree.auto_accept_quit
 	tree.root.add_child(editor)
 	tests.expect_true(editor.editor_controller != null, "editor assigns its typed controller")
 	tests.expect_true(editor.get_node_or_null("Toolbar") != null, "toolbar exists")
 	tests.expect_true(editor.get_node_or_null("LibraryPanel") != null, "library region exists")
+	tests.expect_true(editor.get_node_or_null("LibraryPanel/Search") is LineEdit, "Library exposes its concrete search field")
+	tests.expect_true(editor.get_node_or_null("LibraryPanel/CategoryFilter") is OptionButton, "Library exposes its Schema-derived category filter")
+	tests.expect_true(editor.get_node_or_null("LibraryPanel/Rows") is VBoxContainer, "Library exposes its concrete result rows")
 	tests.expect_true(editor.get_node_or_null("PhaseTabs") != null, "phase tabs region exists")
 	tests.expect_true(editor.get_node_or_null("LayerStack") != null, "layer stack region exists")
 	tests.expect_true(editor.get_node_or_null("LayerStack/Rows/AddControls/AddLayerButton") is Button, "Layer Stack scene creates its concrete Add control")
@@ -28,9 +39,52 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(editor.get_node("Toolbar/OpenButton").is_connected("pressed", Callable(editor.editor_controller, "_on_open_pressed")), "Open button starts the authoring-root file selection flow")
 	tests.expect_true(editor.get_node("Toolbar/SaveButton").is_connected("pressed", Callable(editor.editor_controller, "_on_save_pressed")), "Save button uses the valid-only persistence flow")
 	tests.expect_true(editor.get_node("Toolbar/SaveAsButton").is_connected("pressed", Callable(editor.editor_controller, "_on_save_as_pressed")), "Save As button starts the authoring-root destination flow")
+	tests.expect_true(editor.get_node("Toolbar/UndoButton").is_connected("pressed", Callable(editor.editor_controller, "_on_undo_pressed")), "Undo button is connected through the controller")
+	tests.expect_true(editor.get_node("Toolbar/RedoButton").is_connected("pressed", Callable(editor.editor_controller, "_on_redo_pressed")), "Redo button is connected through the controller")
+	tests.expect_true(editor.get_node("Toolbar/ValidateButton").is_connected("pressed", Callable(editor.editor_controller, "_on_validate_pressed")), "Validate button is connected through the controller")
 	tests.expect_true(editor.get_node("LayerStack").add_layer_requested.is_connected(Callable(editor.editor_controller, "_on_add_layer_requested")), "Layer Stack Add signal is connected to the controller")
+	var library_panel := editor.get_node("LibraryPanel") as Node
+	tests.expect_true(library_panel.is_connected("filter_changed", Callable(editor.editor_controller, "_on_library_filter_changed")), "Library search/category signal is connected through the controller")
+	tests.expect_true(library_panel.is_connected("preset_open_requested", Callable(editor.editor_controller, "_on_library_preset_open_requested")), "valid Library row signal opens through the controller")
+	tests.expect_true(library_panel.is_connected("invalid_entry_selected", Callable(editor.editor_controller, "_on_library_invalid_entry_selected")), "invalid Library row signal routes to diagnostics")
+	tests.expect_true(editor.editor_controller.contract_services_ready(), "controller composes initialized Schema Registry and Contract Pipeline")
 	tests.expect_true((editor.get_node("Toolbar/SaveButton") as Button).disabled, "Save is disabled before an existing document has a source path")
 	tests.expect_true((editor.get_node("Toolbar/UndoButton") as Button).disabled and (editor.get_node("Toolbar/RedoButton") as Button).disabled, "history toolbar starts disabled without an edit session")
+	tests.expect_true((editor.get_node("Toolbar/ValidateButton") as Button).disabled, "Validate is disabled without an edit session")
+	tests.expect_true((editor.get_node("PhaseTabs") as Node).has_signal("duration_changed"), "Phase Tabs expose a duration commit signal for Schema-timed phases")
+	var library_rows := editor.get_node("LibraryPanel/Rows") as VBoxContainer
+	tests.expect_true(library_rows.get_child_count() >= 3, "Library displays valid examples plus the invalid fixture")
+	var valid_library_row := library_rows.get_child(0) as Button
+	valid_library_row.emit_signal("pressed")
+	tests.expect_true(not editor.editor_controller.working_preset().is_empty(), "pressing a valid Library row opens its Contract document")
+	var search := editor.get_node("LibraryPanel/Search") as LineEdit
+	search.text = "zero"
+	search.emit_signal("text_changed", search.text)
+	tests.expect_true(library_rows.get_child_count() == 1 and (library_rows.get_child(0) as Button).text.contains("talent.zero_zone"), "Library search filters through the existing Library model")
+	search.text = ""
+	search.emit_signal("text_changed", search.text)
+	var category_filter := editor.get_node("LibraryPanel/CategoryFilter") as OptionButton
+	var race_talent_index := -1
+	for index in category_filter.item_count:
+		if category_filter.get_item_text(index) == "RACE_TALENT":
+			race_talent_index = index
+			break
+	tests.expect_true(race_talent_index >= 0, "Library category filter is populated from the Schema category enum")
+	if race_talent_index >= 0:
+		category_filter.select(race_talent_index)
+		category_filter.emit_signal("item_selected", race_talent_index)
+		tests.expect_true(library_rows.get_child_count() == 1 and (library_rows.get_child(0) as Button).text.contains("RACE_TALENT"), "Library category selection filters through the existing Library model")
+		category_filter.select(0)
+		category_filter.emit_signal("item_selected", 0)
+	var invalid_library_row: Button = null
+	for row in library_rows.get_children():
+		if row is Button and (row as Button).text.contains(INVALID_LIBRARY_PATH):
+			invalid_library_row = row
+			break
+	tests.expect_true(invalid_library_row != null, "Library displays an invalid row with its source path")
+	if invalid_library_row != null:
+		invalid_library_row.emit_signal("pressed")
+		tests.expect_true(not editor.editor_controller.current_issues().is_empty(), "selecting an invalid Library row displays its Contract diagnostics")
 
 	var created := editor.editor_controller.create_new_preset("utility.close_guard", "Close Guard", "UTILITY", "ONE_SHOT", "WORLD_AREA")
 	tests.expect_true(created.success, "scene close guard fixture creates a dirty in-memory Preset")
@@ -41,9 +95,39 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(not invalid_save.success and not FileAccess.file_exists(blocked_path), "transient-invalid Save As writes no authoring file")
 	editor.editor_controller.add_active_layer("GLOW")
 	tests.expect_true(not (editor.get_node("Toolbar/UndoButton") as Button).disabled, "an editor data mutation enables Undo")
+	var workflow_layer_id: String = editor.editor_controller.working_preset()["phases"]["one_shot"]["layers"][0]["id"]
+	editor.editor_controller.select_layer(workflow_layer_id)
 	editor.editor_controller.undo()
 	tests.expect_true(not (editor.get_node("Toolbar/RedoButton") as Button).disabled, "Undo enables Redo through the toolbar state")
 	editor.editor_controller.redo()
+	tests.expect_true(editor.editor_controller.commit_preset_field("/display_name", "Close Guard Edited"), "common Preset field edit joins the controller history flow")
+	editor.editor_controller.undo()
+	tests.expect_true(editor.editor_controller.working_preset().get("display_name") == "Close Guard", "Undo restores the common Preset field")
+	editor.editor_controller.redo()
+	tests.expect_true(editor.editor_controller.working_preset().get("display_name") == "Close Guard Edited", "Redo reapplies the common Preset field")
+	editor.editor_controller.select_layer(workflow_layer_id)
+	var saved := editor.editor_controller.save_as(WORKFLOW_SAVE_PATH, true)
+	tests.expect_true(saved.success and FileAccess.file_exists(WORKFLOW_SAVE_PATH), "valid Save As writes only the requested authoring-root Preset")
+	tests.expect_true(not (editor.get_node("Toolbar/SaveButton") as Button).disabled, "successful Save As reconciles the session before enabling Save")
+	tests.expect_true(editor.editor_controller.selected_layer_id() == workflow_layer_id and editor.get_node_or_null("LayerStack/Rows") != null, "successful Save As reconciles the selected Layer and workspace before toolbar refresh")
+	var reopened := editor.editor_controller.open_path(WORKFLOW_SAVE_PATH)
+	tests.expect_true(reopened.success and editor.editor_controller.working_preset().get("display_name") == "Close Guard Edited", "workflow reopens the saved Contract document")
+	editor.editor_controller.commit_preset_field("/display_name", "Discarded Change")
+	editor.editor_controller.request_transition("Open", func() -> void: editor.editor_controller.open_path(WORKFLOW_SAVE_PATH))
+	(editor.get_node("UnsavedChangesDialog") as Node).emit_decision("DISCARD")
+	tests.expect_true(editor.editor_controller.working_preset().get("display_name") == "Close Guard Edited", "discarding a subsequent unsaved change restores the reopened saved document")
+
+	var loop_created := editor.editor_controller.create_new_preset("utility.duration", "Duration", "UTILITY", "START_LOOP_END", "WORLD_AREA")
+	tests.expect_true(loop_created.success, "duration smoke fixture creates a multi-phase Skeleton")
+	var start_duration := editor.get_node_or_null("PhaseTabs/Start/DurationSeconds") as SpinBox
+	tests.expect_true(start_duration != null and editor.get_node_or_null("PhaseTabs/Loop/DurationSeconds") == null, "only Schema-timed phases expose duration controls")
+	if start_duration != null:
+		start_duration.value = 0.75
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration SpinBox signal commits through the controller")
+		editor.editor_controller.undo()
+		tests.expect_true(not is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration commit is restored by Undo")
+		editor.editor_controller.redo()
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration commit reapplies through Redo")
 
 	# The focused close/diagnostics path does not depend on tab-selection events.
 	# Blocking those events avoids exercising PhaseTabs' separate rebuild behavior here.
@@ -55,7 +139,7 @@ static func run(tests: TestAssert) -> void:
 	var unsaved_dialog := editor.get_node("UnsavedChangesDialog")
 	tests.expect_true(not tree.auto_accept_quit and unsaved_dialog.action_name() == "Close", "dirty close disables automatic quit and opens the unsaved decision")
 	unsaved_dialog.emit_decision("CANCEL")
-	tests.expect_true(not close_approved["value"] and editor.editor_controller.working_preset().get("preset_id") == "utility.close_guard", "cancelled close preserves the active session and does not approve quitting")
+	tests.expect_true(not close_approved["value"] and editor.editor_controller.working_preset().get("preset_id") == "utility.duration", "cancelled close preserves the active session and does not approve quitting")
 
 	editor.editor_controller.request_transition("Open", func() -> void: pass)
 	unsaved_dialog.emit_decision("SAVE")
@@ -66,6 +150,8 @@ static func run(tests: TestAssert) -> void:
 	tree.auto_accept_quit = original_auto_accept_quit
 	tree.root.remove_child(editor)
 	editor.free()
+	_remove_test_file(INVALID_LIBRARY_PATH)
+	_remove_test_file(WORKFLOW_SAVE_PATH)
 	var second_editor := packed.instantiate() as VfxEditorMainModel
 	tests.expect_true(second_editor != null, "main scene can instantiate a second independent editor root")
 	if second_editor != null:
@@ -77,3 +163,8 @@ static func run(tests: TestAssert) -> void:
 
 static func _has_issue(issues: Array[VfxIssue], code: String) -> bool:
 	return issues.any(func(issue: VfxIssue) -> bool: return issue.code == code)
+
+
+static func _remove_test_file(path: String) -> void:
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
