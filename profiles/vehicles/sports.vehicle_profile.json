@@ -1,26 +1,71 @@
 {
-  "profile_version": 1,
-  "profile_id": "sports",
-  "display_name": "Sports",
-  "category": "SPORTS",
-  "reference_image": {
-    "path": "res://assets/reference/vehicles/sports_reference.png",
-    "expected_source_size_px": [256, 512]
-  },
   "anchors": {
-    "CENTER": [0, 0],
-    "FRONT": [0, -220],
-    "REAR_CENTER": [0, 218],
-    "REAR_LEFT": [-48, 208],
-    "REAR_RIGHT": [48, 208],
-    "LEFT_SIDE": [-82, 0],
-    "RIGHT_SIDE": [82, 0],
-    "TIRE_FL": [-80, -124],
-    "TIRE_FR": [80, -124],
-    "TIRE_RL": [-82, 138],
-    "TIRE_RR": [82, 138],
-    "EQUIPMENT_CENTER": [0, 12],
-    "WING_LEFT": [-70, 205],
-    "WING_RIGHT": [70, 205]
+    "CENTER": [
+      0.0,
+      0.0
+    ],
+    "EQUIPMENT_CENTER": [
+      0.0,
+      12.0
+    ],
+    "FRONT": [
+      0.0,
+      -220.0
+    ],
+    "LEFT_SIDE": [
+      -82.0,
+      0.0
+    ],
+    "REAR_CENTER": [
+      0.0,
+      218.0
+    ],
+    "REAR_LEFT": [
+      -48.0,
+      208.0
+    ],
+    "REAR_RIGHT": [
+      48.0,
+      208.0
+    ],
+    "RIGHT_SIDE": [
+      82.0,
+      0.0
+    ],
+    "TIRE_FL": [
+      -80.0,
+      -124.0
+    ],
+    "TIRE_FR": [
+      80.0,
+      -124.0
+    ],
+    "TIRE_RL": [
+      -82.0,
+      138.0
+    ],
+    "TIRE_RR": [
+      82.0,
+      138.0
+    ],
+    "WING_LEFT": [
+      -70.0,
+      205.0
+    ],
+    "WING_RIGHT": [
+      70.0,
+      205.0
+    ]
+  },
+  "category": "SPORTS",
+  "display_name": "Sports",
+  "profile_id": "sports",
+  "profile_version": 1.0,
+  "reference_image": {
+    "expected_source_size_px": [
+      256.0,
+      512.0
+    ],
+    "path": "res://assets/reference/vehicles/sports_reference.png"
   }
 }

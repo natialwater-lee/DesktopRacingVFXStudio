@@ -16,13 +16,10 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [display]
 
-[display/window]
-
-size/initial_width=1280
-size/initial_height=800
-size/min_width=1024
-size/min_height=720
-size/resizable=true
+window/size/initial_width=1280
+window/size/initial_height=800
+window/size/min_width=1024
+window/size/min_height=720
 
 [rendering]
 

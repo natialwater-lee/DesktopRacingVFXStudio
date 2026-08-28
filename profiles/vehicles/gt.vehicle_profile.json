@@ -1,26 +1,71 @@
 {
-  "profile_version": 1,
-  "profile_id": "gt",
-  "display_name": "GT",
-  "category": "GT",
-  "reference_image": {
-    "path": "res://assets/reference/vehicles/gt_reference.png",
-    "expected_source_size_px": [256, 512]
-  },
   "anchors": {
-    "CENTER": [0, 0],
-    "FRONT": [0, -218],
-    "REAR_CENTER": [0, 216],
-    "REAR_LEFT": [-55, 204],
-    "REAR_RIGHT": [55, 204],
-    "LEFT_SIDE": [-88, 0],
-    "RIGHT_SIDE": [88, 0],
-    "TIRE_FL": [-84, -122],
-    "TIRE_FR": [84, -122],
-    "TIRE_RL": [-86, 136],
-    "TIRE_RR": [86, 136],
-    "EQUIPMENT_CENTER": [0, 18],
-    "WING_LEFT": [-82, 206],
-    "WING_RIGHT": [82, 206]
+    "CENTER": [
+      0.0,
+      0.0
+    ],
+    "EQUIPMENT_CENTER": [
+      0.0,
+      18.0
+    ],
+    "FRONT": [
+      0.0,
+      -218.0
+    ],
+    "LEFT_SIDE": [
+      -88.0,
+      0.0
+    ],
+    "REAR_CENTER": [
+      0.0,
+      216.0
+    ],
+    "REAR_LEFT": [
+      -55.0,
+      204.0
+    ],
+    "REAR_RIGHT": [
+      55.0,
+      204.0
+    ],
+    "RIGHT_SIDE": [
+      88.0,
+      0.0
+    ],
+    "TIRE_FL": [
+      -84.0,
+      -122.0
+    ],
+    "TIRE_FR": [
+      84.0,
+      -122.0
+    ],
+    "TIRE_RL": [
+      -86.0,
+      136.0
+    ],
+    "TIRE_RR": [
+      86.0,
+      136.0
+    ],
+    "WING_LEFT": [
+      -82.0,
+      206.0
+    ],
+    "WING_RIGHT": [
+      82.0,
+      206.0
+    ]
+  },
+  "category": "GT",
+  "display_name": "GT",
+  "profile_id": "gt",
+  "profile_version": 1.0,
+  "reference_image": {
+    "expected_source_size_px": [
+      256.0,
+      512.0
+    ],
+    "path": "res://assets/reference/vehicles/gt_reference.png"
   }
 }

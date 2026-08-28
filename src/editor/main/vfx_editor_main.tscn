@@ -1,17 +1,17 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene format=3 uid="uid://tqq4jukpn06x"]
 
-[ext_resource type="Script" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
-[ext_resource type="Script" path="res://src/editor/dialogs/vfx_new_preset_dialog.gd" id="2_new_dialog"]
-[ext_resource type="Script" path="res://src/editor/workspace/vfx_phase_tabs.gd" id="3_phase_tabs"]
-[ext_resource type="Script" path="res://src/editor/workspace/vfx_layer_stack.gd" id="4_layer_stack"]
-[ext_resource type="Script" path="res://src/editor/inspector/vfx_preset_inspector.gd" id="5_preset_inspector"]
-[ext_resource type="Script" path="res://src/editor/inspector/vfx_layer_inspector.gd" id="6_layer_inspector"]
-[ext_resource type="Script" path="res://src/editor/diagnostics/vfx_diagnostics_panel.gd" id="7_diagnostics"]
-[ext_resource type="Script" path="res://src/editor/dialogs/vfx_unsaved_changes_dialog.gd" id="8_unsaved"]
-[ext_resource type="Script" path="res://src/editor/dialogs/vfx_structure_change_dialog.gd" id="9_structure"]
-[ext_resource type="Script" path="res://src/editor/library/vfx_preset_library_panel.gd" id="10_library"]
+[ext_resource type="Script" uid="uid://bnnpryjndg17h" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://m7pkljln0yje" path="res://src/editor/dialogs/vfx_new_preset_dialog.gd" id="2_new_dialog"]
+[ext_resource type="Script" uid="uid://3svg0p2nepei" path="res://src/editor/workspace/vfx_phase_tabs.gd" id="3_phase_tabs"]
+[ext_resource type="Script" uid="uid://ddheirwo8bx3n" path="res://src/editor/workspace/vfx_layer_stack.gd" id="4_layer_stack"]
+[ext_resource type="Script" uid="uid://dv41wq8k2dn7x" path="res://src/editor/inspector/vfx_preset_inspector.gd" id="5_preset_inspector"]
+[ext_resource type="Script" uid="uid://5x6l7ofo332d" path="res://src/editor/inspector/vfx_layer_inspector.gd" id="6_layer_inspector"]
+[ext_resource type="Script" uid="uid://cqgb0yw1ngqmx" path="res://src/editor/diagnostics/vfx_diagnostics_panel.gd" id="7_diagnostics"]
+[ext_resource type="Script" uid="uid://dgcxc754djsih" path="res://src/editor/dialogs/vfx_unsaved_changes_dialog.gd" id="8_unsaved"]
+[ext_resource type="Script" uid="uid://bldsydlhrgne2" path="res://src/editor/dialogs/vfx_structure_change_dialog.gd" id="9_structure"]
+[ext_resource type="Script" uid="uid://dfc3dv34xs27c" path="res://src/editor/library/vfx_preset_library_panel.gd" id="10_library"]
 
-[node name="VfxEditorMain" type="Control"]
+[node name="VfxEditorMain" type="Control" unique_id=1785822178]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,156 +20,148 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main")
 
-[node name="Toolbar" type="HBoxContainer" parent="."]
+[node name="Toolbar" type="HBoxContainer" parent="." unique_id=1588538043]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-grow_horizontal = 2
 offset_bottom = 40.0
+grow_horizontal = 2
 
-[node name="NewButton" type="Button" parent="Toolbar"]
+[node name="NewButton" type="Button" parent="Toolbar" unique_id=696721356]
 layout_mode = 2
 text = "New"
 
-[node name="OpenButton" type="Button" parent="Toolbar"]
+[node name="OpenButton" type="Button" parent="Toolbar" unique_id=1245634743]
 layout_mode = 2
 text = "Open"
 
-[node name="SaveButton" type="Button" parent="Toolbar"]
+[node name="SaveButton" type="Button" parent="Toolbar" unique_id=1003288713]
 layout_mode = 2
 text = "Save"
 
-[node name="SaveAsButton" type="Button" parent="Toolbar"]
+[node name="SaveAsButton" type="Button" parent="Toolbar" unique_id=972893433]
 layout_mode = 2
 text = "Save As"
 
-[node name="UndoButton" type="Button" parent="Toolbar"]
+[node name="UndoButton" type="Button" parent="Toolbar" unique_id=1032437159]
 layout_mode = 2
 text = "Undo"
 
-[node name="RedoButton" type="Button" parent="Toolbar"]
+[node name="RedoButton" type="Button" parent="Toolbar" unique_id=236882441]
 layout_mode = 2
 text = "Redo"
 
-[node name="ValidateButton" type="Button" parent="Toolbar"]
+[node name="ValidateButton" type="Button" parent="Toolbar" unique_id=112936876]
 layout_mode = 2
 text = "Validate"
 
-[node name="DirtyIndicator" type="Label" parent="Toolbar"]
+[node name="DirtyIndicator" type="Label" parent="Toolbar" unique_id=1632967608]
 layout_mode = 2
-text = ""
 
-[node name="EditorLayout" type="VSplitContainer" parent="."]
+[node name="EditorLayout" type="VSplitContainer" parent="." unique_id=1334809978]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 48.0
 grow_horizontal = 2
 grow_vertical = 2
-offset_top = 48.0
+split_offsets = PackedInt32Array(190)
 split_offset = 190
 
-[node name="AuthoringSplit" type="HSplitContainer" parent="EditorLayout"]
+[node name="AuthoringSplit" type="HSplitContainer" parent="EditorLayout" unique_id=2537917]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="LibraryPanel" type="VBoxContainer" parent="EditorLayout/AuthoringSplit"]
+[node name="LibraryPanel" type="VBoxContainer" parent="EditorLayout/AuthoringSplit" unique_id=1889441162]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.0
 script = ExtResource("10_library")
 
-[node name="Search" type="LineEdit" parent="EditorLayout/AuthoringSplit/LibraryPanel"]
+[node name="Search" type="LineEdit" parent="EditorLayout/AuthoringSplit/LibraryPanel" unique_id=731577577]
 layout_mode = 2
 placeholder_text = "Search Presets"
 
-[node name="CategoryFilter" type="OptionButton" parent="EditorLayout/AuthoringSplit/LibraryPanel"]
+[node name="CategoryFilter" type="OptionButton" parent="EditorLayout/AuthoringSplit/LibraryPanel" unique_id=283044106]
 layout_mode = 2
 
-[node name="RowsScroll" type="ScrollContainer" parent="EditorLayout/AuthoringSplit/LibraryPanel"]
+[node name="RowsScroll" type="ScrollContainer" parent="EditorLayout/AuthoringSplit/LibraryPanel" unique_id=284080397]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Rows" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/LibraryPanel/RowsScroll"]
+[node name="Rows" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/LibraryPanel/RowsScroll" unique_id=31785704]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CenterInspectorSplit" type="HSplitContainer" parent="EditorLayout/AuthoringSplit"]
+[node name="CenterInspectorSplit" type="HSplitContainer" parent="EditorLayout/AuthoringSplit" unique_id=1022254853]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="CenterWorkspace" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit"]
+[node name="CenterWorkspace" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit" unique_id=2128076706]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="PreviewHost" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace"]
+[node name="PreviewHost" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace" unique_id=1020796738]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="PreviewPlaceholder" type="Panel" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace/PreviewHost"]
+[node name="PreviewPlaceholder" type="Panel" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace/PreviewHost" unique_id=202999049]
 layout_mode = 2
 
-[node name="PhaseTabs" type="TabContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace"]
+[node name="PhaseTabs" type="TabContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace" unique_id=1731918824]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 script = ExtResource("3_phase_tabs")
 
-[node name="LayerStack" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace"]
+[node name="LayerStack" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace" unique_id=387212058]
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("4_layer_stack")
 
-[node name="InspectorPanel" type="ScrollContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit"]
+[node name="InspectorPanel" type="ScrollContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit" unique_id=224982624]
 custom_minimum_size = Vector2(270, 0)
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.0
 follow_focus = true
 
-[node name="InspectorContents" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel"]
+[node name="InspectorContents" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel" unique_id=680850785]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PresetInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel/InspectorContents"]
+[node name="PresetInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel/InspectorContents" unique_id=523189241]
 layout_mode = 2
 script = ExtResource("5_preset_inspector")
 
-[node name="LayerInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel/InspectorContents"]
+[node name="LayerInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel/InspectorContents" unique_id=2050217815]
 layout_mode = 2
 script = ExtResource("6_layer_inspector")
 
-[node name="DiagnosticsPanel" type="ScrollContainer" parent="EditorLayout"]
+[node name="DiagnosticsPanel" type="ScrollContainer" parent="EditorLayout" unique_id=2142553444]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.0
 script = ExtResource("7_diagnostics")
 
-[node name="PresetFileDialog" type="FileDialog" parent="."]
-layout_mode = 0
+[node name="PresetFileDialog" type="FileDialog" parent="." unique_id=491836559]
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-layout_mode = 0
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=1203440405]
 
-[node name="NewPresetDialog" type="ConfirmationDialog" parent="."]
-layout_mode = 0
+[node name="NewPresetDialog" type="ConfirmationDialog" parent="." unique_id=2035333285]
 title = "New VFX Preset"
 script = ExtResource("2_new_dialog")
 
-[node name="UnsavedChangesDialog" type="ConfirmationDialog" parent="."]
-layout_mode = 0
+[node name="UnsavedChangesDialog" type="ConfirmationDialog" parent="." unique_id=149665586]
 script = ExtResource("8_unsaved")
 
-[node name="StructureChangeDialog" type="ConfirmationDialog" parent="."]
-layout_mode = 0
+[node name="StructureChangeDialog" type="ConfirmationDialog" parent="." unique_id=1973134650]
 script = ExtResource("9_structure")
