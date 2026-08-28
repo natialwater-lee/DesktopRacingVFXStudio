@@ -96,49 +96,55 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CenterWorkspace" type="VBoxContainer" parent="EditorLayout/AuthoringSplit"]
+[node name="CenterInspectorSplit" type="HSplitContainer" parent="EditorLayout/AuthoringSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="CenterWorkspace" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="PreviewHost" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterWorkspace"]
+[node name="PreviewHost" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="PreviewPlaceholder" type="Panel" parent="EditorLayout/AuthoringSplit/CenterWorkspace/PreviewHost"]
+[node name="PreviewPlaceholder" type="Panel" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace/PreviewHost"]
 layout_mode = 2
 
-[node name="PhaseTabs" type="TabContainer" parent="EditorLayout/AuthoringSplit/CenterWorkspace"]
+[node name="PhaseTabs" type="TabContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 script = ExtResource("3_phase_tabs")
 
-[node name="LayerStack" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterWorkspace"]
+[node name="LayerStack" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace"]
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("4_layer_stack")
 
-[node name="InspectorPanel" type="ScrollContainer" parent="EditorLayout/AuthoringSplit"]
+[node name="InspectorPanel" type="ScrollContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit"]
 custom_minimum_size = Vector2(270, 0)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.0
 follow_focus = true
 
-[node name="InspectorContents" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/InspectorPanel"]
+[node name="InspectorContents" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PresetInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/InspectorPanel/InspectorContents"]
+[node name="PresetInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel/InspectorContents"]
 layout_mode = 2
 script = ExtResource("5_preset_inspector")
 
-[node name="LayerInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/InspectorPanel/InspectorContents"]
+[node name="LayerInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/CenterInspectorSplit/InspectorPanel/InspectorContents"]
 layout_mode = 2
 script = ExtResource("6_layer_inspector")
 

@@ -45,8 +45,14 @@ static func run(tests: TestAssert) -> void:
 		tests.expect_true(type_label.text == "GLOW" and importance_label.text == first.value["importance"], "Layer row summaries reflect Contract data")
 		tests.expect_true(select_layer.button_pressed, "selected Layer uses the default pressed visual state")
 		tests.expect_true(selected_row.get_node_or_null("Actions/Duplicate") is Button and selected_row.get_node_or_null("Actions/Delete") is Button, "only the selected Layer exposes row actions")
+		tests.expect_true((selected_row.get_node("Actions/Duplicate") as Button).text == "Dup" and (selected_row.get_node("Actions/Delete") as Button).text == "Del", "selected row actions stay compact enough for the flexible Center pane")
 	var unselected_row := stack.get_node_or_null("Rows/LayerRow1") as HBoxContainer
 	tests.expect_true(unselected_row != null and unselected_row.get_node_or_null("Actions") == null, "unselected Layers keep their information area uncluttered")
+	var long_id_source: Dictionary = source.duplicate(true)
+	long_id_source["phases"]["loop"]["layers"][0]["id"] = "loop.extremely_long_layer_identifier_that_must_not_expand_the_center_pane"
+	stack.set_phase(long_id_source, "loop")
+	stack.set_selected_layer_id(long_id_source["phases"]["loop"]["layers"][0]["id"])
+	tests.expect_true(stack.get_combined_minimum_size().x <= 320.0, "a selected long-id Layer row remains within the Center minimum width")
 
 	var moved := stack.move_layer(source, "loop", 1, -1)
 	tests.expect_true(moved["phases"]["loop"]["layers"][0]["id"] == second.value["id"], "move up changes active phase order")

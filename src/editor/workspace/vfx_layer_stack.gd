@@ -158,14 +158,15 @@ func _append_layer_row(rows: VBoxContainer, layer: Dictionary, index: int) -> vo
 	var type_label := Label.new()
 	type_label.name = "Type"
 	type_label.text = str(layer.get("type", ""))
-	type_label.custom_minimum_size = Vector2(72, 0)
+	type_label.custom_minimum_size = Vector2(56, 0)
 	row.add_child(type_label)
 	var select_button := Button.new()
 	select_button.name = "SelectLayer"
-	select_button.text = layer_id
+	select_button.text = _display_layer_id(layer_id)
 	select_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	select_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	select_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	select_button.clip_text = true
 	select_button.tooltip_text = layer_id
 	select_button.toggle_mode = true
 	select_button.button_pressed = layer_id == _selected_layer_id
@@ -174,7 +175,7 @@ func _append_layer_row(rows: VBoxContainer, layer: Dictionary, index: int) -> vo
 	var importance_label := Label.new()
 	importance_label.name = "Importance"
 	importance_label.text = str(layer.get("importance", ""))
-	importance_label.custom_minimum_size = Vector2(56, 0)
+	importance_label.custom_minimum_size = Vector2(44, 0)
 	row.add_child(importance_label)
 	if layer_id == _selected_layer_id:
 		_append_selected_actions(row, layer_id)
@@ -186,25 +187,34 @@ func _append_selected_actions(row: HBoxContainer, layer_id: String) -> void:
 	actions.name = "Actions"
 	var duplicate := Button.new()
 	duplicate.name = "Duplicate"
-	duplicate.text = "Duplicate"
+	duplicate.text = "Dup"
+	duplicate.tooltip_text = "Duplicate"
 	duplicate.pressed.connect(func() -> void: duplicate_layer_requested.emit(layer_id))
 	actions.add_child(duplicate)
 	var up := Button.new()
 	up.name = "Up"
-	up.text = "Up"
+	up.text = "↑"
+	up.tooltip_text = "Move Up"
 	up.pressed.connect(func() -> void: move_layer_requested.emit(layer_id, -1))
 	actions.add_child(up)
 	var down := Button.new()
 	down.name = "Down"
-	down.text = "Down"
+	down.text = "↓"
+	down.tooltip_text = "Move Down"
 	down.pressed.connect(func() -> void: move_layer_requested.emit(layer_id, 1))
 	actions.add_child(down)
 	var delete := Button.new()
 	delete.name = "Delete"
-	delete.text = "Delete"
+	delete.text = "Del"
+	delete.tooltip_text = "Delete"
 	delete.pressed.connect(func() -> void: delete_layer_requested.emit(layer_id))
 	actions.add_child(delete)
 	row.add_child(actions)
+
+
+func _display_layer_id(layer_id: String) -> String:
+	const MAX_VISIBLE_CHARS := 14
+	return "%s…" % layer_id.substr(0, MAX_VISIBLE_CHARS) if layer_id.length() > MAX_VISIBLE_CHARS else layer_id
 
 
 func _append_add_controls(rows: VBoxContainer) -> void:
