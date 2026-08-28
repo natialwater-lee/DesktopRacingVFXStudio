@@ -192,15 +192,30 @@ func _validate_rule_contract_coverage(issues: Array[VfxIssue]) -> void:
 		match rule["name"]:
 			"LIFECYCLE_PHASE_STRUCTURE":
 				_validate_lifecycle_rule_coverage(rule, pointer, issues)
+			"PRESET_HAS_LAYER":
+				_layer_schema_at_rule_phases(rule, pointer, issues)
+			"UNIQUE_LAYER_IDS_ACROSS_PHASES":
+				_validate_layer_rule_fields(rule, pointer, ["id_field"], issues)
+			"TYPE_DISPATCHED_PARAMETER_SCHEMA":
+				_validate_layer_rule_fields(rule, pointer, ["type_field", "parameters_field"], issues)
+				_validate_root_object_path(rule["layer_types_path"], "%s/layer_types_path" % pointer, issues)
 			"PARTICLE_EMISSION_CONFIGURATION":
+				_validate_layer_rule_fields(rule, pointer, ["parameters_field"], issues)
 				_validate_emission_rule_coverage(rule, pointer, issues)
 			"PARTICLE_EMITTER_SHAPE":
+				_validate_layer_rule_fields(rule, pointer, ["parameters_field"], issues)
 				_validate_emitter_rule_coverage(rule, pointer, issues)
 			"PARTICLE_MOTION_RANGE_ORDER":
+				_validate_layer_rule_fields(rule, pointer, ["parameters_field"], issues)
 				_validate_motion_rule_coverage(rule, pointer, issues)
+			"RUNTIME_INPUT_NAMES":
+				_schema_at_preset_path(rule["runtime_inputs_path"], "%s/runtime_inputs_path" % pointer, issues)
+				_validate_root_object_path(rule["contract_path"], "%s/contract_path" % pointer, issues)
 			"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS":
+				_validate_layer_rule_fields(rule, pointer, ["layer_space_field", "anchors_field"], issues)
 				_validate_anchor_rule_coverage(rule, pointer, issues)
 			"RENDER_PLANE_FOR_EFFECTIVE_SPACE":
+				_validate_layer_rule_fields(rule, pointer, ["layer_space_field", "render_plane_field"], issues)
 				_validate_render_plane_rule_coverage(rule, pointer, issues)
 
 
@@ -209,6 +224,10 @@ func _validate_lifecycle_rule_coverage(rule: Dictionary, pointer: String, issues
 	var mode_schema := _schema_property(lifecycle_schema, rule["mode_field"], "%s/mode_field" % pointer, issues)
 	var modes := _schema_enum(mode_schema, "%s/phase_names_by_mode" % pointer, issues)
 	_validate_enum_mapping(rule["phase_names_by_mode"], modes, "%s/phase_names_by_mode" % pointer, issues)
+	var phases_schema := _schema_at_preset_path(rule["phases_path"], "%s/phases_path" % pointer, issues)
+	for mode_name in rule["phase_names_by_mode"]:
+		for phase_name in rule["phase_names_by_mode"][mode_name]:
+			_schema_property(phases_schema, phase_name, "%s/phase_names_by_mode/%s" % [pointer, mode_name], issues)
 
 
 func _validate_emission_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
@@ -247,6 +266,45 @@ func _validate_anchor_rule_coverage(rule: Dictionary, pointer: String, issues: A
 	for space_mode in rule["vehicle_space_modes"]:
 		if not space_modes.has(space_mode):
 			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Vehicle Space Mode is not declared by the Schema.", "%s/vehicle_space_modes" % pointer))
+
+
+func _validate_layer_rule_fields(rule: Dictionary, pointer: String, rule_field_keys: Array, issues: Array[VfxIssue]) -> Dictionary:
+	var layer_schema := _layer_schema_at_rule_phases(rule, pointer, issues)
+	for rule_field_key in rule_field_keys:
+		_schema_property(layer_schema, rule[rule_field_key], "%s/%s" % [pointer, rule_field_key], issues)
+	return layer_schema
+
+
+func _layer_schema_at_rule_phases(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> Dictionary:
+	var phases_schema := _schema_at_preset_path(rule["phases_path"], "%s/phases_path" % pointer, issues)
+	var resolved_phases := _resolve_schema_node(phases_schema, "%s/phases_path" % pointer, issues)
+	if resolved_phases.is_empty() or not resolved_phases.has("properties"):
+		return {}
+	for phase_name in resolved_phases["properties"]:
+		var phase_schema := _schema_property(resolved_phases, phase_name, "%s/phases_path" % pointer, issues)
+		var layers_schema := _schema_property(phase_schema, "layers", "%s/phases_path" % pointer, issues)
+		var resolved_layers := _resolve_schema_node(layers_schema, "%s/phases_path" % pointer, issues)
+		if resolved_layers.has("items") and resolved_layers["items"] is Dictionary:
+			return _resolve_schema_node(resolved_layers["items"], "%s/phases_path" % pointer, issues)
+	issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Phase path does not resolve to a Layer array Schema.", "%s/phases_path" % pointer))
+	return {}
+
+
+func _validate_root_object_path(path: String, pointer: String, issues: Array[VfxIssue]) -> void:
+	var value: Variant = _root_value_at_path(path, pointer, issues)
+	if not value is Dictionary:
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule path does not resolve to a Schema object.", pointer))
+
+
+func _root_value_at_path(path: String, pointer: String, issues: Array[VfxIssue]) -> Variant:
+	var current: Variant = _active_schema
+	for segment in path.trim_prefix("/").split("/"):
+		var key := segment.replace("~1", "/").replace("~0", "~")
+		if not current is Dictionary or not current.has(key):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Rule path does not resolve in the Schema.", pointer))
+			return null
+		current = current[key]
+	return current
 
 
 func _validate_render_plane_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:

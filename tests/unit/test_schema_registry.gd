@@ -56,6 +56,11 @@ static func run(tests: TestAssert) -> void:
 		var incomplete_emitter_mapping := registry.load_data(incomplete_emitter_mapping_schema, "incomplete_emitter_mapping_schema.json")
 		tests.expect_true(not incomplete_emitter_mapping.success, "rule configuration must cover every declared emitter shape")
 
+		var misspelled_anchor_field_schema := registry.schema()
+		_rule_by_name(misspelled_anchor_field_schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")["anchors_field"] = "misspelled"
+		var misspelled_anchor_field := registry.load_data(misspelled_anchor_field_schema, "misspelled_anchor_field_schema.json")
+		tests.expect_true(not misspelled_anchor_field.success, "rule configuration must reference declared Layer fields")
+
 
 static func _rule_by_name(schema: Dictionary, rule_name: String) -> Dictionary:
 	for rule in schema["x_vfx_rules"]:

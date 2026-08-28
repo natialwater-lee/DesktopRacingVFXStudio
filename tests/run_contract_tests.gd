@@ -22,4 +22,5 @@ func _init() -> void:
 	PresetNormalizerTests.run(tests)
 	ContractValidatorTests.run(tests)
 	PresetPipelineTests.run(tests)
+	print("CONTRACT_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)
