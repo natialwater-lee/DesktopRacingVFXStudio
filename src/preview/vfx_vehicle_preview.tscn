@@ -15,6 +15,67 @@ layout_mode = 2
 layout_mode = 2
 text = "VEHICLE PREVIEW"
 
+[node name="DisplayRow" type="HBoxContainer" parent="PreviewControls"]
+layout_mode = 2
+
+[node name="BackgroundSelect" type="OptionButton" parent="PreviewControls/DisplayRow"]
+layout_mode = 2
+tooltip_text = "Preview Background"
+
+[node name="TrackScaleSelect" type="OptionButton" parent="PreviewControls/DisplayRow"]
+layout_mode = 2
+tooltip_text = "Track Scale"
+
+[node name="EditZoomSelect" type="OptionButton" parent="PreviewControls/DisplayRow"]
+layout_mode = 2
+tooltip_text = "Edit Zoom"
+
+[node name="MotionSelect" type="OptionButton" parent="PreviewControls/DisplayRow"]
+layout_mode = 2
+tooltip_text = "Preview Motion"
+
+[node name="ShowAnchors" type="CheckBox" parent="PreviewControls/DisplayRow"]
+layout_mode = 2
+text = "Anchors"
+button_pressed = true
+
+[node name="ProfileEditRow" type="HBoxContainer" parent="PreviewControls"]
+layout_mode = 2
+
+[node name="AnchorSelect" type="OptionButton" parent="PreviewControls/ProfileEditRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Vehicle Profile Anchor"
+
+[node name="AnchorX" type="SpinBox" parent="PreviewControls/ProfileEditRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+min_value = -512.0
+max_value = 512.0
+step = 1.0
+tooltip_text = "Anchor source-local X"
+
+[node name="AnchorY" type="SpinBox" parent="PreviewControls/ProfileEditRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+min_value = -512.0
+max_value = 512.0
+step = 1.0
+tooltip_text = "Anchor source-local Y"
+
+[node name="SaveProfile" type="Button" parent="PreviewControls/ProfileEditRow"]
+layout_mode = 2
+text = "Save"
+
+[node name="RevertProfile" type="Button" parent="PreviewControls/ProfileEditRow"]
+layout_mode = 2
+text = "Revert"
+
+[node name="LayerContext" type="Label" parent="PreviewControls"]
+layout_mode = 2
+text = "No Layer Selected"
+text_overrun_behavior = 3
+
 [node name="PreviewSurface" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 112)
 layout_mode = 2

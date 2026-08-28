@@ -26,6 +26,17 @@ func load_profile(path: String) -> VfxResult:
 	return VfxResult.with_issues(VfxVehicleProfileDocumentModel.new(path, profile), issues)
 
 
+func save_profile(path: String, profile: Dictionary) -> VfxResult:
+	var issues: Array[VfxIssue] = _validator.validate(profile, path)
+	issues.append_array(preflight_profile(profile, path))
+	if issues.any(func(issue: VfxIssue) -> bool: return issue.severity == "ERROR"):
+		return VfxResult.failure(issues)
+	var written: VfxResult = _codec.write_file(path, profile)
+	if not written.success:
+		return written
+	return VfxResult.with_issues(VfxVehicleProfileDocumentModel.new(path, profile), issues)
+
+
 func preflight_profile(profile: Dictionary, source_path: String = "") -> Array[VfxIssue]:
 	var issues: Array[VfxIssue] = []
 	var reference_value: Variant = profile.get("reference_image")
