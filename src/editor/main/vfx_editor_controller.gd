@@ -1,6 +1,8 @@
 class_name VfxEditorController
 extends RefCounted
 
+signal layer_type_change_confirmation_requested(target_type: String)
+
 const VfxPresetPipelineModel := preload("res://src/app/vfx_preset_pipeline.gd")
 const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
 const VfxRuleCatalogModel := preload("res://src/model/vfx_rule_catalog.gd")
@@ -240,6 +242,8 @@ func commit_preset_field(json_pointer: String, value: Variant) -> bool:
 
 
 func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
+	if json_pointer.begins_with("/parameters/"):
+		return commit_selected_layer_parameter(json_pointer.trim_prefix("/parameters"), value)
 	var index := _selected_layer_index(_selected_layer_id)
 	if _selected_phase.is_empty() or index < 0:
 		return false
@@ -251,6 +255,21 @@ func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
 	if json_pointer == "/id" and value is String:
 		_selected_layer_id = value
 	return _commit_workspace_change("Edit Layer Field", next)
+
+
+func commit_selected_layer_parameter(json_pointer_suffix: String, value: Variant) -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if _selected_phase.is_empty() or index < 0 or not json_pointer_suffix.begins_with("/"):
+		return false
+	var pointer := "/phases/%s/layers/%d/parameters%s" % [_escape_pointer_segment(_selected_phase), index, json_pointer_suffix]
+	var before := _session.working_copy()
+	var edited := _upsert_json_pointer(before, pointer, _duplicate_value(value))
+	if before == edited:
+		return false
+	_prune_particle_selector_fields(edited, index, json_pointer_suffix)
+	var built := _pipeline.build_document_from_value(edited, _session.source_path())
+	var next: Dictionary = built.value.normalized_data.duplicate(true) if built.success else edited
+	return _commit_workspace_change("Edit Layer Parameter", next)
 
 
 func set_selected_layer_space_override(mode_or_inherit: String) -> bool:
@@ -438,7 +457,7 @@ func _on_space_override_changed(mode_or_inherit: String) -> void:
 
 
 func _on_layer_type_change_requested(target_type: String) -> void:
-	change_selected_layer_type(target_type)
+	layer_type_change_confirmation_requested.emit(target_type)
 
 
 func _commit_workspace_change(label: String, next_data: Dictionary) -> bool:
@@ -521,6 +540,79 @@ func _replace_json_pointer(source: Dictionary, pointer: String, value: Variant) 
 	else:
 		return source.duplicate(true)
 	return next
+
+
+func _upsert_json_pointer(source: Dictionary, pointer: String, value: Variant) -> Dictionary:
+	if not pointer.begins_with("/"):
+		return source.duplicate(true)
+	var next := source.duplicate(true)
+	var segments := pointer.trim_prefix("/").split("/")
+	var current: Variant = next
+	for index in segments.size() - 1:
+		var segment := segments[index].replace("~1", "/").replace("~0", "~")
+		if current is Dictionary:
+			if not current.has(segment):
+				return source.duplicate(true)
+			current = current[segment]
+		elif current is Array:
+			if not segment.is_valid_int() or int(segment) < 0 or int(segment) >= current.size():
+				return source.duplicate(true)
+			current = current[int(segment)]
+		else:
+			return source.duplicate(true)
+	var final_segment := segments[segments.size() - 1].replace("~1", "/").replace("~0", "~")
+	if current is Dictionary:
+		current[final_segment] = value
+	elif current is Array and final_segment.is_valid_int() and int(final_segment) >= 0 and int(final_segment) < current.size():
+		current[int(final_segment)] = value
+	else:
+		return source.duplicate(true)
+	return next
+
+
+func _prune_particle_selector_fields(preset: Dictionary, layer_index: int, pointer_suffix: String) -> void:
+	var layer: Dictionary = preset["phases"][_selected_phase]["layers"][layer_index]
+	var parameters: Variant = layer.get("parameters")
+	if not parameters is Dictionary:
+		return
+	var root_schema := _registry.schema()
+	var emission_rule := _rule_named(root_schema, "PARTICLE_EMISSION_CONFIGURATION")
+	if emission_rule.get("particle_type") == layer.get("type"):
+		var mode_field: String = emission_rule["emission_mode_field"]
+		if pointer_suffix == "/%s" % _escape_pointer_segment(mode_field):
+			var requirements: Variant = emission_rule.get("mode_requirements", {}).get(parameters.get(mode_field))
+			if requirements is Dictionary:
+				for forbidden_field in requirements.get("forbidden_fields", []):
+					parameters.erase(forbidden_field)
+	var emitter_rule := _rule_named(root_schema, "PARTICLE_EMITTER_SHAPE")
+	if emitter_rule.get("particle_type") != layer.get("type"):
+		return
+	var emitter_field: String = emitter_rule["emitter_field"]
+	var shape_field: String = emitter_rule["shape_field"]
+	if pointer_suffix != "/%s/%s" % [_escape_pointer_segment(emitter_field), _escape_pointer_segment(shape_field)]:
+		return
+	var emitter: Variant = parameters.get(emitter_field)
+	if not emitter is Dictionary:
+		return
+	var geometry_by_shape: Dictionary = emitter_rule.get("geometry_by_shape", {})
+	var allowed_geometry: Variant = geometry_by_shape.get(emitter.get(shape_field))
+	if not allowed_geometry is Array:
+		return
+	var all_geometry_fields: Array = []
+	for configured_geometry in geometry_by_shape.values():
+		for geometry_field in configured_geometry:
+			if not all_geometry_fields.has(geometry_field):
+				all_geometry_fields.append(geometry_field)
+	for geometry_field in all_geometry_fields:
+		if not allowed_geometry.has(geometry_field):
+			emitter.erase(geometry_field)
+
+
+func _rule_named(root_schema: Dictionary, rule_name: String) -> Dictionary:
+	for rule in root_schema.get("x_vfx_rules", []):
+		if rule is Dictionary and rule.get("name") == rule_name:
+			return rule
+	return {}
 
 
 func _duplicate_value(value: Variant) -> Variant:

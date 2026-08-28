@@ -6,6 +6,7 @@ signal space_override_changed(mode_or_inherit: String)
 signal layer_type_change_requested(target_type: String)
 
 const INHERIT_DEFAULT := "INHERIT_DEFAULT"
+const VfxSchemaInspectorFactoryModel := preload("res://src/editor/inspector/vfx_schema_inspector_factory.gd")
 
 var _reader: VfxSchemaReader
 var _layer: Dictionary = {}
@@ -23,10 +24,13 @@ var _offset_y: SpinBox
 var _rotation: SpinBox
 var _scale_x: SpinBox
 var _scale_y: SpinBox
+var _parameter_fields: VBoxContainer
+var _schema_inspector_factory: RefCounted
 
 
 func set_schema_reader(reader: VfxSchemaReader) -> void:
 	_reader = reader
+	_schema_inspector_factory = VfxSchemaInspectorFactoryModel.new(reader)
 	var layer_result := _reader.layer_schema()
 	_layer_schema = layer_result.value if layer_result.success else {}
 	_ensure_controls()
@@ -100,6 +104,10 @@ func _ensure_controls() -> void:
 	_type.item_selected.connect(_on_type_selected)
 	add_child(_type)
 	_append_transform_controls()
+	_add_label("Parameters")
+	_parameter_fields = VBoxContainer.new()
+	_parameter_fields.name = "Parameters"
+	add_child(_parameter_fields)
 
 
 func _append_transform_controls() -> void:
@@ -157,6 +165,28 @@ func _refresh_controls() -> void:
 	_rotation.value = float(transform.get("rotation_degrees", default_transform["rotation_degrees"]))
 	_scale_x.value = float(scale[0]) if scale.size() > 0 else float(default_scale[0])
 	_scale_y.value = float(scale[1]) if scale.size() > 1 else float(default_scale[1])
+	_rebuild_parameter_fields()
+
+
+func _rebuild_parameter_fields() -> void:
+	if _parameter_fields == null or _schema_inspector_factory == null:
+		return
+	for child in _parameter_fields.get_children():
+		_parameter_fields.remove_child(child)
+		child.queue_free()
+	var layer_type: Variant = _layer.get("type")
+	if not layer_type is String or layer_type.is_empty():
+		return
+	var schema_result := _reader.layer_parameter_schema(layer_type)
+	var fields: Array[Control]
+	if schema_result.success:
+		var parameters: Dictionary = _layer.get("parameters", {}) if _layer.get("parameters") is Dictionary else {}
+		fields = _schema_inspector_factory.build_fields(schema_result.value, parameters)
+	else:
+		fields = _schema_inspector_factory.build_fields({}, {})
+	for field in fields:
+		field.field_committed.connect(_on_parameter_field_committed)
+		_parameter_fields.add_child(field)
 
 
 func _add_schema_enum(node_name: String, property_name: String, pointer: String) -> OptionButton:
@@ -211,6 +241,10 @@ func _on_space_mode_selected(index: int) -> void:
 func _on_type_selected(index: int) -> void:
 	if index >= 0 and _type.get_item_text(index) != _layer.get("type"):
 		layer_type_change_requested.emit(_type.get_item_text(index))
+
+
+func _on_parameter_field_committed(json_pointer_suffix: String, value: Variant) -> void:
+	layer_field_commit.emit("/parameters%s" % json_pointer_suffix, value)
 
 
 func _on_transform_focus_exited(path: Array, control: SpinBox) -> void:
