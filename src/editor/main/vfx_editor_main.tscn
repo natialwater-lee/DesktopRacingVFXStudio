@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://src/editor/main/vfx_editor_main.gd" id="1_main"]
 [ext_resource type="Script" path="res://src/editor/dialogs/vfx_new_preset_dialog.gd" id="2_new_dialog"]
@@ -6,6 +6,9 @@
 [ext_resource type="Script" path="res://src/editor/workspace/vfx_layer_stack.gd" id="4_layer_stack"]
 [ext_resource type="Script" path="res://src/editor/inspector/vfx_preset_inspector.gd" id="5_preset_inspector"]
 [ext_resource type="Script" path="res://src/editor/inspector/vfx_layer_inspector.gd" id="6_layer_inspector"]
+[ext_resource type="Script" path="res://src/editor/diagnostics/vfx_diagnostics_panel.gd" id="7_diagnostics"]
+[ext_resource type="Script" path="res://src/editor/dialogs/vfx_unsaved_changes_dialog.gd" id="8_unsaved"]
+[ext_resource type="Script" path="res://src/editor/dialogs/vfx_structure_change_dialog.gd" id="9_structure"]
 
 [node name="VfxEditorMain" type="Control"]
 layout_mode = 3
@@ -98,6 +101,7 @@ layout_mode = 0
 offset_top = 628.0
 offset_right = 1152.0
 offset_bottom = 800.0
+script = ExtResource("7_diagnostics")
 
 [node name="PresetFileDialog" type="FileDialog" parent="."]
 layout_mode = 0
@@ -109,3 +113,11 @@ layout_mode = 0
 layout_mode = 0
 title = "New VFX Preset"
 script = ExtResource("2_new_dialog")
+
+[node name="UnsavedChangesDialog" type="ConfirmationDialog" parent="."]
+layout_mode = 0
+script = ExtResource("8_unsaved")
+
+[node name="StructureChangeDialog" type="ConfirmationDialog" parent="."]
+layout_mode = 0
+script = ExtResource("9_structure")

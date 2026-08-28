@@ -2,6 +2,7 @@ class_name VfxEditorController
 extends RefCounted
 
 signal layer_type_change_confirmation_requested(target_type: String)
+signal close_approved
 
 const VfxPresetPipelineModel := preload("res://src/app/vfx_preset_pipeline.gd")
 const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
@@ -22,6 +23,7 @@ const VfxPresetLibraryModel := preload("res://src/editor/library/vfx_preset_libr
 const VfxPresetLibraryEntryModel := preload("res://src/editor/library/vfx_preset_library_entry.gd")
 const VfxEditorSaveServiceModel := preload("res://src/editor/persistence/vfx_editor_save_service.gd")
 const VfxNewPresetDialogModel := preload("res://src/editor/dialogs/vfx_new_preset_dialog.gd")
+const VfxDiagnosticsNavigatorModel := preload("res://src/editor/diagnostics/vfx_diagnostics_navigator.gd")
 
 var _paths: VfxAuthoringPaths
 var _pipeline: VfxPresetPipeline
@@ -45,6 +47,15 @@ var _preset_inspector: VfxPresetInspector
 var _layer_inspector: VfxLayerInspector
 var _selected_phase := ""
 var _selected_layer_id := ""
+var _diagnostics_panel
+var _diagnostics_navigator: RefCounted
+var _unsaved_changes_dialog
+var _structure_change_dialog
+var _pending_transition: Callable
+var _pending_transition_name := ""
+var _pending_structure_kind := ""
+var _pending_structure_target := ""
+var _transition_performed := false
 
 
 func _init() -> void:
@@ -60,6 +71,7 @@ func _init() -> void:
 	_structure_change_service = VfxStructureChangeServiceModel.new(_skeleton_factory, _layer_factory)
 	_library = VfxPresetLibraryModel.new(_pipeline, _paths)
 	_save_service = VfxEditorSaveServiceModel.new(_pipeline, codec, _paths)
+	_diagnostics_navigator = VfxDiagnosticsNavigatorModel.new()
 
 
 func _notification(what: int) -> void:
@@ -68,13 +80,29 @@ func _notification(what: int) -> void:
 
 
 func request_close() -> bool:
+	return request_transition("Close", func() -> void: close_approved.emit())
+
+
+func transition_performed() -> bool:
+	return _transition_performed
+
+
+func request_transition(action_name: String, continuation: Callable) -> bool:
+	_transition_performed = false
+	if _has_unsaved_changes():
+		_pending_transition_name = action_name
+		_pending_transition = continuation
+		if _unsaved_changes_dialog != null:
+			_unsaved_changes_dialog.request(action_name)
+		return false
+	_perform_transition(action_name, continuation)
 	return true
 
 
 func create_new_preset(preset_id: String, display_name: String, category: String, lifecycle_mode: String, default_space_mode: String) -> VfxResult:
 	var created: VfxResult = _skeleton_factory.create(preset_id, display_name, category, lifecycle_mode, default_space_mode)
 	if not created.success:
-		_issues = created.issues.duplicate()
+		_set_issues(created.issues)
 		return created
 	_history.clear()
 	_session.begin_new(created.value)
@@ -96,12 +124,16 @@ func open_library_entry(entry: RefCounted) -> VfxResult:
 func open_path(path: String) -> VfxResult:
 	var normalized := _paths.normalize_authoring_path(path)
 	if not _paths.contains_preset_path(normalized):
-		return _policy_failure("outside_authoring_root", "Preset files must be opened below the configured authoring root.", path)
+		var outside_root := _policy_failure("outside_authoring_root", "Preset files must be opened below the configured authoring root.", path)
+		_set_issues(outside_root.issues)
+		return outside_root
 	if not normalized.ends_with(".vfx.json"):
-		return _policy_failure("invalid_preset_extension", "Preset files must use the .vfx.json extension.", path)
+		var invalid_extension := _policy_failure("invalid_preset_extension", "Preset files must use the .vfx.json extension.", path)
+		_set_issues(invalid_extension.issues)
+		return invalid_extension
 	var loaded := _pipeline.load_and_validate(normalized)
 	if not loaded.success:
-		_issues = loaded.issues.duplicate()
+		_set_issues(loaded.issues)
 		return loaded
 	_history.clear()
 	_session.open_document(loaded.value)
@@ -112,18 +144,28 @@ func open_path(path: String) -> VfxResult:
 
 func save() -> VfxResult:
 	if _session.source_path().is_empty():
-		return _policy_failure("save_as_required", "A new Preset requires a Save As destination.", "")
+		var save_as_required := _policy_failure("save_as_required", "A new Preset requires a Save As destination.", "")
+		_set_issues(save_as_required.issues)
+		return save_as_required
+	refresh_validation()
 	return _save_to(_session.source_path())
 
 
 func save_as(target_path: String, overwrite_confirmed: bool = false) -> VfxResult:
 	var normalized := _paths.normalize_authoring_path(target_path)
 	if not _paths.contains_preset_path(normalized):
-		return _policy_failure("outside_authoring_root", "Preset files must be saved below the configured authoring root.", target_path)
+		var outside_root := _policy_failure("outside_authoring_root", "Preset files must be saved below the configured authoring root.", target_path)
+		_set_issues(outside_root.issues)
+		return outside_root
 	if not normalized.ends_with(".vfx.json"):
-		return _policy_failure("invalid_preset_extension", "Preset files must use the .vfx.json extension.", target_path)
+		var invalid_extension := _policy_failure("invalid_preset_extension", "Preset files must use the .vfx.json extension.", target_path)
+		_set_issues(invalid_extension.issues)
+		return invalid_extension
 	if FileAccess.file_exists(normalized) and not overwrite_confirmed:
-		return _policy_failure("overwrite_confirmation_required", "Saving over an existing Preset requires confirmation.", normalized)
+		var overwrite_required := _policy_failure("overwrite_confirmation_required", "Saving over an existing Preset requires confirmation.", normalized)
+		_set_issues(overwrite_required.issues)
+		return overwrite_required
+	refresh_validation()
 	return _save_to(normalized)
 
 
@@ -171,6 +213,24 @@ func configure_workspace(phase_tabs, layer_stack) -> void:
 	if not _layer_stack.layer_enabled_requested.is_connected(_on_layer_enabled_requested):
 		_layer_stack.layer_enabled_requested.connect(_on_layer_enabled_requested)
 	reconcile_selection()
+
+
+func configure_diagnostics_panel(panel) -> void:
+	_diagnostics_panel = panel
+	if not _diagnostics_panel.issue_activated.is_connected(_on_diagnostic_issue_activated):
+		_diagnostics_panel.issue_activated.connect(_on_diagnostic_issue_activated)
+	_diagnostics_panel.set_issues(_issues)
+
+
+func configure_transition_dialogs(unsaved_changes_dialog, structure_change_dialog) -> void:
+	_unsaved_changes_dialog = unsaved_changes_dialog
+	_structure_change_dialog = structure_change_dialog
+	if not _unsaved_changes_dialog.decision.is_connected(_on_unsaved_changes_decision):
+		_unsaved_changes_dialog.decision.connect(_on_unsaved_changes_decision)
+	if not _structure_change_dialog.confirmed.is_connected(_on_structure_change_confirmed):
+		_structure_change_dialog.confirmed.connect(_on_structure_change_confirmed)
+	if not _structure_change_dialog.canceled.is_connected(_on_structure_change_canceled):
+		_structure_change_dialog.canceled.connect(_on_structure_change_canceled)
 
 
 func configure_inspectors(preset_inspector: VfxPresetInspector, layer_inspector: VfxLayerInspector) -> void:
@@ -336,7 +396,7 @@ func set_selected_layer_space_override(mode_or_inherit: String) -> bool:
 func change_lifecycle(target_mode: String) -> bool:
 	var replaced: VfxResult = _structure_change_service.replace_lifecycle(_session.working_copy(), target_mode)
 	if not replaced.success:
-		_issues = replaced.issues.duplicate()
+		_set_issues(replaced.issues)
 		return false
 	return _commit_workspace_change("Change Lifecycle", replaced.value)
 
@@ -347,9 +407,31 @@ func change_selected_layer_type(target_type: String) -> bool:
 		return false
 	var replaced: VfxResult = _structure_change_service.replace_layer_type(_session.working_copy(), _selected_phase, index, target_type)
 	if not replaced.success:
-		_issues = replaced.issues.duplicate()
+		_set_issues(replaced.issues)
 		return false
 	return _commit_workspace_change("Change Layer Type", replaced.value)
+
+
+func request_lifecycle_change(target_mode: String) -> bool:
+	if target_mode == _session.working_copy().get("lifecycle", {}).get("mode") or _structure_change_dialog == null:
+		return false
+	_pending_structure_kind = "lifecycle"
+	_pending_structure_target = target_mode
+	_structure_change_dialog.request("Lifecycle", target_mode)
+	return true
+
+
+func request_selected_layer_type_change(target_type: String) -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if index < 0 or _structure_change_dialog == null:
+		return false
+	var current_layer_type: Variant = _session.working_copy().get("phases", {}).get(_selected_phase, {}).get("layers", [])[index].get("type")
+	if target_type == current_layer_type:
+		return false
+	_pending_structure_kind = "layer_type"
+	_pending_structure_target = target_type
+	_structure_change_dialog.request("Layer Type", target_type)
+	return true
 
 
 func undo() -> void:
@@ -360,6 +442,11 @@ func undo() -> void:
 func redo() -> void:
 	if _history.can_redo():
 		_history.redo()
+
+
+func refresh_validation() -> Array[VfxIssue]:
+	_refresh_issues()
+	return current_issues()
 
 
 func reconcile_selection() -> void:
@@ -393,13 +480,17 @@ func configure_overwrite_confirmation_dialog(dialog: ConfirmationDialog) -> void
 
 
 func _on_new_pressed() -> void:
-	if _new_preset_dialog != null:
-		_new_preset_dialog.popup_centered()
+	request_transition("New", func() -> void:
+		if _new_preset_dialog != null:
+			_new_preset_dialog.popup_centered()
+	)
 
 
 func _on_open_pressed() -> void:
-	_file_dialog_action = "OPEN"
-	_show_file_dialog(FileDialog.FILE_MODE_OPEN_FILE)
+	request_transition("Open", func() -> void:
+		_file_dialog_action = "OPEN"
+		_show_file_dialog(FileDialog.FILE_MODE_OPEN_FILE)
+	)
 
 
 func _on_save_pressed() -> void:
@@ -413,6 +504,18 @@ func _on_save_pressed() -> void:
 func _on_save_as_pressed() -> void:
 	_file_dialog_action = "SAVE_AS"
 	_show_file_dialog(FileDialog.FILE_MODE_SAVE_FILE)
+
+
+func _on_undo_pressed() -> void:
+	undo()
+
+
+func _on_redo_pressed() -> void:
+	redo()
+
+
+func _on_validate_pressed() -> void:
+	refresh_validation()
 
 
 func _on_new_preset_requested(preset_id: String, display_name: String, category: String, lifecycle_mode: String, default_space_mode: String) -> void:
@@ -443,7 +546,7 @@ func _on_overwrite_confirmed() -> void:
 
 func _save_to(target_path: String) -> VfxResult:
 	var saved: VfxResult = _save_service.save(_session, target_path)
-	_issues = saved.issues.duplicate()
+	_set_issues(saved.issues)
 	return saved
 
 
@@ -457,7 +560,89 @@ func _show_file_dialog(mode: FileDialog.FileMode) -> void:
 
 func _refresh_issues() -> void:
 	var built := _pipeline.build_document_from_value(_session.working_copy(), _session.source_path())
-	_issues = built.issues.duplicate()
+	_set_issues(built.issues)
+
+
+func _set_issues(issues: Array[VfxIssue]) -> void:
+	_issues = issues.duplicate()
+	if _diagnostics_panel != null:
+		_diagnostics_panel.set_issues(_issues)
+
+
+func _has_unsaved_changes() -> bool:
+	return not _session.working_copy().is_empty() and _session.is_dirty()
+
+
+func _perform_transition(action_name: String, continuation: Callable) -> void:
+	_clear_pending_transition()
+	_transition_performed = true
+	if continuation.is_valid():
+		continuation.call()
+
+
+func _clear_pending_transition() -> void:
+	_pending_transition = Callable()
+	_pending_transition_name = ""
+
+
+func _on_unsaved_changes_decision(decision_name: String) -> void:
+	if _pending_transition_name.is_empty():
+		return
+	var action_name := _pending_transition_name
+	var continuation := _pending_transition
+	if decision_name == "SAVE":
+		var saved := save()
+		if not saved.success:
+			_clear_pending_transition()
+			_focus_diagnostics()
+			return
+		_perform_transition(action_name, continuation)
+	elif decision_name == "DISCARD":
+		_perform_transition(action_name, continuation)
+	else:
+		_clear_pending_transition()
+
+
+func _on_structure_change_confirmed() -> void:
+	var kind := _pending_structure_kind
+	var target := _pending_structure_target
+	_clear_pending_structure_change()
+	if kind == "lifecycle":
+		change_lifecycle(target)
+	elif kind == "layer_type":
+		change_selected_layer_type(target)
+
+
+func _on_structure_change_canceled() -> void:
+	_clear_pending_structure_change()
+	_refresh_workspace()
+
+
+func _clear_pending_structure_change() -> void:
+	_pending_structure_kind = ""
+	_pending_structure_target = ""
+
+
+func _on_diagnostic_issue_activated(issue: VfxIssue) -> void:
+	var route: Dictionary = _diagnostics_navigator.navigate(issue, _session.working_copy())
+	if not route.get("handled", false):
+		return
+	var phase_name: String = route.get("phase_name", "")
+	var layer_id: String = route.get("layer_id", "")
+	if not phase_name.is_empty():
+		select_phase(phase_name)
+	if not layer_id.is_empty():
+		select_layer(layer_id)
+	elif phase_name.is_empty():
+		_selected_layer_id = ""
+		_refresh_workspace()
+	if _preset_inspector != null and layer_id.is_empty():
+		_preset_inspector.grab_focus()
+
+
+func _focus_diagnostics() -> void:
+	if _diagnostics_panel != null and _diagnostics_panel.is_inside_tree():
+		_diagnostics_panel.grab_focus()
 
 
 func _on_phase_selected(phase_name: String) -> void:
@@ -493,7 +678,7 @@ func _on_preset_field_commit(json_pointer: String, value: Variant) -> void:
 
 
 func _on_lifecycle_change_requested(target_mode: String) -> void:
-	change_lifecycle(target_mode)
+	request_lifecycle_change(target_mode)
 
 
 func _on_runtime_inputs_committed(inputs: Array[String]) -> void:
@@ -518,6 +703,7 @@ func _on_anchors_cleared() -> void:
 
 func _on_layer_type_change_requested(target_type: String) -> void:
 	layer_type_change_confirmation_requested.emit(target_type)
+	request_selected_layer_type_change(target_type)
 
 
 func _commit_workspace_change(label: String, next_data: Dictionary) -> bool:

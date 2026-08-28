@@ -17,6 +17,8 @@ const CommonInspectorTests := preload("res://tests/editor/test_common_inspectors
 const SchemaInspectorFactoryTests := preload("res://tests/editor/test_schema_inspector_factory.gd")
 const AnchorEditorTests := preload("res://tests/editor/test_anchor_editor.gd")
 const RuntimeInputsEditorTests := preload("res://tests/editor/test_runtime_inputs_editor.gd")
+const DiagnosticsNavigatorTests := preload("res://tests/editor/test_diagnostics_navigator.gd")
+const TransitionDialogTests := preload("res://tests/editor/test_transition_dialogs.gd")
 
 
 func _init() -> void:
@@ -37,5 +39,7 @@ func _init() -> void:
 	SchemaInspectorFactoryTests.run(tests)
 	AnchorEditorTests.run(tests)
 	RuntimeInputsEditorTests.run(tests)
+	DiagnosticsNavigatorTests.run(tests)
+	TransitionDialogTests.run(tests)
 	print("EDITOR_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)
