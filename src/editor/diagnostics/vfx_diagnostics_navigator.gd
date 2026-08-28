@@ -15,7 +15,6 @@ const ROOT_PRESET_POINTERS := [
 	"default_space_mode",
 	"runtime_inputs"
 ]
-const PHASE_POINTER_CHILDREN := ["layers", "duration_seconds"]
 const LAYER_DIRECT_FIELDS := [
 	"id",
 	"type",
@@ -55,11 +54,14 @@ func navigate(issue: VfxIssue, preset: Dictionary) -> Dictionary:
 	if not phases is Dictionary or not phases.has(segments[1]) or not phases[segments[1]] is Dictionary:
 		return {"handled": false}
 	var phase_name: String = segments[1]
+	var phase_schema := _phase_schema(phase_name)
+	if not phase_schema.success:
+		return {"handled": false}
 	if segments.size() == 2:
 		return _route(phase_name, "", issue.json_pointer)
-	if segments.size() == 3 and PHASE_POINTER_CHILDREN.has(segments[2]):
+	if segments.size() == 3 and _schema_reader.property_schema(phase_schema.value, segments[2]).success:
 		return _route(phase_name, "", issue.json_pointer)
-	if segments.size() < 4 or segments[2] != "layers":
+	if segments.size() < 4 or segments[2] != "layers" or not _schema_reader.property_schema(phase_schema.value, "layers").success:
 		return {"handled": false}
 	var layer_index := _array_index(segments[3])
 	if layer_index < 0:
@@ -75,6 +77,13 @@ func navigate(issue: VfxIssue, preset: Dictionary) -> Dictionary:
 
 func _route(phase_name: String, layer_id: String, json_pointer: String) -> Dictionary:
 	return {"handled": true, "phase_name": phase_name, "layer_id": layer_id, "json_pointer": json_pointer}
+
+
+func _phase_schema(phase_name: String) -> VfxResult:
+	var phases_schema := _schema_reader.property_schema(_schema_reader.root_schema(), "phases")
+	if not phases_schema.success:
+		return phases_schema
+	return _schema_reader.property_schema(phases_schema.value, phase_name)
 
 
 func _is_supported_root_pointer(segments: Array[String], preset: Dictionary) -> bool:

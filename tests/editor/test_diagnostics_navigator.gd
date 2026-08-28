@@ -34,7 +34,7 @@ static func run(tests: TestAssert) -> void:
 	var escaped_phase := {"phases": {"loop/a": {"layers": [{"id": "escaped.layer"}]}}}
 	var escaped_issue := VfxIssueModel.new("PRESET_VALIDATION", "required", "missing", "/phases/loop~1a/layers/0/id")
 	var escaped_route: Dictionary = navigator.navigate(escaped_issue, escaped_phase)
-	tests.expect_true(escaped_route.get("handled", false) and escaped_route.get("phase_name", "") == "loop/a", "navigator unescapes JSON Pointer phase segments")
+	tests.expect_true(not escaped_route.get("handled", true), "escaped phase segments still require a declared Schema phase key")
 
 	var root_issue := VfxIssueModel.new("PRESET_VALIDATION", "required", "missing", "/display_name")
 	var root_route: Dictionary = navigator.navigate(root_issue, preset)
@@ -48,6 +48,16 @@ static func run(tests: TestAssert) -> void:
 
 	var invalid_issue := VfxIssueModel.new("PRESET_VALIDATION", "required", "missing", "/phases/loop/layers/7/id")
 	tests.expect_true(not navigator.navigate(invalid_issue, preset).get("handled", true), "out-of-range layer pointers remain visible and unhandled")
+	var malformed_phase_preset: Dictionary = preset.duplicate(true)
+	malformed_phase_preset["phases"]["bonus"] = {"layers": []}
+	var malformed_phase_issue := VfxIssueModel.new("PRESET_VALIDATION", "additional_property", "unknown", "/phases/bonus")
+	tests.expect_true(not navigator.navigate(malformed_phase_issue, malformed_phase_preset).get("handled", true), "phase keys absent from the Schema are never routed")
+	var loop_duration_issue := VfxIssueModel.new("PRESET_VALIDATION", "additional_property", "unknown", "/phases/loop/duration_seconds")
+	tests.expect_true(not navigator.navigate(loop_duration_issue, preset).get("handled", true), "loop does not route duration because its resolved phase Schema has no duration field")
+	var one_shot_preset: Dictionary = preset.duplicate(true)
+	one_shot_preset["phases"]["one_shot"] = {"duration_seconds": 0.5, "layers": []}
+	var one_shot_duration_issue := VfxIssueModel.new("PRESET_VALIDATION", "minimum", "invalid", "/phases/one_shot/duration_seconds")
+	tests.expect_true(navigator.navigate(one_shot_duration_issue, one_shot_preset).get("handled", false), "one_shot duration routes through its resolved phase Schema")
 	var configuration_issue := VfxIssueModel.new("SCHEMA_CONFIGURATION", "unsupported", "unsupported", "/preset_id")
 	tests.expect_true(not navigator.navigate(configuration_issue, preset).get("handled", true), "configuration issues are not routed to a guessed editor target")
 	for unsupported_pointer in [
