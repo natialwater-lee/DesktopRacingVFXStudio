@@ -2,10 +2,11 @@ class_name VfxPhaseTabs
 extends TabContainer
 
 signal phase_selected(phase_name: String)
-signal duration_changed(phase_name: String, duration_seconds: float)
+signal duration_commit_requested(phase_name: String, duration_seconds: float)
 
 var _phase_names: Array[String] = []
-var _duration_phase_names: Array[String] = []
+var _duration_schemas: Dictionary = {}
+var _duration_edit_start: Dictionary = {}
 var _phase_data: Dictionary = {}
 var _selected_phase_name := ""
 
@@ -37,10 +38,8 @@ func select_phase(phase_name: String) -> void:
 	phase_selected.emit(_selected_phase_name)
 
 
-func set_duration_phase_names(phase_names: Array) -> void:
-	_duration_phase_names.clear()
-	for phase_name_variant in phase_names:
-		_duration_phase_names.append(str(phase_name_variant))
+func set_duration_schemas(schemas: Dictionary) -> void:
+	_duration_schemas = schemas.duplicate(true)
 	_rebuild_tabs()
 
 
@@ -53,7 +52,7 @@ func selected_phase_name() -> String:
 
 
 func phase_has_duration(phase_name: String) -> bool:
-	return _duration_phase_names.has(phase_name)
+	return _duration_schemas.has(phase_name)
 
 
 func _rebuild_tabs() -> void:
@@ -69,10 +68,15 @@ func _rebuild_tabs() -> void:
 		if phase_has_duration(phase_name):
 			var duration := SpinBox.new()
 			duration.name = "DurationSeconds"
-			duration.min_value = 0.001
+			duration.focus_mode = Control.FOCUS_ALL
+			var duration_schema: Dictionary = _duration_schemas[phase_name]
+			duration.min_value = float(duration_schema["minimum"]) if duration_schema.has("minimum") else -INF
+			duration.max_value = float(duration_schema["maximum"]) if duration_schema.has("maximum") else INF
 			duration.step = 0.001
-			duration.value = float(_phase_data[phase_name].get("duration_seconds", 0.001))
-			duration.value_changed.connect(func(value: float) -> void: duration_changed.emit(phase_name, value))
+			duration.value = float(_phase_data[phase_name].get("duration_seconds", 0.0))
+			duration.focus_entered.connect(_on_duration_focus_entered.bind(phase_name, duration))
+			duration.focus_exited.connect(_on_duration_focus_exited.bind(phase_name, duration))
+			duration.get_line_edit().text_submitted.connect(_on_duration_submitted.bind(phase_name, duration))
 			phase_page.add_child(duration)
 		add_child(phase_page)
 
@@ -91,3 +95,27 @@ func _on_tab_changed(index: int) -> void:
 		return
 	_selected_phase_name = next_phase
 	phase_selected.emit(_selected_phase_name)
+
+
+func _on_duration_focus_entered(phase_name: String, duration: SpinBox) -> void:
+	_duration_edit_start[phase_name] = duration.value
+
+
+func _on_duration_focus_exited(phase_name: String, duration: SpinBox) -> void:
+	_commit_duration_if_changed(phase_name, duration)
+
+
+func _on_duration_submitted(_text: String, phase_name: String, duration: SpinBox) -> void:
+	_commit_duration_if_changed(phase_name, duration)
+	if duration.is_inside_tree():
+		duration.get_line_edit().grab_focus()
+
+
+func _commit_duration_if_changed(phase_name: String, duration: SpinBox) -> void:
+	if not phase_has_duration(phase_name):
+		return
+	var initial := float(_duration_edit_start.get(phase_name, _phase_data.get(phase_name, {}).get("duration_seconds", duration.value)))
+	if is_equal_approx(initial, duration.value):
+		return
+	duration_commit_requested.emit(phase_name, duration.value)
+	_duration_edit_start[phase_name] = duration.value

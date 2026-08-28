@@ -203,13 +203,13 @@ func can_undo() -> bool:
 func configure_workspace(phase_tabs, layer_stack) -> void:
 	_phase_tabs = phase_tabs
 	_layer_stack = layer_stack
-	_phase_tabs.set_duration_phase_names(_schema_duration_phase_names())
+	_phase_tabs.set_duration_schemas(_schema_duration_schemas())
 	_layer_stack.set_layer_factory(_layer_factory)
 	_layer_stack.set_available_layer_types(_registry.schema().get("x_vfx_layer_types", {}).keys())
 	if not _phase_tabs.phase_selected.is_connected(_on_phase_selected):
 		_phase_tabs.phase_selected.connect(_on_phase_selected)
-	if not _phase_tabs.duration_changed.is_connected(_on_phase_duration_changed):
-		_phase_tabs.duration_changed.connect(_on_phase_duration_changed)
+	if not _phase_tabs.duration_commit_requested.is_connected(_on_phase_duration_committed):
+		_phase_tabs.duration_commit_requested.connect(_on_phase_duration_committed)
 	if not _layer_stack.layer_selected.is_connected(_on_layer_selected):
 		_layer_stack.layer_selected.connect(_on_layer_selected)
 	if not _layer_stack.add_layer_requested.is_connected(_on_add_layer_requested):
@@ -353,9 +353,14 @@ func commit_runtime_inputs(inputs: Array[String]) -> bool:
 
 
 func commit_phase_duration(phase_name: String, duration_seconds: float) -> bool:
-	if not _schema_duration_phase_names().has(phase_name):
+	if not _schema_duration_schemas().has(phase_name):
 		return false
-	return _commit_workspace_change("Edit Phase Duration", _replace_json_pointer(_session.working_copy(), "/phases/%s/duration_seconds" % _escape_pointer_segment(phase_name), duration_seconds))
+	var before := _session.working_copy()
+	var next := _replace_json_pointer(before, "/phases/%s/duration_seconds" % _escape_pointer_segment(phase_name), duration_seconds)
+	if before == next:
+		return false
+	_history.record_snapshot("Edit Phase Duration", before, next, _restore_duration_snapshot)
+	return true
 
 
 func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
@@ -472,12 +477,14 @@ func request_selected_layer_type_change(target_type: String) -> bool:
 func undo() -> void:
 	if _history.can_undo():
 		_history.undo()
+		_refresh_workspace()
 	_refresh_toolbar()
 
 
 func redo() -> void:
 	if _history.can_redo():
 		_history.redo()
+		_refresh_workspace()
 	_refresh_toolbar()
 
 
@@ -585,6 +592,7 @@ func _save_to(target_path: String) -> VfxResult:
 	var saved: VfxResult = _save_service.save(_session, target_path)
 	_set_issues(saved.issues)
 	if saved.success:
+		_refresh_library()
 		reconcile_selection()
 	_refresh_toolbar()
 	return saved
@@ -691,7 +699,7 @@ func _on_phase_selected(phase_name: String) -> void:
 	select_phase(phase_name)
 
 
-func _on_phase_duration_changed(phase_name: String, duration_seconds: float) -> void:
+func _on_phase_duration_committed(phase_name: String, duration_seconds: float) -> void:
 	commit_phase_duration(phase_name, duration_seconds)
 
 
@@ -780,6 +788,12 @@ func _restore_workspace_snapshot(snapshot: Dictionary) -> void:
 	reconcile_selection()
 
 
+func _restore_duration_snapshot(snapshot: Dictionary) -> void:
+	_session.replace_working_data(snapshot)
+	_refresh_issues()
+	_refresh_workspace(false)
+
+
 func _phase_names() -> Array[String]:
 	var names: Array[String] = []
 	for phase_name_variant in _session.working_copy().get("phases", {}):
@@ -804,9 +818,9 @@ func _selected_layer_index(layer_id: String) -> int:
 	return -1
 
 
-func _refresh_workspace() -> void:
-	_refreshing_workspace = true
-	if _phase_tabs != null:
+func _refresh_workspace(refresh_phase_tabs: bool = true) -> void:
+	_refreshing_workspace = refresh_phase_tabs
+	if _phase_tabs != null and refresh_phase_tabs:
 		_phase_tabs.set_preset(_session.working_copy())
 		_phase_tabs.select_phase(_selected_phase)
 	if _layer_stack != null:
@@ -857,23 +871,23 @@ func _refresh_toolbar() -> void:
 		dirty_indicator.text = "Unsaved" if has_session and _session.is_dirty() else ""
 
 
-func _schema_duration_phase_names() -> Array[String]:
+func _schema_duration_schemas() -> Dictionary:
 	var reader := VfxSchemaReaderModel.new(_registry)
 	var phases_schema := reader.property_schema(reader.root_schema(), "phases")
 	if not phases_schema.success:
-		return []
+		return {}
 	var resolved_phases := reader.resolve(phases_schema.value)
 	if not resolved_phases.success:
-		return []
-	var names: Array[String] = []
+		return {}
+	var schemas: Dictionary = {}
 	for phase_name in (resolved_phases.value as Dictionary).get("properties", {}):
 		var phase_schema := reader.property_schema(resolved_phases.value, phase_name)
 		if not phase_schema.success:
 			continue
 		var duration_schema := reader.property_schema(phase_schema.value, "duration_seconds")
 		if duration_schema.success:
-			names.append(phase_name)
-	return names
+			schemas[phase_name] = duration_schema.value
+	return schemas
 
 
 func _commit_default_space_mode(target_space: String) -> bool:

@@ -51,7 +51,7 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true((editor.get_node("Toolbar/SaveButton") as Button).disabled, "Save is disabled before an existing document has a source path")
 	tests.expect_true((editor.get_node("Toolbar/UndoButton") as Button).disabled and (editor.get_node("Toolbar/RedoButton") as Button).disabled, "history toolbar starts disabled without an edit session")
 	tests.expect_true((editor.get_node("Toolbar/ValidateButton") as Button).disabled, "Validate is disabled without an edit session")
-	tests.expect_true((editor.get_node("PhaseTabs") as Node).has_signal("duration_changed"), "Phase Tabs expose a duration commit signal for Schema-timed phases")
+	tests.expect_true((editor.get_node("PhaseTabs") as Node).has_signal("duration_commit_requested"), "Phase Tabs expose a committed duration edit signal for Schema-timed phases")
 	var library_rows := editor.get_node("LibraryPanel/Rows") as VBoxContainer
 	tests.expect_true(library_rows.get_child_count() >= 3, "Library displays valid examples plus the invalid fixture")
 	var valid_library_row := library_rows.get_child(0) as Button
@@ -110,24 +110,48 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(saved.success and FileAccess.file_exists(WORKFLOW_SAVE_PATH), "valid Save As writes only the requested authoring-root Preset")
 	tests.expect_true(not (editor.get_node("Toolbar/SaveButton") as Button).disabled, "successful Save As reconciles the session before enabling Save")
 	tests.expect_true(editor.editor_controller.selected_layer_id() == workflow_layer_id and editor.get_node_or_null("LayerStack/Rows") != null, "successful Save As reconciles the selected Layer and workspace before toolbar refresh")
+	var saved_library_row: Button = _find_library_row(library_rows, "utility.close_guard")
+	tests.expect_true(saved_library_row != null, "successful Save As refreshes the visible Library with its new row")
+	editor.editor_controller.commit_preset_field("/display_name", "Close Guard Saved Again")
+	var saved_again := editor.editor_controller.save()
+	tests.expect_true(saved_again.success, "later save succeeds for the existing authoring document")
+	saved_library_row = _find_library_row(library_rows, "utility.close_guard")
+	if saved_library_row != null:
+		saved_library_row.emit_signal("pressed")
+		tests.expect_true(editor.editor_controller.working_preset().get("display_name") == "Close Guard Saved Again", "Library refresh replaces its cached document after later save")
 	var reopened := editor.editor_controller.open_path(WORKFLOW_SAVE_PATH)
-	tests.expect_true(reopened.success and editor.editor_controller.working_preset().get("display_name") == "Close Guard Edited", "workflow reopens the saved Contract document")
+	tests.expect_true(reopened.success and editor.editor_controller.working_preset().get("display_name") == "Close Guard Saved Again", "workflow reopens the saved Contract document")
 	editor.editor_controller.commit_preset_field("/display_name", "Discarded Change")
 	editor.editor_controller.request_transition("Open", func() -> void: editor.editor_controller.open_path(WORKFLOW_SAVE_PATH))
 	(editor.get_node("UnsavedChangesDialog") as Node).emit_decision("DISCARD")
-	tests.expect_true(editor.editor_controller.working_preset().get("display_name") == "Close Guard Edited", "discarding a subsequent unsaved change restores the reopened saved document")
+	tests.expect_true(editor.editor_controller.working_preset().get("display_name") == "Close Guard Saved Again", "discarding a subsequent unsaved change restores the reopened saved document")
 
 	var loop_created := editor.editor_controller.create_new_preset("utility.duration", "Duration", "UTILITY", "START_LOOP_END", "WORLD_AREA")
 	tests.expect_true(loop_created.success, "duration smoke fixture creates a multi-phase Skeleton")
 	var start_duration := editor.get_node_or_null("PhaseTabs/Start/DurationSeconds") as SpinBox
 	tests.expect_true(start_duration != null and editor.get_node_or_null("PhaseTabs/Loop/DurationSeconds") == null, "only Schema-timed phases expose duration controls")
 	if start_duration != null:
+		tests.expect_true(is_equal_approx(start_duration.min_value, 0.001) and start_duration.max_value > 250.0, "duration SpinBox derives its unbounded numeric range from the resolved Schema")
+		start_duration.grab_focus()
+		start_duration.value = 0.5
 		start_duration.value = 0.75
-		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration SpinBox signal commits through the controller")
+		tests.expect_true(not is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration edits do not snapshot or rebuild while the SpinBox value changes")
+		start_duration.emit_signal("focus_exited")
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration focus exit commits one controller mutation")
 		editor.editor_controller.undo()
 		tests.expect_true(not is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration commit is restored by Undo")
+		tests.expect_true(not editor.editor_controller.can_undo(), "multiple value changes before focus exit create one duration history action")
 		editor.editor_controller.redo()
 		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration commit reapplies through Redo")
+		start_duration = editor.get_node_or_null("PhaseTabs/Start/DurationSeconds") as SpinBox
+		start_duration.grab_focus()
+		start_duration.value = 250.0
+		start_duration.get_line_edit().emit_signal("text_submitted", "250")
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 250.0), "duration Enter commit accepts values above the old implicit maximum")
+		tests.expect_true(start_duration.has_focus() or start_duration.get_line_edit().has_focus(), "duration Enter commit preserves an editing focus target")
+		start_duration.emit_signal("focus_exited")
+		editor.editor_controller.undo()
+		tests.expect_true(is_equal_approx(float(editor.editor_controller.working_preset()["phases"]["start"]["duration_seconds"]), 0.75), "duration duplicate suppression keeps Enter and focus exit as one action")
 
 	# The focused close/diagnostics path does not depend on tab-selection events.
 	# Blocking those events avoids exercising PhaseTabs' separate rebuild behavior here.
@@ -168,3 +192,10 @@ static func _has_issue(issues: Array[VfxIssue], code: String) -> bool:
 static func _remove_test_file(path: String) -> void:
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+static func _find_library_row(rows: VBoxContainer, text_fragment: String) -> Button:
+	for row in rows.get_children():
+		if row is Button and (row as Button).text.contains(text_fragment):
+			return row
+	return null
