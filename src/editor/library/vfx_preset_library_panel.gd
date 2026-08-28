@@ -57,7 +57,7 @@ func _on_category_selected(_index: int) -> void:
 
 
 func _rebuild_rows() -> void:
-	var rows := get_node_or_null("Rows") as VBoxContainer
+	var rows := get_node_or_null("RowsScroll/Rows") as VBoxContainer
 	if rows == null:
 		return
 	for child in rows.get_children():
@@ -66,11 +66,15 @@ func _rebuild_rows() -> void:
 	for entry in _entries:
 		var row := Button.new()
 		row.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		row.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		row.clip_text = true
 		if entry.is_openable():
 			row.text = "%s | %s | %s" % [entry.display_name, entry.preset_id, entry.category]
+			row.tooltip_text = row.text
 			row.pressed.connect(func() -> void: preset_open_requested.emit(entry))
 		else:
 			var issue_code: String = str(entry.issues[0].code) if not entry.issues.is_empty() else "invalid"
 			row.text = "Invalid | %s | %s" % [entry.source_path, issue_code]
+			row.tooltip_text = row.text
 			row.pressed.connect(func() -> void: invalid_entry_selected.emit(entry))
 		rows.add_child(row)

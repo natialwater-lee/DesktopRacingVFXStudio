@@ -59,80 +59,94 @@ text = "Validate"
 layout_mode = 2
 text = ""
 
-[node name="LibraryPanel" type="VBoxContainer" parent="."]
+[node name="EditorLayout" type="VSplitContainer" parent="."]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 48.0
-offset_right = 260.0
-offset_bottom = -180.0
+grow_horizontal = 2
 grow_vertical = 2
+offset_top = 48.0
+split_offset = 190
+
+[node name="AuthoringSplit" type="HSplitContainer" parent="EditorLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="LibraryPanel" type="VBoxContainer" parent="EditorLayout/AuthoringSplit"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.0
 script = ExtResource("10_library")
 
-[node name="Search" type="LineEdit" parent="LibraryPanel"]
+[node name="Search" type="LineEdit" parent="EditorLayout/AuthoringSplit/LibraryPanel"]
 layout_mode = 2
 placeholder_text = "Search Presets"
 
-[node name="CategoryFilter" type="OptionButton" parent="LibraryPanel"]
+[node name="CategoryFilter" type="OptionButton" parent="EditorLayout/AuthoringSplit/LibraryPanel"]
 layout_mode = 2
 
-[node name="Rows" type="VBoxContainer" parent="LibraryPanel"]
+[node name="RowsScroll" type="ScrollContainer" parent="EditorLayout/AuthoringSplit/LibraryPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Rows" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/LibraryPanel/RowsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CenterWorkspace" type="VBoxContainer" parent="EditorLayout/AuthoringSplit"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="PreviewHost" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterWorkspace"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="PreviewPlaceholder" type="Panel" parent="EditorLayout/AuthoringSplit/CenterWorkspace/PreviewHost"]
 layout_mode = 2
 
-[node name="PhaseTabs" type="TabContainer" parent="."]
-layout_mode = 1
-anchor_right = 1.0
-grow_horizontal = 2
-offset_left = 268.0
-offset_top = 48.0
-offset_right = -392.0
-offset_bottom = 180.0
+[node name="PhaseTabs" type="TabContainer" parent="EditorLayout/AuthoringSplit/CenterWorkspace"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
 script = ExtResource("3_phase_tabs")
 
-[node name="LayerStack" type="PanelContainer" parent="."]
-layout_mode = 1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_left = 268.0
-offset_top = 188.0
-offset_right = -392.0
-offset_bottom = -180.0
+[node name="LayerStack" type="PanelContainer" parent="EditorLayout/AuthoringSplit/CenterWorkspace"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+size_flags_vertical = 3
 script = ExtResource("4_layer_stack")
 
-[node name="InspectorPanel" type="ScrollContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
-offset_left = -384.0
-offset_top = 48.0
-offset_bottom = -180.0
+[node name="InspectorPanel" type="ScrollContainer" parent="EditorLayout/AuthoringSplit"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.0
 follow_focus = true
 
-[node name="InspectorContents" type="VBoxContainer" parent="InspectorPanel"]
+[node name="InspectorContents" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/InspectorPanel"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="PresetInspector" type="VBoxContainer" parent="InspectorPanel/InspectorContents"]
+[node name="PresetInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/InspectorPanel/InspectorContents"]
 layout_mode = 2
 script = ExtResource("5_preset_inspector")
 
-[node name="LayerInspector" type="VBoxContainer" parent="InspectorPanel/InspectorContents"]
+[node name="LayerInspector" type="VBoxContainer" parent="EditorLayout/AuthoringSplit/InspectorPanel/InspectorContents"]
 layout_mode = 2
 script = ExtResource("6_layer_inspector")
 
-[node name="DiagnosticsPanel" type="ScrollContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_top = -172.0
+[node name="DiagnosticsPanel" type="ScrollContainer" parent="EditorLayout"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.0
 script = ExtResource("7_diagnostics")
 
 [node name="PresetFileDialog" type="FileDialog" parent="."]
