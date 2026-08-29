@@ -11,3 +11,7 @@
 *.temp
 Thumbs.db
 Desktop.ini
+
+# Export writer temporary state; reviewable final Packages remain tracked.
+/exports/.staging/
+/exports/.backup/

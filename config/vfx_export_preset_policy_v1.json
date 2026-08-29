@@ -1,0 +1,9 @@
+{
+  "policy_version": 1,
+  "presets": {
+    "utility.renderer_showcase": {
+      "export_allowed": false,
+      "reason": "STUDIO_VALIDATION_FIXTURE"
+    }
+  }
+}

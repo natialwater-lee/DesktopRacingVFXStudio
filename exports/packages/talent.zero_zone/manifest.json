@@ -1,0 +1,74 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 28297,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_shard",
+      "package_path": "assets/energy_shard.png",
+      "sha256": "0ec42aa92113d0e37495a7b59a4844ded27e688bf5a65c94f7b2f34c3526b816"
+    },
+    {
+      "byte_size": 26891,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_spark",
+      "package_path": "assets/energy_spark.png",
+      "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 28297,
+      "path": "assets/energy_shard.png",
+      "sha256": "0ec42aa92113d0e37495a7b59a4844ded27e688bf5a65c94f7b2f34c3526b816"
+    },
+    {
+      "byte_size": 26891,
+      "path": "assets/energy_spark.png",
+      "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
+    },
+    {
+      "byte_size": 13207,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "34c1a5c1ed23130290b9a940dd129b19c4335da6af8628f93e2d44538bb20e2b"
+    },
+    {
+      "byte_size": 10549,
+      "path": "source/talent.zero_zone.vfx.json",
+      "sha256": "18812e39503152007e6928a4bc5cb04bdd531525922c61f37e8b65dc85806c38"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.zero_zone",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Zero Zone",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.zero_zone",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 3,
+      "DETAIL": 6,
+      "EXTRA": 2
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "intensity"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 13207,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "34c1a5c1ed23130290b9a940dd129b19c4335da6af8628f93e2d44538bb20e2b",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 10549,
+    "path": "source/talent.zero_zone.vfx.json",
+    "sha256": "18812e39503152007e6928a4bc5cb04bdd531525922c61f37e8b65dc85806c38"
+  }
+}

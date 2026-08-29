@@ -1,0 +1,33 @@
+{
+  "policy_version": 1,
+  "assets": {
+    "fx.energy_shard": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/energy_shard.png",
+      "package_file_name": "energy_shard.png"
+    },
+    "fx.energy_spark": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/energy_spark.png",
+      "package_file_name": "energy_spark.png"
+    },
+    "fx.confetti_square": {
+      "export_policy": "PROCEDURAL",
+      "reason": "PREVIEW_PROCEDURAL"
+    },
+    "fx.trail_streak": {
+      "export_policy": "PROCEDURAL",
+      "reason": "PREVIEW_PROCEDURAL"
+    },
+    "fx.placeholder": {
+      "export_policy": "PROCEDURAL",
+      "reason": "PREVIEW_PROCEDURAL"
+    },
+    "fx.preview_texture_fixture": {
+      "export_policy": "PREVIEW_ONLY",
+      "reason": "TEST_FIXTURE"
+    }
+  }
+}

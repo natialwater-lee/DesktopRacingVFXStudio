@@ -41,7 +41,19 @@ exports remain derived artifacts rather than Preset source data.
 
 ## Phase 5: export contract
 
-Generate game-facing resources and manifests from validated `.vfx.json`. Decide Git policy for generated files and export packages here. The game receives exported runtime data and decides trigger timing, targets, and ownership.
+Shipped: a saved-source-only, fail-closed VFX Package exporter. A valid saved
+Preset produces a deterministic, self-contained package under
+`exports/packages/<preset_id>/` with a canonical raw Source copy, normalized
+Runtime Definition, production PNG dependencies, and a SHA-256 Manifest. The
+runtime-created Export workspace blocks unsaved or dirty sessions and requires
+explicit confirmation before whole-package replacement.
+
+The Studio remains one-way: `DesktopRacingVFXStudio -> VFX Export Package ->
+DesktopIdleRacing importer/runtime`. Phase 5 creates no importer, game
+repository dependency, game-trigger logic, renderer, dynamic LOD, Performance
+export, Windows export, screenshot, or remote upload. Final Packages are
+reviewable artifacts; only temporary `exports/.staging/` and
+`exports/.backup/` paths are ignored.
 
 ## Advanced VFX Coverage: evidence-driven extension
 

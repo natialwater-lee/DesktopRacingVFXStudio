@@ -41,6 +41,22 @@ DesktopRacingVFXStudio
 
 The Studio must not read from, modify, format, stage, commit, or use the DesktopIdleRacing repository as an output directory. It owns authoring source, Studio reference assets, Preview Profiles, and derived export packages only. A DesktopIdleRacing-specific importer/runtime project is responsible for accepting an exported package and for gameplay activation, targets, ownership, and runtime lifecycle.
 
+## Phase 5 export package boundary
+
+Phase 5 adds a derived, reviewable VFX Package at the fixed Studio location
+`res://exports/packages/<preset_id>/`. `VfxExportService` only accepts a saved
+authoring path, reloads it through `VfxPresetPipeline`, and compiles an
+immutable `VfxExportPackagePlan`. A dirty or unsaved editor session is blocked
+before the service runs. The package contains a deterministic canonical source
+copy, a normalized portable runtime definition, explicitly approved Production
+assets, and a SHA-256 inventory Manifest. It is not a new source of truth.
+
+The export writer validates a complete staging tree before atomically replacing
+the final package. Temporary staging and backup directories are ignored; final
+packages remain reviewable project artifacts. Export neither serializes Preview
+or Performance data nor opens a game-project path. The full importer-facing
+format and validation requirements are in `docs/VFX_EXPORT_PACKAGE_V1.md`.
+
 ## Vehicle Preview and Anchor Profiles
 
 Phase 2 adds four editable Studio-owned vehicle Profile categories: `FORMULA`, `SPORTS`, `GT`, and `HYPER`. Each strict Profile JSON maps every Schema v1 vehicle Anchor to unscaled source-local pixels of its 256 by 512 reference PNG; it is separate from Preset `.vfx.json` data and from game runtime resources.

@@ -3,9 +3,11 @@ extends VBoxContainer
 
 const VfxVehiclePreviewScene := preload("res://src/preview/vfx_vehicle_preview.tscn")
 const VfxPerformancePanelModel := preload("res://src/editor/performance/vfx_performance_panel.gd")
+const VfxExportPanelModel := preload("res://src/editor/export/vfx_export_panel.gd")
 
 var _preview: Variant
 var _performance_panel: Variant
+var _export_panel: Variant
 var _mode_select: OptionButton
 var _registry: RefCounted
 var _source_plan: RefCounted
@@ -82,6 +84,15 @@ func vehicle_preview() -> Node:
 	return _preview if _preview is Node else null
 
 
+func export_panel() -> Node:
+	return _export_panel if _export_panel is Node else null
+
+
+func configure_export_panel(controller: RefCounted) -> void:
+	if _export_panel != null and _export_panel.has_method("configure"):
+		_export_panel.configure(controller)
+
+
 func _build_workspace() -> void:
 	if _preview != null:
 		return
@@ -97,6 +108,7 @@ func _build_workspace() -> void:
 	_mode_select.name = "PreviewModeSelect"
 	_mode_select.add_item("AUTHORING PREVIEW")
 	_mode_select.add_item("PERFORMANCE")
+	_mode_select.add_item("EXPORT")
 	_mode_select.select(0)
 	_mode_select.item_selected.connect(_on_mode_selected)
 	controls.add_child(_mode_select)
@@ -108,17 +120,27 @@ func _build_workspace() -> void:
 	_performance_panel.name = "PerformancePanel"
 	_performance_panel.visible = false
 	add_child(_performance_panel)
+	_export_panel = VfxExportPanelModel.new()
+	_export_panel.name = "ExportPanel"
+	_export_panel.visible = false
+	add_child(_export_panel)
 	_sync_performance_panel()
 
 
 func _on_mode_selected(index: int) -> void:
 	var authoring_preview := index == 0
+	var performance := index == 1
+	var export_mode := index == 2
 	if _preview != null:
 		_preview.visible = authoring_preview
 	if _performance_panel != null:
-		_performance_panel.visible = not authoring_preview
-	if not authoring_preview:
+		_performance_panel.visible = performance
+	if _export_panel != null:
+		_export_panel.visible = export_mode
+	if performance:
 		_sync_performance_panel()
+	if export_mode and _export_panel != null and _export_panel.has_method("refresh_validation"):
+		_export_panel.refresh_validation()
 
 
 func _sync_performance_panel() -> void:

@@ -29,6 +29,7 @@ const VfxVehicleProfileRepositoryModel := preload("res://src/model/vehicle_profi
 const VfxVehicleProfileValidatorModel := preload("res://src/model/vehicle_profiles/vfx_vehicle_profile_validator.gd")
 const VfxPreviewLayerContextResolverModel := preload("res://src/preview/vfx_preview_layer_context_resolver.gd")
 const VfxPreviewRenderPlanBuilderModel := preload("res://src/preview/rendering/vfx_preview_render_plan_builder.gd")
+const VfxExportServiceModel := preload("res://src/export/vfx_export_service.gd")
 
 var _paths: VfxAuthoringPaths
 var _pipeline: VfxPresetPipeline
@@ -70,6 +71,7 @@ var _preview_render_plan_builder: RefCounted
 var _last_preview_normalized_data: Dictionary = {}
 var _has_last_preview_normalized_data := false
 var _vehicle_profile_repository: RefCounted
+var _export_service: RefCounted
 
 
 func _init() -> void:
@@ -89,6 +91,7 @@ func _init() -> void:
 	_preview_context_resolver = VfxPreviewLayerContextResolverModel.new(_registry)
 	_preview_render_plan_builder = VfxPreviewRenderPlanBuilderModel.new(_registry)
 	_vehicle_profile_repository = VfxVehicleProfileRepositoryModel.new(VfxVehicleProfileCodecModel.new(codec), VfxVehicleProfileValidatorModel.new(_registry))
+	_export_service = VfxExportServiceModel.new()
 
 
 func _notification(what: int) -> void:
@@ -198,6 +201,29 @@ func current_issues() -> Array[VfxIssue]:
 	return _issues.duplicate()
 
 
+func active_export_source_path() -> String:
+	return _session.source_path()
+
+
+func active_export_is_dirty() -> bool:
+	return _session.is_dirty()
+
+
+func validate_active_export() -> VfxResult:
+	var source_gate: VfxResult = _export_source_gate()
+	if not source_gate.success:
+		return source_gate
+	return _export_service.validate_saved_source(source_gate.value)
+
+
+func export_active_preset(replace_existing: bool) -> VfxResult:
+	var source_gate: VfxResult = _export_source_gate()
+	if not source_gate.success:
+		return source_gate
+	var mode := "REPLACE_EXISTING" if replace_existing else "FAIL_IF_EXISTS"
+	return _export_service.export_saved_source(source_gate.value, mode)
+
+
 func working_preset() -> Dictionary:
 	return _session.working_copy()
 
@@ -251,6 +277,8 @@ func configure_preview(preview: Node) -> void:
 	_preview.set_profile_repository(_vehicle_profile_repository)
 	_preview.set_profile_documents(_load_preview_profiles())
 	_preview.set_game_scale_contract(_load_preview_game_scale_contract())
+	if _preview.has_method("configure_export_panel"):
+		_preview.configure_export_panel(self)
 	_refresh_preview()
 
 
@@ -1154,3 +1182,11 @@ func _escape_pointer_segment(value: String) -> String:
 
 func _policy_failure(code: String, message: String, path: String) -> VfxResult:
 	return VfxResult.failure([VfxIssue.new("EDITOR_POLICY", code, message, "", path)])
+
+
+func _export_source_gate() -> VfxResult:
+	if _session.source_path().is_empty():
+		return VfxResult.failure([VfxIssue.new("EXPORT_VALIDATION", "export_unsaved_preset", "Save the Preset before validating or exporting a Package.")])
+	if _session.is_dirty():
+		return VfxResult.failure([VfxIssue.new("EXPORT_VALIDATION", "export_dirty_preset", "Save or revert the current Preset changes before exporting a Package.", "", _session.source_path())])
+	return VfxResult.ok(_session.source_path())
