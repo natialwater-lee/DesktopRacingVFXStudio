@@ -1,0 +1,15 @@
+{
+  "policy_version": 1,
+  "calibration_state": "UNCALIBRATED",
+  "scope": "VEHICLE_STRESS",
+  "lod_levels": {
+    "HIGH": ["CORE", "DETAIL", "EXTRA"],
+    "MEDIUM": ["CORE", "DETAIL"],
+    "LOW": ["UNKNOWN_IMPORTANCE"]
+  },
+  "thresholds": {
+    "SAFE": {"expanded_runtime_instances": 360, "particle_workload_envelope": 600, "trail_point_capacity": 1200, "transparent_renderer_instances": 360},
+    "CAUTION": {"expanded_runtime_instances": 720, "particle_workload_envelope": 1200, "trail_point_capacity": 2400, "transparent_renderer_instances": 720}
+  },
+  "scenarios": {}
+}

@@ -2,7 +2,7 @@ class_name VfxEditorMain
 extends Control
 
 const VfxEditorControllerModel := preload("res://src/editor/main/vfx_editor_controller.gd")
-const VfxVehiclePreviewScene := preload("res://src/preview/vfx_vehicle_preview.tscn")
+const VfxPreviewWorkspaceModel := preload("res://src/preview/vfx_preview_workspace.gd")
 
 var editor_controller: VfxEditorControllerModel = VfxEditorControllerModel.new()
 
@@ -35,9 +35,9 @@ func _install_vehicle_preview() -> void:
 	if placeholder != null:
 		preview_host.remove_child(placeholder)
 		placeholder.free()
-	var preview := VfxVehiclePreviewScene.instantiate()
-	preview_host.add_child(preview)
-	editor_controller.configure_preview(preview)
+	var workspace := VfxPreviewWorkspaceModel.new()
+	preview_host.add_child(workspace)
+	editor_controller.configure_preview(workspace)
 
 
 func _notification(what: int) -> void:

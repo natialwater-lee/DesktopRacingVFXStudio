@@ -97,7 +97,8 @@ static func _test_preview_scene_consumes_one_active_plan_without_reading_a_prese
 		preview.apply_render_plan(plan_result.value)
 	var edit_render_host := preview.find_child("RenderHost_ADDITIVE", true, false)
 	var game_render_host := preview.find_child("RenderHost_ALPHA", true, false)
-	tests.expect_true(plan_result.success and preview.active_render_plan() == plan_result.value and edit_render_host != null and game_render_host != null, "Edit and Game consume the same supplied valid Render Plan through per-canvas host projection, not a Preset path")
+	var active_plan: RefCounted = preview.active_render_plan()
+	tests.expect_true(plan_result.success and active_plan != null and active_plan != plan_result.value and active_plan.preset_id() == plan_result.value.preset_id() and edit_render_host != null and game_render_host != null, "Edit and Game consume one immutable HIGH-derived valid Plan through per-canvas host projection, not a Preset path or a mutated source Plan")
 	tree.root.remove_child(preview)
 	preview.free()
 

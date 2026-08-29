@@ -1,0 +1,37 @@
+{
+  "policy_version": 1,
+  "calibration_state": "UNCALIBRATED",
+  "scope": "VEHICLE_STRESS",
+  "lod_levels": {
+    "HIGH": ["CORE", "DETAIL", "EXTRA"],
+    "MEDIUM": ["CORE", "DETAIL"],
+    "LOW": ["CORE"]
+  },
+  "thresholds": {
+    "SAFE": {
+      "expanded_runtime_instances": 360,
+      "particle_workload_envelope": 600,
+      "trail_point_capacity": 1200,
+      "transparent_renderer_instances": 360
+    },
+    "CAUTION": {
+      "expanded_runtime_instances": 720,
+      "particle_workload_envelope": 1200,
+      "trail_point_capacity": 2400,
+      "transparent_renderer_instances": 720
+    }
+  },
+  "scenarios": {
+    "1x1": {"vehicle_count": 1, "slots_per_vehicle": 1},
+    "10x1": {"vehicle_count": 10, "slots_per_vehicle": 1},
+    "20x1": {"vehicle_count": 20, "slots_per_vehicle": 1},
+    "10x3": {"vehicle_count": 10, "slots_per_vehicle": 3},
+    "20x3": {"vehicle_count": 20, "slots_per_vehicle": 3}
+  },
+  "timing_seconds": {
+    "baseline_warmup": 1.0,
+    "baseline_measurement": 3.0,
+    "vfx_warmup": 1.0,
+    "vfx_measurement": 3.0
+  }
+}

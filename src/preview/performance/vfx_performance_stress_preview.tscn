@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/preview/performance/vfx_performance_stress_preview.gd" id="1_stress_preview"]
+
+[node name="VfxPerformanceStressPreview" type="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("1_stress_preview")

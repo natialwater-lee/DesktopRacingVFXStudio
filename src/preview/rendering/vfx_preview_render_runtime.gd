@@ -73,6 +73,10 @@ func has_residual() -> bool:
 	return false
 
 
+func active_renderer_count() -> int:
+	return _entries.size()
+
+
 func draw_packets() -> Array:
 	var packets: Array = []
 	for entry in _entries:

@@ -10,6 +10,8 @@ const VfxPreviewAssetResolverModel := preload("res://src/preview/rendering/vfx_p
 const VfxPreviewRenderRuntimeModel := preload("res://src/preview/rendering/vfx_preview_render_runtime.gd")
 const VfxPreviewPlaybackControllerModel := preload("res://src/preview/rendering/vfx_preview_playback_controller.gd")
 const VfxPreviewCanvasRenderHostModel := preload("res://src/preview/rendering/vfx_preview_canvas_render_host.gd")
+const VfxPerformancePolicyModel := preload("res://src/performance/vfx_performance_policy.gd")
+const VfxPreviewLodFilterModel := preload("res://src/performance/vfx_preview_lod_filter.gd")
 
 var _shared_state: RefCounted = VfxPreviewSharedStateModel.new()
 var _profile_session: RefCounted
@@ -17,6 +19,8 @@ var _profile_repository: RefCounted
 var _profile_documents_by_path: Dictionary = {}
 var _edit_zoom := 2.0
 var _schema_registry: RefCounted
+var _performance_policy: RefCounted
+var _base_render_plan: RefCounted
 var _active_render_plan: RefCounted
 var _render_runtime: RefCounted
 var _playback: RefCounted
@@ -25,12 +29,14 @@ var _asset_resolver: RefCounted
 var _render_hosts: Dictionary = {}
 var _preview_status := "PREVIEW — NO VALID PLAN"
 var _preview_phase := ""
+var _preview_lod_level := "HIGH"
 
 
 func _ready() -> void:
 	_configure_canvases()
 	_configure_controls()
 	_configure_render_hosts()
+	_ensure_authoring_lod_ui()
 	_update_preview_status_label()
 	_rebuild_render_runtime()
 
@@ -96,6 +102,8 @@ func set_game_scale_contract(game_scale_contract: Dictionary) -> void:
 
 func set_schema_registry(schema_registry: RefCounted) -> void:
 	_schema_registry = schema_registry
+	var policy_result: VfxResult = VfxPerformancePolicyModel.new().load(_schema_registry) if _schema_registry != null else VfxResult.failure([])
+	_performance_policy = policy_result.value if policy_result.success else null
 	_rebuild_render_runtime()
 
 
@@ -109,7 +117,34 @@ func set_preview_phase(phase_name: String) -> void:
 func apply_render_plan(render_plan: RefCounted) -> void:
 	if render_plan == null:
 		return
-	_active_render_plan = render_plan
+	_base_render_plan = render_plan
+	_apply_preview_lod()
+
+
+func set_preview_lod_level(lod_level: String) -> void:
+	if not ["HIGH", "MEDIUM", "LOW"].has(lod_level):
+		return
+	_preview_lod_level = lod_level
+	var lod_select := get_node_or_null("PreviewControls/PerformanceRow/LodSelect") as OptionButton
+	if lod_select != null:
+		for index in lod_select.item_count:
+			if lod_select.get_item_text(index) == lod_level:
+				lod_select.select(index)
+	_apply_preview_lod()
+
+
+func preview_lod_level() -> String:
+	return _preview_lod_level
+
+
+func _apply_preview_lod() -> void:
+	if _base_render_plan == null:
+		return
+	if _performance_policy == null:
+		_active_render_plan = _base_render_plan
+	else:
+		var filtered: VfxResult = VfxPreviewLodFilterModel.new().filter(_base_render_plan, _preview_lod_level, _performance_policy)
+		_active_render_plan = filtered.value if filtered.success else _base_render_plan
 	_preview_status = "PREVIEW READY"
 	_rebuild_render_runtime()
 
@@ -389,6 +424,25 @@ func _configure_controls() -> void:
 	_rebuild_anchor_controls()
 
 
+func _ensure_authoring_lod_ui() -> void:
+	var controls := get_node_or_null("PreviewControls") as VBoxContainer
+	if controls == null:
+		return
+	var row := controls.get_node_or_null("PerformanceRow") as HBoxContainer
+	if row == null:
+		row = HBoxContainer.new()
+		row.name = "PerformanceRow"
+		controls.add_child(row)
+		var lod_label := Label.new()
+		lod_label.text = "AUTHORING LOD"
+		row.add_child(lod_label)
+		var lod_select := OptionButton.new()
+		lod_select.name = "LodSelect"
+		for lod_level in ["HIGH", "MEDIUM", "LOW"]:
+			lod_select.add_item(lod_level)
+		lod_select.select(0)
+		lod_select.item_selected.connect(func(index: int) -> void: set_preview_lod_level(lod_select.get_item_text(index)))
+		row.add_child(lod_select)
 func _on_play_preview_pressed() -> void:
 	if _playback != null:
 		_playback.play(_frame_context())

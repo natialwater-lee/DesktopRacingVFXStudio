@@ -87,6 +87,79 @@ For a Texture Particle, `size_start` and `size_end` retain the procedural Partic
 
 Studio production art lives under `assets/vfx/`. `fx.energy_shard` resolves `assets/vfx/energy_shard.png` and `fx.energy_spark` resolves `assets/vfx/energy_spark.png`; both remain logical IDs in Zero Zone Preset data. Their 64 by 64 and 32 by 32 native dimensions respectively affect only texture aspect, not the Particle display-size contract. The deliberately non-production `tests/fixtures/preview/texture_particle_test.png` entry remains for `utility.renderer_showcase` and regression coverage. The generic showcase continues to prove ordinary dispatch for all five v1 Layer Types.
 
+## Phase 4 Studio Preview Stress and Authoring Budget
+
+Phase 4 is a Studio-only authoring aid, not a DesktopIdleRacing performance
+benchmark. Its permanent terms are **Authoring Budget**, **Studio Preview
+Stress**, **Preview Frame Time**, **Preview Frame Time Delta**, and
+**Uncalibrated Authoring Guidance**. A `SAFE`, `CAUTION`, or `HEAVY` policy
+result describes only the current Studio policy applied to a derived Preview
+workload. It never claims game performance, game FPS, game safety, target
+hardware behavior, or GPU time; GPU time remains `N/A`.
+
+The Studio policy in `config/vfx_performance_policy_v1.json` owns the manual
+`HIGH`, `MEDIUM`, and `LOW` maps, named `VEHICLE_STRESS` scenarios, timing, and
+initial thresholds. It is explicitly `UNCALIBRATED`. The policy loader checks
+its Importance strings against the Schema Registry rather than maintaining a
+second enum declaration. `VfxPreviewLodFilter` produces a new immutable Render
+Plan for both normal Authoring Preview and Studio Stress: HIGH includes CORE,
+DETAIL, EXTRA; MEDIUM includes CORE and DETAIL; LOW includes CORE. It never
+mutates a Preset, edit session, source Plan, or saved JSON. Normal Preview and
+Stress retain independent session LOD selections.
+
+`VfxPerformanceBudgetAnalyzer` presents two non-interchangeable derived views.
+The **Lifecycle Envelope** is a structural inventory across all filtered
+lifecycle phases and can include disabled Layer records for authoring context.
+The **Active Stress Workload Budget** includes only enabled instances in the
+selected workload: `STEADY_LOOP` uses `loop` for `START_LOOP_END`, and
+`REPEATED_ONE_SHOT` uses `one_shot` for `ONE_SHOT`. Scenario projection sums
+enabled Slot workloads per vehicle and multiplies by vehicle count. Only that
+active projection reaches SAFE/CAUTION/HEAVY guidance; no all-phase inventory
+is mislabelled as a simultaneous renderer count.
+
+The runtime-inserted `VfxPreviewWorkspace` keeps the existing Editor scene
+unchanged and separates **AUTHORING PREVIEW** from **PERFORMANCE**. The latter
+contains distinct **AUTHORING BUDGET** and **STUDIO PREVIEW STRESS RESULT**
+regions. It currently supports only `VEHICLE_STRESS`; `CELEBRATION_STRESS` is
+an explicit unavailable future seam, not a category-derived behavior.
+
+One Studio Stress run uses `VfxPerformanceStressStage`, a dedicated minimal
+vehicle grid rather than twenty editor controls. It preserves the Vehicle
+Preview Game Scale Contract (`base_car_sprite_scale * car_visual_scale *
+track_scale`) without fit scaling. The stage is prepared once, then follows:
+
+```text
+PREPARE
+  -> BASELINE_WARMUP
+  -> BASELINE_MEASURE
+  -> VFX_WARMUP
+  -> VFX_MEASURE
+  -> COMPLETE | CANCELLED | ERROR
+```
+
+The baseline uses that same prebuilt stage, vehicle nodes, profiles, grid, and
+asset/runtime allocations, but leaves every VFX slot disabled. It does not
+advance playback, simulate particles or rings, sample trails, generate
+packets, or route VFX draws. VFX warm-up then enables the same synchronized
+slots and absorbs first-use work before VFX measurement.
+
+`VfxRuntimeMetricAccumulator` collects only measurement frames. A session-only
+`VfxPerformanceSnapshot` retains baseline/VFX average, maximum, P95, average
+Preview FPS, runtime-instance and renderer peaks, Particle/Trail/Ring peaks,
+the primary `Preview Frame Time Delta`, scenario/workload/synchronization
+metadata, and observed VSync/frame-cap context. It has no Preset write path,
+benchmark database, JSON report export, or game artifact. The default run
+respects current VSync and `Engine.max_fps`; the opt-in temporary uncap control
+captures and restores both on completion, cancellation, error, and teardown.
+
+For a manual Studio check, load a valid Preset and Vehicle Profile, inspect
+HIGH/MEDIUM/LOW at GAME 100%, open Performance, choose a named scenario and
+Stress LOD, optionally replicate the current Preset into every active slot,
+then run Studio Stress. A person records the paired Preview Frame Time values,
+peaks, visual clutter, and VSync/cap context on the target PC. A future
+DesktopIdleRacing integration must repeat any runtime conclusion with its own
+renderer; Studio never reads or writes the game repository.
+
 ## Contract ownership
 
 `schemas/vfx_schema_v1.json` is the only declarative source for VFX field names, enums, required fields, defaults, ranges, strict object properties, Layer Type parameter schemas, supported runtime input names, and rule configuration.

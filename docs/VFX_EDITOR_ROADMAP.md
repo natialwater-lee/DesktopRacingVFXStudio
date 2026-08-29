@@ -22,7 +22,22 @@ Phase 3 keeps the renderer mapping separate from Schema authoring data and retai
 
 ## Phase 4: performance analysis
 
-Derive renderer-aware cost estimates from Presets, preview worst-case 20 cars by 3 VFX, and surface LOD behavior. Generated cost reports are derived artifacts, not source data.
+Shipped: a Studio-only, `UNCALIBRATED` Authoring Budget and Studio Preview
+Stress workflow. It derives a Lifecycle Envelope separately from an enabled
+Active Stress Workload Budget, applies immutable HIGH/MEDIUM/LOW Importance
+filters, projects the named 1x1 through 20x3 `VEHICLE_STRESS` scenarios, and
+shows SAFE/CAUTION/HEAVY only as Uncalibrated Authoring Guidance. A dedicated
+same-scale Stress Stage compares a VFX-disabled vehicles-only baseline with
+the synchronized selected workload and retains a session-only paired Snapshot.
+
+The Phase 4 result is explicitly Preview Frame Time information from the
+DesktopRacingVFXStudio renderer, not a DesktopIdleRacing game performance,
+game FPS, game-safe, GPU-time, or target-hardware claim. It records VSync and
+frame-cap context, supports an opt-in temporary uncapped Studio run, and keeps
+the original settings on every completion path. Only `VEHICLE_STRESS` exists;
+Celebration Stress, Dynamic/Auto LOD, a benchmark database, Export, and game
+runtime integration remain future work. Generated cost reports and any later
+exports remain derived artifacts rather than Preset source data.
 
 ## Phase 5: export contract
 

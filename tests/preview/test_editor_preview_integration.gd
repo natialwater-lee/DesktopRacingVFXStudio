@@ -6,6 +6,7 @@ const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
 const VfxRuleCatalogModel := preload("res://src/model/vfx_rule_catalog.gd")
 const VfxSchemaRegistryModel := preload("res://src/model/vfx_schema_registry.gd")
 const VfxPreviewLayerContextResolverModel := preload("res://src/preview/vfx_preview_layer_context_resolver.gd")
+const VfxPreviewWorkspaceModel := preload("res://src/preview/vfx_preview_workspace.gd")
 const VfxVehiclePreviewModel := preload("res://src/preview/vfx_vehicle_preview.gd")
 
 
@@ -59,9 +60,11 @@ static func _test_main_runtime_preview_insertion(tests: TestAssert) -> void:
 		return
 	var tree := Engine.get_main_loop() as SceneTree
 	tree.root.add_child(editor)
-	var preview_path := "EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace/PreviewHost/VfxVehiclePreview"
+	var workspace_path := "EditorLayout/AuthoringSplit/CenterInspectorSplit/CenterWorkspace/PreviewHost/VfxPreviewWorkspace"
+	var workspace := editor.get_node_or_null(workspace_path) as VfxPreviewWorkspaceModel
+	var preview_path := "%s/VfxVehiclePreview" % workspace_path
 	var runtime_preview := editor.get_node_or_null(preview_path) as VfxVehiclePreviewModel
-	tests.expect_true(runtime_preview != null, "main scene inserts Vehicle Preview below PreviewHost at runtime without editing the scene file")
+	tests.expect_true(workspace != null and runtime_preview != null, "main scene inserts the runtime Preview Workspace and its Vehicle Preview below PreviewHost without editing the scene file")
 	tests.expect_true(runtime_preview != null and runtime_preview.get_future_vfx_host("EDIT") != null and runtime_preview.get_future_vfx_host("GAME") != null, "runtime Preview retains separate Phase 3 FutureVfxHost boundaries")
 	var profile_select := runtime_preview.get_node_or_null("PreviewControls/DisplayRow/ProfileSelect") as OptionButton if runtime_preview != null else null
 	tests.expect_true(profile_select != null and profile_select.item_count == 4 and runtime_preview.shared_state().profile_data().get("category") == "FORMULA", "runtime Preview loads four Studio-owned Profiles and selects Formula without reading a game repository")
