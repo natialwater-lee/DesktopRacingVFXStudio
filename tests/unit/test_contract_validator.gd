@@ -94,6 +94,14 @@ static func run(tests: TestAssert) -> void:
 	invalid_asset_ref["phases"]["one_shot"]["layers"][0]["parameters"]["sprite_asset_ref"] = "C:\\absolute\\path"
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_asset_ref), "pattern"), "logical asset reference rejects paths")
 
+	var invalid_particle_alpha := _particle_preset()
+	invalid_particle_alpha["phases"]["one_shot"]["layers"][0]["parameters"]["alpha_start"] = -0.01
+	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_particle_alpha), "minimum"), "Particle alpha_start rejects values below the normalized alpha range")
+
+	var invalid_ring_alpha := _ring_preset()
+	invalid_ring_alpha["phases"]["one_shot"]["layers"][0]["parameters"]["alpha_end"] = 1.01
+	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_ring_alpha), "maximum"), "Ring alpha_end rejects values above the normalized alpha range")
+
 	var configured_schema := root_schema.duplicate(true)
 	var emitter_rule := _rule_by_name(configured_schema, "PARTICLE_EMITTER_SHAPE")
 	emitter_rule["geometry_by_shape"] = {
@@ -195,6 +203,36 @@ static func _particle_preset() -> Dictionary:
 						"sprite_asset_ref": "fx.energy_shard",
 						"burst_count": 4,
 						"lifetime_seconds": 0.2
+					}
+				}]
+			}
+		}
+	}
+
+
+static func _ring_preset() -> Dictionary:
+	return {
+		"schema_version": 1,
+		"preset_id": "finish.ring_test",
+		"display_name": "Ring Test",
+		"category": "FINISH",
+		"lifecycle": {"mode": "ONE_SHOT"},
+		"default_space_mode": "WORLD_AREA",
+		"runtime_inputs": [],
+		"phases": {
+			"one_shot": {
+				"duration_seconds": 0.4,
+				"layers": [{
+					"id": "one_shot.ring",
+					"type": "RING",
+					"importance": "DETAIL",
+					"blend_mode": "ADDITIVE",
+					"render_plane": "WORLD",
+					"parameters": {
+						"radius_start": 4.0,
+						"radius_end": 8.0,
+						"width": 1.0,
+						"duration_seconds": 0.2
 					}
 				}]
 			}

@@ -69,6 +69,8 @@
             "radius_end": 145.0,
             "width": 13.0,
             "duration_seconds": 0.12,
+            "alpha_start": 0.90,
+            "alpha_end": 0.00,
             "color_rgba": [0.22, 0.85, 1.0, 0.84]
           }
         },
@@ -95,6 +97,8 @@
             "angular_velocity_max_degrees_per_second": 120.0,
             "size_start": 15.0,
             "size_end": 8.0,
+            "alpha_start": 0.90,
+            "alpha_end": 0.00,
             "color_rgba": [0.22, 0.82, 1.0, 0.9]
           }
         }
@@ -185,6 +189,8 @@
             "angular_velocity_max_degrees_per_second": 25.0,
             "size_start": 18.0,
             "size_end": 10.0,
+            "alpha_start": 0.90,
+            "alpha_end": 0.00,
             "color_rgba": [0.12, 0.65, 1.0, 0.95]
           }
         },
@@ -212,6 +218,8 @@
             "angular_velocity_max_degrees_per_second": 220.0,
             "size_start": 14.0,
             "size_end": 5.0,
+            "alpha_start": 1.00,
+            "alpha_end": 0.00,
             "color_rgba": [0.62, 0.94, 1.0, 0.9]
           }
         }
@@ -237,6 +245,8 @@
             "radius_end": 62.0,
             "width": 13.0,
             "duration_seconds": 0.2,
+            "alpha_start": 0.80,
+            "alpha_end": 0.00,
             "color_rgba": [0.14, 0.62, 1.0, 0.65]
           }
         },
@@ -263,6 +273,8 @@
             "angular_velocity_max_degrees_per_second": 160.0,
             "size_start": 12.0,
             "size_end": 5.0,
+            "alpha_start": 0.82,
+            "alpha_end": 0.00,
             "color_rgba": [0.36, 0.85, 1.0, 0.82]
           }
         }

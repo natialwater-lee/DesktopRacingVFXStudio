@@ -104,6 +104,7 @@ func _refresh_packets(frame_context: Dictionary) -> void:
 		packet["size"] = lerpf(float(parameters.get("size_start", 1.0)), float(parameters.get("size_end", 1.0)), age_ratio)
 		packet["rotation_degrees"] = float(particle.get("rotation_degrees", 0.0))
 		packet["color_rgba"] = parameters.get("color_rgba", [1.0, 1.0, 1.0, 1.0]).duplicate()
+		packet["alpha"] = lerpf(float(parameters["alpha_start"]), float(parameters["alpha_end"]), age_ratio)
 		_packets.append(packet)
 
 

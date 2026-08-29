@@ -6,6 +6,7 @@ const VfxPreviewRenderInstanceSpecModel := preload("res://src/preview/rendering/
 
 static func run(tests: TestAssert) -> void:
 	_test_particle_burst_and_restart_are_deterministic(tests)
+	_test_particle_lifetime_alpha_is_linear_and_keeps_base_color_alpha(tests)
 	_test_particle_continuous_capacity_is_declared_cap(tests)
 	_test_particle_emitter_shapes_stay_in_declared_geometry(tests)
 	_test_follow_world_trail_captures_then_drains(tests)
@@ -16,13 +17,46 @@ static func _test_particle_burst_and_restart_are_deterministic(tests: TestAssert
 	tests.expect_true(renderer_script != null, "Particle Preview Renderer script is available")
 	if renderer_script == null:
 		return
-	var renderer = renderer_script.new(_instance("PARTICLE", {"emission_mode": "BURST", "emitter": {"shape": "CIRCLE", "radius": 5.0}, "sprite_asset_ref": "fx.energy_shard", "burst_count": 3, "lifetime_seconds": 1.0, "speed_min": 0.0, "speed_max": 0.0}), {})
+	var renderer = renderer_script.new(_instance("PARTICLE", {"emission_mode": "BURST", "emitter": {"shape": "CIRCLE", "radius": 5.0}, "sprite_asset_ref": "fx.energy_shard", "burst_count": 3, "lifetime_seconds": 1.0, "speed_min": 0.0, "speed_max": 0.0, "alpha_start": 1.0, "alpha_end": 1.0}), {})
 	renderer.restart(_frame())
 	var first_packets: Array = renderer.draw_packets()
 	renderer.restart(_frame())
 	var restarted_packets: Array = renderer.draw_packets()
 	tests.expect_true(first_packets.size() == 3, "Particle BURST creates exactly its declared burst_count")
 	tests.expect_true(first_packets == restarted_packets, "Particle Restart uses the same stable seed for the same phase, Layer, Anchor, and generation")
+	tests.expect_true(first_packets.all(func(packet: Dictionary) -> bool: return is_equal_approx(float(packet.get("alpha", -1.0)), 1.0)), "Particle alpha one-to-one retains existing packet alpha")
+
+
+static func _test_particle_lifetime_alpha_is_linear_and_keeps_base_color_alpha(tests: TestAssert) -> void:
+	var renderer_script := load("res://src/preview/rendering/vfx_particle_layer_renderer.gd") as Script
+	if renderer_script == null:
+		tests.expect_true(false, "Particle lifetime alpha test requires the Particle Renderer")
+		return
+	var renderer = renderer_script.new(_instance("PARTICLE", {
+		"emission_mode": "BURST",
+		"emitter": {"shape": "POINT"},
+		"sprite_asset_ref": "fx.energy_shard",
+		"burst_count": 1,
+		"lifetime_seconds": 1.0,
+		"speed_min": 0.0,
+		"speed_max": 0.0,
+		"color_rgba": [0.2, 0.4, 0.6, 0.8],
+		"alpha_start": 1.0,
+		"alpha_end": 0.0
+	}), {})
+	renderer.restart(_frame())
+	var start_packet: Dictionary = renderer.draw_packets()[0] if not renderer.draw_packets().is_empty() else {}
+	renderer.advance(0.5, _frame())
+	var middle_packet: Dictionary = renderer.draw_packets()[0] if not renderer.draw_packets().is_empty() else {}
+	renderer.advance(0.49, _frame())
+	var ending_packet: Dictionary = renderer.draw_packets()[0] if not renderer.draw_packets().is_empty() else {}
+	tests.expect_true(is_equal_approx(float(start_packet.get("alpha", -1.0)), 1.0) and is_equal_approx(float(middle_packet.get("alpha", -1.0)), 0.5) and is_equal_approx(float(ending_packet.get("alpha", -1.0)), 0.01), "Particle lifetime alpha linearly follows its normalized age from alpha_start to alpha_end")
+	var host_script := load("res://src/preview/rendering/vfx_preview_canvas_render_host.gd") as Script
+	var host: Node2D = host_script.new() if host_script != null else null
+	var composed: Color = host.call("_packet_color", middle_packet) if host != null else Color.TRANSPARENT
+	tests.expect_true(middle_packet.get("color_rgba") == [0.2, 0.4, 0.6, 0.8] and is_equal_approx(composed.a, 0.4), "Particle lifetime alpha remains a packet scalar and Canvas combines it with authored color_rgba alpha")
+	if host != null:
+		host.free()
 
 
 static func _test_particle_continuous_capacity_is_declared_cap(tests: TestAssert) -> void:
@@ -30,7 +64,7 @@ static func _test_particle_continuous_capacity_is_declared_cap(tests: TestAssert
 	if renderer_script == null:
 		tests.expect_true(false, "Particle capacity test requires the Particle Renderer")
 		return
-	var renderer = renderer_script.new(_instance("PARTICLE", {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.energy_shard", "emission_rate_per_second": 8.0, "max_particles": 2, "lifetime_seconds": 2.0, "speed_min": 0.0, "speed_max": 0.0}), {})
+	var renderer = renderer_script.new(_instance("PARTICLE", {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.energy_shard", "emission_rate_per_second": 8.0, "max_particles": 2, "lifetime_seconds": 2.0, "speed_min": 0.0, "speed_max": 0.0, "alpha_start": 1.0, "alpha_end": 1.0}), {})
 	renderer.restart(_frame())
 	renderer.advance(1.0, _frame())
 	tests.expect_true(renderer.draw_packets().size() == 2, "Particle CONTINUOUS honors max_particles authoring capacity even when its accumulator requests more")
@@ -56,7 +90,7 @@ static func _test_particle_emitter_shapes_stay_in_declared_geometry(tests: TestA
 		"LINE": {"shape": "LINE", "length": 6.0}
 	}
 	for shape_name in emitters:
-		var renderer = renderer_script.new(_instance("PARTICLE", {"emission_mode": "BURST", "emitter": emitters[shape_name], "sprite_asset_ref": "fx.energy_shard", "burst_count": 1, "lifetime_seconds": 1.0, "speed_min": 0.0, "speed_max": 0.0}), {})
+		var renderer = renderer_script.new(_instance("PARTICLE", {"emission_mode": "BURST", "emitter": emitters[shape_name], "sprite_asset_ref": "fx.energy_shard", "burst_count": 1, "lifetime_seconds": 1.0, "speed_min": 0.0, "speed_max": 0.0, "alpha_start": 1.0, "alpha_end": 1.0}), {})
 		renderer.restart(_frame())
 		var packets: Array = renderer.draw_packets()
 		var position: Vector2 = packets[0].get("position", Vector2(999.0, 999.0)) if not packets.is_empty() else Vector2(999.0, 999.0)

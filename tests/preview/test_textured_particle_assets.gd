@@ -21,6 +21,7 @@ static func run(tests: TestAssert) -> void:
 	_test_invalid_textures_use_cached_preview_warning_fallback(tests)
 	_test_texture_particle_rect_preserves_half_size_and_aspect(tests)
 	_test_texture_particle_packet_preserves_authoring_tint_and_layer_scale(tests)
+	_test_textured_particle_uses_the_same_lifetime_alpha_scalar(tests)
 	_test_zero_zone_uses_distinct_shard_and_spark_logical_assets(tests)
 	_test_renderer_showcase_uses_the_ordinary_texture_particle_route(tests)
 
@@ -117,12 +118,41 @@ static func _test_texture_particle_packet_preserves_authoring_tint_and_layer_sca
 		"speed_max": 0.0,
 		"size_start": 5.0,
 		"size_end": 5.0,
+		"alpha_start": 1.0,
+		"alpha_end": 1.0,
 		"color_rgba": [0.2, 0.4, 0.6, 0.75]
 	}
 	var renderer = renderer_script.new(_particle_instance(parameters), texture_result.value)
 	renderer.restart(_frame())
 	var packet: Dictionary = renderer.draw_packets()[0] if not renderer.draw_packets().is_empty() else {}
 	tests.expect_true(packet.get("asset", {}).get("source") == "TEXTURE" and packet.get("color_rgba") == [0.2, 0.4, 0.6, 0.75] and packet.get("size") == 5.0 and packet.get("geometry_scale") == Vector2(0.75, 0.0625), "TEXTURE Particles retain Layer color, half-size authoring, and transform.scale times Space projection without native-pixel scaling")
+
+
+static func _test_textured_particle_uses_the_same_lifetime_alpha_scalar(tests: TestAssert) -> void:
+	var renderer_script := load("res://src/preview/rendering/vfx_particle_layer_renderer.gd") as Script
+	var texture_result: VfxResult = _resolver().resolve("fx.texture_particle_test")
+	if renderer_script == null or not texture_result.success:
+		tests.expect_true(false, "TEXTURE lifetime alpha requires the existing Particle Renderer and Texture2D route")
+		return
+	var parameters := {
+		"emission_mode": "BURST",
+		"emitter": {"shape": "POINT"},
+		"sprite_asset_ref": "fx.texture_particle_test",
+		"burst_count": 1,
+		"lifetime_seconds": 1.0,
+		"speed_min": 0.0,
+		"speed_max": 0.0,
+		"size_start": 5.0,
+		"size_end": 5.0,
+		"color_rgba": [1.0, 1.0, 1.0, 0.8],
+		"alpha_start": 1.0,
+		"alpha_end": 0.0
+	}
+	var renderer = renderer_script.new(_particle_instance(parameters), texture_result.value)
+	renderer.restart(_frame())
+	renderer.advance(0.5, _frame())
+	var packet: Dictionary = renderer.draw_packets()[0] if not renderer.draw_packets().is_empty() else {}
+	tests.expect_true(packet.get("asset", {}).get("source") == "TEXTURE" and is_equal_approx(float(packet.get("alpha", -1.0)), 0.5) and packet.get("color_rgba") == [1.0, 1.0, 1.0, 0.8], "TEXTURE Particles use the same lifetime alpha scalar without changing texture or authored color semantics")
 
 
 static func _test_zero_zone_uses_distinct_shard_and_spark_logical_assets(tests: TestAssert) -> void:

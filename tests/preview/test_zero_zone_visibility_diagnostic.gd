@@ -17,6 +17,7 @@ static func run(tests: TestAssert) -> void:
 	_test_loop_plan_runtime_asset_and_canvas_route(tests)
 	_test_current_miniature_projection_factors(tests)
 	_test_energy_domain_authoring_targets(tests)
+	_test_zero_zone_lifetime_alpha_authoring(tests)
 
 
 static func _test_loop_plan_runtime_asset_and_canvas_route(tests: TestAssert) -> void:
@@ -118,6 +119,38 @@ static func _test_energy_domain_authoring_targets(tests: TestAssert) -> void:
 		and loop_particle_capacity <= 10
 	tests.expect_true(recipe_is_explicit, "Zero Zone declares an Aura-focused authoring recipe with two Glows, a supporting Inner Ring, and a 6 plus 4 Particle capacity budget using only Schema v1")
 	tests.expect_true(start_by_id.has("start.inner_flash") and start_by_id.has("start.outer_flash") and start_by_id.has("start.expand_ring") and start_expand_ring.get("parameters", {}).get("width") == 13.0 and start_by_id.has("start.shard_burst") and end_by_id.has("end.release_pulse") and end_by_id.has("end.release_shards"), "Zero Zone START and END retain concise energy-domain signals and a non-subpixel launch Ring instead of a persistent shield-bubble structure")
+
+
+static func _test_zero_zone_lifetime_alpha_authoring(tests: TestAssert) -> void:
+	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
+	if not document_result.success:
+		tests.expect_true(false, "Zero Zone lifetime alpha authoring requires a contract-valid Preset")
+		return
+	var phases: Dictionary = document_result.value.normalized_data["phases"]
+	var start_by_id := _layers_by_id(phases["start"]["layers"])
+	var loop_by_id := _layers_by_id(phases["loop"]["layers"])
+	var end_by_id := _layers_by_id(phases["end"]["layers"])
+	var start_shard: Dictionary = start_by_id.get("start.shard_burst", {}).get("parameters", {})
+	var start_ring: Dictionary = start_by_id.get("start.expand_ring", {}).get("parameters", {})
+	var slow_shards: Dictionary = loop_by_id.get("loop.slow_energy_shards", {}).get("parameters", {})
+	var fast_sparks: Dictionary = loop_by_id.get("loop.fast_energy_sparks", {}).get("parameters", {})
+	var inner_ring: Dictionary = loop_by_id.get("loop.inner_energy_ring", {}).get("parameters", {})
+	var end_pulse: Dictionary = end_by_id.get("end.release_pulse", {}).get("parameters", {})
+	var end_shards: Dictionary = end_by_id.get("end.release_shards", {}).get("parameters", {})
+	var approved_fades: bool = start_shard.get("alpha_start") == 0.9 \
+		and start_shard.get("alpha_end") == 0.0 \
+		and start_ring.get("alpha_start") == 0.9 \
+		and start_ring.get("alpha_end") == 0.0 \
+		and slow_shards.get("alpha_start") == 0.9 \
+		and slow_shards.get("alpha_end") == 0.0 \
+		and fast_sparks.get("alpha_start") == 1.0 \
+		and fast_sparks.get("alpha_end") == 0.0 \
+		and end_pulse.get("alpha_start") == 0.8 \
+		and end_pulse.get("alpha_end") == 0.0 \
+		and end_shards.get("alpha_start") == 0.82 \
+		and end_shards.get("alpha_end") == 0.0
+	tests.expect_true(approved_fades, "Zero Zone applies the approved fade-out authoring values to transient Particle and Ring Layers")
+	tests.expect_true(inner_ring.get("alpha_start") == 1.0 and inner_ring.get("alpha_end") == 1.0, "Zero Zone LOOP Inner Ring keeps the Schema default alpha one-to-one for a stable center silhouette")
 
 
 static func _layers_by_id(layers: Array) -> Dictionary:

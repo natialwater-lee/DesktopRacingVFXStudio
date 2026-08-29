@@ -54,3 +54,23 @@ static func run(tests: TestAssert) -> void:
 	var particle_result := normalizer.normalize(particle_raw, layer_schema)
 	tests.expect_true(particle_result.value["parameters"]["spread_degrees"] == 0.0, "Particle Motion defaults are schema driven")
 	tests.expect_true(not particle_raw["parameters"].has("spread_degrees"), "Particle raw data remains unchanged")
+	tests.expect_true(particle_result.value["parameters"].get("alpha_start") == 1.0 and particle_result.value["parameters"].get("alpha_end") == 1.0, "Particle lifetime alpha defaults are derived from the Schema")
+	tests.expect_true(not particle_raw["parameters"].has("alpha_start") and not particle_raw["parameters"].has("alpha_end"), "Particle lifetime alpha defaults do not mutate raw parameters")
+
+	var ring_raw := {
+		"id": "loop.ring",
+		"type": "RING",
+		"importance": "DETAIL",
+		"blend_mode": "ADDITIVE",
+		"render_plane": "OVER_VEHICLE",
+		"anchors": ["CENTER"],
+		"parameters": {
+			"radius_start": 8.0,
+			"radius_end": 12.0,
+			"width": 1.0,
+			"duration_seconds": 0.5
+		}
+	}
+	var ring_result := normalizer.normalize(ring_raw, layer_schema)
+	tests.expect_true(ring_result.value["parameters"].get("alpha_start") == 1.0 and ring_result.value["parameters"].get("alpha_end") == 1.0, "Ring lifetime alpha defaults are derived from the Schema")
+	tests.expect_true(not ring_raw["parameters"].has("alpha_start") and not ring_raw["parameters"].has("alpha_end"), "Ring lifetime alpha defaults do not mutate raw parameters")

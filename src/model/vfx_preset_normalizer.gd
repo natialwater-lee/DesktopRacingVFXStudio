@@ -33,8 +33,14 @@ func _normalize_value(value: Variant, schema: Dictionary) -> VfxResult:
 				if not property_result.success:
 					return property_result
 				normalized[property_name] = property_result.value
-			elif property_schema.has("default"):
-				var default_result := _normalize_value(_deep_copy(property_schema["default"]), property_schema)
+			else:
+				var default_schema_result := _default_schema(property_schema)
+				if not default_schema_result.success:
+					return default_schema_result
+				var default_schema: Dictionary = default_schema_result.value
+				if not default_schema.has("default"):
+					continue
+				var default_result := _normalize_value(_deep_copy(default_schema["default"]), property_schema)
 				if not default_result.success:
 					return default_result
 				normalized[property_name] = default_result.value
@@ -85,6 +91,17 @@ func _normalize_type_dispatched_parameters(normalized: Dictionary, schema: Dicti
 		return parameters_result
 	normalized["parameters"] = parameters_result.value
 	return VfxResult.ok(normalized)
+
+
+func _default_schema(property_schema: Dictionary) -> VfxResult:
+	if property_schema.has("default"):
+		return VfxResult.ok(property_schema)
+	if not property_schema.has("$ref"):
+		return VfxResult.ok(property_schema)
+	var resolved := _registry.resolve_local_ref(property_schema["$ref"])
+	if not resolved.success:
+		return _normalization_failure(resolved.issues[0])
+	return VfxResult.ok(resolved.value)
 
 
 func _normalization_failure(issue: VfxIssue) -> VfxResult:

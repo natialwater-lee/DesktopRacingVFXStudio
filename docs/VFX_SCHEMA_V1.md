@@ -98,6 +98,7 @@ Required authoring concepts are `emission_mode`, `emitter`, `sprite_asset_ref`, 
 - angular velocity range in degrees per second
 - start and end size
 - RGBA color array
+- optional linear `alpha_start` and `alpha_end` factors, each in the inclusive range 0 through 1 and defaulting to 1
 
 `BURST` requires `burst_count`; `CONTINUOUS` requires `emission_rate_per_second` and `max_particles`. Continuous `max_particles` means authoring capacity for concurrently alive particles, not a Godot renderer property.
 
@@ -119,7 +120,7 @@ Required authoring concepts are `emission_mode`, `emitter`, `sprite_asset_ref`, 
 
 ### RING
 
-`RING` parameters are `radius_start`, `radius_end`, `width`, `duration_seconds`, optional `repeat_interval_seconds`, and `color_rgba`. A repeat interval of zero means a single ring at Layer activation.
+`RING` parameters are `radius_start`, `radius_end`, `width`, `duration_seconds`, optional `repeat_interval_seconds`, optional linear `alpha_start` / `alpha_end` factors, and `color_rgba`. Alpha factors are in the inclusive range 0 through 1 and default to 1. A repeat interval of zero means a single ring at Layer activation.
 
 ### GLOW
 
@@ -172,6 +173,8 @@ Known objects use `additionalProperties: false`, including Type-specific paramet
 Array item contracts use the Schema `items` keyword. It is required to validate Anchor enums, numeric vectors, and RGBA values; it adds no authoring feature beyond the arrays already defined above.
 
 `default` declares a value only. Validation never mutates input. `VfxPresetNormalizer` creates a deep-copied normalized Variant and applies defaults. Unknown keys remain in that copy until validation rejects them.
+
+`alpha_start` and `alpha_end` are a Schema v1 additive extension introduced by the Phase 3.4 implementation. Existing Presets normalize both values to `1.0`, preserving their visual result. A Preset that explicitly uses either field requires a Phase 3.4-or-later Studio Schema v1 implementation; no migration or Schema v2 is required.
 
 ## Reference support
 

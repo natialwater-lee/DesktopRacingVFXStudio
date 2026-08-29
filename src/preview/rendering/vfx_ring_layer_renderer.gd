@@ -52,8 +52,10 @@ func _refresh_packets(frame_context: Dictionary) -> void:
 	var radius_start: float = float(parameters.get("radius_start", 0.0))
 	var radius_end: float = float(parameters.get("radius_end", 0.0))
 	for age in _ring_ages:
+		var age_ratio := clampf(age / duration_seconds, 0.0, 1.0)
 		var packet := _packet_base(frame_context)
-		packet["radius"] = lerpf(radius_start, radius_end, clampf(age / duration_seconds, 0.0, 1.0))
+		packet["radius"] = lerpf(radius_start, radius_end, age_ratio)
 		packet["width"] = float(parameters.get("width", 0.0))
 		packet["color_rgba"] = parameters.get("color_rgba", [1.0, 1.0, 1.0, 1.0]).duplicate()
+		packet["alpha"] = lerpf(float(parameters["alpha_start"]), float(parameters["alpha_end"]), age_ratio)
 		_packets.append(packet)

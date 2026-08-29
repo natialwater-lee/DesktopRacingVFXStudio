@@ -130,6 +130,12 @@
         "maximum": 1.0
       }
     },
+    "alpha_factor": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 1.0
+    },
     "transform": {
       "type": "object",
       "required": ["offset", "rotation_degrees", "scale"],
@@ -378,6 +384,12 @@
           "minimum": 0.0,
           "default": 1.0
         },
+        "alpha_start": {
+          "$ref": "#/$defs/alpha_factor"
+        },
+        "alpha_end": {
+          "$ref": "#/$defs/alpha_factor"
+        },
         "color_rgba": {
           "$ref": "#/$defs/color_rgba",
           "default": [1.0, 1.0, 1.0, 1.0]
@@ -439,6 +451,12 @@
           "type": "number",
           "minimum": 0.0,
           "default": 0.0
+        },
+        "alpha_start": {
+          "$ref": "#/$defs/alpha_factor"
+        },
+        "alpha_end": {
+          "$ref": "#/$defs/alpha_factor"
         },
         "color_rgba": {
           "$ref": "#/$defs/color_rgba",
