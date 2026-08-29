@@ -49,6 +49,8 @@ Schema defaults, but does not preserve original whitespace or key order.
 `VfxPresetDocument.normalized_data`. It makes each Layer's effective
 `space_mode` explicit and carries portable semantic data only:
 
+- the mandatory `coordinate_contract` for the fixed vehicle source-local
+  authoring frame;
 - preset identity, category, lifecycle mode, and default space mode;
 - ordered phases and ordered Layer records;
 - Layer type, enabled state, importance, blend, plane, sort order, anchors,
@@ -58,6 +60,34 @@ Schema defaults, but does not preserve original whitespace or key order.
 It never contains a Studio or game filesystem path, Preview renderer class,
 scene, shader, `.tres`, Vehicle Profile, Preview asset implementation detail,
 Stress Snapshot, authoring budget, threshold, or other Performance data.
+
+## Coordinate contract
+
+Every Runtime Definition v1 contains this top-level metadata block, even when
+a Preset currently has only `WORLD_AREA` or `SCREEN_UI` Layers:
+
+```json
+"coordinate_contract": {
+  "vehicle_source_canvas_size_px": [256, 512],
+  "origin": "CENTER",
+  "front_axis": "-Y"
+}
+```
+
+It is the source-local coordinate frame for `VEHICLE_LOCAL` and
+`VEHICLE_FOLLOW_WORLD_TRAIL`: source canvas `256 × 512` pixels, local `[0, 0]`
+at the source canvas centre, `+X` to the vehicle's right, `+Y` rear/down, and
+`-Y` toward the vehicle front. Vehicle-local Anchor values and
+`transform.offset` use these source-local pixel coordinates.
+
+This is not an instruction to render a vehicle at `256 × 512` screen pixels.
+Actual display size, vehicle scale, and projection remain the
+DesktopIdleRacing Runtime Renderer's responsibility. The Package exposes this
+metadata so the game does not need duplicate hidden coordinate constants.
+
+The block is Runtime-only: it is not inserted into authoring Source JSON and
+is not duplicated in the Manifest. `runtime_definition_version` remains `1`;
+the contract was completed before a Game Importer was released.
 
 ## Manifest v1
 

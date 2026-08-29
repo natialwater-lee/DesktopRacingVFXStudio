@@ -1,0 +1,6 @@
+{
+  "contract_version": 1,
+  "vehicle_source_canvas_size_px": [256, 512],
+  "origin": "TOP_LEFT",
+  "front_axis": "-Y"
+}

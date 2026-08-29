@@ -13,9 +13,10 @@ var _paths: RefCounted
 var _codec: RefCounted
 var _hasher: RefCounted
 var _deriver: RefCounted
+var _coordinate_contract: RefCounted
 
 
-func _init(registry: RefCounted, asset_registry: RefCounted, preset_policy: RefCounted, paths: RefCounted, codec: RefCounted = null, hasher: RefCounted = null, deriver: RefCounted = null) -> void:
+func _init(registry: RefCounted, asset_registry: RefCounted, preset_policy: RefCounted, paths: RefCounted, codec: RefCounted = null, hasher: RefCounted = null, deriver: RefCounted = null, coordinate_contract: RefCounted = null) -> void:
 	_registry = registry
 	_asset_registry = asset_registry
 	_preset_policy = preset_policy
@@ -23,10 +24,11 @@ func _init(registry: RefCounted, asset_registry: RefCounted, preset_policy: RefC
 	_codec = codec if codec != null else VfxPresetCodecModel.new()
 	_hasher = hasher if hasher != null else VfxExportHasherModel.new()
 	_deriver = deriver if deriver != null else VfxExportRequirementDeriverModel.new(registry)
+	_coordinate_contract = coordinate_contract
 
 
 func compile(document: VfxPresetDocument) -> VfxResult:
-	if document == null or _registry == null or _asset_registry == null or _preset_policy == null or _paths == null:
+	if document == null or _registry == null or _asset_registry == null or _preset_policy == null or _paths == null or _coordinate_contract == null:
 		return _failure("export_compiler_input", "Export compiler requires a validated document and configured dependencies.")
 	var data := document.normalized_data
 	var preset_id := str(data.get("preset_id", ""))
@@ -42,7 +44,10 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	var source_text: VfxResult = _encode_json(document.raw_data)
 	if not source_text.success:
 		return source_text
-	var runtime_data: VfxResult = _compile_runtime_definition(data, requirements.value)
+	var coordinate_contract: Dictionary = _coordinate_contract.runtime_data() if _coordinate_contract.has_method("runtime_data") else {}
+	if coordinate_contract.is_empty():
+		return _failure("export_coordinate_contract", "Export compiler requires a loaded Coordinate Contract.")
+	var runtime_data: VfxResult = _compile_runtime_definition(data, requirements.value, coordinate_contract)
 	if not runtime_data.success:
 		return runtime_data
 	var runtime_text: VfxResult = _encode_json(runtime_data.value)
@@ -115,7 +120,7 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	))
 
 
-func _compile_runtime_definition(data: Dictionary, requirements: Dictionary) -> VfxResult:
+func _compile_runtime_definition(data: Dictionary, requirements: Dictionary, coordinate_contract: Dictionary) -> VfxResult:
 	var schema: Dictionary = _registry.schema()
 	var lifecycle_rule := _rule_named(schema, "LIFECYCLE_PHASE_STRUCTURE")
 	var anchor_rule := _rule_named(schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")
@@ -156,6 +161,7 @@ func _compile_runtime_definition(data: Dictionary, requirements: Dictionary) -> 
 		phases.append(compiled_phase)
 	return VfxResult.ok({
 		"runtime_definition_version": 1,
+		"coordinate_contract": coordinate_contract.duplicate(true),
 		"preset": {
 			"preset_id": str(data.get("preset_id", "")),
 			"display_name": str(data.get("display_name", "")),

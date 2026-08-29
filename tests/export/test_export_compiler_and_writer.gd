@@ -67,6 +67,9 @@ static func _test_compiler_preserves_raw_source_and_compiles_runtime(tests: Test
 	var runtime_layer: Dictionary = runtime_result.value["phases"][1]["layers"][0]
 	tests.expect_true(runtime_layer["space_mode"] == "VEHICLE_LOCAL" and runtime_layer["enabled"] == true and runtime_layer["sort_order"] == 0, "Runtime Definition resolves effective space and Schema defaults")
 	tests.expect_true(runtime_layer["transform"] == {"offset": [0.0, 0.0], "rotation_degrees": 0.0, "scale": [1.0, 1.25]}, "Runtime Definition retains normalized transform data")
+	var coordinate_contract: Dictionary = runtime_result.value.get("coordinate_contract", {})
+	tests.expect_true(coordinate_contract.get("origin") == "CENTER" and coordinate_contract.get("front_axis") == "-Y" and _is_expected_canvas_size(coordinate_contract.get("vehicle_source_canvas_size_px")), "Runtime Definition always carries the fixed vehicle source-coordinate contract")
+	tests.expect_true(not source_result.value.has("coordinate_contract") and not plan.manifest_data().has("coordinate_contract"), "coordinate contract remains Runtime-only metadata instead of changing Source or Manifest")
 	tests.expect_true(not plan.runtime_text().contains("res://") and not plan.runtime_text().contains("C:\\"), "Runtime Definition excludes Studio source and absolute paths")
 	var manifest: Dictionary = plan.manifest_data()
 	tests.expect_true(manifest["requirements"]["required_vehicle_anchors"] == ["CENTER"] and manifest["requirements"]["runtime_inputs"] == ["intensity"], "Manifest carries derived anchor and runtime-input requirements")
@@ -149,8 +152,9 @@ static func _compiler(tests: TestAssert, package_root: String = "res://exports/p
 	var asset_registry_script := load("res://src/export/vfx_export_asset_registry.gd") as Script
 	var preset_policy_script := load("res://src/export/vfx_export_preset_policy.gd") as Script
 	var paths_script := load("res://src/export/vfx_export_paths.gd") as Script
-	tests.expect_true(compiler_script != null and compiler_script.can_instantiate() and asset_registry_script != null and asset_registry_script.can_instantiate() and preset_policy_script != null and preset_policy_script.can_instantiate() and paths_script != null and paths_script.can_instantiate(), "Export compiler dependencies are instantiable")
-	if compiler_script == null or not compiler_script.can_instantiate() or asset_registry_script == null or not asset_registry_script.can_instantiate() or preset_policy_script == null or not preset_policy_script.can_instantiate() or paths_script == null or not paths_script.can_instantiate():
+	var coordinate_contract_script := load("res://src/export/vfx_export_coordinate_contract.gd") as Script
+	tests.expect_true(compiler_script != null and compiler_script.can_instantiate() and asset_registry_script != null and asset_registry_script.can_instantiate() and preset_policy_script != null and preset_policy_script.can_instantiate() and paths_script != null and paths_script.can_instantiate() and coordinate_contract_script != null and coordinate_contract_script.can_instantiate(), "Export compiler dependencies are instantiable")
+	if compiler_script == null or not compiler_script.can_instantiate() or asset_registry_script == null or not asset_registry_script.can_instantiate() or preset_policy_script == null or not preset_policy_script.can_instantiate() or paths_script == null or not paths_script.can_instantiate() or coordinate_contract_script == null or not coordinate_contract_script.can_instantiate():
 		return null
 	var assets: Variant = asset_registry_script.new()
 	var policy: Variant = preset_policy_script.new()
@@ -159,10 +163,19 @@ static func _compiler(tests: TestAssert, package_root: String = "res://exports/p
 	if not assets_loaded.success or not policy_loaded.success:
 		tests.expect_true(false, "Export compiler dependencies load their explicit policies")
 		return null
-	return compiler_script.new(_registry(), assets, policy, paths_script.new(package_root, staging_root, backup_root))
+	var coordinate_contract: Variant = coordinate_contract_script.new()
+	var coordinate_loaded: VfxResult = coordinate_contract.load()
+	if not coordinate_loaded.success:
+		tests.expect_true(false, "Export compiler loads the fail-closed Coordinate Contract")
+		return null
+	return compiler_script.new(_registry(), assets, policy, paths_script.new(package_root, staging_root, backup_root), null, null, null, coordinate_contract)
 
 
 static func _registry() -> RefCounted:
 	var registry := VfxSchemaRegistryModel.new(VfxPresetCodecModel.new(), VfxRuleCatalogModel.new())
 	registry.load("res://schemas/vfx_schema_v1.json")
 	return registry
+
+
+static func _is_expected_canvas_size(value: Variant) -> bool:
+	return value is Array and value.size() == 2 and int(value[0]) == 256 and int(value[1]) == 512

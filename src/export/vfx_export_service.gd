@@ -11,6 +11,7 @@ const VfxExportPresetPolicyModel := preload("res://src/export/vfx_export_preset_
 const VfxExportPathsModel := preload("res://src/export/vfx_export_paths.gd")
 const VfxExportCompilerModel := preload("res://src/export/vfx_export_compiler.gd")
 const VfxAtomicPackageWriterModel := preload("res://src/export/vfx_atomic_package_writer.gd")
+const VfxExportCoordinateContractModel := preload("res://src/export/vfx_export_coordinate_contract.gd")
 
 var _pipeline: RefCounted
 var _authoring_paths: RefCounted
@@ -19,10 +20,11 @@ var _asset_registry: RefCounted
 var _preset_policy: RefCounted
 var _compiler: RefCounted
 var _writer: RefCounted
+var _coordinate_contract: RefCounted
 var _ready := false
 
 
-func _init(pipeline: RefCounted = null, authoring_paths: RefCounted = null, registry: RefCounted = null, asset_registry: RefCounted = null, preset_policy: RefCounted = null, compiler: RefCounted = null, writer: RefCounted = null) -> void:
+func _init(pipeline: RefCounted = null, authoring_paths: RefCounted = null, registry: RefCounted = null, asset_registry: RefCounted = null, preset_policy: RefCounted = null, compiler: RefCounted = null, writer: RefCounted = null, coordinate_contract: RefCounted = null) -> void:
 	_pipeline = pipeline if pipeline != null else VfxPresetPipelineModel.new()
 	_authoring_paths = authoring_paths if authoring_paths != null else VfxAuthoringPathsModel.new()
 	_registry = registry
@@ -30,6 +32,7 @@ func _init(pipeline: RefCounted = null, authoring_paths: RefCounted = null, regi
 	_preset_policy = preset_policy if preset_policy != null else VfxExportPresetPolicyModel.new()
 	_compiler = compiler
 	_writer = writer if writer != null else VfxAtomicPackageWriterModel.new()
+	_coordinate_contract = coordinate_contract if coordinate_contract != null else VfxExportCoordinateContractModel.new()
 
 
 func validate_saved_source(source_path: String) -> VfxResult:
@@ -66,8 +69,11 @@ func _ensure_ready() -> VfxResult:
 	var policy_loaded: VfxResult = _preset_policy.load()
 	if not policy_loaded.success:
 		return policy_loaded
+	var coordinate_loaded: VfxResult = _coordinate_contract.load()
+	if not coordinate_loaded.success:
+		return coordinate_loaded
 	if _compiler == null:
-		_compiler = VfxExportCompilerModel.new(_registry, _asset_registry, _preset_policy, VfxExportPathsModel.new())
+		_compiler = VfxExportCompilerModel.new(_registry, _asset_registry, _preset_policy, VfxExportPathsModel.new(), null, null, null, _coordinate_contract)
 	_ready = true
 	return VfxResult.ok(self)
 

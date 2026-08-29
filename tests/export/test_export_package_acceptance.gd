@@ -35,6 +35,13 @@ static func _test_final_zero_zone_package(tests: TestAssert) -> void:
 	var dependencies: Array = manifest.get("asset_dependencies", []) if manifest.get("asset_dependencies") is Array else []
 	tests.expect_true(manifest.get("package_format_version") == 1 and manifest.get("package_id") == "talent.zero_zone" and requirements.get("required_vehicle_anchors") == ["CENTER"] and requirements.get("runtime_inputs") == ["intensity"], "final Manifest fixes Zero Zone Package version, identity, CENTER Anchor, and intensity input")
 	tests.expect_true(dependencies.size() == 2 and dependencies.all(func(entry: Variant) -> bool: return entry is Dictionary and str(entry.get("logical_id", "")).begins_with("fx.energy_") and str(entry.get("kind", "")) == "TEXTURE_PNG"), "final Manifest maps exactly two Production texture assets and no procedural or fixture asset")
+	var runtime_path := "%sruntime/vfx_runtime_definition_v1.json" % ZERO_ZONE_ROOT
+	var source_path := "%ssource/talent.zero_zone.vfx.json" % ZERO_ZONE_ROOT
+	var runtime: VfxResult = codec.decode_file(runtime_path)
+	var source: VfxResult = codec.decode_file(source_path)
+	var coordinate_contract: Dictionary = runtime.value.get("coordinate_contract", {}) if runtime.success and runtime.value is Dictionary else {}
+	tests.expect_true(runtime.success and coordinate_contract.get("origin") == "CENTER" and coordinate_contract.get("front_axis") == "-Y" and _is_expected_canvas_size(coordinate_contract.get("vehicle_source_canvas_size_px")), "re-exported Zero Zone Runtime contains the exact coordinate contract")
+	tests.expect_true(source.success and not source.value.has("coordinate_contract") and not manifest.has("coordinate_contract"), "Zero Zone Source and Manifest do not duplicate Runtime coordinate metadata")
 	var hasher := VfxExportHasherModel.new()
 	var all_hashes_match := true
 	for entry in manifest.get("files", []):
@@ -48,7 +55,7 @@ static func _test_final_zero_zone_package(tests: TestAssert) -> void:
 			break
 	tests.expect_true(all_hashes_match and not (manifest.get("files", []) as Array).any(func(entry: Variant) -> bool: return entry is Dictionary and entry.get("path") == "manifest.json"), "every Manifest-listed file exists with matching SHA-256 and byte size while Manifest avoids self-hash")
 	var package_json_is_portable := true
-	for package_json_path in [manifest_path, "%ssource/talent.zero_zone.vfx.json" % ZERO_ZONE_ROOT, "%sruntime/vfx_runtime_definition_v1.json" % ZERO_ZONE_ROOT]:
+	for package_json_path in [manifest_path, source_path, runtime_path]:
 		var text := FileAccess.get_file_as_string(package_json_path)
 		if text.contains("res://") or text.contains("user://") or text.contains("C:\\") or text.contains("../") or text.contains("\\"):
 			package_json_is_portable = false
@@ -64,3 +71,7 @@ static func _test_renderer_showcase_remains_blocked(tests: TestAssert) -> void:
 static func _test_export_documentation_and_temporary_ignores(tests: TestAssert) -> void:
 	var gitignore := FileAccess.get_file_as_string("res://.gitignore")
 	tests.expect_true(FileAccess.file_exists("res://docs/VFX_EXPORT_PACKAGE_V1.md") and gitignore.contains("/exports/.staging/") and gitignore.contains("/exports/.backup/"), "export contract documentation and temporary staging/backup ignore policy are present")
+
+
+static func _is_expected_canvas_size(value: Variant) -> bool:
+	return value is Array and value.size() == 2 and int(value[0]) == 256 and int(value[1]) == 512

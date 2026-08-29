@@ -27,9 +27,9 @@
       "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
     },
     {
-      "byte_size": 13207,
+      "byte_size": 13353,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "34c1a5c1ed23130290b9a940dd129b19c4335da6af8628f93e2d44538bb20e2b"
+      "sha256": "3609d50107c2a1f56ba0e2f97cdd722645271c0ab3f3738627bf1978d61a7440"
     },
     {
       "byte_size": 10549,
@@ -61,9 +61,9 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 13207,
+    "byte_size": 13353,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "34c1a5c1ed23130290b9a940dd129b19c4335da6af8628f93e2d44538bb20e2b",
+    "sha256": "3609d50107c2a1f56ba0e2f97cdd722645271c0ab3f3738627bf1978d61a7440",
     "version": 1
   },
   "source": {

@@ -1,4 +1,12 @@
 {
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
   "phases": [
     {
       "duration_seconds": 0.12,
