@@ -58,23 +58,27 @@ static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) ->
 	var start_sparks: Dictionary = start_by_id.get("start.spark_ticks", {})
 	tests.expect_true(
 		start_focus.get("importance") == "CORE"
-		and start_focus.get("parameters", {}).get("radius") == 185.0
-		and start_focus.get("parameters", {}).get("opacity") == 0.78
-		and start_focus.get("transform", {}).get("scale") == [1.0, 1.35]
+		and start_focus.get("parameters", {}).get("radius") == 245.0
+		and start_focus.get("parameters", {}).get("opacity") == 0.68
+		and start_focus.get("transform", {}).get("scale") == [0.95, 1.42]
 		and start_wake.get("importance") == "DETAIL"
-		and start_wake.get("parameters", {}).get("radius") == 210.0
-		and start_wake.get("parameters", {}).get("opacity") == 0.16
-		and start_wake.get("transform", {}).get("scale") == [0.95, 1.48]
+		and start_wake.get("parameters", {}).get("radius") == 260.0
+		and start_wake.get("parameters", {}).get("opacity") == 0.12
+		and start_wake.get("transform", {}).get("scale") == [1.0, 1.55]
 		and start_shards.get("parameters", {}).get("sprite_asset_ref") == "fx.energy_shard"
-		and start_shards.get("parameters", {}).get("burst_count") == 5
-		and start_shards.get("parameters", {}).get("size_start") == 38.0
-		and start_shards.get("parameters", {}).get("size_end") == 26.0
+		and start_shards.get("parameters", {}).get("emitter", {}).get("radius") == 70.0
+		and start_shards.get("parameters", {}).get("burst_count") == 4
+		and start_shards.get("parameters", {}).get("size_start") == 112.0
+		and start_shards.get("parameters", {}).get("size_end") == 72.0
+		and start_shards.get("parameters", {}).get("alpha_start") == 0.88
 		and start_sparks.get("importance") == "EXTRA"
 		and start_sparks.get("parameters", {}).get("sprite_asset_ref") == "fx.energy_spark"
+		and start_sparks.get("parameters", {}).get("emitter", {}).get("radius") == 58.0
 		and start_sparks.get("parameters", {}).get("burst_count") == 2
-		and start_sparks.get("parameters", {}).get("size_start") == 30.0
-		and start_sparks.get("parameters", {}).get("size_end") == 17.0,
-		"START uses a narrow cyan-white focus, weak directional wake, readable shard lock burst, and sparse spark ticks"
+		and start_sparks.get("parameters", {}).get("size_start") == 84.0
+		and start_sparks.get("parameters", {}).get("size_end") == 48.0
+		and start_sparks.get("parameters", {}).get("alpha_start") == 0.9,
+		"START covers the full vehicle with a soft flash/wake and four broad readable entry shards without adding geometric enclosure"
 	)
 	var focus_core: Dictionary = loop_by_id.get("loop.focus_core", {})
 	var forward_flow: Dictionary = loop_by_id.get("loop.forward_flow", {})
@@ -83,50 +87,60 @@ static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) ->
 	var precision_sparks: Dictionary = loop_by_id.get("loop.precision_sparks", {})
 	tests.expect_true(
 		focus_core.get("importance") == "CORE"
-		and focus_core.get("parameters", {}).get("radius") == 165.0
-		and focus_core.get("parameters", {}).get("opacity") == 0.52
-		and focus_core.get("transform", {}).get("scale") == [1.0, 1.35]
+		and focus_core.get("parameters", {}).get("radius") == 235.0
+		and focus_core.get("parameters", {}).get("opacity") == 0.46
+		and focus_core.get("transform", {}).get("scale") == [0.95, 1.4]
 		and forward_flow.get("importance") == "CORE"
 		and forward_flow.get("parameters", {}).get("sprite_asset_ref") == "fx.zero_zone_flow_streak"
 		and forward_flow.get("parameters", {}).get("emitter", {}).get("shape") == "POINT"
-		and forward_flow.get("transform", {}).get("offset") == [0.0, -80.0]
+		and forward_flow.get("transform", {}).get("offset") == [0.0, -56.0]
 		and forward_flow.get("parameters", {}).get("direction_degrees") == 0.0
 		and forward_flow.get("parameters", {}).get("spread_degrees") == 14.0
-		and forward_flow.get("parameters", {}).get("max_particles") == 3
-		and forward_flow.get("parameters", {}).get("size_start") == 100.0
-		and forward_flow.get("parameters", {}).get("size_end") == 70.0
+		and forward_flow.get("parameters", {}).get("emission_rate_per_second") == 2.5
+		and forward_flow.get("parameters", {}).get("max_particles") == 2
+		and forward_flow.get("parameters", {}).get("size_start") == 240.0
+		and forward_flow.get("parameters", {}).get("size_end") == 170.0
+		and forward_flow.get("parameters", {}).get("alpha_start") == 0.9
 		and soft_aura.get("importance") == "DETAIL"
-		and soft_aura.get("parameters", {}).get("radius") == 205.0
-		and soft_aura.get("parameters", {}).get("opacity") == 0.14
-		and soft_aura.get("transform", {}).get("scale") == [0.95, 1.48]
+		and soft_aura.get("parameters", {}).get("radius") == 275.0
+		and soft_aura.get("parameters", {}).get("opacity") == 0.1
+		and soft_aura.get("transform", {}).get("scale") == [1.0, 1.52]
+		and alignment_shards.get("parameters", {}).get("emitter", {}).get("radius") == 72.0
+		and alignment_shards.get("parameters", {}).get("emission_rate_per_second") == 2.5
 		and alignment_shards.get("parameters", {}).get("max_particles") == 2
-		and alignment_shards.get("parameters", {}).get("size_start") == 38.0
-		and alignment_shards.get("parameters", {}).get("size_end") == 27.0
+		and alignment_shards.get("parameters", {}).get("size_start") == 112.0
+		and alignment_shards.get("parameters", {}).get("size_end") == 76.0
+		and alignment_shards.get("parameters", {}).get("alpha_start") == 0.82
 		and precision_sparks.get("importance") == "EXTRA"
+		and precision_sparks.get("parameters", {}).get("emitter", {}).get("radius") == 60.0
+		and precision_sparks.get("parameters", {}).get("emission_rate_per_second") == 2.5
 		and precision_sparks.get("parameters", {}).get("max_particles") == 2
-		and precision_sparks.get("parameters", {}).get("size_start") == 30.0
-		and precision_sparks.get("parameters", {}).get("size_end") == 18.0,
-		"LOOP keeps a CORE focus and canonical -Y flow, then adds only Detail shard alignment and Extra sparks"
+		and precision_sparks.get("parameters", {}).get("size_start") == 86.0
+		and precision_sparks.get("parameters", {}).get("size_end") == 52.0
+		and precision_sparks.get("parameters", {}).get("alpha_start") == 0.88,
+		"LOOP distributes a full-vehicle focus field, two large forward racing-line streaks, and sparse broad fragments without a Ring or Shield"
 	)
 	var release_shards: Dictionary = end_by_id.get("end.release_shards", {})
 	var release_flow: Dictionary = end_by_id.get("end.release_flow", {})
 	var spark_tail: Dictionary = end_by_id.get("end.spark_tail", {})
 	tests.expect_true(
 		release_shards.get("importance") == "CORE"
-		and release_shards.get("parameters", {}).get("burst_count") == 4
-		and release_shards.get("parameters", {}).get("size_start") == 34.0
-		and release_shards.get("parameters", {}).get("size_end") == 23.0
+		and release_shards.get("parameters", {}).get("emitter", {}).get("radius") == 68.0
+		and release_shards.get("parameters", {}).get("burst_count") == 3
+		and release_shards.get("parameters", {}).get("size_start") == 104.0
+		and release_shards.get("parameters", {}).get("size_end") == 68.0
 		and release_flow.get("importance") == "DETAIL"
 		and release_flow.get("parameters", {}).get("sprite_asset_ref") == "fx.zero_zone_flow_streak"
-		and release_flow.get("transform", {}).get("offset") == [0.0, -32.0]
+		and release_flow.get("transform", {}).get("offset") == [0.0, -28.0]
 		and release_flow.get("parameters", {}).get("direction_degrees") == 0.0
-		and release_flow.get("parameters", {}).get("size_start") == 85.0
-		and release_flow.get("parameters", {}).get("size_end") == 55.0
+		and release_flow.get("parameters", {}).get("size_start") == 190.0
+		and release_flow.get("parameters", {}).get("size_end") == 130.0
 		and spark_tail.get("importance") == "EXTRA"
+		and spark_tail.get("parameters", {}).get("emitter", {}).get("radius") == 50.0
 		and spark_tail.get("parameters", {}).get("burst_count") == 1
-		and spark_tail.get("parameters", {}).get("size_start") == 26.0
-		and spark_tail.get("parameters", {}).get("size_end") == 14.0,
-		"END releases a quiet CORE shard spread, one directional flow fragment, and one Extra spark without shockwave geometry"
+		and spark_tail.get("parameters", {}).get("size_start") == 76.0
+		and spark_tail.get("parameters", {}).get("size_end") == 44.0,
+		"END releases three broad shards, one central-forward flow fragment, and one bright accent without shockwave geometry"
 	)
 
 
@@ -174,26 +188,26 @@ static func _test_miniature_game_footprints_are_explicit(tests: TestAssert) -> v
 	var game_factor := 0.095
 	var reduced_track_factor := 0.08075
 	tests.expect_true(
-		is_equal_approx((20.0 / 64.0) * 100.0 * game_factor, 2.96875)
-		and is_equal_approx((93.0 / 128.0) * 2.0 * 100.0 * game_factor, 13.8046875)
-		and is_equal_approx(2.0 * 38.0 * game_factor, 7.22)
-		and is_equal_approx(2.0 * 30.0 * game_factor, 5.7)
-		and is_equal_approx(2.0 * 165.0 * game_factor, 31.35)
-		and is_equal_approx(2.0 * 165.0 * 1.35 * game_factor, 42.3225)
-		and is_equal_approx(2.0 * 205.0 * 0.95 * game_factor, 37.0025)
-		and is_equal_approx(2.0 * 205.0 * 1.48 * game_factor, 57.646),
-		"At GAME 100%, the flow strong footprint is about 2.97 by 13.80 px; shards, sparks, core, and aura are deliberately large enough to escape vehicle occlusion"
+		is_equal_approx((20.0 / 64.0) * 240.0 * game_factor, 7.125)
+		and is_equal_approx((93.0 / 128.0) * 2.0 * 240.0 * game_factor, 33.13125)
+		and is_equal_approx(2.0 * 112.0 * game_factor, 21.28)
+		and is_equal_approx(2.0 * 86.0 * game_factor, 16.34)
+		and is_equal_approx(2.0 * 235.0 * 0.95 * game_factor, 42.4175)
+		and is_equal_approx(2.0 * 235.0 * 1.4 * game_factor, 62.51)
+		and is_equal_approx(2.0 * 275.0 * game_factor, 52.25)
+		and is_equal_approx(2.0 * 275.0 * 1.52 * game_factor, 79.42),
+		"At GAME 100%, the flow crosses the vehicle at about 7.13 by 33.13 px while the full-vehicle focus, aura, shard, and spark dimensions remain explicit"
 	)
 	tests.expect_true(
-		is_equal_approx((20.0 / 64.0) * 100.0 * reduced_track_factor, 2.5234375)
-		and is_equal_approx((93.0 / 128.0) * 2.0 * 100.0 * reduced_track_factor, 11.733984375)
-		and is_equal_approx(2.0 * 38.0 * reduced_track_factor, 6.137)
-		and is_equal_approx(2.0 * 30.0 * reduced_track_factor, 4.845)
-		and is_equal_approx(2.0 * 165.0 * reduced_track_factor, 26.6475)
-		and is_equal_approx(2.0 * 165.0 * 1.35 * reduced_track_factor, 35.974125)
-		and is_equal_approx(2.0 * 205.0 * 0.95 * reduced_track_factor, 31.452125)
-		and is_equal_approx(2.0 * 205.0 * 1.48 * reduced_track_factor, 48.9991),
-		"At Track Scale 0.85, the flow remains about 2.52 by 11.73 px and the focused core, aura, shards, and sparks remain above subpixel visibility"
+		is_equal_approx((20.0 / 64.0) * 240.0 * reduced_track_factor, 6.05625)
+		and is_equal_approx((93.0 / 128.0) * 2.0 * 240.0 * reduced_track_factor, 28.1615625)
+		and is_equal_approx(2.0 * 112.0 * reduced_track_factor, 18.088)
+		and is_equal_approx(2.0 * 86.0 * reduced_track_factor, 13.889)
+		and is_equal_approx(2.0 * 235.0 * 0.95 * reduced_track_factor, 36.054875)
+		and is_equal_approx(2.0 * 235.0 * 1.4 * reduced_track_factor, 53.1335)
+		and is_equal_approx(2.0 * 275.0 * reduced_track_factor, 44.4125)
+		and is_equal_approx(2.0 * 275.0 * 1.52 * reduced_track_factor, 67.507),
+		"At Track Scale 0.85, the forward flow remains about 6.06 by 28.16 px and the focus, aura, shards, and sparks continue to cover the vehicle silhouette"
 	)
 
 
@@ -214,7 +228,7 @@ static func _test_production_particle_fades_and_canonical_forward_direction(test
 	var all_fade_out := fading_particles.all(func(layer: Dictionary) -> bool: return float(layer.get("parameters", {}).get("alpha_end", 1.0)) == 0.0)
 	tests.expect_true(
 		all_fade_out
-		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("alpha_start") == 0.95
+		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("alpha_start") == 0.9
 		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("rotation_min_degrees") == 0.0
 		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("rotation_max_degrees") == 0.0
 		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("angular_velocity_min_degrees_per_second") == 0.0

@@ -54,7 +54,7 @@ static func _test_zero_zone_steady_loop_lod_counts(tests: TestAssert) -> void:
 	if analyzer_script == null or filter_script == null or not policy_result.success:
 		tests.expect_true(false, "Zero Zone Performance Budget requires Analyzer, LOD Filter, and Policy")
 		return
-	var expected := {"HIGH": [12, 5, 7], "MEDIUM": [9, 4, 5], "LOW": [4, 2, 3]}
+	var expected := {"HIGH": [12, 5, 6], "MEDIUM": [9, 4, 4], "LOW": [4, 2, 2]}
 	for lod_level in expected:
 		var filtered: VfxResult = filter_script.new().filter(_zero_zone_plan(), lod_level, policy_result.value)
 		var budget_result: VfxResult = analyzer_script.new(_registry()).analyze(filtered.value, _center_profile(), "STEADY_LOOP") if filtered.success else VfxResult.failure(filtered.issues)
@@ -78,7 +78,7 @@ static func _test_disabled_layer_is_not_active_workload(tests: TestAssert) -> vo
 	var inventory_layers: int = budget_result.value.authoring_inventory().included_layer_count() if budget_result.success else -1
 	var active_instances: int = budget_result.value.active_workload().expanded_instance_count() if budget_result.success else -1
 	var active_particles: int = budget_result.value.active_workload().continuous_particle_capacity() if budget_result.success else -1
-	tests.expect_true(budget_result.success and inventory_layers == 12 and active_instances == 4 and active_particles == 5, "Disabled Layers remain visible in Lifecycle Inventory but are excluded from active Workload, Scenario, and threshold costs")
+	tests.expect_true(budget_result.success and inventory_layers == 12 and active_instances == 4 and active_particles == 4, "Disabled Layers remain visible in Lifecycle Inventory but are excluded from active Workload, Scenario, and threshold costs")
 
 
 static func _zero_zone_plan() -> RefCounted:

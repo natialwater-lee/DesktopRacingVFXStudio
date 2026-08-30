@@ -24,11 +24,11 @@
           "transform": {
             "offset": [0.0, 0.0],
             "rotation_degrees": 0.0,
-            "scale": [1.0, 1.35]
+            "scale": [0.95, 1.42]
           },
           "parameters": {
-            "radius": 185.0,
-            "opacity": 0.78,
+            "radius": 245.0,
+            "opacity": 0.68,
             "pulse_hz": 0.0,
             "color_rgba": [0.76, 0.97, 1.0, 1.0]
           }
@@ -43,11 +43,11 @@
           "transform": {
             "offset": [0.0, 0.0],
             "rotation_degrees": 0.0,
-            "scale": [0.95, 1.48]
+            "scale": [1.0, 1.55]
           },
           "parameters": {
-            "radius": 210.0,
-            "opacity": 0.16,
+            "radius": 260.0,
+            "opacity": 0.12,
             "pulse_hz": 0.0,
             "color_rgba": [0.12, 0.62, 1.0, 0.72]
           }
@@ -66,9 +66,9 @@
           },
           "parameters": {
             "emission_mode": "BURST",
-            "emitter": {"shape": "CIRCLE", "radius": 22.0},
+            "emitter": {"shape": "CIRCLE", "radius": 70.0},
             "sprite_asset_ref": "fx.energy_shard",
-            "burst_count": 5,
+            "burst_count": 4,
             "lifetime_seconds": 0.28,
             "direction_degrees": 0.0,
             "spread_degrees": 360.0,
@@ -78,9 +78,9 @@
             "rotation_max_degrees": 360.0,
             "angular_velocity_min_degrees_per_second": -100.0,
             "angular_velocity_max_degrees_per_second": 100.0,
-            "size_start": 38.0,
-            "size_end": 26.0,
-            "alpha_start": 0.95,
+            "size_start": 112.0,
+            "size_end": 72.0,
+            "alpha_start": 0.88,
             "alpha_end": 0.0,
             "color_rgba": [0.28, 0.82, 1.0, 0.95]
           }
@@ -99,7 +99,7 @@
           },
           "parameters": {
             "emission_mode": "BURST",
-            "emitter": {"shape": "CIRCLE", "radius": 16.0},
+            "emitter": {"shape": "CIRCLE", "radius": 58.0},
             "sprite_asset_ref": "fx.energy_spark",
             "burst_count": 2,
             "lifetime_seconds": 0.2,
@@ -111,9 +111,9 @@
             "rotation_max_degrees": 360.0,
             "angular_velocity_min_degrees_per_second": -160.0,
             "angular_velocity_max_degrees_per_second": 160.0,
-            "size_start": 30.0,
-            "size_end": 17.0,
-            "alpha_start": 1.0,
+            "size_start": 84.0,
+            "size_end": 48.0,
+            "alpha_start": 0.9,
             "alpha_end": 0.0,
             "color_rgba": [0.74, 0.97, 1.0, 1.0]
           }
@@ -132,11 +132,11 @@
           "transform": {
             "offset": [0.0, 0.0],
             "rotation_degrees": 0.0,
-            "scale": [1.0, 1.35]
+            "scale": [0.95, 1.4]
           },
           "parameters": {
-            "radius": 165.0,
-            "opacity": 0.52,
+            "radius": 235.0,
+            "opacity": 0.46,
             "pulse_hz": 0.0,
             "color_rgba": [0.63, 0.95, 1.0, 1.0]
           }
@@ -149,7 +149,7 @@
           "render_plane": "OVER_VEHICLE",
           "anchors": ["CENTER"],
           "transform": {
-            "offset": [0.0, -80.0],
+            "offset": [0.0, -56.0],
             "rotation_degrees": 0.0,
             "scale": [1.0, 1.0]
           },
@@ -157,8 +157,8 @@
             "emission_mode": "CONTINUOUS",
             "emitter": {"shape": "POINT"},
             "sprite_asset_ref": "fx.zero_zone_flow_streak",
-            "emission_rate_per_second": 4.0,
-            "max_particles": 3,
+            "emission_rate_per_second": 2.5,
+            "max_particles": 2,
             "lifetime_seconds": 0.65,
             "direction_degrees": 0.0,
             "spread_degrees": 14.0,
@@ -168,9 +168,9 @@
             "rotation_max_degrees": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "angular_velocity_max_degrees_per_second": 0.0,
-            "size_start": 100.0,
-            "size_end": 70.0,
-            "alpha_start": 0.95,
+            "size_start": 240.0,
+            "size_end": 170.0,
+            "alpha_start": 0.9,
             "alpha_end": 0.0,
             "color_rgba": [0.42, 0.88, 1.0, 1.0]
           }
@@ -185,11 +185,11 @@
           "transform": {
             "offset": [0.0, 0.0],
             "rotation_degrees": 0.0,
-            "scale": [0.95, 1.48]
+            "scale": [1.0, 1.52]
           },
           "parameters": {
-            "radius": 205.0,
-            "opacity": 0.14,
+            "radius": 275.0,
+            "opacity": 0.1,
             "pulse_hz": 0.0,
             "color_rgba": [0.1, 0.56, 1.0, 0.75]
           }
@@ -208,9 +208,9 @@
           },
           "parameters": {
             "emission_mode": "CONTINUOUS",
-            "emitter": {"shape": "CIRCLE", "radius": 30.0},
+            "emitter": {"shape": "CIRCLE", "radius": 72.0},
             "sprite_asset_ref": "fx.energy_shard",
-            "emission_rate_per_second": 3.0,
+            "emission_rate_per_second": 2.5,
             "max_particles": 2,
             "lifetime_seconds": 0.65,
             "direction_degrees": 0.0,
@@ -221,9 +221,9 @@
             "rotation_max_degrees": 360.0,
             "angular_velocity_min_degrees_per_second": -35.0,
             "angular_velocity_max_degrees_per_second": 35.0,
-            "size_start": 38.0,
-            "size_end": 27.0,
-            "alpha_start": 0.9,
+            "size_start": 112.0,
+            "size_end": 76.0,
+            "alpha_start": 0.82,
             "alpha_end": 0.0,
             "color_rgba": [0.2, 0.75, 1.0, 0.95]
           }
@@ -242,9 +242,9 @@
           },
           "parameters": {
             "emission_mode": "CONTINUOUS",
-            "emitter": {"shape": "CIRCLE", "radius": 20.0},
+            "emitter": {"shape": "CIRCLE", "radius": 60.0},
             "sprite_asset_ref": "fx.energy_spark",
-            "emission_rate_per_second": 3.5,
+            "emission_rate_per_second": 2.5,
             "max_particles": 2,
             "lifetime_seconds": 0.3,
             "direction_degrees": 0.0,
@@ -255,9 +255,9 @@
             "rotation_max_degrees": 360.0,
             "angular_velocity_min_degrees_per_second": -160.0,
             "angular_velocity_max_degrees_per_second": 160.0,
-            "size_start": 30.0,
-            "size_end": 18.0,
-            "alpha_start": 1.0,
+            "size_start": 86.0,
+            "size_end": 52.0,
+            "alpha_start": 0.88,
             "alpha_end": 0.0,
             "color_rgba": [0.75, 0.97, 1.0, 1.0]
           }
@@ -281,9 +281,9 @@
           },
           "parameters": {
             "emission_mode": "BURST",
-            "emitter": {"shape": "CIRCLE", "radius": 20.0},
+            "emitter": {"shape": "CIRCLE", "radius": 68.0},
             "sprite_asset_ref": "fx.energy_shard",
-            "burst_count": 4,
+            "burst_count": 3,
             "lifetime_seconds": 0.3,
             "direction_degrees": 0.0,
             "spread_degrees": 360.0,
@@ -293,8 +293,8 @@
             "rotation_max_degrees": 360.0,
             "angular_velocity_min_degrees_per_second": -110.0,
             "angular_velocity_max_degrees_per_second": 110.0,
-            "size_start": 34.0,
-            "size_end": 23.0,
+            "size_start": 104.0,
+            "size_end": 68.0,
             "alpha_start": 0.78,
             "alpha_end": 0.0,
             "color_rgba": [0.25, 0.78, 1.0, 0.9]
@@ -308,7 +308,7 @@
           "render_plane": "OVER_VEHICLE",
           "anchors": ["CENTER"],
           "transform": {
-            "offset": [0.0, -32.0],
+            "offset": [0.0, -28.0],
             "rotation_degrees": 0.0,
             "scale": [1.0, 1.0]
           },
@@ -326,8 +326,8 @@
             "rotation_max_degrees": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "angular_velocity_max_degrees_per_second": 0.0,
-            "size_start": 85.0,
-            "size_end": 55.0,
+            "size_start": 190.0,
+            "size_end": 130.0,
             "alpha_start": 0.6,
             "alpha_end": 0.0,
             "color_rgba": [0.42, 0.86, 1.0, 0.9]
@@ -347,7 +347,7 @@
           },
           "parameters": {
             "emission_mode": "BURST",
-            "emitter": {"shape": "CIRCLE", "radius": 14.0},
+            "emitter": {"shape": "CIRCLE", "radius": 50.0},
             "sprite_asset_ref": "fx.energy_spark",
             "burst_count": 1,
             "lifetime_seconds": 0.18,
@@ -359,8 +359,8 @@
             "rotation_max_degrees": 360.0,
             "angular_velocity_min_degrees_per_second": -120.0,
             "angular_velocity_max_degrees_per_second": 120.0,
-            "size_start": 26.0,
-            "size_end": 14.0,
+            "size_start": 76.0,
+            "size_end": 44.0,
             "alpha_start": 0.75,
             "alpha_end": 0.0,
             "color_rgba": [0.72, 0.96, 1.0, 1.0]
