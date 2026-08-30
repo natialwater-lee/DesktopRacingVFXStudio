@@ -26,9 +26,9 @@
               1.0,
               1.0
             ],
-            "opacity": 0.86,
+            "opacity": 0.68,
             "pulse_hz": 0.0,
-            "radius": 78.0
+            "radius": 245.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0,
@@ -40,8 +40,8 @@
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.6,
-              1.28
+              0.95,
+              1.42
             ]
           },
           "type": "GLOW"
@@ -61,9 +61,9 @@
               1.0,
               0.72
             ],
-            "opacity": 0.2,
+            "opacity": 0.12,
             "pulse_hz": 0.0,
-            "radius": 108.0
+            "radius": 260.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0,
@@ -75,8 +75,8 @@
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.62,
-              1.45
+              1.0,
+              1.55
             ]
           },
           "type": "GLOW"
@@ -95,10 +95,10 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.95,
+            "alpha_start": 0.88,
             "angular_velocity_max_degrees_per_second": 100.0,
             "angular_velocity_min_degrees_per_second": -100.0,
-            "burst_count": 5.0,
+            "burst_count": 4.0,
             "color_rgba": [
               0.28,
               0.82,
@@ -108,14 +108,14 @@
             "direction_degrees": 0.0,
             "emission_mode": "BURST",
             "emitter": {
-              "radius": 22.0,
+              "radius": 150.0,
               "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.28,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 20.0,
-            "size_start": 28.0,
+            "size_end": 72.0,
+            "size_start": 112.0,
             "speed_max": 64.0,
             "speed_min": 36.0,
             "spread_degrees": 360.0,
@@ -151,7 +151,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 1.0,
+            "alpha_start": 0.9,
             "angular_velocity_max_degrees_per_second": 160.0,
             "angular_velocity_min_degrees_per_second": -160.0,
             "burst_count": 2.0,
@@ -164,14 +164,14 @@
             "direction_degrees": 0.0,
             "emission_mode": "BURST",
             "emitter": {
-              "radius": 16.0,
+              "radius": 132.0,
               "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.2,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 11.0,
-            "size_start": 20.0,
+            "size_end": 48.0,
+            "size_start": 84.0,
             "speed_max": 68.0,
             "speed_min": 40.0,
             "spread_degrees": 360.0,
@@ -213,9 +213,9 @@
               1.0,
               1.0
             ],
-            "opacity": 0.62,
+            "opacity": 0.46,
             "pulse_hz": 0.0,
-            "radius": 76.0
+            "radius": 235.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0,
@@ -227,8 +227,8 @@
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.63,
-              1.18
+              0.95,
+              1.4
             ]
           },
           "type": "GLOW"
@@ -247,7 +247,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.95,
+            "alpha_start": 0.9,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
@@ -258,16 +258,17 @@
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 4.0,
+            "emission_rate_per_second": 2.5,
             "emitter": {
-              "shape": "POINT"
+              "radius": 48.0,
+              "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.65,
-            "max_particles": 3.0,
+            "max_particles": 2.0,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 21.0,
-            "size_start": 28.0,
+            "size_end": 170.0,
+            "size_start": 240.0,
             "speed_max": 38.0,
             "speed_min": 24.0,
             "spread_degrees": 14.0,
@@ -304,9 +305,9 @@
               1.0,
               0.75
             ],
-            "opacity": 0.17,
+            "opacity": 0.1,
             "pulse_hz": 0.0,
-            "radius": 115.0
+            "radius": 275.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0,
@@ -318,8 +319,8 @@
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.66,
-              1.38
+              1.0,
+              1.52
             ]
           },
           "type": "GLOW"
@@ -338,7 +339,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.9,
+            "alpha_start": 0.82,
             "angular_velocity_max_degrees_per_second": 35.0,
             "angular_velocity_min_degrees_per_second": -35.0,
             "color_rgba": [
@@ -349,17 +350,17 @@
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 3.0,
+            "emission_rate_per_second": 2.5,
             "emitter": {
-              "radius": 30.0,
+              "radius": 160.0,
               "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.65,
             "max_particles": 2.0,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 19.0,
-            "size_start": 27.0,
+            "size_end": 76.0,
+            "size_start": 112.0,
             "speed_max": 44.0,
             "speed_min": 24.0,
             "spread_degrees": 360.0,
@@ -395,7 +396,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 1.0,
+            "alpha_start": 0.88,
             "angular_velocity_max_degrees_per_second": 160.0,
             "angular_velocity_min_degrees_per_second": -160.0,
             "color_rgba": [
@@ -406,17 +407,17 @@
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 3.5,
+            "emission_rate_per_second": 2.5,
             "emitter": {
-              "radius": 20.0,
+              "radius": 140.0,
               "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.3,
             "max_particles": 2.0,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 12.0,
-            "size_start": 20.0,
+            "size_end": 52.0,
+            "size_start": 86.0,
             "speed_max": 60.0,
             "speed_min": 35.0,
             "spread_degrees": 360.0,
@@ -461,7 +462,7 @@
             "alpha_start": 0.78,
             "angular_velocity_max_degrees_per_second": 110.0,
             "angular_velocity_min_degrees_per_second": -110.0,
-            "burst_count": 4.0,
+            "burst_count": 3.0,
             "color_rgba": [
               0.25,
               0.78,
@@ -471,14 +472,14 @@
             "direction_degrees": 0.0,
             "emission_mode": "BURST",
             "emitter": {
-              "radius": 20.0,
+              "radius": 142.0,
               "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.3,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 16.0,
-            "size_start": 24.0,
+            "size_end": 68.0,
+            "size_start": 104.0,
             "speed_max": 50.0,
             "speed_min": 28.0,
             "spread_degrees": 360.0,
@@ -532,8 +533,8 @@
             "lifetime_seconds": 0.24,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 14.0,
-            "size_start": 22.0,
+            "size_end": 130.0,
+            "size_start": 190.0,
             "speed_max": 30.0,
             "speed_min": 18.0,
             "spread_degrees": 14.0,
@@ -545,7 +546,7 @@
           "transform": {
             "offset": [
               0.0,
-              -32.0
+              -28.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -582,14 +583,14 @@
             "direction_degrees": 0.0,
             "emission_mode": "BURST",
             "emitter": {
-              "radius": 14.0,
+              "radius": 120.0,
               "shape": "CIRCLE"
             },
             "lifetime_seconds": 0.18,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 9.0,
-            "size_start": 17.0,
+            "size_end": 44.0,
+            "size_start": 76.0,
             "speed_max": 50.0,
             "speed_min": 30.0,
             "spread_degrees": 360.0,

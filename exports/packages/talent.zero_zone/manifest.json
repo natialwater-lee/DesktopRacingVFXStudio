@@ -39,14 +39,14 @@
       "sha256": "63c4f9836f3e7ed1aa4d865999d1776df1a55515f2e0bd8269e9fe28aeaa5daa"
     },
     {
-      "byte_size": 16614,
+      "byte_size": 16660,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "28f7323c798ba8ad4f0be2d5db617827590c0b17c4a532e7c7e657337d45ba38"
+      "sha256": "86ab964bb7d02ef15f0114d95c5b50dc62cc4eb9e761b876e4c52699fdbd0954"
     },
     {
-      "byte_size": 14437,
+      "byte_size": 15811,
       "path": "source/talent.zero_zone.vfx.json",
-      "sha256": "12247e9c37c8f2670c696b6a78ce64495e275947c2edf5e992803bb8c49ae278"
+      "sha256": "fe971786156f52c1308b5e140246c7d6e4856bf61fd13e0dde6c3e78afceec23"
     }
   ],
   "package_format_version": 1,
@@ -73,14 +73,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 16614,
+    "byte_size": 16660,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "28f7323c798ba8ad4f0be2d5db617827590c0b17c4a532e7c7e657337d45ba38",
+    "sha256": "86ab964bb7d02ef15f0114d95c5b50dc62cc4eb9e761b876e4c52699fdbd0954",
     "version": 1
   },
   "source": {
-    "byte_size": 14437,
+    "byte_size": 15811,
     "path": "source/talent.zero_zone.vfx.json",
-    "sha256": "12247e9c37c8f2670c696b6a78ce64495e275947c2edf5e992803bb8c49ae278"
+    "sha256": "fe971786156f52c1308b5e140246c7d6e4856bf61fd13e0dde6c3e78afceec23"
   }
 }

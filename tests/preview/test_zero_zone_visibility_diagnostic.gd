@@ -66,14 +66,14 @@ static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) ->
 		and start_wake.get("parameters", {}).get("opacity") == 0.12
 		and start_wake.get("transform", {}).get("scale") == [1.0, 1.55]
 		and start_shards.get("parameters", {}).get("sprite_asset_ref") == "fx.energy_shard"
-		and start_shards.get("parameters", {}).get("emitter", {}).get("radius") == 70.0
+		and start_shards.get("parameters", {}).get("emitter", {}).get("radius") == 150.0
 		and start_shards.get("parameters", {}).get("burst_count") == 4
 		and start_shards.get("parameters", {}).get("size_start") == 112.0
 		and start_shards.get("parameters", {}).get("size_end") == 72.0
 		and start_shards.get("parameters", {}).get("alpha_start") == 0.88
 		and start_sparks.get("importance") == "EXTRA"
 		and start_sparks.get("parameters", {}).get("sprite_asset_ref") == "fx.energy_spark"
-		and start_sparks.get("parameters", {}).get("emitter", {}).get("radius") == 58.0
+		and start_sparks.get("parameters", {}).get("emitter", {}).get("radius") == 132.0
 		and start_sparks.get("parameters", {}).get("burst_count") == 2
 		and start_sparks.get("parameters", {}).get("size_start") == 84.0
 		and start_sparks.get("parameters", {}).get("size_end") == 48.0
@@ -92,8 +92,9 @@ static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) ->
 		and focus_core.get("transform", {}).get("scale") == [0.95, 1.4]
 		and forward_flow.get("importance") == "CORE"
 		and forward_flow.get("parameters", {}).get("sprite_asset_ref") == "fx.zero_zone_flow_streak"
-		and forward_flow.get("parameters", {}).get("emitter", {}).get("shape") == "POINT"
-		and forward_flow.get("transform", {}).get("offset") == [0.0, -56.0]
+		and forward_flow.get("parameters", {}).get("emitter", {}).get("shape") == "CIRCLE"
+		and forward_flow.get("parameters", {}).get("emitter", {}).get("radius") == 48.0
+		and forward_flow.get("transform", {}).get("offset") == [0.0, -42.0]
 		and forward_flow.get("parameters", {}).get("direction_degrees") == 0.0
 		and forward_flow.get("parameters", {}).get("spread_degrees") == 14.0
 		and forward_flow.get("parameters", {}).get("emission_rate_per_second") == 2.5
@@ -105,27 +106,27 @@ static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) ->
 		and soft_aura.get("parameters", {}).get("radius") == 275.0
 		and soft_aura.get("parameters", {}).get("opacity") == 0.1
 		and soft_aura.get("transform", {}).get("scale") == [1.0, 1.52]
-		and alignment_shards.get("parameters", {}).get("emitter", {}).get("radius") == 72.0
+		and alignment_shards.get("parameters", {}).get("emitter", {}).get("radius") == 160.0
 		and alignment_shards.get("parameters", {}).get("emission_rate_per_second") == 2.5
 		and alignment_shards.get("parameters", {}).get("max_particles") == 2
 		and alignment_shards.get("parameters", {}).get("size_start") == 112.0
 		and alignment_shards.get("parameters", {}).get("size_end") == 76.0
 		and alignment_shards.get("parameters", {}).get("alpha_start") == 0.82
 		and precision_sparks.get("importance") == "EXTRA"
-		and precision_sparks.get("parameters", {}).get("emitter", {}).get("radius") == 60.0
+		and precision_sparks.get("parameters", {}).get("emitter", {}).get("radius") == 140.0
 		and precision_sparks.get("parameters", {}).get("emission_rate_per_second") == 2.5
 		and precision_sparks.get("parameters", {}).get("max_particles") == 2
 		and precision_sparks.get("parameters", {}).get("size_start") == 86.0
 		and precision_sparks.get("parameters", {}).get("size_end") == 52.0
 		and precision_sparks.get("parameters", {}).get("alpha_start") == 0.88,
-		"LOOP distributes a full-vehicle focus field, two large forward racing-line streaks, and sparse broad fragments without a Ring or Shield"
+		"LOOP distributes its existing large Particles across the full vehicle and uses a small CIRCLE flow emitter to offset two forward streaks without a Ring or Shield"
 	)
 	var release_shards: Dictionary = end_by_id.get("end.release_shards", {})
 	var release_flow: Dictionary = end_by_id.get("end.release_flow", {})
 	var spark_tail: Dictionary = end_by_id.get("end.spark_tail", {})
 	tests.expect_true(
 		release_shards.get("importance") == "CORE"
-		and release_shards.get("parameters", {}).get("emitter", {}).get("radius") == 68.0
+		and release_shards.get("parameters", {}).get("emitter", {}).get("radius") == 142.0
 		and release_shards.get("parameters", {}).get("burst_count") == 3
 		and release_shards.get("parameters", {}).get("size_start") == 104.0
 		and release_shards.get("parameters", {}).get("size_end") == 68.0
@@ -136,7 +137,7 @@ static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) ->
 		and release_flow.get("parameters", {}).get("size_start") == 190.0
 		and release_flow.get("parameters", {}).get("size_end") == 130.0
 		and spark_tail.get("importance") == "EXTRA"
-		and spark_tail.get("parameters", {}).get("emitter", {}).get("radius") == 50.0
+		and spark_tail.get("parameters", {}).get("emitter", {}).get("radius") == 120.0
 		and spark_tail.get("parameters", {}).get("burst_count") == 1
 		and spark_tail.get("parameters", {}).get("size_start") == 76.0
 		and spark_tail.get("parameters", {}).get("size_end") == 44.0,
@@ -195,8 +196,15 @@ static func _test_miniature_game_footprints_are_explicit(tests: TestAssert) -> v
 		and is_equal_approx(2.0 * 235.0 * 0.95 * game_factor, 42.4175)
 		and is_equal_approx(2.0 * 235.0 * 1.4 * game_factor, 62.51)
 		and is_equal_approx(2.0 * 275.0 * game_factor, 52.25)
-		and is_equal_approx(2.0 * 275.0 * 1.52 * game_factor, 79.42),
-		"At GAME 100%, the flow crosses the vehicle at about 7.13 by 33.13 px while the full-vehicle focus, aura, shard, and spark dimensions remain explicit"
+		and is_equal_approx(2.0 * 275.0 * 1.52 * game_factor, 79.42)
+		and is_equal_approx(150.0 * game_factor, 14.25)
+		and is_equal_approx(132.0 * game_factor, 12.54)
+		and is_equal_approx(160.0 * game_factor, 15.2)
+		and is_equal_approx(140.0 * game_factor, 13.3)
+		and is_equal_approx(142.0 * game_factor, 13.49)
+		and is_equal_approx(120.0 * game_factor, 11.4)
+		and is_equal_approx(48.0 * game_factor, 4.56),
+		"At GAME 100%, the existing large Particles retain their visual size while their CIRCLE emitters distribute them across vehicle-wide 4.56 to 15.20 px screen radii"
 	)
 	tests.expect_true(
 		is_equal_approx((20.0 / 64.0) * 240.0 * reduced_track_factor, 6.05625)
@@ -206,8 +214,15 @@ static func _test_miniature_game_footprints_are_explicit(tests: TestAssert) -> v
 		and is_equal_approx(2.0 * 235.0 * 0.95 * reduced_track_factor, 36.054875)
 		and is_equal_approx(2.0 * 235.0 * 1.4 * reduced_track_factor, 53.1335)
 		and is_equal_approx(2.0 * 275.0 * reduced_track_factor, 44.4125)
-		and is_equal_approx(2.0 * 275.0 * 1.52 * reduced_track_factor, 67.507),
-		"At Track Scale 0.85, the forward flow remains about 6.06 by 28.16 px and the focus, aura, shards, and sparks continue to cover the vehicle silhouette"
+		and is_equal_approx(2.0 * 275.0 * 1.52 * reduced_track_factor, 67.507)
+		and is_equal_approx(150.0 * reduced_track_factor, 12.1125)
+		and is_equal_approx(132.0 * reduced_track_factor, 10.659)
+		and is_equal_approx(160.0 * reduced_track_factor, 12.92)
+		and is_equal_approx(140.0 * reduced_track_factor, 11.305)
+		and is_equal_approx(142.0 * reduced_track_factor, 11.4665)
+		and is_equal_approx(120.0 * reduced_track_factor, 9.69)
+		and is_equal_approx(48.0 * reduced_track_factor, 3.876),
+		"At Track Scale 0.85, the vehicle-wide CIRCLE spawn radii remain 3.88 to 12.92 px while particle visual dimensions and full-vehicle Glow coverage remain unchanged"
 	)
 
 
