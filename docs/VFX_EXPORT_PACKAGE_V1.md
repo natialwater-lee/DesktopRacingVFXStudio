@@ -85,6 +85,15 @@ Actual display size, vehicle scale, and projection remain the
 DesktopIdleRacing Runtime Renderer's responsibility. The Package exposes this
 metadata so the game does not need duplicate hidden coordinate constants.
 
+`PARTICLE.parameters.direction_degrees` uses the Layer's effective coordinate
+space: `0` is its negative Y axis, `90` is `+X`, `180` is `+Y`, and `270` is
+`-X`. `spread_degrees` is centered on that direction. For `VEHICLE_LOCAL`, `0`
+is vehicle forward (`-Y`); for `VEHICLE_FOLLOW_WORLD_TRAIL`, it is vehicle-local
+`-Y` at spawn/capture; for `WORLD_AREA` and `SCREEN_UI`, it is the corresponding
+world/local or screen/UI `-Y` axis. Vehicle-space angles are not screen-space
+angles, so vehicle rotation preserves their authored forward meaning in both
+Preview and Runtime.
+
 The block is Runtime-only: it is not inserted into authoring Source JSON and
 is not duplicated in the Manifest. `runtime_definition_version` remains `1`;
 the contract was completed before a Game Importer was released.

@@ -30,7 +30,7 @@
             "sprite_asset_ref": "fx.confetti_square",
             "burst_count": 24,
             "lifetime_seconds": 0.8,
-            "direction_degrees": 270.0,
+            "direction_degrees": 0.0,
             "spread_degrees": 80.0,
             "speed_min": 14.0,
             "speed_max": 30.0,

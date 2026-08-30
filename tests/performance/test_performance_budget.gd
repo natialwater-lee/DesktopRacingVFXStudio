@@ -44,13 +44,20 @@ static func _test_scenario_projection_and_uncalibrated_threshold(tests: TestAsse
 		tests.expect_true(false, "Scenario projection requires Policy, LOD Filter, Analyzer, Scenario, Projection, and Threshold Evaluator")
 		return
 	var policy_result: VfxResult = policy_script.new().load(_registry())
-	var filtered: VfxResult = filter_script.new().filter(_zero_zone_plan(), "HIGH", policy_result.value) if policy_result.success else VfxResult.failure(policy_result.issues)
-	var budget_result: VfxResult = analyzer_script.new(_registry()).analyze(filtered.value, {"anchors": {"CENTER": [0, 0]}}, "STEADY_LOOP") if filtered.success else VfxResult.failure(filtered.issues)
 	var scenario = scenario_script.new("20x3", 20, 3, "VEHICLE_STRESS", "STEADY_LOOP")
-	var projection = projection_script.new().project([budget_result.value.active_workload(), budget_result.value.active_workload(), budget_result.value.active_workload()], scenario) if budget_result.success else null
-	var evaluation = evaluator_script.new().evaluate(projection, policy_result.value) if projection != null and policy_result.success else null
-	tests.expect_true(projection != null and projection.expanded_instance_count() == 300 and projection.continuous_particle_capacity() == 600, "20x3 replicated HIGH Zero Zone projection is explicitly theoretical 300 active instances and 600 continuous Particles")
-	tests.expect_true(evaluation != null and evaluation.severity() == "SAFE" and evaluation.calibration_state() == "UNCALIBRATED", "Threshold output preserves SAFE as Uncalibrated Authoring Guidance rather than a game-runtime claim")
+	var expected := {"HIGH": [300, 420], "MEDIUM": [240, 300], "LOW": [120, 180]}
+	var all_match := true
+	var high_evaluation: Variant = null
+	for lod_level in expected:
+		var filtered: VfxResult = filter_script.new().filter(_zero_zone_plan(), lod_level, policy_result.value) if policy_result.success else VfxResult.failure(policy_result.issues)
+		var budget_result: VfxResult = analyzer_script.new(_registry()).analyze(filtered.value, {"anchors": {"CENTER": [0, 0]}}, "STEADY_LOOP") if filtered.success else VfxResult.failure(filtered.issues)
+		var projection = projection_script.new().project([budget_result.value.active_workload(), budget_result.value.active_workload(), budget_result.value.active_workload()], scenario) if budget_result.success else null
+		var values: Array = expected[lod_level]
+		all_match = all_match and projection != null and projection.expanded_instance_count() == values[0] and projection.continuous_particle_capacity() == values[1]
+		if lod_level == "HIGH" and projection != null and policy_result.success:
+			high_evaluation = evaluator_script.new().evaluate(projection, policy_result.value)
+	tests.expect_true(all_match, "20x3 Zero Zone projections are HIGH 300/420, MEDIUM 240/300, and LOW 120/180 instances/continuous Particles")
+	tests.expect_true(high_evaluation != null and high_evaluation.severity() == "SAFE" and high_evaluation.calibration_state() == "UNCALIBRATED", "Threshold output preserves SAFE as Uncalibrated Authoring Guidance rather than a game-runtime claim")
 
 
 static func _zero_zone_plan() -> RefCounted:

@@ -49,32 +49,44 @@ static func _test_zero_zone_production_art_assets_resolve_as_textures(tests: Tes
 	var resolver := VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new())
 	var shard_result: VfxResult = resolver.resolve("fx.energy_shard")
 	var spark_result: VfxResult = resolver.resolve("fx.energy_spark")
+	var flow_result: VfxResult = resolver.resolve("fx.zero_zone_flow_streak")
 	var shard_texture: Texture2D = shard_result.value.get("texture") as Texture2D if shard_result.success else null
 	var spark_texture: Texture2D = spark_result.value.get("texture") as Texture2D if spark_result.success else null
+	var flow_texture: Texture2D = flow_result.value.get("texture") as Texture2D if flow_result.success else null
 	var shard_image := shard_texture.get_image() if shard_texture != null else null
 	var spark_image := spark_texture.get_image() if spark_texture != null else null
+	var flow_image := flow_texture.get_image() if flow_texture != null else null
 	var has_production_textures: bool = shard_result.success \
 		and spark_result.success \
+		and flow_result.success \
 		and shard_result.issues.is_empty() \
 		and spark_result.issues.is_empty() \
+		and flow_result.issues.is_empty() \
 		and shard_result.value.get("source") == "TEXTURE" \
 		and spark_result.value.get("source") == "TEXTURE" \
+		and flow_result.value.get("source") == "TEXTURE" \
 		and not shard_result.value.get("is_fallback", true) \
 		and not spark_result.value.get("is_fallback", true) \
+		and not flow_result.value.get("is_fallback", true) \
 		and shard_texture != null \
 		and spark_texture != null \
+		and flow_texture != null \
 		and shard_image != null \
 		and spark_image != null \
+		and flow_image != null \
 		and shard_image.get_size() == Vector2i(64, 64) \
 		and spark_image.get_size() == Vector2i(32, 32) \
+		and flow_image.get_size() == Vector2i(64, 128) \
 		and _has_transparent_pixel(shard_image) \
-		and _has_transparent_pixel(spark_image)
-	tests.expect_true(has_production_textures, "Zero Zone Production Art resolves fx.energy_shard and fx.energy_spark to non-fallback Texture2D assets with their authored RGBA dimensions")
+		and _has_transparent_pixel(spark_image) \
+		and _has_transparent_pixel(flow_image)
+	tests.expect_true(has_production_textures, "Zero Zone Production Art resolves shard, spark, and 64x128 forward-flow textures as non-fallback Texture2D assets")
 	var host_script := load("res://src/preview/rendering/vfx_preview_canvas_render_host.gd") as Script
 	var host: Node2D = host_script.new() if host_script != null else null
 	var shard_rect: Rect2 = host.call("texture_particle_rect", shard_texture, 5.0) if host != null and shard_texture != null else Rect2()
 	var spark_rect: Rect2 = host.call("texture_particle_rect", spark_texture, 5.0) if host != null and spark_texture != null else Rect2()
-	tests.expect_true(host != null and shard_rect.size == Vector2(10.0, 10.0) and spark_rect.size == Vector2(10.0, 10.0), "Production Shard and Spark native dimensions do not alter the 2 times packet.size longest display dimension")
+	var flow_rect: Rect2 = host.call("texture_particle_rect", flow_texture, 5.0) if host != null and flow_texture != null else Rect2()
+	tests.expect_true(host != null and shard_rect.size == Vector2(10.0, 10.0) and spark_rect.size == Vector2(10.0, 10.0) and flow_rect.size == Vector2(5.0, 10.0), "Production texture native dimensions preserve the 2 times packet.size longest display dimension and the flow 1:2 aspect")
 	if host != null:
 		host.free()
 
@@ -161,7 +173,7 @@ static func _test_zero_zone_uses_distinct_shard_and_spark_logical_assets(tests: 
 	var assets_by_layer: Dictionary = {}
 	for layer in layers:
 		assets_by_layer[layer.get("id", "")] = layer.get("parameters", {}).get("sprite_asset_ref", "")
-	tests.expect_true(document_result.success and assets_by_layer.get("loop.slow_energy_shards") == "fx.energy_shard" and assets_by_layer.get("loop.fast_energy_sparks") == "fx.energy_spark", "Zero Zone separates Slow Shard and Fast Spark art through stable logical sprite asset IDs")
+	tests.expect_true(document_result.success and assets_by_layer.get("loop.forward_flow") == "fx.zero_zone_flow_streak" and assets_by_layer.get("loop.alignment_shards") == "fx.energy_shard" and assets_by_layer.get("loop.precision_sparks") == "fx.energy_spark", "Zero Zone uses stable logical IDs for forward racing-line, shard, and spark art")
 
 
 static func _test_renderer_showcase_uses_the_ordinary_texture_particle_route(tests: TestAssert) -> void:

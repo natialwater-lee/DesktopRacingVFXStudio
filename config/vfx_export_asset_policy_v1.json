@@ -13,6 +13,12 @@
       "source_path": "res://assets/vfx/energy_spark.png",
       "package_file_name": "energy_spark.png"
     },
+    "fx.zero_zone_flow_streak": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/zero_zone_flow_streak.png",
+      "package_file_name": "zero_zone_flow_streak.png"
+    },
     "fx.confetti_square": {
       "export_policy": "PROCEDURAL",
       "reason": "PREVIEW_PROCEDURAL"

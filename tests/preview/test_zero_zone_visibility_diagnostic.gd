@@ -14,150 +14,221 @@ const VfxPreviewSharedStateModel := preload("res://src/preview/vfx_preview_share
 
 
 static func run(tests: TestAssert) -> void:
-	_test_loop_plan_runtime_asset_and_canvas_route(tests)
-	_test_current_miniature_projection_factors(tests)
-	_test_energy_domain_authoring_targets(tests)
-	_test_zero_zone_lifetime_alpha_authoring(tests)
+	_test_ring_free_twelve_layer_production_recipe(tests)
+	_test_loop_forward_flow_resolves_and_routes_without_special_renderer(tests)
+	_test_miniature_game_footprints_are_explicit(tests)
+	_test_production_particle_fades_and_canonical_forward_direction(tests)
 
 
-static func _test_loop_plan_runtime_asset_and_canvas_route(tests: TestAssert) -> void:
+static func _test_ring_free_twelve_layer_production_recipe(tests: TestAssert) -> void:
+	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
+	if not document_result.success:
+		tests.expect_true(false, "Production Zero Zone recipe requires a contract-valid Preset")
+		return
+	var phases: Dictionary = document_result.value.normalized_data.get("phases", {})
+	var start_layers: Array = phases.get("start", {}).get("layers", [])
+	var loop_layers: Array = phases.get("loop", {}).get("layers", [])
+	var end_layers: Array = phases.get("end", {}).get("layers", [])
+	var start_by_id := _layers_by_id(start_layers)
+	var loop_by_id := _layers_by_id(loop_layers)
+	var end_by_id := _layers_by_id(end_layers)
+	var all_layers: Array = []
+	all_layers.append_array(start_layers)
+	all_layers.append_array(loop_layers)
+	all_layers.append_array(end_layers)
+	var expected_ids := [
+		"start.focus_flash", "start.entry_wake", "start.shard_lock_burst", "start.spark_ticks",
+		"loop.focus_core", "loop.forward_flow", "loop.soft_alignment_aura", "loop.alignment_shards", "loop.precision_sparks",
+		"end.release_shards", "end.release_flow", "end.spark_tail"
+	]
+	var actual_ids: Array[String] = []
+	for layer in all_layers:
+		actual_ids.append(str(layer.get("id", "")))
+	var ring_free := all_layers.all(func(layer: Dictionary) -> bool: return layer.get("type") != "RING")
+	tests.expect_true(
+		float(phases.get("start", {}).get("duration_seconds", 0.0)) == 0.16
+		and float(phases.get("end", {}).get("duration_seconds", 0.0)) == 0.22
+		and actual_ids == expected_ids
+		and ring_free,
+		"Production Zero Zone has the approved 4/5/3 START LOOP END stack with no Ring or legacy Ring Layer"
+	)
+	var start_focus: Dictionary = start_by_id.get("start.focus_flash", {})
+	var start_wake: Dictionary = start_by_id.get("start.entry_wake", {})
+	var start_shards: Dictionary = start_by_id.get("start.shard_lock_burst", {})
+	var start_sparks: Dictionary = start_by_id.get("start.spark_ticks", {})
+	tests.expect_true(
+		start_focus.get("importance") == "CORE"
+		and start_focus.get("parameters", {}).get("radius") == 185.0
+		and start_focus.get("parameters", {}).get("opacity") == 0.78
+		and start_focus.get("transform", {}).get("scale") == [1.0, 1.35]
+		and start_wake.get("importance") == "DETAIL"
+		and start_wake.get("parameters", {}).get("radius") == 210.0
+		and start_wake.get("parameters", {}).get("opacity") == 0.16
+		and start_wake.get("transform", {}).get("scale") == [0.95, 1.48]
+		and start_shards.get("parameters", {}).get("sprite_asset_ref") == "fx.energy_shard"
+		and start_shards.get("parameters", {}).get("burst_count") == 5
+		and start_shards.get("parameters", {}).get("size_start") == 38.0
+		and start_shards.get("parameters", {}).get("size_end") == 26.0
+		and start_sparks.get("importance") == "EXTRA"
+		and start_sparks.get("parameters", {}).get("sprite_asset_ref") == "fx.energy_spark"
+		and start_sparks.get("parameters", {}).get("burst_count") == 2
+		and start_sparks.get("parameters", {}).get("size_start") == 30.0
+		and start_sparks.get("parameters", {}).get("size_end") == 17.0,
+		"START uses a narrow cyan-white focus, weak directional wake, readable shard lock burst, and sparse spark ticks"
+	)
+	var focus_core: Dictionary = loop_by_id.get("loop.focus_core", {})
+	var forward_flow: Dictionary = loop_by_id.get("loop.forward_flow", {})
+	var soft_aura: Dictionary = loop_by_id.get("loop.soft_alignment_aura", {})
+	var alignment_shards: Dictionary = loop_by_id.get("loop.alignment_shards", {})
+	var precision_sparks: Dictionary = loop_by_id.get("loop.precision_sparks", {})
+	tests.expect_true(
+		focus_core.get("importance") == "CORE"
+		and focus_core.get("parameters", {}).get("radius") == 165.0
+		and focus_core.get("parameters", {}).get("opacity") == 0.52
+		and focus_core.get("transform", {}).get("scale") == [1.0, 1.35]
+		and forward_flow.get("importance") == "CORE"
+		and forward_flow.get("parameters", {}).get("sprite_asset_ref") == "fx.zero_zone_flow_streak"
+		and forward_flow.get("parameters", {}).get("emitter", {}).get("shape") == "POINT"
+		and forward_flow.get("transform", {}).get("offset") == [0.0, -80.0]
+		and forward_flow.get("parameters", {}).get("direction_degrees") == 0.0
+		and forward_flow.get("parameters", {}).get("spread_degrees") == 14.0
+		and forward_flow.get("parameters", {}).get("max_particles") == 3
+		and forward_flow.get("parameters", {}).get("size_start") == 100.0
+		and forward_flow.get("parameters", {}).get("size_end") == 70.0
+		and soft_aura.get("importance") == "DETAIL"
+		and soft_aura.get("parameters", {}).get("radius") == 205.0
+		and soft_aura.get("parameters", {}).get("opacity") == 0.14
+		and soft_aura.get("transform", {}).get("scale") == [0.95, 1.48]
+		and alignment_shards.get("parameters", {}).get("max_particles") == 2
+		and alignment_shards.get("parameters", {}).get("size_start") == 38.0
+		and alignment_shards.get("parameters", {}).get("size_end") == 27.0
+		and precision_sparks.get("importance") == "EXTRA"
+		and precision_sparks.get("parameters", {}).get("max_particles") == 2
+		and precision_sparks.get("parameters", {}).get("size_start") == 30.0
+		and precision_sparks.get("parameters", {}).get("size_end") == 18.0,
+		"LOOP keeps a CORE focus and canonical -Y flow, then adds only Detail shard alignment and Extra sparks"
+	)
+	var release_shards: Dictionary = end_by_id.get("end.release_shards", {})
+	var release_flow: Dictionary = end_by_id.get("end.release_flow", {})
+	var spark_tail: Dictionary = end_by_id.get("end.spark_tail", {})
+	tests.expect_true(
+		release_shards.get("importance") == "CORE"
+		and release_shards.get("parameters", {}).get("burst_count") == 4
+		and release_shards.get("parameters", {}).get("size_start") == 34.0
+		and release_shards.get("parameters", {}).get("size_end") == 23.0
+		and release_flow.get("importance") == "DETAIL"
+		and release_flow.get("parameters", {}).get("sprite_asset_ref") == "fx.zero_zone_flow_streak"
+		and release_flow.get("transform", {}).get("offset") == [0.0, -32.0]
+		and release_flow.get("parameters", {}).get("direction_degrees") == 0.0
+		and release_flow.get("parameters", {}).get("size_start") == 85.0
+		and release_flow.get("parameters", {}).get("size_end") == 55.0
+		and spark_tail.get("importance") == "EXTRA"
+		and spark_tail.get("parameters", {}).get("burst_count") == 1
+		and spark_tail.get("parameters", {}).get("size_start") == 26.0
+		and spark_tail.get("parameters", {}).get("size_end") == 14.0,
+		"END releases a quiet CORE shard spread, one directional flow fragment, and one Extra spark without shockwave geometry"
+	)
+
+
+static func _test_loop_forward_flow_resolves_and_routes_without_special_renderer(tests: TestAssert) -> void:
 	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
 	var registry := _registry()
 	var plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(registry).build(document_result.value.normalized_data) if document_result.success else VfxResult.failure(document_result.issues)
-	var loop_specs_by_id: Dictionary = {}
-	if plan_result.success:
-		var loop_phase: RefCounted = plan_result.value.phase_named("loop")
-		for layer_spec in loop_phase.layer_specs():
-			loop_specs_by_id[layer_spec.layer_id()] = layer_spec
-	var has_energy_domain_loop: bool = plan_result.success and loop_specs_by_id.keys().size() == 5 and loop_specs_by_id.has("loop.soft_outer_aura") and loop_specs_by_id.has("loop.inner_focus_glow") and loop_specs_by_id.has("loop.inner_energy_ring") and loop_specs_by_id.has("loop.slow_energy_shards") and loop_specs_by_id.has("loop.fast_energy_sparks") and loop_specs_by_id.values().all(func(layer_spec: RefCounted) -> bool: return layer_spec.is_enabled())
-	tests.expect_true(has_energy_domain_loop, "Zero Zone LOOP Render Plan retains five enabled Aura, Focus Glow, Inner Ring, Slow Shard, and Fast Spark Layers")
-	if not has_energy_domain_loop:
+	var resolver := VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new())
+	var flow_asset: VfxResult = resolver.resolve("fx.zero_zone_flow_streak")
+	if not plan_result.success or not flow_asset.success:
+		tests.expect_true(false, "Production flow regression requires a valid Plan and a resolvable flow-streak texture")
 		return
-
-	var asset_resolver := VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new())
-	var asset_result: VfxResult = asset_resolver.resolve("fx.energy_shard")
-	var runtime := VfxPreviewRenderRuntimeModel.new(plan_result.value, {"anchors": {"CENTER": [0, 0]}}, registry, VfxPreviewRendererFactoryModel.new(), asset_resolver)
+	var runtime := VfxPreviewRenderRuntimeModel.new(plan_result.value, {"anchors": {"CENTER": [0, 0]}}, registry, VfxPreviewRendererFactoryModel.new(), resolver)
 	runtime.activate_phase("loop", _frame_context())
-	runtime.advance(0.25, _frame_context())
+	runtime.advance(0.5, _frame_context())
 	var packets_by_id: Dictionary = {}
 	for packet in runtime.draw_packets():
 		packets_by_id[packet.get("layer_id")] = packet
-	var outer_aura_packet: Dictionary = packets_by_id.get("loop.soft_outer_aura", {})
-	var inner_glow_packet: Dictionary = packets_by_id.get("loop.inner_focus_glow", {})
-	var ring_packet: Dictionary = packets_by_id.get("loop.inner_energy_ring", {})
-	var slow_shard_packet: Dictionary = packets_by_id.get("loop.slow_energy_shards", {})
-	var fast_spark_packet: Dictionary = packets_by_id.get("loop.fast_energy_sparks", {})
-	tests.expect_true(packets_by_id.has("loop.soft_outer_aura") and packets_by_id.has("loop.inner_focus_glow") and packets_by_id.has("loop.inner_energy_ring") and packets_by_id.has("loop.slow_energy_shards") and packets_by_id.has("loop.fast_energy_sparks") and asset_result.success and not asset_result.value.get("is_fallback", true), "Zero Zone LOOP creates Aura, Focus Glow, Ring, Slow Shard, and Fast Spark packets from the common Renderer set")
-	var outer_aura_parameters: Dictionary = loop_specs_by_id["loop.soft_outer_aura"].parameters()
-	var inner_glow_parameters: Dictionary = loop_specs_by_id["loop.inner_focus_glow"].parameters()
-	var ring_parameters: Dictionary = loop_specs_by_id["loop.inner_energy_ring"].parameters()
-	var slow_shard_parameters: Dictionary = loop_specs_by_id["loop.slow_energy_shards"].parameters()
-	var fast_spark_parameters: Dictionary = loop_specs_by_id["loop.fast_energy_sparks"].parameters()
-	tests.expect_true(outer_aura_packet.get("render_plane") == "UNDER_VEHICLE" and inner_glow_packet.get("render_plane") == "UNDER_VEHICLE" and ring_packet.get("render_plane") == "OVER_VEHICLE" and slow_shard_packet.get("render_plane") == "OVER_VEHICLE" and fast_spark_packet.get("render_plane") == "OVER_VEHICLE" and outer_aura_packet.get("radius") == outer_aura_parameters.get("radius") and is_equal_approx(float(inner_glow_packet.get("alpha", -1.0)), float(inner_glow_parameters.get("opacity", -1.0))) and ring_packet.get("color_rgba") == ring_parameters.get("color_rgba") and slow_shard_packet.get("color_rgba") == slow_shard_parameters.get("color_rgba") and fast_spark_packet.get("color_rgba") == fast_spark_parameters.get("color_rgba"), "Runtime preserves the author-declared two Glow, Ring, and two Particle values without a Zero Zone renderer branch")
+	var flow_packet: Dictionary = packets_by_id.get("loop.forward_flow", {})
+	var focus_packet: Dictionary = packets_by_id.get("loop.focus_core", {})
 	var canvas := VfxVehiclePreviewCanvasModel.new()
 	var tree := Engine.get_main_loop() as SceneTree
 	tree.root.add_child(canvas)
 	canvas.set_shared_state(_preview_state())
-	var under_host := canvas.render_plane_host(str(outer_aura_packet.get("render_plane")), str(outer_aura_packet.get("space")))
-	var over_host := canvas.render_plane_host(str(ring_packet.get("render_plane")), str(ring_packet.get("space")))
-	tests.expect_true(under_host != null and under_host.name == "UnderVehicleLocalHost" and over_host != null and over_host.name == "OverVehicleLocalHost", "Canvas routes Zero Zone VEHICLE_LOCAL packets to their declared concrete Under and Over vehicle plane hosts")
+	var under_host := canvas.render_plane_host(str(focus_packet.get("render_plane", "")), str(focus_packet.get("space", "")))
+	var over_host := canvas.render_plane_host(str(flow_packet.get("render_plane", "")), str(flow_packet.get("space", "")))
+	var texture: Texture2D = flow_asset.value.get("texture") as Texture2D
+	tests.expect_true(
+		flow_asset.issues.is_empty()
+		and flow_asset.value.get("source") == "TEXTURE"
+		and not flow_asset.value.get("is_fallback", true)
+		and texture != null
+		and texture.get_size() == Vector2(64.0, 128.0)
+		and flow_packet.get("render_plane") == "OVER_VEHICLE"
+		and flow_packet.get("asset", {}).get("logical_id") == "fx.zero_zone_flow_streak"
+		and under_host != null and under_host.name == "UnderVehicleLocalHost"
+		and over_host != null and over_host.name == "OverVehicleLocalHost",
+		"Forward flow resolves as the production 64x128 texture and routes through the ordinary VEHICLE_LOCAL canvas hosts"
+	)
 	tree.root.remove_child(canvas)
 	canvas.free()
 
 
-static func _test_current_miniature_projection_factors(tests: TestAssert) -> void:
-	var edit_factor := 0.19
+static func _test_miniature_game_footprints_are_explicit(tests: TestAssert) -> void:
 	var game_factor := 0.095
-	tests.expect_true(is_equal_approx(18.0 * edit_factor, 3.42) and is_equal_approx(18.0 * game_factor, 1.71) and is_equal_approx(28.0 * edit_factor, 5.32) and is_equal_approx(28.0 * game_factor, 2.66) and is_equal_approx(2.0 * edit_factor, 0.38) and is_equal_approx(2.0 * game_factor, 0.19), "Fixed miniature projection factors yield the requested representative 18/28/2 source-unit sizes")
-	tests.expect_true(is_equal_approx(150.0 * game_factor, 14.25) and is_equal_approx(150.0 * 1.25 * game_factor, 17.8125) and is_equal_approx(92.0 * game_factor, 8.74) and is_equal_approx(100.0 * game_factor, 9.5) and is_equal_approx(13.0 * game_factor, 1.235), "Energy-domain Aura and Ring source dimensions retain a visible core silhouette and a non-subpixel Ring width at GAME 100%")
 	var reduced_track_factor := 0.08075
-	tests.expect_true(is_equal_approx(150.0 * reduced_track_factor, 12.1125) and is_equal_approx(100.0 * reduced_track_factor, 8.075) and is_equal_approx(13.0 * reduced_track_factor, 1.04975) and is_equal_approx(18.0 * reduced_track_factor, 1.4535) and is_equal_approx(14.0 * reduced_track_factor, 1.1305) and is_equal_approx(115.0 * reduced_track_factor, 9.28625), "Energy-domain Ring width, slow and fast Particle start sizes, and Slow Shard emitter remain readable at Track Scale 0.85")
+	tests.expect_true(
+		is_equal_approx((20.0 / 64.0) * 100.0 * game_factor, 2.96875)
+		and is_equal_approx((93.0 / 128.0) * 2.0 * 100.0 * game_factor, 13.8046875)
+		and is_equal_approx(2.0 * 38.0 * game_factor, 7.22)
+		and is_equal_approx(2.0 * 30.0 * game_factor, 5.7)
+		and is_equal_approx(2.0 * 165.0 * game_factor, 31.35)
+		and is_equal_approx(2.0 * 165.0 * 1.35 * game_factor, 42.3225)
+		and is_equal_approx(2.0 * 205.0 * 0.95 * game_factor, 37.0025)
+		and is_equal_approx(2.0 * 205.0 * 1.48 * game_factor, 57.646),
+		"At GAME 100%, the flow strong footprint is about 2.97 by 13.80 px; shards, sparks, core, and aura are deliberately large enough to escape vehicle occlusion"
+	)
+	tests.expect_true(
+		is_equal_approx((20.0 / 64.0) * 100.0 * reduced_track_factor, 2.5234375)
+		and is_equal_approx((93.0 / 128.0) * 2.0 * 100.0 * reduced_track_factor, 11.733984375)
+		and is_equal_approx(2.0 * 38.0 * reduced_track_factor, 6.137)
+		and is_equal_approx(2.0 * 30.0 * reduced_track_factor, 4.845)
+		and is_equal_approx(2.0 * 165.0 * reduced_track_factor, 26.6475)
+		and is_equal_approx(2.0 * 165.0 * 1.35 * reduced_track_factor, 35.974125)
+		and is_equal_approx(2.0 * 205.0 * 0.95 * reduced_track_factor, 31.452125)
+		and is_equal_approx(2.0 * 205.0 * 1.48 * reduced_track_factor, 48.9991),
+		"At Track Scale 0.85, the flow remains about 2.52 by 11.73 px and the focused core, aura, shards, and sparks remain above subpixel visibility"
+	)
 
 
-static func _test_energy_domain_authoring_targets(tests: TestAssert) -> void:
+static func _test_production_particle_fades_and_canonical_forward_direction(tests: TestAssert) -> void:
 	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
 	if not document_result.success:
-		tests.expect_true(false, "Zero Zone calibration target requires a contract-valid Preset")
-		return
-	var loop_layers: Array = document_result.value.normalized_data["phases"]["loop"]["layers"]
-	var start_layers: Array = document_result.value.normalized_data["phases"]["start"]["layers"]
-	var end_layers: Array = document_result.value.normalized_data["phases"]["end"]["layers"]
-	var start_by_id := _layers_by_id(start_layers)
-	var loop_by_id := _layers_by_id(loop_layers)
-	var end_by_id := _layers_by_id(end_layers)
-	var outer_aura: Dictionary = loop_by_id.get("loop.soft_outer_aura", {})
-	var inner_glow: Dictionary = loop_by_id.get("loop.inner_focus_glow", {})
-	var inner_ring: Dictionary = loop_by_id.get("loop.inner_energy_ring", {})
-	var slow_shards: Dictionary = loop_by_id.get("loop.slow_energy_shards", {})
-	var fast_sparks: Dictionary = loop_by_id.get("loop.fast_energy_sparks", {})
-	var start_expand_ring: Dictionary = start_by_id.get("start.expand_ring", {})
-	var loop_particle_capacity := int(slow_shards.get("parameters", {}).get("max_particles", 0)) + int(fast_sparks.get("parameters", {}).get("max_particles", 0))
-	var recipe_is_explicit: bool = start_by_id.keys().size() == 4 \
-		and loop_by_id.keys().size() == 5 \
-		and end_by_id.keys().size() == 2 \
-		and outer_aura.get("type") == "GLOW" \
-		and outer_aura.get("importance") == "CORE" \
-		and outer_aura.get("parameters", {}).get("radius") == 150.0 \
-		and outer_aura.get("parameters", {}).get("opacity") == 0.32 \
-		and outer_aura.get("transform", {}).get("scale") == [1.0, 1.25] \
-		and inner_glow.get("type") == "GLOW" \
-		and inner_glow.get("parameters", {}).get("radius") == 92.0 \
-		and inner_glow.get("parameters", {}).get("opacity") == 0.72 \
-		and inner_ring.get("type") == "RING" \
-		and inner_ring.get("importance") == "DETAIL" \
-		and inner_ring.get("parameters", {}).get("radius_start") == 100.0 \
-		and inner_ring.get("parameters", {}).get("width") == 13.0 \
-		and slow_shards.get("type") == "PARTICLE" \
-		and slow_shards.get("parameters", {}).get("max_particles") == 6 \
-		and slow_shards.get("parameters", {}).get("lifetime_seconds") == 1.0 \
-		and slow_shards.get("parameters", {}).get("size_start") == 18.0 \
-		and fast_sparks.get("type") == "PARTICLE" \
-		and fast_sparks.get("importance") == "EXTRA" \
-		and fast_sparks.get("parameters", {}).get("max_particles") == 4 \
-		and fast_sparks.get("parameters", {}).get("lifetime_seconds") == 0.35 \
-		and fast_sparks.get("parameters", {}).get("size_start") == 14.0 \
-		and loop_particle_capacity <= 10
-	tests.expect_true(recipe_is_explicit, "Zero Zone declares an Aura-focused authoring recipe with two Glows, a supporting Inner Ring, and a 6 plus 4 Particle capacity budget using only Schema v1")
-	tests.expect_true(start_by_id.has("start.inner_flash") and start_by_id.has("start.outer_flash") and start_by_id.has("start.expand_ring") and start_expand_ring.get("parameters", {}).get("width") == 13.0 and start_by_id.has("start.shard_burst") and end_by_id.has("end.release_pulse") and end_by_id.has("end.release_shards"), "Zero Zone START and END retain concise energy-domain signals and a non-subpixel launch Ring instead of a persistent shield-bubble structure")
-
-
-static func _test_zero_zone_lifetime_alpha_authoring(tests: TestAssert) -> void:
-	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
-	if not document_result.success:
-		tests.expect_true(false, "Zero Zone lifetime alpha authoring requires a contract-valid Preset")
+		tests.expect_true(false, "Production fade regression requires a contract-valid Preset")
 		return
 	var phases: Dictionary = document_result.value.normalized_data["phases"]
-	var start_by_id := _layers_by_id(phases["start"]["layers"])
-	var loop_by_id := _layers_by_id(phases["loop"]["layers"])
-	var end_by_id := _layers_by_id(phases["end"]["layers"])
-	var start_shard: Dictionary = start_by_id.get("start.shard_burst", {}).get("parameters", {})
-	var start_ring: Dictionary = start_by_id.get("start.expand_ring", {}).get("parameters", {})
-	var slow_shards: Dictionary = loop_by_id.get("loop.slow_energy_shards", {}).get("parameters", {})
-	var fast_sparks: Dictionary = loop_by_id.get("loop.fast_energy_sparks", {}).get("parameters", {})
-	var inner_ring: Dictionary = loop_by_id.get("loop.inner_energy_ring", {}).get("parameters", {})
-	var end_pulse: Dictionary = end_by_id.get("end.release_pulse", {}).get("parameters", {})
-	var end_shards: Dictionary = end_by_id.get("end.release_shards", {}).get("parameters", {})
-	var approved_fades: bool = start_shard.get("alpha_start") == 0.9 \
-		and start_shard.get("alpha_end") == 0.0 \
-		and start_ring.get("alpha_start") == 0.9 \
-		and start_ring.get("alpha_end") == 0.0 \
-		and slow_shards.get("alpha_start") == 0.9 \
-		and slow_shards.get("alpha_end") == 0.0 \
-		and fast_sparks.get("alpha_start") == 1.0 \
-		and fast_sparks.get("alpha_end") == 0.0 \
-		and end_pulse.get("alpha_start") == 0.8 \
-		and end_pulse.get("alpha_end") == 0.0 \
-		and end_shards.get("alpha_start") == 0.82 \
-		and end_shards.get("alpha_end") == 0.0
-	tests.expect_true(approved_fades, "Zero Zone applies the approved fade-out authoring values to transient Particle and Ring Layers")
-	tests.expect_true(inner_ring.get("alpha_start") == 1.0 and inner_ring.get("alpha_end") == 1.0, "Zero Zone LOOP Inner Ring keeps the Schema default alpha one-to-one for a stable center silhouette")
+	var start := _layers_by_id(phases["start"]["layers"])
+	var loop := _layers_by_id(phases["loop"]["layers"])
+	var end := _layers_by_id(phases["end"]["layers"])
+	var fading_particles := [
+		start.get("start.shard_lock_burst", {}), start.get("start.spark_ticks", {}), loop.get("loop.forward_flow", {}),
+		loop.get("loop.alignment_shards", {}), loop.get("loop.precision_sparks", {}), end.get("end.release_shards", {}),
+		end.get("end.release_flow", {}), end.get("end.spark_tail", {})
+	]
+	var all_fade_out := fading_particles.all(func(layer: Dictionary) -> bool: return float(layer.get("parameters", {}).get("alpha_end", 1.0)) == 0.0)
+	tests.expect_true(
+		all_fade_out
+		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("alpha_start") == 0.95
+		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("rotation_min_degrees") == 0.0
+		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("rotation_max_degrees") == 0.0
+		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("angular_velocity_min_degrees_per_second") == 0.0
+		and loop.get("loop.forward_flow", {}).get("parameters", {}).get("angular_velocity_max_degrees_per_second") == 0.0
+		and end.get("end.release_flow", {}).get("parameters", {}).get("direction_degrees") == 0.0,
+		"Production Particles fade out, while flow-streak Layers retain unrotated canonical 0-degree vehicle-forward orientation"
+	)
 
 
 static func _layers_by_id(layers: Array) -> Dictionary:
-	var layers_by_id: Dictionary = {}
+	var result: Dictionary = {}
 	for layer in layers:
-		layers_by_id[str(layer.get("id", ""))] = layer
-	return layers_by_id
+		result[str(layer.get("id", ""))] = layer
+	return result
 
 
 static func _frame_context() -> Dictionary:

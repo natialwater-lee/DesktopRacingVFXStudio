@@ -13,6 +13,13 @@
       "logical_id": "fx.energy_spark",
       "package_path": "assets/energy_spark.png",
       "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
+    },
+    {
+      "byte_size": 4861,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.zero_zone_flow_streak",
+      "package_path": "assets/zero_zone_flow_streak.png",
+      "sha256": "63c4f9836f3e7ed1aa4d865999d1776df1a55515f2e0bd8269e9fe28aeaa5daa"
     }
   ],
   "files": [
@@ -27,14 +34,19 @@
       "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
     },
     {
-      "byte_size": 13353,
-      "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "3609d50107c2a1f56ba0e2f97cdd722645271c0ab3f3738627bf1978d61a7440"
+      "byte_size": 4861,
+      "path": "assets/zero_zone_flow_streak.png",
+      "sha256": "63c4f9836f3e7ed1aa4d865999d1776df1a55515f2e0bd8269e9fe28aeaa5daa"
     },
     {
-      "byte_size": 10549,
+      "byte_size": 16614,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "28f7323c798ba8ad4f0be2d5db617827590c0b17c4a532e7c7e657337d45ba38"
+    },
+    {
+      "byte_size": 14437,
       "path": "source/talent.zero_zone.vfx.json",
-      "sha256": "18812e39503152007e6928a4bc5cb04bdd531525922c61f37e8b65dc85806c38"
+      "sha256": "12247e9c37c8f2670c696b6a78ce64495e275947c2edf5e992803bb8c49ae278"
     }
   ],
   "package_format_version": 1,
@@ -49,9 +61,9 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 3,
-      "DETAIL": 6,
-      "EXTRA": 2
+      "CORE": 4,
+      "DETAIL": 5,
+      "EXTRA": 3
     },
     "required_vehicle_anchors": [
       "CENTER"
@@ -61,14 +73,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 13353,
+    "byte_size": 16614,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "3609d50107c2a1f56ba0e2f97cdd722645271c0ab3f3738627bf1978d61a7440",
+    "sha256": "28f7323c798ba8ad4f0be2d5db617827590c0b17c4a532e7c7e657337d45ba38",
     "version": 1
   },
   "source": {
-    "byte_size": 10549,
+    "byte_size": 14437,
     "path": "source/talent.zero_zone.vfx.json",
-    "sha256": "18812e39503152007e6928a4bc5cb04bdd531525922c61f37e8b65dc85806c38"
+    "sha256": "12247e9c37c8f2670c696b6a78ce64495e275947c2edf5e992803bb8c49ae278"
   }
 }

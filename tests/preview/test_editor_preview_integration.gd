@@ -19,8 +19,8 @@ static func run(tests: TestAssert) -> void:
 static func _test_schema_resolved_context(tests: TestAssert) -> void:
 	var decoded: VfxResult = VfxPresetCodecModel.new().decode_file("res://presets/examples/talent.zero_zone.vfx.json")
 	var resolver := VfxPreviewLayerContextResolverModel.new(_registry())
-	var context: RefCounted = resolver.resolve(decoded.value if decoded.success else {}, "start", "start.inner_flash")
-	tests.expect_true(context != null and context.layer_id == "start.inner_flash", "Layer context resolver identifies the selected Layer without Preview reading Preset JSON")
+	var context: RefCounted = resolver.resolve(decoded.value if decoded.success else {}, "start", "start.focus_flash")
+	tests.expect_true(context != null and context.layer_id == "start.focus_flash", "Layer context resolver identifies the selected Layer without Preview reading Preset JSON")
 	if context == null:
 		return
 	tests.expect_true(context.anchor_names() == ["CENTER"] and context.effective_space() == "VEHICLE_LOCAL", "Layer context derives effective vehicle Space and declared Anchors from Schema rules")

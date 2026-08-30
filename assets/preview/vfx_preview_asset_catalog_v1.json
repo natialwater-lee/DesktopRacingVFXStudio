@@ -9,6 +9,10 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_spark.png"
     },
+    "fx.zero_zone_flow_streak": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"
+    },
     "fx.confetti_square": {
       "source": "PROCEDURAL",
       "primitive": "SQUARE",

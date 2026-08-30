@@ -68,7 +68,7 @@ static func _test_vehicle_multi_anchor_expands_in_declared_order(tests: TestAsse
 	var names: Array[String] = []
 	if instances_result.success:
 		for instance in instances_result.value:
-			if instance.layer_spec().layer_id() == "start.inner_flash":
+			if instance.layer_spec().layer_id() == "start.focus_flash":
 				names.append(instance.anchor_name())
 	tests.expect_true(instances_result.success and names == ["TIRE_FL", "TIRE_FR", "TIRE_RL", "TIRE_RR"], "Vehicle-space Multi Anchor Layers expand into one renderer instance per declared Anchor in stable source order")
 

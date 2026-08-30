@@ -39,10 +39,10 @@ static func _test_lod_filter_is_immutable_and_keeps_disabled_structure(tests: Te
 	tests.expect_true(medium.success and medium.value.phase_named("loop").layer_specs().size() == 4 and low.success and low.value.phase_named("loop").layer_specs().size() == 2, "LOD filter derives MEDIUM and LOW Plans from existing Layer Importance")
 	tests.expect_true(plan.phase_named("loop").layer_specs().size() == original_loop_count, "LOD filtering never mutates the original immutable Render Plan")
 
-	var disabled_plan := _zero_zone_plan_with_disabled_fast_spark()
+	var disabled_plan := _zero_zone_plan_with_disabled_precision_spark()
 	var high: VfxResult = filter_script.new().filter(disabled_plan, "HIGH", policy_result.value)
 	var high_loop_layers: Array = high.value.phase_named("loop").layer_specs() if high.success else []
-	var disabled_present := high_loop_layers.any(func(layer: RefCounted) -> bool: return layer.layer_id() == "loop.fast_energy_sparks" and not layer.is_enabled())
+	var disabled_present := high_loop_layers.any(func(layer: RefCounted) -> bool: return layer.layer_id() == "loop.precision_sparks" and not layer.is_enabled())
 	tests.expect_true(disabled_present, "LOD-filtered Plan retains disabled Layer structure for Authoring Inventory")
 
 
@@ -54,7 +54,7 @@ static func _test_zero_zone_steady_loop_lod_counts(tests: TestAssert) -> void:
 	if analyzer_script == null or filter_script == null or not policy_result.success:
 		tests.expect_true(false, "Zero Zone Performance Budget requires Analyzer, LOD Filter, and Policy")
 		return
-	var expected := {"HIGH": [11, 5, 10], "MEDIUM": [9, 4, 6], "LOW": [3, 2, 0]}
+	var expected := {"HIGH": [12, 5, 7], "MEDIUM": [9, 4, 5], "LOW": [4, 2, 3]}
 	for lod_level in expected:
 		var filtered: VfxResult = filter_script.new().filter(_zero_zone_plan(), lod_level, policy_result.value)
 		var budget_result: VfxResult = analyzer_script.new(_registry()).analyze(filtered.value, _center_profile(), "STEADY_LOOP") if filtered.success else VfxResult.failure(filtered.issues)
@@ -73,12 +73,12 @@ static func _test_disabled_layer_is_not_active_workload(tests: TestAssert) -> vo
 	if analyzer_script == null or filter_script == null or not policy_result.success:
 		tests.expect_true(false, "Disabled Layer budget behavior requires Analyzer, LOD Filter, and Policy")
 		return
-	var filtered: VfxResult = filter_script.new().filter(_zero_zone_plan_with_disabled_fast_spark(), "HIGH", policy_result.value)
+	var filtered: VfxResult = filter_script.new().filter(_zero_zone_plan_with_disabled_precision_spark(), "HIGH", policy_result.value)
 	var budget_result: VfxResult = analyzer_script.new(_registry()).analyze(filtered.value, _center_profile(), "STEADY_LOOP") if filtered.success else VfxResult.failure(filtered.issues)
 	var inventory_layers: int = budget_result.value.authoring_inventory().included_layer_count() if budget_result.success else -1
 	var active_instances: int = budget_result.value.active_workload().expanded_instance_count() if budget_result.success else -1
 	var active_particles: int = budget_result.value.active_workload().continuous_particle_capacity() if budget_result.success else -1
-	tests.expect_true(budget_result.success and inventory_layers == 11 and active_instances == 4 and active_particles == 6, "Disabled Layers remain visible in Lifecycle Inventory but are excluded from active Workload, Scenario, and threshold costs")
+	tests.expect_true(budget_result.success and inventory_layers == 12 and active_instances == 4 and active_particles == 5, "Disabled Layers remain visible in Lifecycle Inventory but are excluded from active Workload, Scenario, and threshold costs")
 
 
 static func _zero_zone_plan() -> RefCounted:
@@ -89,13 +89,13 @@ static func _zero_zone_plan() -> RefCounted:
 	return plan_result.value if plan_result.success else null
 
 
-static func _zero_zone_plan_with_disabled_fast_spark() -> RefCounted:
+static func _zero_zone_plan_with_disabled_precision_spark() -> RefCounted:
 	var result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
 	if not result.success:
 		return null
 	var normalized: Dictionary = result.value.normalized_data.duplicate(true)
 	for layer in normalized["phases"]["loop"]["layers"]:
-		if layer.get("id") == "loop.fast_energy_sparks":
+		if layer.get("id") == "loop.precision_sparks":
 			layer["enabled"] = false
 	var plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(_registry()).build(normalized)
 	return plan_result.value if plan_result.success else null

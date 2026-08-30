@@ -91,7 +91,7 @@ The Schema extension `x_vfx_layer_types` maps each Layer Type to a local paramet
 
 Required authoring concepts are `emission_mode`, `emitter`, `sprite_asset_ref`, and `lifetime_seconds`. Motion fields have Schema defaults:
 
-- direction and spread in degrees
+- `direction_degrees` and `spread_degrees` use the Layer's effective coordinate space: `0` is its negative Y axis, `90` is `+X`, `180` is `+Y`, and `270` is `-X`. `spread_degrees` is centred on `direction_degrees`. For `VEHICLE_LOCAL`, `0` is vehicle forward (`-Y`); for `VEHICLE_FOLLOW_WORLD_TRAIL`, it is vehicle-local `-Y` at spawn/capture; for `WORLD_AREA` and `SCREEN_UI`, it is the corresponding world/local or screen/UI `-Y` axis.
 - speed minimum and maximum
 - acceleration vector `[x, y]`
 - initial rotation range

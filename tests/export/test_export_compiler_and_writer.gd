@@ -66,7 +66,7 @@ static func _test_compiler_preserves_raw_source_and_compiles_runtime(tests: Test
 		return
 	var runtime_layer: Dictionary = runtime_result.value["phases"][1]["layers"][0]
 	tests.expect_true(runtime_layer["space_mode"] == "VEHICLE_LOCAL" and runtime_layer["enabled"] == true and runtime_layer["sort_order"] == 0, "Runtime Definition resolves effective space and Schema defaults")
-	tests.expect_true(runtime_layer["transform"] == {"offset": [0.0, 0.0], "rotation_degrees": 0.0, "scale": [1.0, 1.25]}, "Runtime Definition retains normalized transform data")
+	tests.expect_true(runtime_layer["transform"] == {"offset": [0.0, 0.0], "rotation_degrees": 0.0, "scale": [0.63, 1.18]}, "Runtime Definition retains the Production focus-core normalized transform data")
 	var coordinate_contract: Dictionary = runtime_result.value.get("coordinate_contract", {})
 	tests.expect_true(coordinate_contract.get("origin") == "CENTER" and coordinate_contract.get("front_axis") == "-Y" and _is_expected_canvas_size(coordinate_contract.get("vehicle_source_canvas_size_px")), "Runtime Definition always carries the fixed vehicle source-coordinate contract")
 	tests.expect_true(not source_result.value.has("coordinate_contract") and not plan.manifest_data().has("coordinate_contract"), "coordinate contract remains Runtime-only metadata instead of changing Source or Manifest")
@@ -90,8 +90,8 @@ static func _test_compiler_is_deterministic_and_deduplicates_assets(tests: TestA
 		return
 	var dependencies: Array = first.value.manifest_data().get("asset_dependencies", [])
 	var copies: Array = first.value.asset_copies()
-	tests.expect_true(dependencies.size() == 2 and dependencies[0]["logical_id"] == "fx.energy_shard" and dependencies[1]["logical_id"] == "fx.energy_spark", "Manifest asset dependencies are stable logical-ID mappings")
-	tests.expect_true(copies.size() == 2 and copies[0]["package_path"] == "assets/energy_shard.png" and copies[1]["package_path"] == "assets/energy_spark.png", "repeated shard Layer references produce one physical asset copy")
+	tests.expect_true(dependencies.size() == 3 and dependencies[0]["logical_id"] == "fx.energy_shard" and dependencies[1]["logical_id"] == "fx.energy_spark" and dependencies[2]["logical_id"] == "fx.zero_zone_flow_streak", "Manifest asset dependencies are stable logical-ID mappings for all three Production textures")
+	tests.expect_true(copies.size() == 3 and copies[0]["package_path"] == "assets/energy_shard.png" and copies[1]["package_path"] == "assets/energy_spark.png" and copies[2]["package_path"] == "assets/zero_zone_flow_streak.png", "repeated flow references produce one physical flow-streak Package asset copy")
 	var files: Array = first.value.files()
 	var file_paths: Array[String] = []
 	for entry in files:

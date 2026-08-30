@@ -1,6 +1,8 @@
 class_name VfxParticleLayerRenderer
 extends "res://src/preview/rendering/vfx_preview_layer_renderer.gd"
 
+const VfxParticleDirectionModel := preload("res://src/preview/rendering/vfx_particle_direction.gd")
+
 var _particles: Array[Dictionary] = []
 var _emission_accumulator := 0.0
 var _random := RandomNumberGenerator.new()
@@ -62,7 +64,7 @@ func _spawn_particle(frame_context: Dictionary) -> void:
 	var emitter: Dictionary = parameters.get("emitter", {}) if parameters.get("emitter", {}) is Dictionary else {}
 	var emitter_offset := _sample_emitter(emitter)
 	var direction_degrees: float = float(parameters.get("direction_degrees", 0.0)) + _random.randf_range(-float(parameters.get("spread_degrees", 0.0)) * 0.5, float(parameters.get("spread_degrees", 0.0)) * 0.5)
-	var source_velocity := Vector2.RIGHT.rotated(deg_to_rad(direction_degrees)) * _random.randf_range(float(parameters.get("speed_min", 0.0)), float(parameters.get("speed_max", 0.0)))
+	var source_velocity := VfxParticleDirectionModel.from_degrees(direction_degrees) * _random.randf_range(float(parameters.get("speed_min", 0.0)), float(parameters.get("speed_max", 0.0)))
 	var source_acceleration := _vector2_from(parameters.get("acceleration", [0.0, 0.0]))
 	var position := VfxPreviewCoordinateResolverModel.canonical_origin(_instance, frame_context) + VfxPreviewCoordinateResolverModel.canonical_vector(_instance, emitter_offset, frame_context)
 	var rotation_degrees: float = _random.randf_range(float(parameters.get("rotation_min_degrees", 0.0)), float(parameters.get("rotation_max_degrees", 0.0))) + float(_instance.layer_spec().transform().get("rotation_degrees", 0.0))

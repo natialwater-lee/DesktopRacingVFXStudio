@@ -97,7 +97,7 @@
             "emission_rate_per_second": 10.0,
             "max_particles": 8,
             "lifetime_seconds": 0.45,
-            "direction_degrees": 270.0,
+            "direction_degrees": 0.0,
             "spread_degrees": 50.0,
             "speed_min": 5.0,
             "speed_max": 12.0,
