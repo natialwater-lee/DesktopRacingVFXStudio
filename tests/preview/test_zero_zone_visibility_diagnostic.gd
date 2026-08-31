@@ -76,8 +76,8 @@ static func _test_two_asset_ten_layer_focus_mote_recipe(tests: TestAssert) -> vo
 		and start_mote.get("parameters", {}).get("speed_min") == 600.0
 		and start_mote.get("parameters", {}).get("speed_max") == 760.0
 		and start_mote.get("transform", {}).get("offset") == [0.0, -150.0]
-		and _arc_matches(start_arc, 0.74, 560.0, 680.0, 220.0, 175.0, 0.5, [0.0, -200.0]),
-		"START pairs six longer-lived rearward focus motes with the Pass J fixed 90-degree entry tunnel slice"
+		and _arc_matches(start_arc, 0.74, 560.0, 680.0, 235.0, 187.0, 0.55, [0.0, -200.0]),
+		"START pairs six longer-lived rearward focus motes with the Pass K subtly brighter, larger fixed 90-degree entry tunnel slice"
 	)
 	var focus_core: Dictionary = loop_by_id.get("loop.focus_core", {})
 	var tunnel_arc: Dictionary = loop_by_id.get("loop.tunnel_arc_pass", {})
@@ -88,7 +88,7 @@ static func _test_two_asset_ten_layer_focus_mote_recipe(tests: TestAssert) -> vo
 		and focus_core.get("parameters", {}).get("radius") == 235.0
 		and focus_core.get("parameters", {}).get("opacity") == 0.22
 		and focus_core.get("transform", {}).get("scale") == [0.95, 1.4]
-		and _arc_matches(tunnel_arc, 0.76, 560.0, 680.0, 220.0, 180.0, 0.38, [0.0, -210.0])
+		and _arc_matches(tunnel_arc, 0.76, 560.0, 680.0, 235.0, 193.0, 0.48, [0.0, -210.0])
 		and tunnel_arc.get("parameters", {}).get("emission_rate_per_second") == 5.0
 		and tunnel_arc.get("parameters", {}).get("max_particles") == 4
 		and soft_aura.get("importance") == "DETAIL"
@@ -110,7 +110,7 @@ static func _test_two_asset_ten_layer_focus_mote_recipe(tests: TestAssert) -> vo
 		and loop_motes.get("parameters", {}).get("speed_min") == 640.0
 		and loop_motes.get("parameters", {}).get("speed_max") == 800.0
 		and loop_motes.get("transform", {}).get("offset") == [0.0, -170.0],
-		"LOOP keeps its approved soft focus field while Pass J slows the tunnel cadence and lets eight-cap focus motes persist across the rear vehicle extent"
+		"LOOP keeps its approved soft focus field while Pass K makes each unchanged-cadence tunnel slice slightly brighter and larger than the mote field"
 	)
 	var end_mote: Dictionary = end_by_id.get("end.focus_mote_release", {})
 	var end_arc: Dictionary = end_by_id.get("end.tunnel_arc_release", {})
@@ -129,8 +129,8 @@ static func _test_two_asset_ten_layer_focus_mote_recipe(tests: TestAssert) -> vo
 		and end_mote.get("parameters", {}).get("speed_min") == 460.0
 		and end_mote.get("parameters", {}).get("speed_max") == 640.0
 		and end_mote.get("transform", {}).get("offset") == [0.0, -120.0]
-		and _arc_matches(end_arc, 0.64, 500.0, 620.0, 195.0, 150.0, 0.42, [0.0, -155.0]),
-		"END releases four longer-lived focus motes and one Pass J fixed 90-degree tunnel slice without restoring a ring or shield"
+		and _arc_matches(end_arc, 0.64, 500.0, 620.0, 209.0, 161.0, 0.47, [0.0, -155.0]),
+		"END releases four longer-lived focus motes and one Pass K subtly brighter fixed 90-degree tunnel slice without restoring a ring or shield"
 	)
 
 
@@ -221,8 +221,8 @@ static func _test_miniature_game_footprints_are_explicit(tests: TestAssert) -> v
 		and is_equal_approx((19.0 / 64.0) * 2.0 * 135.0 * game_factor, 7.61484375)
 		and is_equal_approx((16.0 / 64.0) * 2.0 * 115.0 * game_factor, 5.4625)
 		and is_equal_approx((19.0 / 64.0) * 2.0 * 115.0 * game_factor, 6.48671875)
-		and is_equal_approx((128.0 / 256.0) * 2.0 * 220.0 * game_factor, 20.9)
-		and is_equal_approx(2.0 * 220.0 * game_factor, 41.8)
+		and is_equal_approx((128.0 / 256.0) * 2.0 * 235.0 * game_factor, 22.325)
+		and is_equal_approx(2.0 * 235.0 * game_factor, 44.65)
 		and is_equal_approx(2.0 * 235.0 * 0.95 * game_factor, 42.4175)
 		and is_equal_approx(2.0 * 235.0 * 1.4 * game_factor, 62.51)
 		and is_equal_approx(2.0 * 275.0 * game_factor, 52.25)
@@ -232,20 +232,20 @@ static func _test_miniature_game_footprints_are_explicit(tests: TestAssert) -> v
 		and is_equal_approx(800.0 * 0.4 * game_factor, 30.4)
 		and is_equal_approx(560.0 * 0.76 * game_factor, 40.432)
 		and is_equal_approx(680.0 * 0.76 * game_factor, 49.096),
-		"At GAME 100%, a strong 16x19px focus-mote core keeps its 6.41x7.61px to 5.46x6.49px visual footprint while its rearward travel expands to 24.32–30.40px and the slower tunnel slice travels 40.43–49.10px"
+		"At GAME 100%, a strong 16x19px focus-mote core keeps its 6.41x7.61px to 5.46x6.49px visual footprint while its rearward travel expands to 24.32–30.40px and the subtly stronger tunnel slice travels 40.43–49.10px with a 22.33x44.65px start footprint"
 	)
 	tests.expect_true(
 		is_equal_approx((16.0 / 64.0) * 2.0 * 135.0 * reduced_track_factor, 5.450625)
 		and is_equal_approx((19.0 / 64.0) * 2.0 * 135.0 * reduced_track_factor, 6.4726171875)
 		and is_equal_approx((16.0 / 64.0) * 2.0 * 115.0 * reduced_track_factor, 4.643125)
 		and is_equal_approx((19.0 / 64.0) * 2.0 * 115.0 * reduced_track_factor, 5.5137109375)
-		and is_equal_approx((128.0 / 256.0) * 2.0 * 220.0 * reduced_track_factor, 17.765)
-		and is_equal_approx(2.0 * 220.0 * reduced_track_factor, 35.53)
+		and is_equal_approx((128.0 / 256.0) * 2.0 * 235.0 * reduced_track_factor, 18.97625)
+		and is_equal_approx(2.0 * 235.0 * reduced_track_factor, 37.9525)
 		and is_equal_approx(640.0 * 0.4 * reduced_track_factor, 20.672)
 		and is_equal_approx(800.0 * 0.4 * reduced_track_factor, 25.84)
 		and is_equal_approx(560.0 * 0.76 * reduced_track_factor, 34.3672)
 		and is_equal_approx(680.0 * 0.76 * reduced_track_factor, 41.7316),
-		"At Track Scale 0.85, focus motes retain a 4.64x5.51px strong core while traveling 20.67–25.84px and the tunnel slice remains 35.53x17.77px across a 34.37 to 41.73px rearward path"
+		"At Track Scale 0.85, focus motes retain a 4.64x5.51px strong core while traveling 20.67–25.84px and the slightly stronger tunnel slice remains 37.95x18.98px across a 34.37 to 41.73px rearward path"
 	)
 
 
