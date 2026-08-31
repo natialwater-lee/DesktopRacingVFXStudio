@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "preset_id": "driving.standard_boost",
+  "display_name": "Standard Boost",
+  "category": "BOOST",
+  "lifecycle": {"mode": "START_LOOP_END"},
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": ["intensity"],
+  "phases": {
+    "start": {
+      "duration_seconds": 0.10,
+      "layers": [
+        {
+          "id": "start.ignition_jet_1", "type": "PARTICLE", "importance": "CORE", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-66.0, 307.0], "rotation_degrees": 0.0, "scale": [0.60, 1.0]},
+          "parameters": {"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "burst_count": 1, "lifetime_seconds": 0.090, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 102.0, "size_end": 93.0, "alpha_start": 0.82, "alpha_end": 0.20, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "start.ignition_jet_2", "type": "PARTICLE", "importance": "DETAIL", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-22.0, 313.0], "rotation_degrees": 0.0, "scale": [0.56, 1.0]},
+          "parameters": {"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "burst_count": 1, "lifetime_seconds": 0.082, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 108.0, "size_end": 98.0, "alpha_start": 0.78, "alpha_end": 0.18, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "start.ignition_jet_3", "type": "PARTICLE", "importance": "DETAIL", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [22.0, 303.0], "rotation_degrees": 0.0, "scale": [0.64, 1.0]},
+          "parameters": {"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "burst_count": 1, "lifetime_seconds": 0.098, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 98.0, "size_end": 89.0, "alpha_start": 0.84, "alpha_end": 0.20, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "start.ignition_jet_4", "type": "PARTICLE", "importance": "CORE", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [66.0, 315.0], "rotation_degrees": 0.0, "scale": [0.58, 1.0]},
+          "parameters": {"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "burst_count": 1, "lifetime_seconds": 0.086, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 110.0, "size_end": 100.0, "alpha_start": 0.76, "alpha_end": 0.18, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        }
+      ]
+    },
+    "loop": {
+      "layers": [
+        {
+          "id": "loop.core_jet_1", "type": "PARTICLE", "importance": "CORE", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-66.0, 317.0], "rotation_degrees": 0.0, "scale": [0.60, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "emission_rate_per_second": 12.0, "max_particles": 1, "lifetime_seconds": 0.090, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 112.0, "size_end": 102.0, "alpha_start": 0.82, "alpha_end": 0.72, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.core_jet_2", "type": "PARTICLE", "importance": "DETAIL", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-22.0, 322.0], "rotation_degrees": 0.0, "scale": [0.56, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "emission_rate_per_second": 13.0, "max_particles": 1, "lifetime_seconds": 0.082, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 118.0, "size_end": 106.0, "alpha_start": 0.78, "alpha_end": 0.68, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.core_jet_3", "type": "PARTICLE", "importance": "DETAIL", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [22.0, 313.0], "rotation_degrees": 0.0, "scale": [0.64, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "emission_rate_per_second": 11.0, "max_particles": 1, "lifetime_seconds": 0.098, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 108.0, "size_end": 98.0, "alpha_start": 0.84, "alpha_end": 0.74, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.core_jet_4", "type": "PARTICLE", "importance": "CORE", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [66.0, 326.0], "rotation_degrees": 0.0, "scale": [0.58, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_core", "emission_rate_per_second": 12.5, "max_particles": 1, "lifetime_seconds": 0.086, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 122.0, "size_end": 108.0, "alpha_start": 0.76, "alpha_end": 0.66, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.tail_jet_1", "type": "PARTICLE", "importance": "DETAIL", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-66.0, 370.0], "rotation_degrees": 0.0, "scale": [0.44, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_tail", "emission_rate_per_second": 4.2, "max_particles": 1, "lifetime_seconds": 0.16, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 170.0, "size_end": 150.0, "alpha_start": 0.44, "alpha_end": 0.0, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.tail_jet_2", "type": "PARTICLE", "importance": "EXTRA", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-22.0, 394.0], "rotation_degrees": 0.0, "scale": [0.40, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_tail", "emission_rate_per_second": 5.0, "max_particles": 1, "lifetime_seconds": 0.13, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 195.0, "size_end": 170.0, "alpha_start": 0.50, "alpha_end": 0.0, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.tail_jet_3", "type": "PARTICLE", "importance": "EXTRA", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [22.0, 351.0], "rotation_degrees": 0.0, "scale": [0.48, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_tail", "emission_rate_per_second": 3.7, "max_particles": 1, "lifetime_seconds": 0.19, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 150.0, "size_end": 133.0, "alpha_start": 0.36, "alpha_end": 0.0, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "loop.tail_jet_4", "type": "PARTICLE", "importance": "DETAIL", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [66.0, 384.0], "rotation_degrees": 0.0, "scale": [0.42, 1.0]},
+          "parameters": {"emission_mode": "CONTINUOUS", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_tail", "emission_rate_per_second": 4.6, "max_particles": 1, "lifetime_seconds": 0.15, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 185.0, "size_end": 160.0, "alpha_start": 0.46, "alpha_end": 0.0, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        }
+      ]
+    },
+    "end": {
+      "duration_seconds": 0.14,
+      "layers": [
+        {
+          "id": "end.tail_fade_left", "type": "PARTICLE", "importance": "CORE", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [-66.0, 332.0], "rotation_degrees": 0.0, "scale": [0.44, 1.0]},
+          "parameters": {"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_tail", "burst_count": 1, "lifetime_seconds": 0.13, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 130.0, "size_end": 112.0, "alpha_start": 0.30, "alpha_end": 0.0, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        },
+        {
+          "id": "end.tail_fade_right", "type": "PARTICLE", "importance": "CORE", "blend_mode": "ADDITIVE", "render_plane": "OVER_VEHICLE", "anchors": ["CENTER"],
+          "transform": {"offset": [66.0, 318.0], "rotation_degrees": 0.0, "scale": [0.42, 1.0]},
+          "parameters": {"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.booster_flame_tail", "burst_count": 1, "lifetime_seconds": 0.11, "direction_degrees": 180.0, "spread_degrees": 0.0, "speed_min": 0.0, "speed_max": 0.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 0.0, "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0, "size_start": 115.0, "size_end": 98.0, "alpha_start": 0.26, "alpha_end": 0.0, "color_rgba": [1.0, 1.0, 1.0, 1.0]}
+        }
+      ]
+    }
+  }
+}

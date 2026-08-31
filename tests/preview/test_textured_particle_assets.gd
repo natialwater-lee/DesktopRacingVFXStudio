@@ -22,7 +22,7 @@ static func run(tests: TestAssert) -> void:
 	_test_texture_particle_rect_preserves_half_size_and_aspect(tests)
 	_test_texture_particle_packet_preserves_authoring_tint_and_layer_scale(tests)
 	_test_textured_particle_uses_the_same_lifetime_alpha_scalar(tests)
-	_test_zero_zone_uses_distinct_shard_and_spark_logical_assets(tests)
+	_test_zero_zone_uses_only_focus_mote_and_tunnel_arc_logical_assets(tests)
 	_test_renderer_showcase_uses_the_ordinary_texture_particle_route(tests)
 
 
@@ -50,43 +50,67 @@ static func _test_zero_zone_production_art_assets_resolve_as_textures(tests: Tes
 	var shard_result: VfxResult = resolver.resolve("fx.energy_shard")
 	var spark_result: VfxResult = resolver.resolve("fx.energy_spark")
 	var flow_result: VfxResult = resolver.resolve("fx.zero_zone_flow_streak")
+	var arc_result: VfxResult = resolver.resolve("fx.zero_zone_tunnel_arc")
+	var mote_result: VfxResult = resolver.resolve("fx.zero_zone_focus_mote")
 	var shard_texture: Texture2D = shard_result.value.get("texture") as Texture2D if shard_result.success else null
 	var spark_texture: Texture2D = spark_result.value.get("texture") as Texture2D if spark_result.success else null
 	var flow_texture: Texture2D = flow_result.value.get("texture") as Texture2D if flow_result.success else null
+	var arc_texture: Texture2D = arc_result.value.get("texture") as Texture2D if arc_result.success else null
+	var mote_texture: Texture2D = mote_result.value.get("texture") as Texture2D if mote_result.success else null
 	var shard_image := shard_texture.get_image() if shard_texture != null else null
 	var spark_image := spark_texture.get_image() if spark_texture != null else null
 	var flow_image := flow_texture.get_image() if flow_texture != null else null
+	var arc_image := arc_texture.get_image() if arc_texture != null else null
+	var mote_image := mote_texture.get_image() if mote_texture != null else null
 	var has_production_textures: bool = shard_result.success \
 		and spark_result.success \
 		and flow_result.success \
+		and arc_result.success \
+		and mote_result.success \
 		and shard_result.issues.is_empty() \
 		and spark_result.issues.is_empty() \
 		and flow_result.issues.is_empty() \
+		and arc_result.issues.is_empty() \
+		and mote_result.issues.is_empty() \
 		and shard_result.value.get("source") == "TEXTURE" \
 		and spark_result.value.get("source") == "TEXTURE" \
 		and flow_result.value.get("source") == "TEXTURE" \
+		and arc_result.value.get("source") == "TEXTURE" \
+		and mote_result.value.get("source") == "TEXTURE" \
 		and not shard_result.value.get("is_fallback", true) \
 		and not spark_result.value.get("is_fallback", true) \
 		and not flow_result.value.get("is_fallback", true) \
+		and not arc_result.value.get("is_fallback", true) \
+		and not mote_result.value.get("is_fallback", true) \
 		and shard_texture != null \
 		and spark_texture != null \
 		and flow_texture != null \
+		and arc_texture != null \
+		and mote_texture != null \
 		and shard_image != null \
 		and spark_image != null \
 		and flow_image != null \
+		and arc_image != null \
+		and mote_image != null \
 		and shard_image.get_size() == Vector2i(64, 64) \
 		and spark_image.get_size() == Vector2i(32, 32) \
 		and flow_image.get_size() == Vector2i(64, 128) \
+		and arc_image.get_size() == Vector2i(128, 256) \
+		and mote_image.get_size() == Vector2i(64, 64) \
 		and _has_transparent_pixel(shard_image) \
 		and _has_transparent_pixel(spark_image) \
-		and _has_transparent_pixel(flow_image)
-	tests.expect_true(has_production_textures, "Zero Zone Production Art resolves shard, spark, and 64x128 forward-flow textures as non-fallback Texture2D assets")
+		and _has_transparent_pixel(flow_image) \
+		and _has_transparent_pixel(arc_image) \
+		and _has_transparent_pixel(mote_image)
+	tests.expect_true(has_production_textures, "Production texture Catalog keeps legacy shard, spark, and flow art available while resolving the 64x64 focus mote and 128x256 tunnel arc as non-fallback Texture2D assets")
 	var host_script := load("res://src/preview/rendering/vfx_preview_canvas_render_host.gd") as Script
 	var host: Node2D = host_script.new() if host_script != null else null
 	var shard_rect: Rect2 = host.call("texture_particle_rect", shard_texture, 5.0) if host != null and shard_texture != null else Rect2()
 	var spark_rect: Rect2 = host.call("texture_particle_rect", spark_texture, 5.0) if host != null and spark_texture != null else Rect2()
 	var flow_rect: Rect2 = host.call("texture_particle_rect", flow_texture, 5.0) if host != null and flow_texture != null else Rect2()
-	tests.expect_true(host != null and shard_rect.size == Vector2(10.0, 10.0) and spark_rect.size == Vector2(10.0, 10.0) and flow_rect.size == Vector2(5.0, 10.0), "Production texture native dimensions preserve the 2 times packet.size longest display dimension and the flow 1:2 aspect")
+	var arc_rect: Rect2 = host.call("texture_particle_rect", arc_texture, 5.0) if host != null and arc_texture != null else Rect2()
+	var mote_rect: Rect2 = host.call("texture_particle_rect", mote_texture, 5.0) if host != null and mote_texture != null else Rect2()
+	tests.expect_true(host != null and shard_rect.size == Vector2(10.0, 10.0) and spark_rect.size == Vector2(10.0, 10.0) and flow_rect.size == Vector2(5.0, 10.0) and arc_rect.size == Vector2(5.0, 10.0) and mote_rect.size == Vector2(10.0, 10.0), "Production texture native dimensions preserve the 2 times packet.size longest display dimension while the new focus mote remains square")
 	if host != null:
 		host.free()
 
@@ -167,13 +191,16 @@ static func _test_textured_particle_uses_the_same_lifetime_alpha_scalar(tests: T
 	tests.expect_true(packet.get("asset", {}).get("source") == "TEXTURE" and is_equal_approx(float(packet.get("alpha", -1.0)), 0.5) and packet.get("color_rgba") == [1.0, 1.0, 1.0, 0.8], "TEXTURE Particles use the same lifetime alpha scalar without changing texture or authored color semantics")
 
 
-static func _test_zero_zone_uses_distinct_shard_and_spark_logical_assets(tests: TestAssert) -> void:
+static func _test_zero_zone_uses_only_focus_mote_and_tunnel_arc_logical_assets(tests: TestAssert) -> void:
 	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
-	var layers: Array = document_result.value.normalized_data.get("phases", {}).get("loop", {}).get("layers", []) if document_result.success else []
-	var assets_by_layer: Dictionary = {}
-	for layer in layers:
-		assets_by_layer[layer.get("id", "")] = layer.get("parameters", {}).get("sprite_asset_ref", "")
-	tests.expect_true(document_result.success and assets_by_layer.get("loop.forward_flow") == "fx.zero_zone_flow_streak" and assets_by_layer.get("loop.alignment_shards") == "fx.energy_shard" and assets_by_layer.get("loop.precision_sparks") == "fx.energy_spark", "Zero Zone uses stable logical IDs for forward racing-line, shard, and spark art")
+	var particle_asset_refs: Array[String] = []
+	if document_result.success:
+		for phase_name in ["start", "loop", "end"]:
+			for layer in document_result.value.normalized_data.get("phases", {}).get(phase_name, {}).get("layers", []):
+				if layer.get("type") == "PARTICLE":
+					particle_asset_refs.append(str(layer.get("parameters", {}).get("sprite_asset_ref", "")))
+	particle_asset_refs.sort()
+	tests.expect_true(document_result.success and particle_asset_refs == ["fx.zero_zone_focus_mote", "fx.zero_zone_focus_mote", "fx.zero_zone_focus_mote", "fx.zero_zone_tunnel_arc", "fx.zero_zone_tunnel_arc", "fx.zero_zone_tunnel_arc"], "Zero Zone’s current Particle recipe is intentionally limited to clear focus-mote and open tunnel-arc logical art")
 
 
 static func _test_renderer_showcase_uses_the_ordinary_texture_particle_route(tests: TestAssert) -> void:

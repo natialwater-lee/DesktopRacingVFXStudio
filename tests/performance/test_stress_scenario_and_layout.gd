@@ -69,7 +69,7 @@ static func _test_same_stage_baseline_disables_all_vfx_work(tests: TestAssert) -
 	tests.expect_true(before_ids == after_baseline_ids, "Baseline measurement retains the same Stress vehicle nodes, grid, profile, and game-scale state for the paired VFX run")
 	stage.set_vfx_enabled(true)
 	var vfx_facts: Dictionary = stage.advance(1.0 / 60.0)
-	tests.expect_true(vfx_facts.get("active_vfx_instances", 0) == 30 and vfx_facts.get("active_layer_renderers", 0) == 150 and vfx_facts.get("packet_count", 0) > 0, "Enabling the same Stage starts synchronized STEADY_LOOP work through existing Runtime and Playback paths")
+	tests.expect_true(vfx_facts.get("active_vfx_instances", 0) == 30 and vfx_facts.get("active_layer_renderers", 0) == 120 and vfx_facts.get("packet_count", 0) > 0, "Enabling the same Stage starts synchronized STEADY_LOOP work with four LOOP Layers per Runtime through existing Playback paths")
 	tree.root.remove_child(stage)
 	stage.free()
 

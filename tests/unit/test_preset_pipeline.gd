@@ -10,8 +10,8 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(zero_zone.success, "Zero Zone completes load-normalize-validate")
 	tests.expect_true(zero_zone.value is VfxPresetDocument, "pipeline returns a document")
 	if zero_zone.success:
-		tests.expect_true(not zero_zone.value.raw_data["phases"]["loop"]["layers"][0].has("sort_order"), "pipeline preserves raw source data")
-		tests.expect_true(zero_zone.value.normalized_data["phases"]["loop"]["layers"][0]["sort_order"] == 0, "pipeline exposes normalized defaults")
+		tests.expect_true(zero_zone.value.raw_data["phases"]["loop"]["layers"][0].get("sort_order") == 0.0, "pipeline preserves the source Layer's explicit sort order")
+		tests.expect_true(zero_zone.value.normalized_data["phases"]["loop"]["layers"][0]["sort_order"] == 0, "pipeline retains the normalized explicit sort order")
 
 	var confetti := pipeline.load_and_validate("res://presets/examples/finish.confetti_world.vfx.json")
 	tests.expect_true(confetti.success, "Finish Confetti World completes load-normalize-validate")

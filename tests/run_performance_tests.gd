@@ -8,6 +8,7 @@ const RuntimeMetricAccumulatorTests := preload("res://tests/performance/test_run
 const StressPreviewTests := preload("res://tests/performance/test_stress_preview.gd")
 const PerformanceUiTests := preload("res://tests/performance/test_performance_ui.gd")
 const StressMeasurementEnvironmentTests := preload("res://tests/performance/test_stress_measurement_environment.gd")
+const StandardBoosterBudgetTests := preload("res://tests/performance/test_standard_booster_budget.gd")
 
 
 func _init() -> void:
@@ -23,5 +24,6 @@ func _run() -> void:
 	StressPreviewTests.run(tests)
 	PerformanceUiTests.run(tests)
 	StressMeasurementEnvironmentTests.run(tests)
+	StandardBoosterBudgetTests.run(tests)
 	print("PERFORMANCE_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

@@ -41,10 +41,14 @@ class StagingFailureBackend:
 
 
 static func run(tests: TestAssert) -> void:
-	_test_compiler_preserves_raw_source_and_compiles_runtime(tests)
-	_test_compiler_is_deterministic_and_deduplicates_assets(tests)
+	run_compile_only(tests)
 	_test_atomic_writer_preserves_final_package_on_staging_failure(tests)
 	_test_atomic_writer_writes_and_replaces_real_package(tests)
+
+
+static func run_compile_only(tests: TestAssert) -> void:
+	_test_compiler_preserves_raw_source_and_compiles_runtime(tests)
+	_test_compiler_is_deterministic_and_deduplicates_assets(tests)
 
 
 static func _test_compiler_preserves_raw_source_and_compiles_runtime(tests: TestAssert) -> void:
@@ -64,9 +68,9 @@ static func _test_compiler_preserves_raw_source_and_compiles_runtime(tests: Test
 	if not runtime_result.success:
 		tests.expect_true(false, "Runtime Definition is valid deterministic JSON")
 		return
-	var runtime_layer: Dictionary = runtime_result.value["phases"][1]["layers"][0]
+	var runtime_layer: Dictionary = _runtime_layer_named(runtime_result.value, "loop", "loop.focus_core")
 	tests.expect_true(runtime_layer["space_mode"] == "VEHICLE_LOCAL" and runtime_layer["enabled"] == true and runtime_layer["sort_order"] == 0, "Runtime Definition resolves effective space and Schema defaults")
-	tests.expect_true(runtime_layer["transform"] == {"offset": [0.0, 0.0], "rotation_degrees": 0.0, "scale": [0.63, 1.18]}, "Runtime Definition retains the Production focus-core normalized transform data")
+	tests.expect_true(runtime_layer.get("id") == "loop.focus_core" and runtime_layer["transform"] == {"offset": [0.0, 0.0], "rotation_degrees": 0.0, "scale": [0.95, 1.4]}, "Runtime Definition retains the named Production focus-core normalized transform data")
 	var coordinate_contract: Dictionary = runtime_result.value.get("coordinate_contract", {})
 	tests.expect_true(coordinate_contract.get("origin") == "CENTER" and coordinate_contract.get("front_axis") == "-Y" and _is_expected_canvas_size(coordinate_contract.get("vehicle_source_canvas_size_px")), "Runtime Definition always carries the fixed vehicle source-coordinate contract")
 	tests.expect_true(not source_result.value.has("coordinate_contract") and not plan.manifest_data().has("coordinate_contract"), "coordinate contract remains Runtime-only metadata instead of changing Source or Manifest")
@@ -90,8 +94,8 @@ static func _test_compiler_is_deterministic_and_deduplicates_assets(tests: TestA
 		return
 	var dependencies: Array = first.value.manifest_data().get("asset_dependencies", [])
 	var copies: Array = first.value.asset_copies()
-	tests.expect_true(dependencies.size() == 3 and dependencies[0]["logical_id"] == "fx.energy_shard" and dependencies[1]["logical_id"] == "fx.energy_spark" and dependencies[2]["logical_id"] == "fx.zero_zone_flow_streak", "Manifest asset dependencies are stable logical-ID mappings for all three Production textures")
-	tests.expect_true(copies.size() == 3 and copies[0]["package_path"] == "assets/energy_shard.png" and copies[1]["package_path"] == "assets/energy_spark.png" and copies[2]["package_path"] == "assets/zero_zone_flow_streak.png", "repeated flow references produce one physical flow-streak Package asset copy")
+	tests.expect_true(dependencies.size() == 2 and dependencies[0]["logical_id"] == "fx.zero_zone_focus_mote" and dependencies[1]["logical_id"] == "fx.zero_zone_tunnel_arc", "future Export compiles the simplified Zero Zone source to stable focus-mote and tunnel-arc logical-ID mappings")
+	tests.expect_true(copies.size() == 2 and copies[0]["package_path"] == "assets/zero_zone_focus_mote.png" and copies[1]["package_path"] == "assets/zero_zone_tunnel_arc.png", "repeated focus-mote and tunnel-arc references would produce one physical copy of each required Package asset")
 	var files: Array = first.value.files()
 	var file_paths: Array[String] = []
 	for entry in files:
@@ -179,3 +183,13 @@ static func _registry() -> RefCounted:
 
 static func _is_expected_canvas_size(value: Variant) -> bool:
 	return value is Array and value.size() == 2 and int(value[0]) == 256 and int(value[1]) == 512
+
+
+static func _runtime_layer_named(runtime_definition: Dictionary, phase_name: String, layer_id: String) -> Dictionary:
+	for phase_value in runtime_definition.get("phases", []):
+		if not phase_value is Dictionary or phase_value.get("name") != phase_name:
+			continue
+		for layer_value in phase_value.get("layers", []):
+			if layer_value is Dictionary and layer_value.get("id") == layer_id:
+				return layer_value
+	return {}

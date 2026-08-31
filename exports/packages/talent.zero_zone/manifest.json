@@ -1,52 +1,40 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 28297,
+      "byte_size": 1499,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.energy_shard",
-      "package_path": "assets/energy_shard.png",
-      "sha256": "0ec42aa92113d0e37495a7b59a4844ded27e688bf5a65c94f7b2f34c3526b816"
+      "logical_id": "fx.zero_zone_focus_mote",
+      "package_path": "assets/zero_zone_focus_mote.png",
+      "sha256": "4acd754ee686d9530fcfe4dc05a375ccd2150ef4c597ca0ee23975520681c843"
     },
     {
-      "byte_size": 26891,
+      "byte_size": 40850,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.energy_spark",
-      "package_path": "assets/energy_spark.png",
-      "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
-    },
-    {
-      "byte_size": 4861,
-      "kind": "TEXTURE_PNG",
-      "logical_id": "fx.zero_zone_flow_streak",
-      "package_path": "assets/zero_zone_flow_streak.png",
-      "sha256": "63c4f9836f3e7ed1aa4d865999d1776df1a55515f2e0bd8269e9fe28aeaa5daa"
+      "logical_id": "fx.zero_zone_tunnel_arc",
+      "package_path": "assets/zero_zone_tunnel_arc.png",
+      "sha256": "4bd09c0e3b9cef23449ceed35050108d23df1eb1ff9f20043dffcf9645e6e1d0"
     }
   ],
   "files": [
     {
-      "byte_size": 28297,
-      "path": "assets/energy_shard.png",
-      "sha256": "0ec42aa92113d0e37495a7b59a4844ded27e688bf5a65c94f7b2f34c3526b816"
+      "byte_size": 1499,
+      "path": "assets/zero_zone_focus_mote.png",
+      "sha256": "4acd754ee686d9530fcfe4dc05a375ccd2150ef4c597ca0ee23975520681c843"
     },
     {
-      "byte_size": 26891,
-      "path": "assets/energy_spark.png",
-      "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
+      "byte_size": 40850,
+      "path": "assets/zero_zone_tunnel_arc.png",
+      "sha256": "4bd09c0e3b9cef23449ceed35050108d23df1eb1ff9f20043dffcf9645e6e1d0"
     },
     {
-      "byte_size": 4861,
-      "path": "assets/zero_zone_flow_streak.png",
-      "sha256": "63c4f9836f3e7ed1aa4d865999d1776df1a55515f2e0bd8269e9fe28aeaa5daa"
-    },
-    {
-      "byte_size": 16660,
+      "byte_size": 13519,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "86ab964bb7d02ef15f0114d95c5b50dc62cc4eb9e761b876e4c52699fdbd0954"
+      "sha256": "958eb5703e0fa901810589238541b9e5dc59f65bfde9b2f429cb533521130987"
     },
     {
-      "byte_size": 15811,
+      "byte_size": 12748,
       "path": "source/talent.zero_zone.vfx.json",
-      "sha256": "fe971786156f52c1308b5e140246c7d6e4856bf61fd13e0dde6c3e78afceec23"
+      "sha256": "f31a74badbffbb4fc96478c61f6e2ad8f36c199afa922e32f354d5f468138ab4"
     }
   ],
   "package_format_version": 1,
@@ -61,9 +49,9 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 4,
-      "DETAIL": 5,
-      "EXTRA": 3
+      "CORE": 3,
+      "DETAIL": 7,
+      "EXTRA": 0
     },
     "required_vehicle_anchors": [
       "CENTER"
@@ -73,14 +61,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 16660,
+    "byte_size": 13519,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "86ab964bb7d02ef15f0114d95c5b50dc62cc4eb9e761b876e4c52699fdbd0954",
+    "sha256": "958eb5703e0fa901810589238541b9e5dc59f65bfde9b2f429cb533521130987",
     "version": 1
   },
   "source": {
-    "byte_size": 15811,
+    "byte_size": 12748,
     "path": "source/talent.zero_zone.vfx.json",
-    "sha256": "fe971786156f52c1308b5e140246c7d6e4856bf61fd13e0dde6c3e78afceec23"
+    "sha256": "f31a74badbffbb4fc96478c61f6e2ad8f36c199afa922e32f354d5f468138ab4"
   }
 }

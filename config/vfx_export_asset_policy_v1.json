@@ -13,11 +13,35 @@
       "source_path": "res://assets/vfx/energy_spark.png",
       "package_file_name": "energy_spark.png"
     },
+    "fx.booster_flame_core": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/booster_flame_core.png",
+      "package_file_name": "booster_flame_core.png"
+    },
+    "fx.booster_flame_tail": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/booster_flame_tail.png",
+      "package_file_name": "booster_flame_tail.png"
+    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
       "source_path": "res://assets/vfx/zero_zone_flow_streak.png",
       "package_file_name": "zero_zone_flow_streak.png"
+    },
+    "fx.zero_zone_tunnel_arc": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/zero_zone_tunnel_arc.png",
+      "package_file_name": "zero_zone_tunnel_arc.png"
+    },
+    "fx.zero_zone_focus_mote": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/zero_zone_focus_mote.png",
+      "package_file_name": "zero_zone_focus_mote.png"
     },
     "fx.confetti_square": {
       "export_policy": "PROCEDURAL",

@@ -45,7 +45,7 @@ static func _test_scenario_projection_and_uncalibrated_threshold(tests: TestAsse
 		return
 	var policy_result: VfxResult = policy_script.new().load(_registry())
 	var scenario = scenario_script.new("20x3", 20, 3, "VEHICLE_STRESS", "STEADY_LOOP")
-	var expected := {"HIGH": [300, 360], "MEDIUM": [240, 240], "LOW": [120, 120]}
+	var expected := {"HIGH": [240, 720], "MEDIUM": [240, 720], "LOW": [120, 240]}
 	var all_match := true
 	var high_evaluation: Variant = null
 	for lod_level in expected:
@@ -56,8 +56,8 @@ static func _test_scenario_projection_and_uncalibrated_threshold(tests: TestAsse
 		all_match = all_match and projection != null and projection.expanded_instance_count() == values[0] and projection.continuous_particle_capacity() == values[1]
 		if lod_level == "HIGH" and projection != null and policy_result.success:
 			high_evaluation = evaluator_script.new().evaluate(projection, policy_result.value)
-	tests.expect_true(all_match, "20x3 Zero Zone projections are HIGH 300/360, MEDIUM 240/240, and LOW 120/120 instances/continuous Particles after reducing the large flow cap to two")
-	tests.expect_true(high_evaluation != null and high_evaluation.severity() == "SAFE" and high_evaluation.calibration_state() == "UNCALIBRATED", "Threshold output preserves SAFE as Uncalibrated Authoring Guidance rather than a game-runtime claim")
+	tests.expect_true(all_match, "20x3 Zero Zone projections are HIGH and MEDIUM 240/720, and LOW 120/240 instances/continuous Particles with four concurrent CORE tunnel slices per vehicle")
+	tests.expect_true(high_evaluation != null and high_evaluation.severity() == "CAUTION" and high_evaluation.calibration_state() == "UNCALIBRATED", "Threshold output reports the measured HIGH particle envelope as CAUTION while retaining Uncalibrated Authoring Guidance")
 
 
 static func _zero_zone_plan() -> RefCounted:

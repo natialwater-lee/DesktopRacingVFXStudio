@@ -9,9 +9,25 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_spark.png"
     },
+    "fx.booster_flame_core": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/booster_flame_core.png"
+    },
+    "fx.booster_flame_tail": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/booster_flame_tail.png"
+    },
     "fx.zero_zone_flow_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"
+    },
+    "fx.zero_zone_tunnel_arc": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/zero_zone_tunnel_arc.png"
+    },
+    "fx.zero_zone_focus_mote": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/zero_zone_focus_mote.png"
     },
     "fx.confetti_square": {
       "source": "PROCEDURAL",

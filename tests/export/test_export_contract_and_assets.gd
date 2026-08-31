@@ -25,10 +25,12 @@ static func _test_export_asset_policy_is_fail_closed(tests: TestAssert) -> void:
 	var shard: VfxResult = registry.resolve_exportable("fx.energy_shard")
 	var spark: VfxResult = registry.resolve_exportable("fx.energy_spark")
 	var flow: VfxResult = registry.resolve_exportable("fx.zero_zone_flow_streak")
+	var tunnel_arc: VfxResult = registry.resolve_exportable("fx.zero_zone_tunnel_arc")
+	var focus_mote: VfxResult = registry.resolve_exportable("fx.zero_zone_focus_mote")
 	var fixture: VfxResult = registry.resolve_exportable("fx.preview_texture_fixture")
 	var procedural: VfxResult = registry.resolve_exportable("fx.trail_streak")
 	var unknown: VfxResult = registry.resolve_exportable("fx.not_registered")
-	tests.expect_true(shard.success and spark.success and flow.success and flow.value.get("package_file_name") == "zero_zone_flow_streak.png", "explicit Production PNG assets resolve for Export with a stable flow-streak package filename")
+	tests.expect_true(shard.success and spark.success and flow.success and tunnel_arc.success and focus_mote.success and flow.value.get("package_file_name") == "zero_zone_flow_streak.png" and tunnel_arc.value.get("package_file_name") == "zero_zone_tunnel_arc.png" and focus_mote.value.get("package_file_name") == "zero_zone_focus_mote.png", "explicit Production PNG assets retain legacy art while the focus mote and tunnel arc resolve for future Export with stable package filenames")
 	tests.expect_true(not fixture.success, "Preview-only fixture is blocked instead of exported")
 	tests.expect_true(not procedural.success, "procedural Preview asset is blocked instead of exported")
 	tests.expect_true(not unknown.success, "unregistered logical asset is blocked instead of falling back to Preview")
@@ -52,8 +54,8 @@ static func _test_zero_zone_requirements_are_schema_derived(tests: TestAssert) -
 	tests.expect_true(requirements.get("runtime_input_names") == ["intensity"], "runtime input declaration order is preserved")
 	var input_contracts: Array = requirements.get("runtime_inputs", [])
 	tests.expect_true(input_contracts.size() == 1 and input_contracts[0] == {"name": "intensity", "value_type": "number", "default": 1.0, "minimum": 0.0, "maximum": 1.0}, "runtime input contract is derived from Schema defaults and range")
-	tests.expect_true(requirements.get("asset_logical_ids") == ["fx.energy_shard", "fx.energy_spark", "fx.zero_zone_flow_streak"], "three logical Production assets are collected once in stable lexical order")
-	tests.expect_true(requirements.get("importance_summary") == {"CORE": 4, "DETAIL": 5, "EXTRA": 3}, "Production Zero Zone keeps the fixed CORE DETAIL EXTRA importance summary")
+	tests.expect_true(requirements.get("asset_logical_ids") == ["fx.zero_zone_focus_mote", "fx.zero_zone_tunnel_arc"], "the simplified Zero Zone source collects only focus-mote and tunnel-arc logical assets in stable lexical order")
+	tests.expect_true(requirements.get("importance_summary") == {"CORE": 3, "DETAIL": 7, "EXTRA": 0}, "Production Zero Zone retains a three-CORE, seven-DETAIL focus-tunnel recipe without EXTRA noise")
 
 
 static func _test_renderer_showcase_is_preset_blocked(tests: TestAssert) -> void:

@@ -105,19 +105,25 @@ static func _test_compatibility_migrations_preserve_existing_particle_intent(tes
 		return
 	var finish_parameters: Dictionary = _layer_parameters(finish_result.value.normalized_data, "one_shot", "one_shot.confetti_burst")
 	var showcase_parameters: Dictionary = _layer_parameters(showcase_result.value.normalized_data, "loop", "loop.energy_particles")
-	var zero_particle_parameters: Array = []
-	var zero_flow_spreads: Array = []
+	var zero_particle_parameters: Dictionary = {}
 	for phase_name in ["start", "loop", "end"]:
 		for layer in zero_result.value.normalized_data.get("phases", {}).get(phase_name, {}).get("layers", []):
 			if layer.get("type") == "PARTICLE":
-				zero_particle_parameters.append(layer.get("parameters", {}))
-				if layer.get("id") == "loop.forward_flow" or layer.get("id") == "end.release_flow":
-					zero_flow_spreads.append(layer.get("parameters", {}).get("spread_degrees"))
+				zero_particle_parameters[layer.get("id", "")] = layer.get("parameters", {})
 	var helper_script := load(DIRECTION_HELPER_PATH) as Script
 	var finish_launch_is_upward := helper_script != null and (helper_script.call("from_degrees", float(finish_parameters.get("direction_degrees", -1.0))) as Vector2).is_equal_approx(Vector2.UP)
-	var zero_uses_canonical_authoring := zero_particle_parameters.size() == 8 and zero_flow_spreads == [14.0, 14.0]
-	for parameters in zero_particle_parameters:
-		zero_uses_canonical_authoring = zero_uses_canonical_authoring and float(parameters.get("direction_degrees", -1.0)) == 0.0
+	var expected_zero_directions := {
+		"start.focus_mote_burst": [180.0, 25.0], "start.tunnel_arc_entry": [180.0, 0.0],
+		"loop.tunnel_arc_pass": [180.0, 0.0], "loop.focus_motes": [180.0, 25.0],
+		"end.focus_mote_release": [180.0, 25.0], "end.tunnel_arc_release": [180.0, 0.0]
+	}
+	var zero_uses_canonical_authoring := zero_particle_parameters.size() == expected_zero_directions.size()
+	for layer_id in expected_zero_directions:
+		var parameters: Dictionary = zero_particle_parameters.get(layer_id, {})
+		var expected: Array = expected_zero_directions[layer_id]
+		zero_uses_canonical_authoring = zero_uses_canonical_authoring \
+			and float(parameters.get("direction_degrees", -1.0)) == expected[0] \
+			and float(parameters.get("spread_degrees", -1.0)) == expected[1]
 	tests.expect_true(
 		float(finish_parameters.get("direction_degrees", -1.0)) == 0.0
 		and float(finish_parameters.get("spread_degrees", -1.0)) == 80.0
@@ -130,7 +136,7 @@ static func _test_compatibility_migrations_preserve_existing_particle_intent(tes
 		and float(showcase_parameters.get("spread_degrees", -1.0)) == 50.0,
 		"Renderer Showcase migrates only 270 to canonical 0 so its initial -Y Preview direction remains intact"
 	)
-	tests.expect_true(zero_uses_canonical_authoring, "Production Zero Zone keeps all eight Particle Layers at canonical 0 degrees, with only its two flow Layers using a narrow 14-degree spread")
+	tests.expect_true(zero_uses_canonical_authoring, "Production Zero Zone uses canonical 180 degrees for every focus mote and fixed open tunnel arc so all focus flow travels rearward")
 
 
 static func _layer_parameters(normalized_preset: Dictionary, phase_name: String, layer_id: String) -> Dictionary:
