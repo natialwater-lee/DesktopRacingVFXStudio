@@ -94,6 +94,16 @@ world/local or screen/UI `-Y` axis. Vehicle-space angles are not screen-space
 angles, so vehicle rotation preserves their authored forward meaning in both
 Preview and Runtime.
 
+`PARTICLE.parameters.size_multiplier_min` and
+`size_multiplier_max` are normalized Runtime Definition v1 fields. They define
+one uniform scalar sampled per particle spawn, then held for that particle's
+entire lifetime after the linear `size_start`/`size_end` interpolation. Both
+default to `1.0`; an omitted Source authoring field therefore still appears as
+`1.0` in the Runtime Definition without changing Source JSON. The scalar is not
+independent X/Y scale and preserves the texture aspect ratio. A `1.0` / `1.0`
+range consumes no additional deterministic Preview RNG; a non-degenerate range
+uses exactly one seeded sample per spawn.
+
 The block is Runtime-only: it is not inserted into authoring Source JSON and
 is not duplicated in the Manifest. `runtime_definition_version` remains `1`;
 the contract was completed before a Game Importer was released.

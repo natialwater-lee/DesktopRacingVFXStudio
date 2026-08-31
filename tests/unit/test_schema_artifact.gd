@@ -14,6 +14,7 @@ static func run(tests: TestAssert) -> void:
 
 	var catalog := VfxRuleCatalogModel.new()
 	tests.expect_true(catalog.supports("LIFECYCLE_PHASE_STRUCTURE"), "catalog recognizes lifecycle rule")
+	tests.expect_true(catalog.supports("PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER"), "catalog recognizes the explicit Particle size multiplier range rule")
 	var unknown_issues := catalog.validate_configuration({"name": "UNKNOWN_RULE"}, "/x_vfx_rules/0")
 	tests.expect_true(not unknown_issues.is_empty(), "catalog rejects unknown rule")
 	tests.expect_true(unknown_issues[0].kind == "SCHEMA_CONFIGURATION", "unknown rule is a schema error")

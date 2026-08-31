@@ -8,15 +8,15 @@ const VfxPreviewRenderPlanBuilderModel := preload("res://src/preview/rendering/v
 
 
 static func run(tests: TestAssert) -> void:
-	_test_standard_booster_lod_preserves_two_core_jets_on_low(tests)
+	_test_standard_booster_lod_preserves_four_core_jets_on_low(tests)
 	_test_twenty_cars_one_booster_projection_stays_within_the_authored_flame_envelope(tests)
 
 
-static func _test_standard_booster_lod_preserves_two_core_jets_on_low(tests: TestAssert) -> void:
+static func _test_standard_booster_lod_preserves_four_core_jets_on_low(tests: TestAssert) -> void:
 	var filter_script := load("res://src/performance/vfx_preview_lod_filter.gd") as Script
 	var policy_script := load("res://src/performance/vfx_performance_policy.gd") as Script
 	var analyzer_script := load("res://src/performance/vfx_performance_budget_analyzer.gd") as Script
-	var expected := {"HIGH": [8, 8], "MEDIUM": [6, 6], "LOW": [2, 2]}
+	var expected := {"HIGH": [8, 12], "MEDIUM": [6, 8], "LOW": [4, 4]}
 	if filter_script == null or policy_script == null or analyzer_script == null:
 		tests.expect_true(false, "Standard Booster LOD budget requires the existing filter, policy, and analyzer")
 		return
@@ -37,7 +37,7 @@ static func _test_standard_booster_lod_preserves_two_core_jets_on_low(tests: Tes
 		matches = matches and workload != null \
 			and workload.expanded_instance_count() == values[0] \
 			and workload.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Standard Booster HIGH/MEDIUM/LOW keeps 8/6/2 LOOP flame Layers and 8/6/2 continuous sprite capacity, leaving two CORE jets visible on LOW")
+	tests.expect_true(matches, "Standard Booster HIGH/MEDIUM/LOW keeps 8/6/4 LOOP flame Layers and 12/8/4 continuous sprite capacity, leaving four CORE jets visible on LOW")
 
 
 static func _test_twenty_cars_one_booster_projection_stays_within_the_authored_flame_envelope(tests: TestAssert) -> void:
@@ -46,7 +46,7 @@ static func _test_twenty_cars_one_booster_projection_stays_within_the_authored_f
 	var analyzer_script := load("res://src/performance/vfx_performance_budget_analyzer.gd") as Script
 	var scenario_script := load("res://src/performance/vfx_stress_scenario.gd") as Script
 	var projection_script := load("res://src/performance/vfx_scenario_projection.gd") as Script
-	var expected := {"HIGH": [160, 160], "MEDIUM": [120, 120], "LOW": [40, 40]}
+	var expected := {"HIGH": [160, 240], "MEDIUM": [120, 160], "LOW": [80, 80]}
 	if filter_script == null or policy_script == null or analyzer_script == null or scenario_script == null or projection_script == null:
 		tests.expect_true(false, "Standard Booster scenario projection requires the existing performance components")
 		return
@@ -69,7 +69,7 @@ static func _test_twenty_cars_one_booster_projection_stays_within_the_authored_f
 		matches = matches and projection != null \
 			and projection.expanded_instance_count() == values[0] \
 			and projection.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Twenty cars with one Standard Booster project HIGH/MEDIUM/LOW to 160/120/40 runtime Layers and 160/120/40 continuously alive flame sprites")
+	tests.expect_true(matches, "Twenty cars with one Standard Booster project HIGH/MEDIUM/LOW to 160/120/80 runtime Layers and 240/160/80 continuously alive flame sprites")
 
 
 static func _booster_plan() -> RefCounted:

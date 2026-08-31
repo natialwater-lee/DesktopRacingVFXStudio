@@ -207,10 +207,10 @@ func _validate_rule_contract_coverage(issues: Array[VfxIssue]) -> void:
 				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
 				_validate_particle_type_dispatch_binding(rule, pointer, issues)
 				_validate_emitter_rule_coverage(rule, pointer, issues)
-			"PARTICLE_MOTION_RANGE_ORDER":
+			"PARTICLE_MOTION_RANGE_ORDER", "PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER":
 				_validate_layer_rule_fields(rule, pointer, {"type_field": "string", "parameters_field": "object"}, issues)
 				_validate_particle_type_dispatch_binding(rule, pointer, issues)
-				_validate_motion_rule_coverage(rule, pointer, issues)
+				_validate_particle_range_rule_coverage(rule, pointer, issues)
 			"RUNTIME_INPUT_NAMES":
 				_validate_schema_type(_schema_at_preset_path(rule["runtime_inputs_path"], "%s/runtime_inputs_path" % pointer, issues), "array", "%s/runtime_inputs_path" % pointer, issues)
 				_validate_root_object_path(rule["contract_path"], "%s/contract_path" % pointer, issues)
@@ -258,7 +258,7 @@ func _validate_emitter_rule_coverage(rule: Dictionary, pointer: String, issues: 
 		_validate_property_fields(emitter_schema, geometry_by_shape[shape_name], "%s/geometry_by_shape/%s" % [pointer, shape_name], issues)
 
 
-func _validate_motion_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
+func _validate_particle_range_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
 	var parameters_schema := _particle_parameters_schema(rule, pointer, issues)
 	for index in rule["ranges"].size():
 		var range_definition: Dictionary = rule["ranges"][index]

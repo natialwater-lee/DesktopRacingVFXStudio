@@ -6,6 +6,8 @@ const VfxPreviewRenderInstanceSpecModel := preload("res://src/preview/rendering/
 
 static func run(tests: TestAssert) -> void:
 	_test_particle_burst_and_restart_are_deterministic(tests)
+	_test_particle_size_multiplier_is_spawn_fixed_and_deterministic(tests)
+	_test_particle_default_size_multiplier_preserves_legacy_random_packets(tests)
 	_test_particle_lifetime_alpha_is_linear_and_keeps_base_color_alpha(tests)
 	_test_particle_continuous_capacity_is_declared_cap(tests)
 	_test_particle_emitter_shapes_stay_in_declared_geometry(tests)
@@ -25,6 +27,51 @@ static func _test_particle_burst_and_restart_are_deterministic(tests: TestAssert
 	tests.expect_true(first_packets.size() == 3, "Particle BURST creates exactly its declared burst_count")
 	tests.expect_true(first_packets == restarted_packets, "Particle Restart uses the same stable seed for the same phase, Layer, Anchor, and generation")
 	tests.expect_true(first_packets.all(func(packet: Dictionary) -> bool: return is_equal_approx(float(packet.get("alpha", -1.0)), 1.0)), "Particle alpha one-to-one retains existing packet alpha")
+
+
+static func _test_particle_size_multiplier_is_spawn_fixed_and_deterministic(tests: TestAssert) -> void:
+	var renderer_script := load("res://src/preview/rendering/vfx_particle_layer_renderer.gd") as Script
+	if renderer_script == null:
+		tests.expect_true(false, "Particle size multiplier test requires the Particle Renderer")
+		return
+	var fixed_renderer = renderer_script.new(_instance("PARTICLE", {
+		"emission_mode": "BURST", "emitter": {"shape": "POINT"}, "sprite_asset_ref": "fx.energy_shard", "burst_count": 1,
+		"lifetime_seconds": 1.0, "speed_min": 0.0, "speed_max": 0.0, "size_start": 10.0, "size_end": 6.0,
+		"size_multiplier_min": 1.5, "size_multiplier_max": 1.5, "alpha_start": 1.0, "alpha_end": 1.0
+	}), {})
+	fixed_renderer.restart(_frame())
+	var start_packet: Dictionary = fixed_renderer.draw_packets()[0] if not fixed_renderer.draw_packets().is_empty() else {}
+	fixed_renderer.advance(0.5, _frame())
+	var middle_packet: Dictionary = fixed_renderer.draw_packets()[0] if not fixed_renderer.draw_packets().is_empty() else {}
+	var varied_renderer = renderer_script.new(_instance("PARTICLE", {
+		"emission_mode": "BURST", "emitter": {"shape": "CIRCLE", "radius": 5.0}, "sprite_asset_ref": "fx.energy_shard", "burst_count": 3,
+		"lifetime_seconds": 1.0, "speed_min": 0.0, "speed_max": 0.0, "size_start": 10.0, "size_end": 10.0,
+		"size_multiplier_min": 0.8, "size_multiplier_max": 1.2, "alpha_start": 1.0, "alpha_end": 1.0
+	}), {})
+	varied_renderer.restart(_frame())
+	var first_packets: Array = varied_renderer.draw_packets()
+	varied_renderer.restart(_frame())
+	var restarted_packets: Array = varied_renderer.draw_packets()
+	tests.expect_true(is_equal_approx(float(start_packet.get("size", -1.0)), 15.0) and is_equal_approx(float(middle_packet.get("size", -1.0)), 12.0), "Particle size multiplier scales size after interpolation and remains fixed for the particle lifetime")
+	tests.expect_true(first_packets.all(func(packet: Dictionary) -> bool: return float(packet.get("size", 0.0)) >= 8.0 and float(packet.get("size", 0.0)) <= 12.0) and first_packets.any(func(packet: Dictionary) -> bool: return not is_equal_approx(float(packet.get("size", 0.0)), 10.0)) and first_packets == restarted_packets, "Particle size variance stays in range and is deterministic on restart")
+
+
+static func _test_particle_default_size_multiplier_preserves_legacy_random_packets(tests: TestAssert) -> void:
+	var renderer_script := load("res://src/preview/rendering/vfx_particle_layer_renderer.gd") as Script
+	if renderer_script == null:
+		tests.expect_true(false, "Particle legacy size multiplier parity test requires the Particle Renderer")
+		return
+	var legacy_parameters := {
+		"emission_mode": "BURST", "emitter": {"shape": "CIRCLE", "radius": 5.0}, "sprite_asset_ref": "fx.energy_shard", "burst_count": 3,
+		"lifetime_seconds": 1.0, "direction_degrees": 30.0, "spread_degrees": 40.0, "speed_min": 4.0, "speed_max": 7.0,
+		"rotation_min_degrees": -10.0, "rotation_max_degrees": 10.0, "angular_velocity_min_degrees_per_second": -20.0, "angular_velocity_max_degrees_per_second": 20.0,
+		"size_start": 10.0, "size_end": 8.0, "alpha_start": 1.0, "alpha_end": 1.0
+	}
+	var legacy_renderer = renderer_script.new(_instance("PARTICLE", legacy_parameters, "WORLD_AREA"), {})
+	var explicit_default_renderer = renderer_script.new(_instance("PARTICLE", legacy_parameters.merged({"size_multiplier_min": 1.0, "size_multiplier_max": 1.0}, true), "WORLD_AREA"), {})
+	legacy_renderer.restart(_frame())
+	explicit_default_renderer.restart(_frame())
+	tests.expect_true(legacy_renderer.draw_packets() == explicit_default_renderer.draw_packets(), "Default size multiplier consumes no additional RNG and preserves legacy particle packets exactly")
 
 
 static func _test_particle_lifetime_alpha_is_linear_and_keeps_base_color_alpha(tests: TestAssert) -> void:

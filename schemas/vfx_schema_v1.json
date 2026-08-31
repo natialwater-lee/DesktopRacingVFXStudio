@@ -384,6 +384,18 @@
           "minimum": 0.0,
           "default": 1.0
         },
+        "size_multiplier_min": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 4.0,
+          "default": 1.0
+        },
+        "size_multiplier_max": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 4.0,
+          "default": 1.0
+        },
         "alpha_start": {
           "$ref": "#/$defs/alpha_factor"
         },
@@ -668,6 +680,21 @@
       ],
       "issue_code": "motion_range_order",
       "message": "Particle minimum cannot exceed maximum."
+    },
+    {
+      "name": "PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER",
+      "phases_path": "/phases",
+      "particle_type": "PARTICLE",
+      "type_field": "type",
+      "parameters_field": "parameters",
+      "ranges": [
+        {
+          "minimum_field": "size_multiplier_min",
+          "maximum_field": "size_multiplier_max"
+        }
+      ],
+      "issue_code": "size_multiplier_range_order",
+      "message": "Particle size multiplier minimum cannot exceed maximum."
     },
     {
       "name": "RUNTIME_INPUT_NAMES",

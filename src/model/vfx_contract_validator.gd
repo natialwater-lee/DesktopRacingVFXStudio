@@ -41,8 +41,8 @@ func _apply_rule(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) 
 			_validate_particle_emission(preset, rule, issues)
 		"PARTICLE_EMITTER_SHAPE":
 			_validate_particle_emitter(preset, rule, issues)
-		"PARTICLE_MOTION_RANGE_ORDER":
-			_validate_particle_motion_ranges(preset, rule, issues)
+		"PARTICLE_MOTION_RANGE_ORDER", "PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER":
+			_validate_particle_parameter_ranges(preset, rule, issues)
 		"RUNTIME_INPUT_NAMES":
 			_validate_runtime_inputs(preset, rule, issues)
 		"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS":
@@ -152,7 +152,7 @@ func _validate_particle_emitter(preset: Dictionary, rule: Dictionary, issues: Ar
 			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], pointer))
 
 
-func _validate_particle_motion_ranges(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+func _validate_particle_parameter_ranges(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
 	for entry in _particle_entries(preset, rule):
 		var parameters: Dictionary = entry["layer"][rule["parameters_field"]]
 		for range_definition in rule["ranges"]:

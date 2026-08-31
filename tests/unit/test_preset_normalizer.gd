@@ -56,6 +56,8 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(not particle_raw["parameters"].has("spread_degrees"), "Particle raw data remains unchanged")
 	tests.expect_true(particle_result.value["parameters"].get("alpha_start") == 1.0 and particle_result.value["parameters"].get("alpha_end") == 1.0, "Particle lifetime alpha defaults are derived from the Schema")
 	tests.expect_true(not particle_raw["parameters"].has("alpha_start") and not particle_raw["parameters"].has("alpha_end"), "Particle lifetime alpha defaults do not mutate raw parameters")
+	tests.expect_true(particle_result.value["parameters"].get("size_multiplier_min") == 1.0 and particle_result.value["parameters"].get("size_multiplier_max") == 1.0, "Particle size multiplier defaults are derived from the Schema")
+	tests.expect_true(not particle_raw["parameters"].has("size_multiplier_min") and not particle_raw["parameters"].has("size_multiplier_max"), "Particle size multiplier defaults do not mutate raw parameters")
 
 	var ring_raw := {
 		"id": "loop.ring",

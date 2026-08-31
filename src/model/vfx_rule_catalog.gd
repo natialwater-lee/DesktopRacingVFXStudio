@@ -9,6 +9,7 @@ const _STRING_KEYS_BY_RULE := {
 	"PARTICLE_EMISSION_CONFIGURATION": ["phases_path", "particle_type", "type_field", "parameters_field", "emission_mode_field"],
 	"PARTICLE_EMITTER_SHAPE": ["phases_path", "particle_type", "type_field", "parameters_field", "emitter_field", "shape_field", "issue_code", "message"],
 	"PARTICLE_MOTION_RANGE_ORDER": ["phases_path", "particle_type", "type_field", "parameters_field", "issue_code", "message"],
+	"PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER": ["phases_path", "particle_type", "type_field", "parameters_field", "issue_code", "message"],
 	"RUNTIME_INPUT_NAMES": ["runtime_inputs_path", "contract_path", "issue_code", "message"],
 	"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS": ["phases_path", "default_space_field", "layer_space_field", "anchors_field", "missing_anchor_issue_code", "missing_anchor_message", "unexpected_anchor_issue_code", "unexpected_anchor_message"],
 	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["phases_path", "default_space_field", "layer_space_field", "render_plane_field", "layer_schema_ref", "issue_code", "message"]
@@ -22,6 +23,7 @@ const _COMPLEX_KEYS_BY_RULE := {
 	"PARTICLE_EMISSION_CONFIGURATION": ["mode_requirements"],
 	"PARTICLE_EMITTER_SHAPE": ["geometry_by_shape"],
 	"PARTICLE_MOTION_RANGE_ORDER": ["ranges"],
+	"PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER": ["ranges"],
 	"RUNTIME_INPUT_NAMES": [],
 	"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS": ["vehicle_space_modes"],
 	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["allowed_planes_by_space"]
@@ -66,7 +68,7 @@ func validate_configuration(rule: Dictionary, pointer: String) -> Array[VfxIssue
 			_validate_emission_requirements(rule["mode_requirements"], "%s/mode_requirements" % pointer, issues)
 		"PARTICLE_EMITTER_SHAPE":
 			_validate_string_array_map(rule["geometry_by_shape"], "%s/geometry_by_shape" % pointer, issues)
-		"PARTICLE_MOTION_RANGE_ORDER":
+		"PARTICLE_MOTION_RANGE_ORDER", "PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER":
 			_validate_ranges(rule["ranges"], "%s/ranges" % pointer, issues)
 		"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS":
 			_validate_string_array(rule["vehicle_space_modes"], "%s/vehicle_space_modes" % pointer, issues, false)
@@ -124,14 +126,14 @@ func _validate_emission_requirements(value: Variant, pointer: String, issues: Ar
 
 func _validate_ranges(value: Variant, pointer: String, issues: Array[VfxIssue]) -> void:
 	if not value is Array:
-		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_configuration_type", "Motion ranges require an array.", pointer))
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_configuration_type", "Particle ranges require an array.", pointer))
 		return
 	for index in value.size():
 		var range_pointer := "%s/%d" % [pointer, index]
 		var range_definition = value[index]
 		if not range_definition is Dictionary:
-			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_configuration_type", "Each motion range requires an object.", range_pointer))
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_configuration_type", "Each Particle range requires an object.", range_pointer))
 			continue
 		for key in ["minimum_field", "maximum_field"]:
 			if not range_definition.has(key) or not range_definition[key] is String or (range_definition.get(key, "") as String).is_empty():
-				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_configuration_type", "Motion range requires a non-empty string %s." % key, "%s/%s" % [range_pointer, key]))
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_configuration_type", "Particle range requires a non-empty string %s." % key, "%s/%s" % [range_pointer, key]))

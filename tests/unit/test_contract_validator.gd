@@ -86,6 +86,21 @@ static func run(tests: TestAssert) -> void:
 		invalid_motion_range["phases"]["one_shot"]["layers"][0]["parameters"][range_pair[1]] = 1.0
 		tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, invalid_motion_range), "motion_range_order"), "every configured motion range enforces minimum before maximum")
 
+	var valid_size_multiplier := _particle_preset()
+	valid_size_multiplier["phases"]["one_shot"]["layers"][0]["parameters"]["size_multiplier_min"] = 0.86
+	valid_size_multiplier["phases"]["one_shot"]["layers"][0]["parameters"]["size_multiplier_max"] = 1.14
+	tests.expect_true(_validate(normalizer, validator, root_schema, valid_size_multiplier).success, "Particle accepts a declared in-range per-spawn size multiplier")
+	var too_small_size_multiplier := _particle_preset()
+	too_small_size_multiplier["phases"]["one_shot"]["layers"][0]["parameters"]["size_multiplier_min"] = 0.09
+	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, too_small_size_multiplier), "minimum"), "Particle size multiplier rejects values below 0.1")
+	var too_large_size_multiplier := _particle_preset()
+	too_large_size_multiplier["phases"]["one_shot"]["layers"][0]["parameters"]["size_multiplier_max"] = 4.01
+	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, too_large_size_multiplier), "maximum"), "Particle size multiplier rejects values above 4.0")
+	var reversed_size_multiplier := _particle_preset()
+	reversed_size_multiplier["phases"]["one_shot"]["layers"][0]["parameters"]["size_multiplier_min"] = 1.2
+	reversed_size_multiplier["phases"]["one_shot"]["layers"][0]["parameters"]["size_multiplier_max"] = 0.8
+	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, reversed_size_multiplier), "size_multiplier_range_order"), "Particle size multiplier semantic rule rejects a reversed range")
+
 	var unknown_runtime_input := _valid_start_loop_end()
 	unknown_runtime_input["runtime_inputs"] = ["not_defined"]
 	tests.expect_true(_has_code(_validate(normalizer, validator, root_schema, unknown_runtime_input), "unknown_runtime_input"), "unknown runtime input is rejected")

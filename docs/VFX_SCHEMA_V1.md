@@ -97,6 +97,7 @@ Required authoring concepts are `emission_mode`, `emitter`, `sprite_asset_ref`, 
 - initial rotation range
 - angular velocity range in degrees per second
 - start and end size
+- optional `size_multiplier_min` and `size_multiplier_max`: a uniform, per-spawn scalar range applied to the interpolated size. Both default to `1.0`, each is constrained to `0.1` through `4.0`, and the minimum cannot exceed the maximum. The selected multiplier is lifetime-fixed: `lerp(size_start, size_end, age_ratio) * size_multiplier`. It scales the overall particle size rather than independent X/Y axes, so a texture's aspect ratio is preserved. A default `1.0` / `1.0` range consumes no additional seeded Preview RNG.
 - RGBA color array
 - optional linear `alpha_start` and `alpha_end` factors, each in the inclusive range 0 through 1 and defaulting to 1
 
@@ -112,7 +113,7 @@ Required authoring concepts are `emission_mode`, `emitter`, `sprite_asset_ref`, 
 { "shape": "LINE", "length": 12.0 }
 ```
 
-`PARTICLE_EMITTER_SHAPE` validates geometry for the selected shape. `PARTICLE_MOTION_RANGE_ORDER` validates each declared minimum/maximum pair.
+`PARTICLE_EMITTER_SHAPE` validates geometry for the selected shape. `PARTICLE_MOTION_RANGE_ORDER` validates each declared motion minimum/maximum pair. `PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER` validates the declared size-multiplier range order.
 
 ### TRAIL
 
@@ -160,6 +161,7 @@ The supported `x_vfx_rules` are:
 - `PARTICLE_EMISSION_CONFIGURATION`
 - `PARTICLE_EMITTER_SHAPE`
 - `PARTICLE_MOTION_RANGE_ORDER`
+- `PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER`
 - `RUNTIME_INPUT_NAMES`
 - `EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS`
 - `RENDER_PLANE_FOR_EFFECTIVE_SPACE`
@@ -174,7 +176,7 @@ Array item contracts use the Schema `items` keyword. It is required to validate 
 
 `default` declares a value only. Validation never mutates input. `VfxPresetNormalizer` creates a deep-copied normalized Variant and applies defaults. Unknown keys remain in that copy until validation rejects them.
 
-`alpha_start` and `alpha_end` are a Schema v1 additive extension introduced by the Phase 3.4 implementation. Existing Presets normalize both values to `1.0`, preserving their visual result. A Preset that explicitly uses either field requires a Phase 3.4-or-later Studio Schema v1 implementation; no migration or Schema v2 is required.
+`alpha_start` and `alpha_end` are a Schema v1 additive extension introduced by the Phase 3.4 implementation. Existing Presets normalize both values to `1.0`, preserving their visual result. `size_multiplier_min` and `size_multiplier_max` are likewise additive Schema v1 fields: omitted fields normalize to `1.0` / `1.0` without changing the seeded Preview particle sequence. A Preset that explicitly uses either extension requires a Studio Schema v1 implementation that supports it; no migration or Schema v2 is required.
 
 ## Reference support
 

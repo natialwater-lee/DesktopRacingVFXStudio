@@ -1,13 +1,15 @@
 {
-  "category": "BOOST",
-  "default_space_mode": "VEHICLE_LOCAL",
-  "display_name": "Standard Boost",
-  "lifecycle": {
-    "mode": "START_LOOP_END"
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
   },
-  "phases": {
-    "end": {
-      "duration_seconds": 0.14,
+  "phases": [
+    {
+      "duration_seconds": 0.1,
       "layers": [
         {
           "anchors": [
@@ -15,15 +17,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.flame_fade_1",
+          "id": "start.ignition_jet_1",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.3,
+            "alpha_end": 0.2,
+            "alpha_start": 0.82,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -38,28 +40,29 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.13,
+            "lifetime_seconds": 0.09,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 122.0,
+            "size_end": 76.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 149.0,
+            "size_start": 85.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_tail"
+            "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -66.0,
-              350.0
+              290.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.87,
+              1.16,
               1.0
             ]
           },
@@ -71,15 +74,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.flame_fade_2",
+          "id": "start.ignition_jet_2",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.28,
+            "alpha_end": 0.18,
+            "alpha_start": 0.78,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -94,28 +97,29 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.12,
+            "lifetime_seconds": 0.082,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 127.0,
+            "size_end": 81.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 157.0,
+            "size_start": 90.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_tail"
+            "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -22.0,
-              358.0
+              295.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.83,
+              1.13,
               1.0
             ]
           },
@@ -127,15 +131,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.flame_fade_3",
+          "id": "start.ignition_jet_3",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.3,
+            "alpha_end": 0.2,
+            "alpha_start": 0.84,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -150,28 +154,29 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.14,
+            "lifetime_seconds": 0.098,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 117.0,
+            "size_end": 73.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 144.0,
+            "size_start": 81.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_tail"
+            "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               22.0,
-              345.0
+              286.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.89,
+              1.2,
               1.0
             ]
           },
@@ -183,15 +188,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.flame_fade_4",
+          "id": "start.ignition_jet_4",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.28,
+            "alpha_end": 0.18,
+            "alpha_start": 0.76,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -206,36 +211,38 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.13,
+            "lifetime_seconds": 0.086,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 124.0,
+            "size_end": 78.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 151.0,
+            "size_start": 87.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_tail"
+            "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               66.0,
-              352.0
+              292.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.85,
+              1.14,
               1.0
             ]
           },
           "type": "PARTICLE"
         }
-      ]
+      ],
+      "name": "start"
     },
-    "loop": {
+    {
       "layers": [
         {
           "anchors": [
@@ -280,7 +287,8 @@
             "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -66.0,
@@ -337,7 +345,8 @@
             "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -22.0,
@@ -394,7 +403,8 @@
             "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               22.0,
@@ -451,7 +461,8 @@
             "sprite_asset_ref": "fx.booster_flame_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               66.0,
@@ -508,7 +519,8 @@
             "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -66.0,
@@ -565,7 +577,8 @@
             "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -22.0,
@@ -622,7 +635,8 @@
             "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               22.0,
@@ -679,7 +693,8 @@
             "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               66.0,
@@ -693,10 +708,11 @@
           },
           "type": "PARTICLE"
         }
-      ]
+      ],
+      "name": "loop"
     },
-    "start": {
-      "duration_seconds": 0.1,
+    {
+      "duration_seconds": 0.14,
       "layers": [
         {
           "anchors": [
@@ -704,15 +720,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.ignition_jet_1",
+          "id": "end.flame_fade_1",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.2,
-            "alpha_start": 0.82,
+            "alpha_end": 0.0,
+            "alpha_start": 0.3,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -727,28 +743,29 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.09,
+            "lifetime_seconds": 0.13,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 76.0,
+            "size_end": 122.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 85.0,
+            "size_start": 149.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_core"
+            "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -66.0,
-              290.0
+              350.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.16,
+              0.87,
               1.0
             ]
           },
@@ -760,15 +777,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.ignition_jet_2",
+          "id": "end.flame_fade_2",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.18,
-            "alpha_start": 0.78,
+            "alpha_end": 0.0,
+            "alpha_start": 0.28,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -783,28 +800,29 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.082,
+            "lifetime_seconds": 0.12,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 81.0,
+            "size_end": 127.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 90.0,
+            "size_start": 157.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_core"
+            "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               -22.0,
-              295.0
+              358.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.13,
+              0.83,
               1.0
             ]
           },
@@ -816,15 +834,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.ignition_jet_3",
+          "id": "end.flame_fade_3",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.2,
-            "alpha_start": 0.84,
+            "alpha_end": 0.0,
+            "alpha_start": 0.3,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -839,28 +857,29 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.098,
+            "lifetime_seconds": 0.14,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 73.0,
+            "size_end": 117.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 81.0,
+            "size_start": 144.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_core"
+            "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               22.0,
-              286.0
+              345.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.2,
+              0.89,
               1.0
             ]
           },
@@ -872,15 +891,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.ignition_jet_4",
+          "id": "end.flame_fade_4",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.18,
-            "alpha_start": 0.76,
+            "alpha_end": 0.0,
+            "alpha_start": 0.28,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -895,39 +914,56 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.086,
+            "lifetime_seconds": 0.13,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 78.0,
+            "size_end": 124.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 87.0,
+            "size_start": 151.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.booster_flame_core"
+            "sprite_asset_ref": "fx.booster_flame_tail"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "offset": [
               66.0,
-              292.0
+              352.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.14,
+              0.85,
               1.0
             ]
           },
           "type": "PARTICLE"
         }
-      ]
+      ],
+      "name": "end"
     }
-  },
-  "preset_id": "driving.standard_boost",
-  "runtime_inputs": [
-    "intensity"
   ],
-  "schema_version": 1.0
+  "preset": {
+    "category": "BOOST",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Standard Boost",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "driving.standard_boost"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 1,
+  "runtime_inputs": [
+    {
+      "default": 1.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "name": "intensity",
+      "value_type": "number"
+    }
+  ]
 }

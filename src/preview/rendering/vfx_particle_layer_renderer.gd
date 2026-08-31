@@ -70,12 +70,14 @@ func _spawn_particle(frame_context: Dictionary) -> void:
 	var rotation_degrees: float = _random.randf_range(float(parameters.get("rotation_min_degrees", 0.0)), float(parameters.get("rotation_max_degrees", 0.0))) + float(_instance.layer_spec().transform().get("rotation_degrees", 0.0))
 	if _instance.layer_spec().effective_space() == "VEHICLE_FOLLOW_WORLD_TRAIL":
 		rotation_degrees += float(frame_context.get("vehicle_rotation_degrees", 0.0))
+	var size_multiplier := _sample_size_multiplier(parameters)
 	_particles.append({
 		"position": position,
 		"velocity": VfxPreviewCoordinateResolverModel.canonical_vector(_instance, source_velocity, frame_context),
 		"acceleration": VfxPreviewCoordinateResolverModel.canonical_vector(_instance, source_acceleration, frame_context),
 		"rotation_degrees": rotation_degrees,
 		"angular_velocity_degrees": _random.randf_range(float(parameters.get("angular_velocity_min_degrees_per_second", 0.0)), float(parameters.get("angular_velocity_max_degrees_per_second", 0.0))),
+		"size_multiplier": size_multiplier,
 		"age": 0.0
 	})
 
@@ -103,7 +105,7 @@ func _refresh_packets(frame_context: Dictionary) -> void:
 		var packet := _packet_base(frame_context)
 		var age_ratio: float = clampf(float(particle.get("age", 0.0)) / lifetime_seconds, 0.0, 1.0)
 		packet["position"] = particle.get("position", Vector2.ZERO)
-		packet["size"] = lerpf(float(parameters.get("size_start", 1.0)), float(parameters.get("size_end", 1.0)), age_ratio)
+		packet["size"] = lerpf(float(parameters.get("size_start", 1.0)), float(parameters.get("size_end", 1.0)), age_ratio) * float(particle.get("size_multiplier", 1.0))
 		packet["rotation_degrees"] = float(particle.get("rotation_degrees", 0.0))
 		packet["color_rgba"] = parameters.get("color_rgba", [1.0, 1.0, 1.0, 1.0]).duplicate()
 		packet["alpha"] = lerpf(float(parameters["alpha_start"]), float(parameters["alpha_end"]), age_ratio)
@@ -116,6 +118,12 @@ func _stable_seed(frame_context: Dictionary) -> int:
 	for index in key.length():
 		seed = int((seed * 31 + key.unicode_at(index)) % 2147483647)
 	return seed
+
+
+func _sample_size_multiplier(parameters: Dictionary) -> float:
+	var minimum := float(parameters.get("size_multiplier_min", 1.0))
+	var maximum := float(parameters.get("size_multiplier_max", 1.0))
+	return minimum if is_equal_approx(minimum, maximum) else _random.randf_range(minimum, maximum)
 
 
 func _vector2_from(value: Variant) -> Vector2:
