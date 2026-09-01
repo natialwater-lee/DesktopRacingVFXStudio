@@ -21,6 +21,22 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/speed_wind_streak.png"
     },
+    "fx.rain_tire_spray": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rain_tire_spray.png"
+    },
+    "fx.rain_tire_spray_left": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rain_tire_spray_left.png"
+    },
+    "fx.rain_tire_wake_right": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rain_tire_wake_right.png"
+    },
+    "fx.rain_tire_wake_left": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rain_tire_wake_left.png"
+    },
     "fx.zero_zone_flow_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"

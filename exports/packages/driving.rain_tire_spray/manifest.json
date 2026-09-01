@@ -1,0 +1,72 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 18706,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rain_tire_wake_left",
+      "package_path": "assets/rain_tire_wake_left.png",
+      "sha256": "f9635d42fb42f399eb05d8c724fbc8e03837b3fad0fc27c2a117d8c0d01fe56d"
+    },
+    {
+      "byte_size": 18711,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rain_tire_wake_right",
+      "package_path": "assets/rain_tire_wake_right.png",
+      "sha256": "b7f23b2d4378ae378e77fba078f1a185b6ada57fa0a07785f0ded6c9a9891977"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 18706,
+      "path": "assets/rain_tire_wake_left.png",
+      "sha256": "f9635d42fb42f399eb05d8c724fbc8e03837b3fad0fc27c2a117d8c0d01fe56d"
+    },
+    {
+      "byte_size": 18711,
+      "path": "assets/rain_tire_wake_right.png",
+      "sha256": "b7f23b2d4378ae378e77fba078f1a185b6ada57fa0a07785f0ded6c9a9891977"
+    },
+    {
+      "byte_size": 10695,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "13a9678f9e49191af94664fb70b133116ec17497f0672af6750086cdd7b370da"
+    },
+    {
+      "byte_size": 10198,
+      "path": "source/driving.rain_tire_spray.vfx.json",
+      "sha256": "538afde1d1c9960c3fb439507182955cd6bed4baca24a80ef7aa94cb40d7186c"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "driving.rain_tire_spray",
+  "preset": {
+    "category": "WEATHER",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Rain Tire Wake",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "driving.rain_tire_spray",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 10695,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "13a9678f9e49191af94664fb70b133116ec17497f0672af6750086cdd7b370da",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 10198,
+    "path": "source/driving.rain_tire_spray.vfx.json",
+    "sha256": "538afde1d1c9960c3fb439507182955cd6bed4baca24a80ef7aa94cb40d7186c"
+  }
+}

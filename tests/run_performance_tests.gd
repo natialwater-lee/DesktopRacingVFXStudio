@@ -10,6 +10,7 @@ const PerformanceUiTests := preload("res://tests/performance/test_performance_ui
 const StressMeasurementEnvironmentTests := preload("res://tests/performance/test_stress_measurement_environment.gd")
 const StandardBoosterBudgetTests := preload("res://tests/performance/test_standard_booster_budget.gd")
 const HighSpeedWindBudgetTests := preload("res://tests/performance/test_high_speed_wind_budget.gd")
+const RainTireSprayBudgetTests := preload("res://tests/performance/test_rain_tire_spray_budget.gd")
 
 
 func _init() -> void:
@@ -27,5 +28,6 @@ func _run() -> void:
 	StressMeasurementEnvironmentTests.run(tests)
 	StandardBoosterBudgetTests.run(tests)
 	HighSpeedWindBudgetTests.run(tests)
+	RainTireSprayBudgetTests.run(tests)
 	print("PERFORMANCE_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

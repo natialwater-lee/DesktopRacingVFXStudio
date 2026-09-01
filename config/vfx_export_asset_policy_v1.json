@@ -31,6 +31,30 @@
       "source_path": "res://assets/vfx/speed_wind_streak.png",
       "package_file_name": "speed_wind_streak.png"
     },
+    "fx.rain_tire_spray": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rain_tire_spray.png",
+      "package_file_name": "rain_tire_spray.png"
+    },
+    "fx.rain_tire_spray_left": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rain_tire_spray_left.png",
+      "package_file_name": "rain_tire_spray_left.png"
+    },
+    "fx.rain_tire_wake_right": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rain_tire_wake_right.png",
+      "package_file_name": "rain_tire_wake_right.png"
+    },
+    "fx.rain_tire_wake_left": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rain_tire_wake_left.png",
+      "package_file_name": "rain_tire_wake_left.png"
+    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
