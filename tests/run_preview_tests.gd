@@ -17,6 +17,7 @@ const RendererShowcaseTests := preload("res://tests/preview/test_renderer_showca
 const ZeroZoneVisibilityDiagnosticTests := preload("res://tests/preview/test_zero_zone_visibility_diagnostic.gd")
 const TexturedParticleAssetTests := preload("res://tests/preview/test_textured_particle_assets.gd")
 const StandardBoosterAuthoringTests := preload("res://tests/preview/test_standard_booster_authoring.gd")
+const HighSpeedWindAuthoringTests := preload("res://tests/preview/test_high_speed_wind_authoring.gd")
 
 
 func _init() -> void:
@@ -41,5 +42,6 @@ func _run() -> void:
 	ZeroZoneVisibilityDiagnosticTests.run(tests)
 	TexturedParticleAssetTests.run(tests)
 	StandardBoosterAuthoringTests.run(tests)
+	HighSpeedWindAuthoringTests.run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

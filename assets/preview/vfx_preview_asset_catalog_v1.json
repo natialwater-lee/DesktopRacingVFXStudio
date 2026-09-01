@@ -17,6 +17,10 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/booster_flame_tail.png"
     },
+    "fx.speed_wind_streak": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/speed_wind_streak.png"
+    },
     "fx.zero_zone_flow_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"

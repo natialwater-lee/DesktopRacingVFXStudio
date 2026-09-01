@@ -25,6 +25,12 @@
       "source_path": "res://assets/vfx/booster_flame_tail.png",
       "package_file_name": "booster_flame_tail.png"
     },
+    "fx.speed_wind_streak": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/speed_wind_streak.png",
+      "package_file_name": "speed_wind_streak.png"
+    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

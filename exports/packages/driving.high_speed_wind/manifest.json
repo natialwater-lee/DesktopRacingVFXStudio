@@ -1,0 +1,60 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 5731,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_streak",
+      "package_path": "assets/speed_wind_streak.png",
+      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 5731,
+      "path": "assets/speed_wind_streak.png",
+      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    },
+    {
+      "byte_size": 12696,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "9cc0a827baefe7d9af209d70b0a8bbf1b7c88dc2ef3faa8031855098ccf6e78a"
+    },
+    {
+      "byte_size": 12160,
+      "path": "source/driving.high_speed_wind.vfx.json",
+      "sha256": "8775eaf61eccb0cb264188a34674e6f0cc07fb71fcb319f17bd193840ea74d23"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "driving.high_speed_wind",
+  "preset": {
+    "category": "BOOST",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "High-Speed Wind",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "driving.high_speed_wind",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 3,
+      "DETAIL": 3,
+      "EXTRA": 1
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 12696,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "9cc0a827baefe7d9af209d70b0a8bbf1b7c88dc2ef3faa8031855098ccf6e78a",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 12160,
+    "path": "source/driving.high_speed_wind.vfx.json",
+    "sha256": "8775eaf61eccb0cb264188a34674e6f0cc07fb71fcb319f17bd193840ea74d23"
+  }
+}
