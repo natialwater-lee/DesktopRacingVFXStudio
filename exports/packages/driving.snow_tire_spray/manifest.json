@@ -1,0 +1,72 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 48868,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.snow_tire_mist_left",
+      "package_path": "assets/snow_tire_mist_left.png",
+      "sha256": "fd6c264bcaf5e9feacd57ea1c28db974df4c65f938d95bc6c5b5191dc65a6518"
+    },
+    {
+      "byte_size": 46935,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.snow_tire_mist_right",
+      "package_path": "assets/snow_tire_mist_right.png",
+      "sha256": "fe6e0ddad6fd0b486bee6f45c8ff8c7e6a96e0a3f073820fd98603ea3dcf8c1a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 48868,
+      "path": "assets/snow_tire_mist_left.png",
+      "sha256": "fd6c264bcaf5e9feacd57ea1c28db974df4c65f938d95bc6c5b5191dc65a6518"
+    },
+    {
+      "byte_size": 46935,
+      "path": "assets/snow_tire_mist_right.png",
+      "sha256": "fe6e0ddad6fd0b486bee6f45c8ff8c7e6a96e0a3f073820fd98603ea3dcf8c1a"
+    },
+    {
+      "byte_size": 21726,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "8f1fb3c79e365d1ffa944879cbee0faef3432cbe7aecbd7d6d614f93e7ff6670"
+    },
+    {
+      "byte_size": 20995,
+      "path": "source/driving.snow_tire_spray.vfx.json",
+      "sha256": "06dbcb421dc3bf29427093ab6d0b59b6cc34e1cc6ac0d05827810d2034c4a584"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "driving.snow_tire_spray",
+  "preset": {
+    "category": "WEATHER",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Snow Tire Mist",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "driving.snow_tire_spray",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 12,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 21726,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "8f1fb3c79e365d1ffa944879cbee0faef3432cbe7aecbd7d6d614f93e7ff6670",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 20995,
+    "path": "source/driving.snow_tire_spray.vfx.json",
+    "sha256": "06dbcb421dc3bf29427093ab6d0b59b6cc34e1cc6ac0d05827810d2034c4a584"
+  }
+}

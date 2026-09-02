@@ -37,6 +37,14 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/rain_tire_wake_left.png"
     },
+    "fx.snow_tire_mist_right": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/snow_tire_mist_right.png"
+    },
+    "fx.snow_tire_mist_left": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/snow_tire_mist_left.png"
+    },
     "fx.zero_zone_flow_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"

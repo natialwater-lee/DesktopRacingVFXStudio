@@ -6,6 +6,7 @@ const ExportCompilerAndWriterTests := preload("res://tests/export/test_export_co
 const StandardBoosterExportPolicyTests := preload("res://tests/export/test_standard_booster_export_policy.gd")
 const HighSpeedWindExportPolicyTests := preload("res://tests/export/test_high_speed_wind_export_policy.gd")
 const RainTireSprayExportPolicyTests := preload("res://tests/export/test_rain_tire_spray_export_policy.gd")
+const SnowTireSprayExportPolicyTests := preload("res://tests/export/test_snow_tire_spray_export_policy.gd")
 
 
 func _init() -> void:
@@ -19,5 +20,6 @@ func _run() -> void:
 	StandardBoosterExportPolicyTests.run(tests)
 	HighSpeedWindExportPolicyTests.run(tests)
 	RainTireSprayExportPolicyTests.run(tests)
+	SnowTireSprayExportPolicyTests.run(tests)
 	print("EXPORT_CONTRACT_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

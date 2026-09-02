@@ -55,6 +55,18 @@
       "source_path": "res://assets/vfx/rain_tire_wake_left.png",
       "package_file_name": "rain_tire_wake_left.png"
     },
+    "fx.snow_tire_mist_right": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/snow_tire_mist_right.png",
+      "package_file_name": "snow_tire_mist_right.png"
+    },
+    "fx.snow_tire_mist_left": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/snow_tire_mist_left.png",
+      "package_file_name": "snow_tire_mist_left.png"
+    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
