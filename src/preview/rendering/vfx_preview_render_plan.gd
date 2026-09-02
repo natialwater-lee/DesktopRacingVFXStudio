@@ -5,15 +5,17 @@ var _preset_id: String
 var _lifecycle_mode: String
 var _phase_plans: Array[RefCounted] = []
 var _revision: int
+var _runtime_modulation_program: RefCounted
 
 
-func _init(preset_id_value: String, lifecycle_mode_value: String, phase_plan_values: Array, revision_value: int) -> void:
+func _init(preset_id_value: String, lifecycle_mode_value: String, phase_plan_values: Array, revision_value: int, runtime_modulation_program_value: RefCounted = null) -> void:
 	_preset_id = preset_id_value
 	_lifecycle_mode = lifecycle_mode_value
 	for phase_plan in phase_plan_values:
 		if phase_plan is RefCounted:
 			_phase_plans.append(phase_plan)
 	_revision = revision_value
+	_runtime_modulation_program = runtime_modulation_program_value
 
 
 func preset_id() -> String:
@@ -44,3 +46,7 @@ func phase_layer_count() -> int:
 	for phase_plan in _phase_plans:
 		count += phase_plan.layer_specs().size()
 	return count
+
+
+func runtime_modulation_program() -> RefCounted:
+	return _runtime_modulation_program

@@ -38,6 +38,8 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	var final_path: VfxResult = _paths.package_path_for(preset_id)
 	if not final_path.success:
 		return final_path
+	if _is_modulation_bearing(data):
+		return _failure("modulated_preset_requires_runtime_definition_v2", "Runtime Definition v1 cannot export Runtime Modulation authoring.")
 	var requirements: VfxResult = _deriver.derive(document)
 	if not requirements.success:
 		return requirements
@@ -152,7 +154,7 @@ func _compile_runtime_definition(data: Dictionary, requirements: Dictionary, coo
 				"sort_order": int(layer.get("sort_order", 0)),
 				"space_mode": _effective_space(data, layer, anchor_rule),
 				"anchors": (layer.get(str(anchor_rule.get("anchors_field", "")), []) as Array).duplicate(),
-				"transform": (layer.get("transform", {}) as Dictionary).duplicate(true),
+				"transform": _runtime_v1_transform(layer),
 				"parameters": (layer.get("parameters", {}) as Dictionary).duplicate(true)
 			})
 		var compiled_phase := {"name": phase_name, "layers": layers}
@@ -213,6 +215,34 @@ func _compile_assets(logical_ids: Array) -> VfxResult:
 	dependencies.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return str(left["logical_id"]) < str(right["logical_id"]))
 	copies.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return str(left["package_path"]) < str(right["package_path"]))
 	return VfxResult.ok({"dependencies": dependencies, "copies": copies})
+
+
+func _is_modulation_bearing(data: Dictionary) -> bool:
+	var sources: Variant = data.get("runtime_modulation_sources", [])
+	if sources is Array and not sources.is_empty():
+		return true
+	var phases: Variant = data.get("phases", {})
+	if not phases is Dictionary:
+		return false
+	for phase in phases.values():
+		if not phase is Dictionary:
+			continue
+		for layer in phase.get("layers", []):
+			if layer is Dictionary:
+				var bindings: Variant = layer.get("modulations", [])
+				var clamps: Variant = layer.get("modulation_clamps", [])
+				if (bindings is Array and not bindings.is_empty()) or (clamps is Array and not clamps.is_empty()):
+					return true
+	return false
+
+
+func _runtime_v1_transform(layer: Dictionary) -> Dictionary:
+	var transform: Dictionary = layer.get("transform", {}) if layer.get("transform", {}) is Dictionary else {}
+	return {
+		"offset": (transform.get("offset", [0.0, 0.0]) as Array).duplicate(),
+		"rotation_degrees": float(transform.get("rotation_degrees", 0.0)),
+		"scale": (transform.get("scale", [1.0, 1.0]) as Array).duplicate()
+	}
 
 
 func _encode_json(value: Variant) -> VfxResult:

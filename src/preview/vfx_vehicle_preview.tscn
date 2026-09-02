@@ -81,6 +81,32 @@ layout_mode = 2
 text = "No Layer Selected"
 text_overrun_behavior = 3
 
+[node name="RuntimeInputsRow" type="HBoxContainer" parent="PreviewControls"]
+layout_mode = 2
+visible = false
+
+[node name="SpeedNormalizedLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Speed"
+
+[node name="SpeedNormalizedSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="LongitudinalLoadLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Load"
+
+[node name="LongitudinalLoadSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = -1.0
+max_value = 1.0
+step = 0.01
+
 [node name="PlaybackRow" type="HBoxContainer" parent="PreviewControls"]
 layout_mode = 2
 

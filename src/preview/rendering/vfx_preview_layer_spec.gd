@@ -13,6 +13,10 @@ var _parameters: Dictionary
 var _enabled: bool
 var _sort_order: int
 var _source_index: int
+var _authored_offset := Vector2.ZERO
+var _authored_scale := Vector2.ONE
+var _authored_rotation_degrees := 0.0
+var _modulation_pivot_local := Vector2.ZERO
 
 
 func _init(
@@ -39,6 +43,10 @@ func _init(
 		if anchor_value is String:
 			_anchors.append(anchor_value)
 	_transform = transform_value.duplicate(true)
+	_authored_offset = _vector2(_transform.get("offset", [0.0, 0.0]))
+	_authored_scale = _vector2(_transform.get("scale", [1.0, 1.0]))
+	_authored_rotation_degrees = float(_transform.get("rotation_degrees", 0.0))
+	_modulation_pivot_local = _vector2(_transform.get("modulation_pivot_local", [0.0, 0.0]))
 	_parameters = parameters_value.duplicate(true)
 	_enabled = enabled_value
 	_sort_order = sort_order_value
@@ -77,6 +85,22 @@ func transform() -> Dictionary:
 	return _transform.duplicate(true)
 
 
+func authored_offset() -> Vector2:
+	return _authored_offset
+
+
+func authored_scale() -> Vector2:
+	return _authored_scale
+
+
+func authored_rotation_degrees() -> float:
+	return _authored_rotation_degrees
+
+
+func modulation_pivot_local() -> Vector2:
+	return _modulation_pivot_local
+
+
 func parameters() -> Dictionary:
 	return _parameters.duplicate(true)
 
@@ -91,3 +115,7 @@ func sort_order() -> int:
 
 func source_index() -> int:
 	return _source_index
+
+
+func _vector2(value: Variant) -> Vector2:
+	return Vector2(float(value[0]), float(value[1])) if value is Array and value.size() == 2 else Vector2.ZERO

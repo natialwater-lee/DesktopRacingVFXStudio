@@ -45,6 +45,15 @@ func schema() -> Dictionary:
 	return _schema_data.duplicate(true)
 
 
+func runtime_modulation_contract() -> VfxResult:
+	for rule in _schema_data.get("x_vfx_rules", []):
+		if rule is Dictionary and rule.get("name") == "RUNTIME_MODULATION_CONFIGURATION":
+			return VfxResult.ok((rule as Dictionary).duplicate(true))
+	return VfxResult.failure([
+		VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_unavailable", "Schema does not declare Runtime Modulation configuration.", "/x_vfx_rules")
+	])
+
+
 func resolve_local_ref(reference: String) -> VfxResult:
 	if not reference.begins_with("#/$defs/"):
 		return VfxResult.failure([
@@ -220,6 +229,8 @@ func _validate_rule_contract_coverage(issues: Array[VfxIssue]) -> void:
 			"RENDER_PLANE_FOR_EFFECTIVE_SPACE":
 				_validate_layer_rule_fields(rule, pointer, {"layer_space_field": "string", "render_plane_field": "string"}, issues)
 				_validate_render_plane_rule_coverage(rule, pointer, issues)
+			"RUNTIME_MODULATION_CONFIGURATION":
+				_validate_runtime_modulation_rule_coverage(rule, pointer, issues)
 
 
 func _validate_lifecycle_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
@@ -345,6 +356,40 @@ func _validate_render_plane_rule_coverage(rule: Dictionary, pointer: String, iss
 		for render_plane in allowed_planes_by_space[space_mode]:
 			if not render_planes.has(render_plane):
 				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "rule_contract_configuration", "Render plane is not declared by the Schema.", "%s/allowed_planes_by_space/%s" % [pointer, space_mode]))
+
+
+func _validate_runtime_modulation_rule_coverage(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
+	_validate_schema_type(_schema_property(_active_schema, rule["sources_field"], "%s/sources_field" % pointer, issues), "array", "%s/sources_field" % pointer, issues)
+	_validate_schema_type(_schema_at_preset_path(rule["runtime_inputs_path"], "%s/runtime_inputs_path" % pointer, issues), "array", "%s/runtime_inputs_path" % pointer, issues)
+	_validate_root_object_path(rule["runtime_input_contract_path"], "%s/runtime_input_contract_path" % pointer, issues)
+	var layer_schema := _validate_layer_rule_fields(rule, pointer, {
+		"layer_type_field": "string",
+		"bindings_field": "array",
+		"clamps_field": "array",
+		"transform_field": "object"
+	}, issues)
+	var transform_schema := _schema_property_of_type(layer_schema, rule["transform_field"], "object", "%s/transform_field" % pointer, issues)
+	_validate_schema_type(_schema_property(transform_schema, rule["pivot_field"], "%s/pivot_field" % pointer, issues), "array", "%s/pivot_field" % pointer, issues)
+
+	var bindings_schema := _schema_property_of_type(layer_schema, rule["bindings_field"], "array", "%s/bindings_field" % pointer, issues)
+	var resolved_bindings := _resolve_schema_node(bindings_schema, "%s/bindings_field" % pointer, issues)
+	var binding_schema: Dictionary = _resolve_schema_node(resolved_bindings.get("items", {}), "%s/bindings_field" % pointer, issues) if resolved_bindings.get("items", {}) is Dictionary else {}
+	var target_schema := _schema_property_of_type(binding_schema, rule["target_field"], "string", "%s/target_field" % pointer, issues)
+	var operation_schema := _schema_property_of_type(binding_schema, rule["operation_field"], "string", "%s/operation_field" % pointer, issues)
+	var target_values := _schema_string_enum(target_schema, "%s/target_contracts" % pointer, issues)
+	var operation_values := _schema_string_enum(operation_schema, "%s/target_contracts" % pointer, issues)
+	_validate_enum_mapping(rule["target_contracts"], target_values, "%s/target_contracts" % pointer, issues)
+
+	for target in rule["target_contracts"]:
+		var target_definition: Dictionary = rule["target_contracts"][target]
+		if not operation_values.has(target_definition.get("operation")):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target operation is not declared by the binding Schema.", "%s/target_contracts/%s/operation" % [pointer, target]))
+		for layer_type in target_definition.get("compatible_layer_types", []):
+			if not _active_schema["x_vfx_layer_types"].has(layer_type):
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target compatibility references an unknown Layer Type.", "%s/target_contracts/%s/compatible_layer_types" % [pointer, target]))
+	for layer_type in rule["pivot_compatible_layer_types"]:
+		if not _active_schema["x_vfx_layer_types"].has(layer_type):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation pivot compatibility references an unknown Layer Type.", "%s/pivot_compatible_layer_types" % pointer))
 
 
 func _particle_parameters_schema(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> Dictionary:

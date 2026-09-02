@@ -62,6 +62,7 @@ func _new_values() -> Dictionary:
 		"ring_layer_count": 0,
 		"ring_active_potential": 0,
 		"glow_instance_count": 0,
+		"persistent_textured_sprite_instance_count": 0,
 		"shield_instance_count": 0,
 		"texture_asset_ids": [],
 		"texture_backed_renderer_instance_count": 0,
@@ -92,6 +93,8 @@ func _accumulate_instance(values: Dictionary, instance: RefCounted) -> void:
 			values["ring_active_potential"] += _ring_potential(parameters)
 		"GLOW":
 			values["glow_instance_count"] += 1
+		"TEXTURED_SPRITE":
+			values["persistent_textured_sprite_instance_count"] += 1
 		"SHIELD":
 			values["shield_instance_count"] += 1
 	var asset_id := _asset_id(parameters)

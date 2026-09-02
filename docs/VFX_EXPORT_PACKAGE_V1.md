@@ -57,6 +57,14 @@ Schema defaults, but does not preserve original whitespace or key order.
   normalized transform, and normalized type-specific parameters;
 - declared runtime-input contracts and required vehicle anchors.
 
+`TEXTURED_SPRITE` Runtime Layer records are compiled generically from their
+normalized `type`, common Layer fields, and `parameters` object. The asset
+dependency is derived from `texture_asset_ref` through the Schema just like
+other logical texture fields. Package compilation does not create a Godot
+Sprite resource or imply that an importer already renders this Layer Type.
+Any future dynamic behavior needs a separately documented generic Runtime
+contract before a Preset may depend on it.
+
 It never contains a Studio or game filesystem path, Preview renderer class,
 scene, shader, `.tres`, Vehicle Profile, Preview asset implementation detail,
 Stress Snapshot, authoring budget, threshold, or other Performance data.
@@ -139,6 +147,20 @@ Preview fallback is exported.
 `config/vfx_export_preset_policy_v1.json` contains narrow Preset exceptions.
 For example, `utility.renderer_showcase` remains a Studio validation fixture
 and is blocked without treating all `UTILITY` Presets as non-exportable.
+
+## Runtime Modulation Phase A export boundary
+
+Runtime Definition v1 has no modulation representation. A Preset with a
+non-empty source table, Layer `modulations`, or Layer `modulation_clamps`
+fails compilation with
+`EXPORT_VALIDATION/modulated_preset_requires_runtime_definition_v2` before any
+package plan, Manifest, Runtime Definition, asset copy, or writer operation is
+created. Runtime Definition v2 is not implemented by this Studio phase.
+
+Static v1 compatibility remains intentional: the v1 transform projection emits
+only `offset`, `rotation_degrees`, and `scale`. It omits every Phase A
+modulation field, including `modulation_pivot_local`; the unmodified authoring
+source copy remains the source of truth.
 
 ## Importer validation requirements
 

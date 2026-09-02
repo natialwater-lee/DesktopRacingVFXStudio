@@ -20,6 +20,9 @@ const StandardBoosterAuthoringTests := preload("res://tests/preview/test_standar
 const HighSpeedWindAuthoringTests := preload("res://tests/preview/test_high_speed_wind_authoring.gd")
 const RainTireSprayAuthoringTests := preload("res://tests/preview/test_rain_tire_spray_authoring.gd")
 const SnowTireSprayAuthoringTests := preload("res://tests/preview/test_snow_tire_spray_authoring.gd")
+const TexturedSpriteLayerRendererTests := preload("res://tests/preview/test_textured_sprite_layer_renderer.gd")
+const HeadlightAuthoringTests := preload("res://tests/preview/test_headlight_authoring.gd")
+const RuntimeModulationProgramTests := preload("res://tests/preview/test_runtime_modulation_program.gd")
 
 
 func _init() -> void:
@@ -47,5 +50,8 @@ func _run() -> void:
 	HighSpeedWindAuthoringTests.run(tests)
 	RainTireSprayAuthoringTests.run(tests)
 	SnowTireSprayAuthoringTests.run(tests)
+	TexturedSpriteLayerRendererTests.run(tests)
+	HeadlightAuthoringTests.run(tests)
+	RuntimeModulationProgramTests.run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

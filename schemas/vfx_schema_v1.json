@@ -39,6 +39,13 @@
         "type": "string"
       }
     },
+    "runtime_modulation_sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/runtime_modulation_source"
+      },
+      "default": []
+    },
     "phases": {
       "$ref": "#/$defs/phases"
     }
@@ -158,7 +165,82 @@
             "minimum": 0.001
           },
           "default": [1.0, 1.0]
+        },
+        "modulation_pivot_local": {
+          "$ref": "#/$defs/number_vector2",
+          "default": [0.0, 0.0]
         }
+      }
+    },
+    "runtime_modulation_target": {
+      "type": "string",
+      "enum": [
+        "TRANSFORM_OFFSET_X",
+        "TRANSFORM_OFFSET_Y",
+        "TRANSFORM_ROTATION_DEGREES",
+        "TRANSFORM_SCALE_X",
+        "TRANSFORM_SCALE_Y",
+        "VISUAL_OPACITY_MULTIPLIER"
+      ]
+    },
+    "runtime_modulation_operation": {
+      "type": "string",
+      "enum": ["ADD", "MULTIPLY"]
+    },
+    "runtime_modulation_source": {
+      "type": "object",
+      "required": ["id", "type", "wave", "frequency_hz", "phase_degrees"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/logical_id"},
+        "type": {"type": "string", "enum": ["OSCILLATOR"]},
+        "wave": {"type": "string", "enum": ["SINE"]},
+        "frequency_hz": {"type": "number", "minimum": 0.0},
+        "phase_degrees": {"type": "number"}
+      }
+    },
+    "runtime_modulation_source_ref": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "enum": ["RUNTIME_INPUT", "PRESET_SOURCE"]},
+        "input": {"type": "string"},
+        "source_id": {"$ref": "#/$defs/logical_id"}
+      }
+    },
+    "runtime_modulation_mapping": {
+      "type": "object",
+      "required": ["type", "input_min", "input_max", "output_min", "output_max"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "enum": ["LINEAR_RANGE"]},
+        "input_min": {"type": "number"},
+        "input_max": {"type": "number"},
+        "output_min": {"type": "number"},
+        "output_max": {"type": "number"}
+      }
+    },
+    "runtime_modulation_binding": {
+      "type": "object",
+      "required": ["id", "target", "operation", "source", "mapping"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/logical_id"},
+        "target": {"$ref": "#/$defs/runtime_modulation_target"},
+        "operation": {"$ref": "#/$defs/runtime_modulation_operation"},
+        "source": {"$ref": "#/$defs/runtime_modulation_source_ref"},
+        "mapping": {"$ref": "#/$defs/runtime_modulation_mapping"}
+      }
+    },
+    "runtime_modulation_clamp": {
+      "type": "object",
+      "required": ["target"],
+      "additionalProperties": false,
+      "properties": {
+        "target": {"$ref": "#/$defs/runtime_modulation_target"},
+        "min_effective": {"type": "number"},
+        "max_effective": {"type": "number"}
       }
     },
     "layer": {
@@ -208,6 +290,16 @@
         "enabled": {
           "type": "boolean",
           "default": true
+        },
+        "modulations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/runtime_modulation_binding"},
+          "default": []
+        },
+        "modulation_clamps": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/runtime_modulation_clamp"},
+          "default": []
         },
         "parameters": {
           "type": "object"
@@ -501,6 +593,22 @@
         }
       }
     },
+    "textured_sprite_parameters": {
+      "type": "object",
+      "required": ["texture_asset_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "texture_asset_ref": {
+          "$ref": "#/$defs/logical_id"
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 1.0
+        }
+      }
+    },
     "shield_parameters": {
       "type": "object",
       "required": ["radius", "arc_degrees", "thickness", "opacity"],
@@ -552,6 +660,9 @@
     "GLOW": {
       "parameters_ref": "#/$defs/glow_parameters"
     },
+    "TEXTURED_SPRITE": {
+      "parameters_ref": "#/$defs/textured_sprite_parameters"
+    },
     "SHIELD": {
       "parameters_ref": "#/$defs/shield_parameters"
     }
@@ -566,6 +677,12 @@
     "speed_normalized": {
       "type": "number",
       "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
+    },
+    "longitudinal_load": {
+      "type": "number",
+      "minimum": -1.0,
       "maximum": 1.0,
       "default": 0.0
     },
@@ -730,6 +847,77 @@
       },
       "issue_code": "render_plane_for_space",
       "message": "Render plane is not valid for the effective Space Mode."
+    },
+    {
+      "name": "RUNTIME_MODULATION_CONFIGURATION",
+      "phases_path": "/phases",
+      "runtime_inputs_path": "/runtime_inputs",
+      "runtime_input_contract_path": "/x_vfx_runtime_inputs",
+      "sources_field": "runtime_modulation_sources",
+      "layers_field": "layers",
+      "bindings_field": "modulations",
+      "clamps_field": "modulation_clamps",
+      "transform_field": "transform",
+      "pivot_field": "modulation_pivot_local",
+      "layer_type_field": "type",
+      "source_id_field": "id",
+      "binding_id_field": "id",
+      "target_field": "target",
+      "operation_field": "operation",
+      "source_field": "source",
+      "source_type_field": "type",
+      "input_field": "input",
+      "source_id_reference_field": "source_id",
+      "wave_field": "wave",
+      "frequency_field": "frequency_hz",
+      "phase_field": "phase_degrees",
+      "mapping_field": "mapping",
+      "mapping_type_field": "type",
+      "input_min_field": "input_min",
+      "input_max_field": "input_max",
+      "output_min_field": "output_min",
+      "output_max_field": "output_max",
+      "minimum_effective_field": "min_effective",
+      "maximum_effective_field": "max_effective",
+      "source_types": {
+        "OSCILLATOR": {
+          "waves": ["SINE"],
+          "output_min": -1.0,
+          "output_max": 1.0
+        }
+      },
+      "binding_source_types": ["RUNTIME_INPUT", "PRESET_SOURCE"],
+      "mapping_types": ["LINEAR_RANGE"],
+      "target_contracts": {
+        "TRANSFORM_OFFSET_X": {
+          "operation": "ADD",
+          "compatible_layer_types": ["TEXTURED_SPRITE"]
+        },
+        "TRANSFORM_OFFSET_Y": {
+          "operation": "ADD",
+          "compatible_layer_types": ["TEXTURED_SPRITE"]
+        },
+        "TRANSFORM_ROTATION_DEGREES": {
+          "operation": "ADD",
+          "compatible_layer_types": ["TEXTURED_SPRITE"]
+        },
+        "TRANSFORM_SCALE_X": {
+          "operation": "MULTIPLY",
+          "minimum_effective": 0.001,
+          "compatible_layer_types": ["TEXTURED_SPRITE"]
+        },
+        "TRANSFORM_SCALE_Y": {
+          "operation": "MULTIPLY",
+          "minimum_effective": 0.001,
+          "compatible_layer_types": ["TEXTURED_SPRITE"]
+        },
+        "VISUAL_OPACITY_MULTIPLIER": {
+          "operation": "MULTIPLY",
+          "minimum_effective": 0.0,
+          "compatible_layer_types": ["TEXTURED_SPRITE"]
+        }
+      },
+      "pivot_compatible_layer_types": ["TEXTURED_SPRITE"]
     }
   ]
 }

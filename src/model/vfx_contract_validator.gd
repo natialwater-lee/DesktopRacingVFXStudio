@@ -49,6 +49,8 @@ func _apply_rule(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) 
 			_validate_effective_space_anchors(preset, rule, issues)
 		"RENDER_PLANE_FOR_EFFECTIVE_SPACE":
 			_validate_render_plane(preset, rule, issues)
+		"RUNTIME_MODULATION_CONFIGURATION":
+			_validate_runtime_modulation_configuration(preset, rule, issues)
 
 
 func _validate_lifecycle_phase_structure(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
@@ -199,6 +201,158 @@ func _validate_render_plane(preset: Dictionary, rule: Dictionary, issues: Array[
 			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "render_plane_configuration", "Space Mode has no configured render planes.", entry["pointer"]))
 		elif not allowed_planes_by_space[effective_space].has(layer[rule["render_plane_field"]]):
 			issues.append(VfxIssue.new("PRESET_VALIDATION", rule["issue_code"], rule["message"], "%s/%s" % [entry["pointer"], rule["render_plane_field"]]))
+
+
+func _validate_runtime_modulation_configuration(preset: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	var sources_value: Variant = preset.get(rule["sources_field"], [])
+	if not sources_value is Array:
+		return
+	var source_ids: Dictionary = {}
+	for source_index in sources_value.size():
+		var source: Dictionary = sources_value[source_index]
+		var source_pointer := "/%s/%d" % [rule["sources_field"], source_index]
+		var source_id := str(source.get(rule["source_id_field"], ""))
+		if source_ids.has(source_id):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_duplicate_source_id", "Runtime Modulation source ids must be unique.", "%s/%s" % [source_pointer, rule["source_id_field"]]))
+		else:
+			source_ids[source_id] = true
+		_validate_modulation_source(source, source_pointer, rule, issues)
+
+	var declared_inputs: Dictionary = {}
+	for input_name in preset.get(rule["runtime_inputs_path"].trim_prefix("/"), []):
+		declared_inputs[str(input_name)] = true
+	var runtime_input_contract: Variant = _value_at_pointer(_registry.schema(), rule["runtime_input_contract_path"])
+	for entry in _layer_entries(preset, rule["phases_path"]):
+		var layer: Dictionary = entry["layer"]
+		var layer_pointer: String = entry["pointer"]
+		var layer_type := str(layer.get(rule["layer_type_field"], ""))
+		_validate_modulation_pivot(layer, layer_pointer, layer_type, rule, issues)
+		var binding_ids: Dictionary = {}
+		var bindings: Variant = layer.get(rule["bindings_field"], [])
+		if bindings is Array:
+			for binding_index in bindings.size():
+				var binding: Dictionary = bindings[binding_index]
+				var binding_pointer := "%s/%s/%d" % [layer_pointer, rule["bindings_field"], binding_index]
+				var binding_id := str(binding.get(rule["binding_id_field"], ""))
+				if binding_ids.has(binding_id):
+					issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_duplicate_binding_id", "Runtime Modulation binding ids must be unique per Layer.", "%s/%s" % [binding_pointer, rule["binding_id_field"]]))
+				else:
+					binding_ids[binding_id] = true
+				_validate_modulation_binding(binding, binding_pointer, layer_type, declared_inputs, source_ids, runtime_input_contract, rule, issues)
+		var clamp_targets: Dictionary = {}
+		var clamps: Variant = layer.get(rule["clamps_field"], [])
+		if clamps is Array:
+			for clamp_index in clamps.size():
+				var clamp: Dictionary = clamps[clamp_index]
+				var clamp_pointer := "%s/%s/%d" % [layer_pointer, rule["clamps_field"], clamp_index]
+				var target := str(clamp.get(rule["target_field"], ""))
+				if clamp_targets.has(target):
+					issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_duplicate_clamp_target", "Runtime Modulation clamp targets must be unique per Layer.", "%s/%s" % [clamp_pointer, rule["target_field"]]))
+				else:
+					clamp_targets[target] = true
+				_validate_modulation_clamp(clamp, clamp_pointer, rule, issues)
+
+
+func _validate_modulation_source(source: Dictionary, pointer: String, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	var source_type := str(source.get(rule["source_type_field"], ""))
+	var source_types: Dictionary = rule["source_types"]
+	if not source_types.has(source_type):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_source_type", "Runtime Modulation source type is not configured.", "%s/%s" % [pointer, rule["source_type_field"]]))
+		return
+	var source_contract: Dictionary = source_types[source_type]
+	if not source_contract["waves"].has(source.get(rule["wave_field"])):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_wave", "Runtime Modulation source wave is not configured.", "%s/%s" % [pointer, rule["wave_field"]]))
+	if not _is_finite_number(source.get(rule["frequency_field"])) or float(source.get(rule["frequency_field"])) < 0.0:
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_frequency", "Runtime Modulation frequency must be finite and non-negative.", "%s/%s" % [pointer, rule["frequency_field"]]))
+	if not _is_finite_number(source.get(rule["phase_field"])):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_phase", "Runtime Modulation phase must be finite.", "%s/%s" % [pointer, rule["phase_field"]]))
+
+
+func _validate_modulation_binding(binding: Dictionary, pointer: String, layer_type: String, declared_inputs: Dictionary, source_ids: Dictionary, runtime_input_contract: Variant, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	var target := str(binding.get(rule["target_field"], ""))
+	var target_contracts: Dictionary = rule["target_contracts"]
+	if not target_contracts.has(target):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_target", "Runtime Modulation target is not configured.", "%s/%s" % [pointer, rule["target_field"]]))
+		return
+	var target_contract: Dictionary = target_contracts[target]
+	if not target_contract["compatible_layer_types"].has(layer_type):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_target_layer_type_incompatible", "Runtime Modulation target is not supported by this Layer Type.", "%s/%s" % [pointer, rule["target_field"]]))
+	if binding.get(rule["operation_field"]) != target_contract["operation"]:
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_operation", "Runtime Modulation operation does not match the configured target.", "%s/%s" % [pointer, rule["operation_field"]]))
+	var source: Dictionary = binding.get(rule["source_field"], {})
+	var binding_source_type := str(source.get(rule["source_type_field"], ""))
+	if not rule["binding_source_types"].has(binding_source_type):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_binding_source_type", "Runtime Modulation binding source type is not configured.", "%s/%s/%s" % [pointer, rule["source_field"], rule["source_type_field"]]))
+	elif binding_source_type == "RUNTIME_INPUT":
+		var input_name := str(source.get(rule["input_field"], ""))
+		if not declared_inputs.has(input_name):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_input_not_declared", "Runtime Modulation input must be declared by the Preset.", "%s/%s/%s" % [pointer, rule["source_field"], rule["input_field"]]))
+		elif not _runtime_input_is_number(runtime_input_contract, input_name):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_input_not_number", "Runtime Modulation input must have a numeric Schema contract.", "%s/%s/%s" % [pointer, rule["source_field"], rule["input_field"]]))
+	elif binding_source_type == "PRESET_SOURCE":
+		var source_id := str(source.get(rule["source_id_reference_field"], ""))
+		if not source_ids.has(source_id):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_source_not_found", "Runtime Modulation binding source must exist in the Preset source table.", "%s/%s/%s" % [pointer, rule["source_field"], rule["source_id_reference_field"]]))
+	_validate_modulation_mapping(binding.get(rule["mapping_field"], {}), "%s/%s" % [pointer, rule["mapping_field"]], target, rule, issues)
+
+
+func _validate_modulation_mapping(mapping: Dictionary, pointer: String, target: String, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	if not rule["mapping_types"].has(mapping.get(rule["mapping_type_field"])):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_mapping_type", "Runtime Modulation mapping type is not configured.", "%s/%s" % [pointer, rule["mapping_type_field"]]))
+	var input_min: Variant = mapping.get(rule["input_min_field"])
+	var input_max: Variant = mapping.get(rule["input_max_field"])
+	var output_min: Variant = mapping.get(rule["output_min_field"])
+	var output_max: Variant = mapping.get(rule["output_max_field"])
+	if not _is_finite_number(input_min) or not _is_finite_number(input_max) or not _is_finite_number(output_min) or not _is_finite_number(output_max):
+		var code := "runtime_modulation_opacity_multiplier_nonfinite" if target == "VISUAL_OPACITY_MULTIPLIER" else "runtime_modulation_mapping_nonfinite"
+		issues.append(VfxIssue.new("PRESET_VALIDATION", code, "Runtime Modulation mapping values must be finite.", pointer))
+		return
+	if float(input_min) >= float(input_max):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_mapping_range", "Runtime Modulation mapping input minimum must be less than maximum.", pointer))
+	if target == "VISUAL_OPACITY_MULTIPLIER" and (float(output_min) < 0.0 or float(output_max) < 0.0):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_opacity_multiplier_negative", "Visual opacity multiplier output must be non-negative.", pointer))
+
+
+func _validate_modulation_clamp(clamp: Dictionary, pointer: String, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	var target := str(clamp.get(rule["target_field"], ""))
+	if not rule["target_contracts"].has(target):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_clamp_target", "Runtime Modulation clamp target is not configured.", "%s/%s" % [pointer, rule["target_field"]]))
+		return
+	var minimum: Variant = clamp.get(rule["minimum_effective_field"])
+	var maximum: Variant = clamp.get(rule["maximum_effective_field"])
+	if minimum == null and maximum == null:
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_clamp_empty", "Runtime Modulation clamp requires a minimum or maximum.", pointer))
+		return
+	if (minimum != null and not _is_finite_number(minimum)) or (maximum != null and not _is_finite_number(maximum)):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_clamp_nonfinite", "Runtime Modulation clamp bounds must be finite.", pointer))
+	elif minimum != null and maximum != null and float(minimum) > float(maximum):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_clamp_order", "Runtime Modulation clamp minimum cannot exceed maximum.", pointer))
+
+
+func _validate_modulation_pivot(layer: Dictionary, layer_pointer: String, layer_type: String, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	var transform: Dictionary = layer.get(rule["transform_field"], {})
+	var pivot: Variant = transform.get(rule["pivot_field"], [0.0, 0.0])
+	if not pivot is Array or pivot.size() != 2 or not _is_finite_number(pivot[0]) or not _is_finite_number(pivot[1]):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_pivot_nonfinite", "Runtime Modulation pivot must be two finite numbers.", "%s/%s/%s" % [layer_pointer, rule["transform_field"], rule["pivot_field"]]))
+		return
+	if (not is_zero_approx(float(pivot[0])) or not is_zero_approx(float(pivot[1]))) and not rule["pivot_compatible_layer_types"].has(layer_type):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_pivot_layer_type_incompatible", "Non-zero Runtime Modulation pivot is not supported by this Layer Type.", "%s/%s/%s" % [layer_pointer, rule["transform_field"], rule["pivot_field"]]))
+
+
+func _runtime_input_is_number(contract: Variant, input_name: String) -> bool:
+	if not contract is Dictionary or not contract.has(input_name):
+		return false
+	var schema: Dictionary = contract[input_name]
+	while schema.has("$ref"):
+		var resolved := _registry.resolve_local_ref(schema["$ref"])
+		if not resolved.success:
+			return false
+		schema = resolved.value
+	return schema.get("type") == "number"
+
+
+func _is_finite_number(value: Variant) -> bool:
+	return (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and is_finite(float(value))
 
 
 func _particle_entries(preset: Dictionary, rule: Dictionary) -> Array[Dictionary]:

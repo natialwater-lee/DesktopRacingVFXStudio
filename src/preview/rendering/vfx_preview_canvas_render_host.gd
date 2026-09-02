@@ -54,6 +54,10 @@ func _draw() -> void:
 				_begin_packet_transform(packet)
 				draw_arc(Vector2.ZERO, float(packet.get("radius", 0.0)), 0.0, TAU, 32, color, float(packet.get("width", 1.0)), true)
 				_end_packet_transform()
+			"TEXTURED_SPRITE":
+				_begin_packet_transform(packet)
+				_draw_textured_sprite(packet, color)
+				_end_packet_transform()
 			"SHIELD":
 				_begin_packet_transform(packet)
 				var arc_degrees: float = float(packet.get("arc_degrees", 360.0))
@@ -168,6 +172,15 @@ func _draw_particle(packet: Dictionary, color: Color) -> void:
 			draw_rect(Rect2(Vector2(-size, -size * 0.25), Vector2(size * 2.0, size * 0.5)), color)
 		_:
 			draw_rect(Rect2(Vector2.ONE * -size * 0.5, Vector2.ONE * size), color)
+
+
+func _draw_textured_sprite(packet: Dictionary, color: Color) -> void:
+	var asset: Dictionary = packet.get("asset", {}) if packet.get("asset", {}) is Dictionary else {}
+	var texture := asset.get("texture") as Texture2D
+	if texture == null:
+		return
+	var native_size := texture.get_size()
+	draw_texture_rect(texture, Rect2(native_size * -0.5, native_size), false, color)
 
 
 func texture_particle_rect(texture: Texture2D, half_size: float) -> Rect2:

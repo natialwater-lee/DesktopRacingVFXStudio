@@ -1,0 +1,72 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 43452,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.headlight_beam_core",
+      "package_path": "assets/headlight_beam_core.png",
+      "sha256": "4b87252746fcee971a1ba53467526b373875649cca22420f8abf0368a03861d4"
+    },
+    {
+      "byte_size": 43797,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.headlight_beam_soft",
+      "package_path": "assets/headlight_beam_soft.png",
+      "sha256": "5af4793ef2ed626a0aa77c3dbcfc5429b13373f190b04adcccc1b12e26ac556b"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 43452,
+      "path": "assets/headlight_beam_core.png",
+      "sha256": "4b87252746fcee971a1ba53467526b373875649cca22420f8abf0368a03861d4"
+    },
+    {
+      "byte_size": 43797,
+      "path": "assets/headlight_beam_soft.png",
+      "sha256": "5af4793ef2ed626a0aa77c3dbcfc5429b13373f190b04adcccc1b12e26ac556b"
+    },
+    {
+      "byte_size": 9456,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "1a05363bb97416deceeb987bfc44f8230daf10ba791e5e39df916eb261a7897a"
+    },
+    {
+      "byte_size": 8725,
+      "path": "source/driving.headlights.vfx.json",
+      "sha256": "4d1ef9a9add0977c90b43bb8520120767e0e21746ffa38892353f5b0cb4ed4d4"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "driving.headlights",
+  "preset": {
+    "category": "UTILITY",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Headlights",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "driving.headlights",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 6,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 9456,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "1a05363bb97416deceeb987bfc44f8230daf10ba791e5e39df916eb261a7897a",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 8725,
+    "path": "source/driving.headlights.vfx.json",
+    "sha256": "4d1ef9a9add0977c90b43bb8520120767e0e21746ffa38892353f5b0cb4ed4d4"
+  }
+}

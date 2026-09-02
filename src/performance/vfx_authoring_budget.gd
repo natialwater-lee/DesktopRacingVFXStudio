@@ -60,6 +60,10 @@ func glow_instance_count() -> int:
 	return int(_values.get("glow_instance_count", 0))
 
 
+func persistent_textured_sprite_instance_count() -> int:
+	return int(_values.get("persistent_textured_sprite_instance_count", 0))
+
+
 func shield_instance_count() -> int:
 	return int(_values.get("shield_instance_count", 0))
 

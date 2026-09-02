@@ -47,6 +47,8 @@ static func run(tests: TestAssert) -> void:
 		if glow.success:
 			tests.expect_true(glow.value["anchors"] == ["CENTER"], "vehicle-local Layer uses Schema Anchor CENTER")
 			tests.expect_true(glow.value["render_plane"] == "UNDER_VEHICLE", "vehicle render plane derives from Schema rule")
+		var textured_sprite := layer_factory.create("TEXTURED_SPRITE", "one_shot", vehicle_skeleton.value)
+		tests.expect_true(textured_sprite.success and textured_sprite.value["parameters"].get("texture_asset_ref") == "fx.placeholder" and textured_sprite.value["parameters"].get("opacity") == 1.0, "generic static texture Layer creation derives placeholder asset and default opacity without a type-specific editor branch")
 
 
 static func _loaded_registry() -> VfxSchemaRegistry:

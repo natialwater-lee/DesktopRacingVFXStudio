@@ -12,7 +12,8 @@ const _STRING_KEYS_BY_RULE := {
 	"PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER": ["phases_path", "particle_type", "type_field", "parameters_field", "issue_code", "message"],
 	"RUNTIME_INPUT_NAMES": ["runtime_inputs_path", "contract_path", "issue_code", "message"],
 	"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS": ["phases_path", "default_space_field", "layer_space_field", "anchors_field", "missing_anchor_issue_code", "missing_anchor_message", "unexpected_anchor_issue_code", "unexpected_anchor_message"],
-	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["phases_path", "default_space_field", "layer_space_field", "render_plane_field", "layer_schema_ref", "issue_code", "message"]
+	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["phases_path", "default_space_field", "layer_space_field", "render_plane_field", "layer_schema_ref", "issue_code", "message"],
+	"RUNTIME_MODULATION_CONFIGURATION": ["phases_path", "runtime_inputs_path", "runtime_input_contract_path", "sources_field", "layers_field", "bindings_field", "clamps_field", "transform_field", "pivot_field", "layer_type_field", "source_id_field", "binding_id_field", "target_field", "operation_field", "source_field", "source_type_field", "input_field", "source_id_reference_field", "wave_field", "frequency_field", "phase_field", "mapping_field", "mapping_type_field", "input_min_field", "input_max_field", "output_min_field", "output_max_field", "minimum_effective_field", "maximum_effective_field"]
 }
 
 const _COMPLEX_KEYS_BY_RULE := {
@@ -26,7 +27,8 @@ const _COMPLEX_KEYS_BY_RULE := {
 	"PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER": ["ranges"],
 	"RUNTIME_INPUT_NAMES": [],
 	"EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS": ["vehicle_space_modes"],
-	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["allowed_planes_by_space"]
+	"RENDER_PLANE_FOR_EFFECTIVE_SPACE": ["allowed_planes_by_space"],
+	"RUNTIME_MODULATION_CONFIGURATION": ["source_types", "binding_source_types", "mapping_types", "target_contracts", "pivot_compatible_layer_types"]
 }
 
 
@@ -74,7 +76,61 @@ func validate_configuration(rule: Dictionary, pointer: String) -> Array[VfxIssue
 			_validate_string_array(rule["vehicle_space_modes"], "%s/vehicle_space_modes" % pointer, issues, false)
 		"RENDER_PLANE_FOR_EFFECTIVE_SPACE":
 			_validate_string_array_map(rule["allowed_planes_by_space"], "%s/allowed_planes_by_space" % pointer, issues)
+		"RUNTIME_MODULATION_CONFIGURATION":
+			_validate_runtime_modulation_configuration(rule, pointer, issues)
 	return issues
+
+
+func _validate_runtime_modulation_configuration(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> void:
+	_validate_string_array(rule["binding_source_types"], "%s/binding_source_types" % pointer, issues, false)
+	_validate_string_array(rule["mapping_types"], "%s/mapping_types" % pointer, issues, false)
+	_validate_string_array(rule["pivot_compatible_layer_types"], "%s/pivot_compatible_layer_types" % pointer, issues, false)
+
+	var source_types = rule["source_types"]
+	if not source_types is Dictionary or source_types.is_empty():
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source_types must be a non-empty object.", "%s/source_types" % pointer))
+	else:
+		for source_type in source_types:
+			var source_pointer := "%s/source_types/%s" % [pointer, source_type]
+			var source_definition = source_types[source_type]
+			if not source_type is String or (source_type as String).is_empty() or not source_definition is Dictionary:
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source type requires an object definition.", source_pointer))
+				continue
+			if not source_definition.has("waves") or not source_definition.has("output_min") or not source_definition.has("output_max"):
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source type requires waves and output bounds.", source_pointer))
+				continue
+			_validate_string_array(source_definition["waves"], "%s/waves" % source_pointer, issues, false)
+			if not _is_finite_number(source_definition["output_min"]) or not _is_finite_number(source_definition["output_max"]) or source_definition["output_min"] > source_definition["output_max"]:
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source output bounds must be finite and ordered.", source_pointer))
+
+	var target_contracts = rule["target_contracts"]
+	if not target_contracts is Dictionary or target_contracts.is_empty():
+		issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target_contracts must be a non-empty object.", "%s/target_contracts" % pointer))
+		return
+	for target in target_contracts:
+		var target_pointer := "%s/target_contracts/%s" % [pointer, target]
+		var target_definition = target_contracts[target]
+		if not target is String or (target as String).is_empty() or not target_definition is Dictionary:
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target requires an object definition.", target_pointer))
+			continue
+		for key in target_definition:
+			if not ["operation", "compatible_layer_types", "minimum_effective", "maximum_effective"].has(key):
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target configuration contains an unsupported property.", "%s/%s" % [target_pointer, key]))
+		if not target_definition.get("operation") is String or str(target_definition.get("operation", "")).is_empty():
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target requires a non-empty operation.", "%s/operation" % target_pointer))
+		if not target_definition.has("compatible_layer_types"):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target requires compatible_layer_types.", target_pointer))
+		else:
+			_validate_string_array(target_definition["compatible_layer_types"], "%s/compatible_layer_types" % target_pointer, issues, false)
+		for bound_key in ["minimum_effective", "maximum_effective"]:
+			if target_definition.has(bound_key) and not _is_finite_number(target_definition[bound_key]):
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target bounds must be finite numbers.", "%s/%s" % [target_pointer, bound_key]))
+		if target_definition.has("minimum_effective") and target_definition.has("maximum_effective") and target_definition["minimum_effective"] > target_definition["maximum_effective"]:
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target minimum cannot exceed maximum.", target_pointer))
+
+
+func _is_finite_number(value: Variant) -> bool:
+	return (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and is_finite(float(value))
 
 
 func _validate_required_string(rule: Dictionary, key: String, pointer: String, issues: Array[VfxIssue]) -> void:

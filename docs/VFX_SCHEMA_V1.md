@@ -127,6 +127,22 @@ Required authoring concepts are `emission_mode`, `emitter`, `sprite_asset_ref`, 
 
 `GLOW` parameters are `radius`, `opacity`, `pulse_hz`, and `color_rgba`.
 
+### TEXTURED_SPRITE
+
+`TEXTURED_SPRITE` is a generic one-texture persistent Layer. Its only
+type-specific authoring field is required `texture_asset_ref`; `opacity`
+uses the inclusive zero-through-one alpha range and defaults to `1.0` during
+normalization. It has no emitter, count, lifetime, motion, beam, or
+Preset-specific parameter. The common Layer `transform` supplies its source
+local offset, rotation, and non-uniform scale, while common blend mode,
+render plane, importance, enabled state, lifecycle Phase, Space Mode, and
+Anchors apply unchanged.
+
+The Preview holds one texture packet for the active Phase rather than spawning
+Particle instances. A later dynamic behavior extension must be an explicit,
+generic compatible contract addition; Schema v1 does not infer runtime input
+bindings, modulation, easing, or per-frame overrides for this Layer.
+
 ### SHIELD
 
 `SHIELD` parameters are `radius`, `arc_degrees`, `thickness`, `opacity`, `scroll_speed`, optional `texture_asset_ref`, and `color_rgba`. `arc_degrees` is in the inclusive range 1 through 360; transform rotation places a panel around the vehicle.
@@ -176,7 +192,24 @@ Array item contracts use the Schema `items` keyword. It is required to validate 
 
 `default` declares a value only. Validation never mutates input. `VfxPresetNormalizer` creates a deep-copied normalized Variant and applies defaults. Unknown keys remain in that copy until validation rejects them.
 
-`alpha_start` and `alpha_end` are a Schema v1 additive extension introduced by the Phase 3.4 implementation. Existing Presets normalize both values to `1.0`, preserving their visual result. `size_multiplier_min` and `size_multiplier_max` are likewise additive Schema v1 fields: omitted fields normalize to `1.0` / `1.0` without changing the seeded Preview particle sequence. A Preset that explicitly uses either extension requires a Studio Schema v1 implementation that supports it; no migration or Schema v2 is required.
+`alpha_start` and `alpha_end` are a Schema v1 additive extension introduced by the Phase 3.4 implementation. Existing Presets normalize both values to `1.0`, preserving their visual result. `size_multiplier_min` and `size_multiplier_max` are likewise additive Schema v1 fields: omitted fields normalize to `1.0` / `1.0` without changing the seeded Preview particle sequence. `TEXTURED_SPRITE` is an additive generic Layer Type introduced after the same compatibility policy: it adds no behavior to an existing Layer Type or Preset, and no migration or Schema v2 is required. A Preset that explicitly uses any additive extension requires a Studio Schema v1 implementation that supports it.
+
+### Runtime Modulation v1 — Studio Preview scope
+
+`runtime_modulation_sources` is an optional root array (default `[]`). Each Layer
+has optional `modulations` and `modulation_clamps` arrays (both default `[]`), and
+`transform.modulation_pivot_local` defaults to `[0.0, 0.0]`. These defaults retain
+the static authoring result. `longitudinal_load` is the signed scalar Runtime Input
+(`-1.0..1.0`, default `0.0`).
+
+The Schema-owned `RUNTIME_MODULATION_CONFIGURATION` rule is the contract for
+`SINE` sources and `LINEAR_RANGE` mappings. In Phase A every modulation target is
+compatible only with `TEXTURED_SPRITE`. A binding on `PARTICLE`, `TRAIL`, `RING`,
+`GLOW`, or `SHIELD` is a `PRESET_VALIDATION` error; it is never silently ignored.
+Target clamps are Layer-target contracts and run once after ordered binding
+composition. `VISUAL_OPACITY_MULTIPLIER` must be finite and non-negative, has no
+authoring upper bound, and only the final `TEXTURED_SPRITE` alpha application
+clamps its rendered result to `[0, 1]`.
 
 ## Reference support
 

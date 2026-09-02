@@ -9,6 +9,8 @@ const SchemaSubsetValidatorTests := preload("res://tests/unit/test_schema_subset
 const PresetNormalizerTests := preload("res://tests/unit/test_preset_normalizer.gd")
 const ContractValidatorTests := preload("res://tests/unit/test_contract_validator.gd")
 const PresetPipelineTests := preload("res://tests/unit/test_preset_pipeline.gd")
+const TexturedSpriteContractTests := preload("res://tests/unit/test_textured_sprite_contract.gd")
+const RuntimeModulationContractTests := preload("res://tests/unit/test_runtime_modulation_contract.gd")
 
 
 func _init() -> void:
@@ -22,5 +24,7 @@ func _init() -> void:
 	PresetNormalizerTests.run(tests)
 	ContractValidatorTests.run(tests)
 	PresetPipelineTests.run(tests)
+	TexturedSpriteContractTests.run(tests)
+	RuntimeModulationContractTests.run(tests)
 	print("CONTRACT_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

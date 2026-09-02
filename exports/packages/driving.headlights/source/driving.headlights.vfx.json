@@ -1,0 +1,351 @@
+{
+  "category": "UTILITY",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Headlights",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.18,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.left_soft_beam",
+          "importance": "DETAIL",
+          "parameters": {
+            "opacity": 0.066786,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              -58.193132,
+              -354.29144
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.right_soft_beam",
+          "importance": "DETAIL",
+          "parameters": {
+            "opacity": 0.066786,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              60.982477,
+              -354.047404
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.left_core_beam",
+          "importance": "CORE",
+          "parameters": {
+            "opacity": 0.252,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              -55.638927,
+              -317.925671
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.right_core_beam",
+          "importance": "CORE",
+          "parameters": {
+            "opacity": 0.252,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              57.183029,
+              -317.790579
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ]
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.left_soft_beam",
+          "importance": "DETAIL",
+          "parameters": {
+            "opacity": 0.11,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              -58.193132,
+              -354.29144
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.right_soft_beam",
+          "importance": "DETAIL",
+          "parameters": {
+            "opacity": 0.11,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              60.982477,
+              -354.047404
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.left_core_beam",
+          "importance": "CORE",
+          "parameters": {
+            "opacity": 0.36,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              -55.638927,
+              -317.925671
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.right_core_beam",
+          "importance": "CORE",
+          "parameters": {
+            "opacity": 0.36,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              57.183029,
+              -317.790579
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.18,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.left_soft_beam",
+          "importance": "DETAIL",
+          "parameters": {
+            "opacity": 0.078571,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              -58.193132,
+              -354.29144
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.right_soft_beam",
+          "importance": "DETAIL",
+          "parameters": {
+            "opacity": 0.078571,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              60.982477,
+              -354.047404
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.left_core_beam",
+          "importance": "CORE",
+          "parameters": {
+            "opacity": 0.276,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              -55.638927,
+              -317.925671
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.right_core_beam",
+          "importance": "CORE",
+          "parameters": {
+            "opacity": 0.276,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              57.183029,
+              -317.790579
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ]
+    }
+  },
+  "preset_id": "driving.headlights",
+  "runtime_inputs": [],
+  "schema_version": 1.0
+}

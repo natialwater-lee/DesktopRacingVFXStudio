@@ -43,6 +43,10 @@ func trail_max_point_capacity() -> int:
 	return int(_values.get("trail_point_capacity", 0))
 
 
+func persistent_textured_sprite_instance_count() -> int:
+	return int(_values.get("persistent_textured_sprite_instances", 0))
+
+
 func transparent_renderer_instance_count() -> int:
 	return int(_values.get("transparent_renderer_instances", 0))
 
@@ -57,6 +61,7 @@ func _new_values() -> Dictionary:
 		"continuous_particle_capacity": 0,
 		"particle_workload_envelope": 0,
 		"trail_point_capacity": 0,
+		"persistent_textured_sprite_instances": 0,
 		"transparent_renderer_instances": 0
 	}
 
@@ -71,6 +76,8 @@ func _value_for_budget(budget: RefCounted, key: String) -> int:
 			return budget.particle_workload_envelope()
 		"trail_point_capacity":
 			return budget.trail_max_point_capacity()
+		"persistent_textured_sprite_instances":
+			return budget.persistent_textured_sprite_instance_count()
 		"transparent_renderer_instances":
 			return budget.transparent_renderer_instance_count()
 	return 0

@@ -179,7 +179,7 @@ func _next_id(phase_name: String, layer_type: String, preset: Dictionary) -> Str
 
 
 func _requires_placeholder_asset(layer_type: String, field_name: String) -> bool:
-	return ["PARTICLE", "TRAIL", "SHIELD"].has(layer_type) and field_name.ends_with("_asset_ref")
+	return field_name.ends_with("_asset_ref")
 
 
 func _rule_named(root_schema: Dictionary, name: String) -> Dictionary:

@@ -17,6 +17,14 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/booster_flame_tail.png"
     },
+    "fx.headlight_beam_core": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/headlight_beam_core.png"
+    },
+    "fx.headlight_beam_soft": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/headlight_beam_soft.png"
+    },
     "fx.speed_wind_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/speed_wind_streak.png"

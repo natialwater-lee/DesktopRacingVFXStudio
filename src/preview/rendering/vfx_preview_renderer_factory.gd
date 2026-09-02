@@ -5,6 +5,7 @@ const ParticleRendererModel := preload("res://src/preview/rendering/vfx_particle
 const TrailRendererModel := preload("res://src/preview/rendering/vfx_trail_layer_renderer.gd")
 const RingRendererModel := preload("res://src/preview/rendering/vfx_ring_layer_renderer.gd")
 const GlowRendererModel := preload("res://src/preview/rendering/vfx_glow_layer_renderer.gd")
+const TexturedSpriteRendererModel := preload("res://src/preview/rendering/vfx_textured_sprite_layer_renderer.gd")
 const ShieldRendererModel := preload("res://src/preview/rendering/vfx_shield_layer_renderer.gd")
 
 var _registrations: Dictionary
@@ -16,6 +17,7 @@ func _init(registrations: Variant = null) -> void:
 		"TRAIL": TrailRendererModel,
 		"RING": RingRendererModel,
 		"GLOW": GlowRendererModel,
+		"TEXTURED_SPRITE": TexturedSpriteRendererModel,
 		"SHIELD": ShieldRendererModel
 	}
 

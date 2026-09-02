@@ -12,6 +12,7 @@ const VfxPreviewPlaybackControllerModel := preload("res://src/preview/rendering/
 const VfxPreviewCanvasRenderHostModel := preload("res://src/preview/rendering/vfx_preview_canvas_render_host.gd")
 const VfxPerformancePolicyModel := preload("res://src/performance/vfx_performance_policy.gd")
 const VfxPreviewLodFilterModel := preload("res://src/performance/vfx_preview_lod_filter.gd")
+const VfxPreviewRuntimeInputStateModel := preload("res://src/preview/runtime_modulation/vfx_preview_runtime_input_state.gd")
 
 var _shared_state: RefCounted = VfxPreviewSharedStateModel.new()
 var _profile_session: RefCounted
@@ -30,6 +31,8 @@ var _render_hosts: Dictionary = {}
 var _preview_status := "PREVIEW — NO VALID PLAN"
 var _preview_phase := ""
 var _preview_lod_level := "HIGH"
+var _runtime_input_state: RefCounted
+var _runtime_input_values_by_name: Dictionary = {}
 
 
 func _ready() -> void:
@@ -153,6 +156,21 @@ func active_render_plan() -> RefCounted:
 	return _active_render_plan
 
 
+func set_runtime_input_value(input_name: String, value: float) -> bool:
+	if _active_render_plan == null or _runtime_input_state == null:
+		return false
+	var program: RefCounted = _active_render_plan.runtime_modulation_program()
+	if program == null or not _runtime_input_state.set_named_value(program, input_name, value):
+		return false
+	var slot: int = program.runtime_input_slot(input_name)
+	_runtime_input_values_by_name[input_name] = _runtime_input_state.value_at(slot)
+	if _render_runtime != null:
+		_render_runtime.set_runtime_input_state(_runtime_input_state)
+		_render_runtime.refresh_modulation(_frame_context())
+	_present_render_packets()
+	return true
+
+
 func set_preview_validation_state(issues: Array) -> void:
 	var has_error := false
 	for issue in issues:
@@ -269,6 +287,8 @@ func _rebuild_render_runtime() -> void:
 		return
 	_asset_resolver = VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new())
 	_render_runtime = VfxPreviewRenderRuntimeModel.new(_active_render_plan, _shared_state.profile_data(), _schema_registry, _renderer_factory, _asset_resolver)
+	_configure_runtime_input_state()
+	_render_runtime.set_runtime_input_state(_runtime_input_state)
 	_playback = VfxPreviewPlaybackControllerModel.new(_active_render_plan, _render_runtime)
 	_playback.set_auto_playback(_auto_playback_enabled())
 	if not _auto_playback_enabled():
@@ -278,6 +298,7 @@ func _rebuild_render_runtime() -> void:
 		_preview_status = "PREVIEW WARNING — ASSET FALLBACK"
 	_update_preview_status_label()
 	_present_render_packets()
+	_update_runtime_input_controls()
 
 
 func _present_render_packets() -> void:
@@ -419,6 +440,12 @@ func _configure_controls() -> void:
 	var auto_playback := get_node_or_null("PreviewControls/PlaybackRow/AutoPlayback") as CheckBox
 	if auto_playback != null and not auto_playback.toggled.is_connected(_on_auto_playback_toggled):
 		auto_playback.toggled.connect(_on_auto_playback_toggled)
+	var speed_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/SpeedNormalizedSlider") as HSlider
+	if speed_slider != null and not speed_slider.value_changed.is_connected(_on_runtime_speed_changed):
+		speed_slider.value_changed.connect(_on_runtime_speed_changed)
+	var load_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/LongitudinalLoadSlider") as HSlider
+	if load_slider != null and not load_slider.value_changed.is_connected(_on_runtime_load_changed):
+		load_slider.value_changed.connect(_on_runtime_load_changed)
 	_rebuild_track_scales()
 	_rebuild_profile_select()
 	_rebuild_anchor_controls()
@@ -468,6 +495,49 @@ func _on_auto_playback_toggled(enabled: bool) -> void:
 	else:
 		_playback.restart(_frame_context())
 	_present_render_packets()
+
+
+func _on_runtime_speed_changed(value: float) -> void:
+	set_runtime_input_value("speed_normalized", value)
+
+
+func _on_runtime_load_changed(value: float) -> void:
+	set_runtime_input_value("longitudinal_load", value)
+
+
+func _configure_runtime_input_state() -> void:
+	if _active_render_plan == null:
+		_runtime_input_state = null
+		return
+	var program: RefCounted = _active_render_plan.runtime_modulation_program()
+	if program == null or program.binding_count() == 0:
+		_runtime_input_state = null
+		return
+	_runtime_input_state = VfxPreviewRuntimeInputStateModel.new(program)
+	for slot in program.runtime_input_count():
+		var input_name: String = program.runtime_input_name(slot)
+		if _runtime_input_values_by_name.has(input_name):
+			_runtime_input_state.set_slot(slot, clampf(float(_runtime_input_values_by_name[input_name]), program.runtime_input_minimum(slot), program.runtime_input_maximum(slot)))
+		_runtime_input_values_by_name[input_name] = _runtime_input_state.value_at(slot)
+
+
+func _update_runtime_input_controls() -> void:
+	var row := get_node_or_null("PreviewControls/RuntimeInputsRow") as HBoxContainer
+	var program: RefCounted = _active_render_plan.runtime_modulation_program() if _active_render_plan != null else null
+	var visible: bool = row != null and program != null and program.binding_count() > 0 and _runtime_input_state != null
+	if row != null:
+		row.visible = visible
+	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"]]:
+		var input_name := str(configuration[0])
+		var slot: int = program.runtime_input_slot(input_name) if visible else -1
+		var label := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % str(configuration[1])) as Control
+		var slider := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % str(configuration[2])) as HSlider
+		if label != null:
+			label.visible = slot >= 0
+		if slider != null:
+			slider.visible = slot >= 0
+			if slot >= 0:
+				slider.set_value_no_signal(_runtime_input_state.value_at(slot))
 
 
 func _rebuild_track_scales() -> void:

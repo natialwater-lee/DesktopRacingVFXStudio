@@ -95,7 +95,23 @@ VfxVehiclePreviewCanvas
 
 `WORLD`, under-vehicle, vehicle art, over-vehicle, and overlay therefore have observable ordering. The reusable Preview additionally owns per-view Screen UI host boundaries; these are viewport overlays rather than vehicle- or scroll-content descendants. `FutureVfxHost` remains the Phase 2 seam for a later game-facing Renderer architecture, but no game runtime node hierarchy is assumed by Phase 3.
 
-`VfxPreviewRendererFactory` checks its small implementation mapping against Schema `x_vfx_layer_types` at startup. It dispatches `PARTICLE`, `TRAIL`, `RING`, `GLOW`, and `SHIELD` only by Layer Type—never by Preset ID. Particle and Trail use compact deterministic CPU state; Ring and Glow produce direct Canvas geometry; a textured Shield uses a fixed polar-annulus shader adapter with immutable Alpha/Additive variants solely for Schema blend behavior and UV scrolling. There is no Shader Graph or material authoring surface. The renderer respects declared blend mode, transform, render plane, Source lifetime, and Layer order. `importance` remains present in immutable specs as the Phase 4 performance/LOD seam; Phase 3 does not add a LOD control or analyzer.
+`VfxPreviewRendererFactory` checks its small implementation mapping against Schema `x_vfx_layer_types` at startup. It dispatches `PARTICLE`, `TRAIL`, `RING`, `GLOW`, `TEXTURED_SPRITE`, and `SHIELD` only by Layer Type—never by Preset ID. Particle and Trail use compact deterministic CPU state; Ring and Glow produce direct Canvas geometry; `TEXTURED_SPRITE` keeps one static texture packet while its Phase is active; a textured Shield uses a fixed polar-annulus shader adapter with immutable Alpha/Additive variants solely for Schema blend behavior and UV scrolling. There is no Shader Graph or material authoring surface. The renderer respects declared blend mode, transform, render plane, Source lifetime, and Layer order. `importance` remains present in immutable specs as the Phase 4 performance/LOD seam; Phase 3 does not add a LOD control or analyzer.
+
+## Runtime Modulation v1 Preview boundary
+
+Validated modulation authoring compiles once into an immutable program with numeric
+source, input, target, and operation slots. LOD and disabled-Layer filtering happen
+before evaluator activation; a second filter retains only successfully constructed
+renderer entries. A zero-binding program allocates no evaluator state.
+
+Phase A consumes that effective state only in the generic `TEXTURED_SPRITE`
+renderer. The pivot is Layer-local texture geometry relative to texture center. For
+base origin `O`, base matrix `M_base`, effective matrix `M_effective`, pivot `p`,
+and dynamic offset `D`, the source-local origin is
+`O + M_base*p + D - M_effective*p`. This preserves the selected attachment point;
+offset modulation intentionally moves it. Session-only speed/load controls refresh
+the canonical Preview runtime and never alter source JSON, dirty state, Undo/Redo,
+or Export data.
 
 Preview assets are declared in `assets/preview/vfx_preview_asset_catalog_v1.json` with logical IDs such as `fx.energy_shard` and `fx.trail_streak`. A catalog entry has a deliberately small `source`: `PROCEDURAL` retains the Studio primitive path, while `TEXTURE` resolves only its Studio-owned `texture_path` through `VfxPreviewAssetResolver`. Presets continue to serialize only logical IDs; they never serialize an `res://` texture path, and the catalog never discovers a game repository.
 

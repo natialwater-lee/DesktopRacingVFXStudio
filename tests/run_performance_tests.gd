@@ -12,6 +12,9 @@ const StandardBoosterBudgetTests := preload("res://tests/performance/test_standa
 const HighSpeedWindBudgetTests := preload("res://tests/performance/test_high_speed_wind_budget.gd")
 const RainTireSprayBudgetTests := preload("res://tests/performance/test_rain_tire_spray_budget.gd")
 const SnowTireSprayBudgetTests := preload("res://tests/performance/test_snow_tire_spray_budget.gd")
+const TexturedSpriteBudgetTests := preload("res://tests/performance/test_textured_sprite_budget.gd")
+const HeadlightBudgetTests := preload("res://tests/performance/test_headlight_budget.gd")
+const RuntimeModulationStructureTests := preload("res://tests/performance/test_runtime_modulation_structure.gd")
 
 
 func _init() -> void:
@@ -31,5 +34,8 @@ func _run() -> void:
 	HighSpeedWindBudgetTests.run(tests)
 	RainTireSprayBudgetTests.run(tests)
 	SnowTireSprayBudgetTests.run(tests)
+	TexturedSpriteBudgetTests.run(tests)
+	HeadlightBudgetTests.run(tests)
+	RuntimeModulationStructureTests.run(tests)
 	print("PERFORMANCE_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

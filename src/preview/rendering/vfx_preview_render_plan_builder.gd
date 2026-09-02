@@ -4,6 +4,7 @@ extends RefCounted
 const VfxPreviewRenderPlanModel := preload("res://src/preview/rendering/vfx_preview_render_plan.gd")
 const VfxPreviewPhasePlanModel := preload("res://src/preview/rendering/vfx_preview_phase_plan.gd")
 const VfxPreviewLayerSpecModel := preload("res://src/preview/rendering/vfx_preview_layer_spec.gd")
+const VfxRuntimeModulationProgramBuilderModel := preload("res://src/preview/runtime_modulation/vfx_runtime_modulation_program_builder.gd")
 
 var _registry: RefCounted
 var _next_revision := 1
@@ -71,7 +72,10 @@ func build(normalized_data: Dictionary) -> VfxResult:
 				index
 			))
 		phase_plans.append(VfxPreviewPhasePlanModel.new(phase_name, phase.get("duration_seconds"), layer_specs))
-	var plan := VfxPreviewRenderPlanModel.new(str(normalized_data.get("preset_id", "")), lifecycle_mode, phase_plans, _next_revision)
+	var modulation_result: VfxResult = VfxRuntimeModulationProgramBuilderModel.new(_registry).build(normalized_data)
+	if not modulation_result.success:
+		return VfxResult.failure(modulation_result.issues)
+	var plan := VfxPreviewRenderPlanModel.new(str(normalized_data.get("preset_id", "")), lifecycle_mode, phase_plans, _next_revision, modulation_result.value)
 	_next_revision += 1
 	return VfxResult.ok(plan)
 
