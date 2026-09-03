@@ -21,8 +21,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
+              "max_effective": 4.842,
+              "min_effective": 3.697,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -48,8 +48,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -121,13 +121,13 @@
               49.0
             ],
             "offset": [
-              -58.193132,
-              -354.29144
+              -60.328448,
+              -378.69821
             ],
             "rotation_degrees": 355.0,
             "scale": [
               2.8,
-              3.65
+              4.15
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -142,8 +142,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
+              "max_effective": 4.842,
+              "min_effective": 3.697,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -169,8 +169,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -242,13 +242,13 @@
               49.0
             ],
             "offset": [
-              60.982477,
-              -354.047404
+              63.117793,
+              -378.454174
             ],
             "rotation_degrees": 5.0,
             "scale": [
               2.8,
-              3.65
+              4.15
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -263,8 +263,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
+              "max_effective": 1.867,
+              "min_effective": 1.425,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -290,8 +290,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -368,8 +368,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
+              "max_effective": 1.867,
+              "min_effective": 1.425,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -395,8 +395,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -478,8 +478,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
+              "max_effective": 4.842,
+              "min_effective": 3.697,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -505,8 +505,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -578,13 +578,13 @@
               49.0
             ],
             "offset": [
-              -58.193132,
-              -354.29144
+              -60.328448,
+              -378.69821
             ],
             "rotation_degrees": 355.0,
             "scale": [
               2.8,
-              3.65
+              4.15
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -599,8 +599,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
+              "max_effective": 4.842,
+              "min_effective": 3.697,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -626,8 +626,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -699,13 +699,13 @@
               49.0
             ],
             "offset": [
-              60.982477,
-              -354.047404
+              63.117793,
+              -378.454174
             ],
             "rotation_degrees": 5.0,
             "scale": [
               2.8,
-              3.65
+              4.15
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -720,8 +720,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
+              "max_effective": 1.867,
+              "min_effective": 1.425,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -747,8 +747,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -825,8 +825,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
+              "max_effective": 1.867,
+              "min_effective": 1.425,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -852,8 +852,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -936,8 +936,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
+              "max_effective": 4.842,
+              "min_effective": 3.697,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -963,8 +963,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1036,13 +1036,13 @@
               49.0
             ],
             "offset": [
-              -58.193132,
-              -354.29144
+              -60.328448,
+              -378.69821
             ],
             "rotation_degrees": 355.0,
             "scale": [
               2.8,
-              3.65
+              4.15
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1057,8 +1057,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
+              "max_effective": 4.842,
+              "min_effective": 3.697,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1084,8 +1084,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1157,13 +1157,13 @@
               49.0
             ],
             "offset": [
-              60.982477,
-              -354.047404
+              63.117793,
+              -378.454174
             ],
             "rotation_degrees": 5.0,
             "scale": [
               2.8,
-              3.65
+              4.15
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1178,8 +1178,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
+              "max_effective": 1.867,
+              "min_effective": 1.425,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1205,8 +1205,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1283,8 +1283,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
+              "max_effective": 1.867,
+              "min_effective": 1.425,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1310,8 +1310,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
+                "output_max": 1.1,
+                "output_min": 0.9,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",

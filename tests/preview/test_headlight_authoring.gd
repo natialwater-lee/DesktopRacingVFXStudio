@@ -49,8 +49,8 @@ static func _test_headlight_assets_and_static_phase_contract(tests: TestAssert) 
 	var end_layers: Array = phases.get("end", {}).get("layers", [])
 	var loop := _layers_by_id(loop_layers)
 	var phase_shapes_match := _layer_ids(start_layers) == START_IDS and _layer_ids(loop_layers) == LOOP_IDS and _layer_ids(end_layers) == END_IDS
-	var loop_contract_matches := _matches_beam(loop.get("loop.left_soft_beam", {}), "fx.headlight_beam_soft", "DETAIL", "ALPHA", 355.0, Vector2(2.8, 3.65), Vector2(-58.193132, -354.291440), 0.11) \
-		and _matches_beam(loop.get("loop.right_soft_beam", {}), "fx.headlight_beam_soft", "DETAIL", "ALPHA", 5.0, Vector2(2.8, 3.65), Vector2(60.982477, -354.047404), 0.11) \
+	var loop_contract_matches := _matches_beam(loop.get("loop.left_soft_beam", {}), "fx.headlight_beam_soft", "DETAIL", "ALPHA", 355.0, Vector2(2.8, 4.15), Vector2(-60.328448, -378.698210), 0.11) \
+		and _matches_beam(loop.get("loop.right_soft_beam", {}), "fx.headlight_beam_soft", "DETAIL", "ALPHA", 5.0, Vector2(2.8, 4.15), Vector2(63.117793, -378.454174), 0.11) \
 		and _matches_beam(loop.get("loop.left_core_beam", {}), "fx.headlight_beam_core", "CORE", "ADDITIVE", 355.0, Vector2(1.55, 1.6), Vector2(-55.638927, -317.925671), 0.36) \
 		and _matches_beam(loop.get("loop.right_core_beam", {}), "fx.headlight_beam_core", "CORE", "ADDITIVE", 5.0, Vector2(1.55, 1.6), Vector2(57.183029, -317.790579), 0.36)
 	var lifecycle_matches := _phase_uses_loop_geometry(start_layers, loop, {"soft": 0.078571, "core": 0.276}) and _phase_uses_loop_geometry(end_layers, loop, {"soft": 0.066786, "core": 0.252})
@@ -101,8 +101,8 @@ static func _test_headlight_visible_roots_and_game_footprints(tests: TestAssert)
 		and right_soft_root.distance_to(RIGHT_ROOT) <= 0.001 and right_core_root.distance_to(RIGHT_ROOT) <= 0.001 \
 		and is_equal_approx(LEFT_ROOT.x, -RIGHT_ROOT.x) and is_equal_approx(LEFT_ROOT.y, RIGHT_ROOT.y) \
 		and is_equal_approx(float(left_soft.get("transform", {}).get("rotation_degrees", 0.0)) + float(right_soft.get("transform", {}).get("rotation_degrees", 0.0)), 360.0) \
-		and soft_100.y >= 44.0 and soft_100.y <= 45.0 and soft_100.x >= 34.2 and soft_100.x <= 35.2 \
-		and soft_085.y >= 37.3 and soft_085.y <= 38.3 and soft_085.x >= 29.0 and soft_085.x <= 30.0 \
+		and soft_100.y >= 49.7 and soft_100.y <= 50.7 and soft_100.x >= 34.7 and soft_100.x <= 35.7 \
+		and soft_085.y >= 42.2 and soft_085.y <= 43.2 and soft_085.x >= 29.4 and soft_085.x <= 30.4 \
 		and core_100.y >= 25.5 and core_100.y <= 26.6 and core_100.x >= 16.0 and core_100.x <= 17.1 \
 		and core_085.y >= 21.7 and core_085.y <= 22.7 and core_085.x >= 13.5 and core_085.x <= 14.6 \
 		and profiles_match,
@@ -150,34 +150,40 @@ static func _test_headlight_runtime_modulation_preview_behavior(tests: TestAsser
 		tests.expect_true(false, "Headlight Runtime Modulation Preview checks require a compiled Plan and Performance Policy")
 		return
 	var root_error_max := 0.0
+	var normal_sweep_clamp_hits := 0
 	var dynamic_matches := true
-	for speed in [0.0, 1.0]:
-		for load_value in [-1.0, 0.0, 1.0]:
-			for preview_time in [0.0, 0.25, 0.75]:
-				var sampled_road := sin(TAU * preview_time)
-				var runtime := _runtime_for(plan_result.value, speed, load_value, preview_time)
-				if runtime == null:
-					dynamic_matches = false
-					continue
-				var expected_factor: float = (1.0 + 0.05 * speed) * lerpf(0.94, 1.06, (load_value + 1.0) * 0.5) * lerpf(0.99, 1.01, (sampled_road + 1.0) * 0.5)
-				for packet_value in runtime.draw_packets():
-					if not packet_value is Dictionary:
+	for phase_name in ["start", "loop", "end"]:
+		for speed in [0.0, 0.25, 0.5, 0.75, 1.0]:
+			for load_value in [-1.0, -0.5, 0.0, 0.5, 1.0]:
+				for preview_time in [0.0, 0.25, 0.75]:
+					var sampled_road := sin(TAU * preview_time)
+					var runtime := _runtime_for(plan_result.value, speed, load_value, preview_time, phase_name)
+					if runtime == null:
 						dynamic_matches = false
 						continue
-					var packet: Dictionary = packet_value
-					var layer_id := str(packet.get("layer_id", ""))
-					var is_soft := layer_id.contains("soft")
-					var pivot := Vector2(-0.5, 49.0) if is_soft else Vector2(-0.5, 89.0)
-					var scale: Vector2 = packet.get("geometry_scale", Vector2.ZERO)
-					var rotation := float(packet.get("geometry_rotation_degrees", 0.0))
-					var position: Vector2 = packet.get("position", Vector2.ZERO)
-					var actual_root := position + Vector2(pivot.x * scale.x, pivot.y * scale.y).rotated(deg_to_rad(rotation))
-					var expected_root := LEFT_ROOT if layer_id.contains("left") else RIGHT_ROOT
-					root_error_max = maxf(root_error_max, actual_root.distance_to(expected_root))
-					var base_scale_y := 3.65 if is_soft else 1.6
-					var expected_alpha: float = (0.11 * (1.0 + 0.05 * speed)) if is_soft else 0.36
-					dynamic_matches = dynamic_matches and is_equal_approx(scale.y, base_scale_y * expected_factor) \
-						and is_equal_approx(float(packet.get("alpha", 0.0)), expected_alpha)
+					var expected_factor: float = (1.0 + 0.05 * speed) * lerpf(0.90, 1.10, (load_value + 1.0) * 0.5) * lerpf(0.99, 1.01, (sampled_road + 1.0) * 0.5)
+					for packet_value in runtime.draw_packets():
+						if not packet_value is Dictionary:
+							dynamic_matches = false
+							continue
+						var packet: Dictionary = packet_value
+						var layer_id := str(packet.get("layer_id", ""))
+						var is_soft := layer_id.contains("soft")
+						var pivot := Vector2(-0.5, 49.0) if is_soft else Vector2(-0.5, 89.0)
+						var scale: Vector2 = packet.get("geometry_scale", Vector2.ZERO)
+						var rotation := float(packet.get("geometry_rotation_degrees", 0.0))
+						var position: Vector2 = packet.get("position", Vector2.ZERO)
+						var actual_root := position + Vector2(pivot.x * scale.x, pivot.y * scale.y).rotated(deg_to_rad(rotation))
+						var expected_root := LEFT_ROOT if layer_id.contains("left") else RIGHT_ROOT
+						root_error_max = maxf(root_error_max, actual_root.distance_to(expected_root))
+						var base_scale_y := 4.15 if is_soft else 1.6
+						var expected_alpha: float = _phase_base_opacity(phase_name, is_soft) * (1.0 + 0.05 * speed) if is_soft else _phase_base_opacity(phase_name, false)
+						var clamp_bounds := _scale_y_clamp_bounds(is_soft)
+						var expected_scale_y := base_scale_y * expected_factor
+						if expected_scale_y <= clamp_bounds.x or expected_scale_y >= clamp_bounds.y:
+							normal_sweep_clamp_hits += 1
+						dynamic_matches = dynamic_matches and is_equal_approx(scale.y, expected_scale_y) \
+							and is_equal_approx(float(packet.get("alpha", 0.0)), expected_alpha)
 	var lod_matches := true
 	for lod_level in ["HIGH", "MEDIUM", "LOW"]:
 		var filtered: VfxResult = VfxPreviewLodFilterModel.new().filter(plan_result.value, lod_level, policy_result.value)
@@ -189,8 +195,8 @@ static func _test_headlight_runtime_modulation_preview_behavior(tests: TestAsser
 			and runtime.active_runtime_modulation_binding_count() == expected_bindings \
 			and runtime.modulation_sample_count_last_tick() == 1
 	tests.expect_true(
-		dynamic_matches and root_error_max <= 0.001 and lod_matches,
-		"Headlight speed/load/road mappings preserve all four bilateral lamp roots within 0.001 source px, sample one shared oscillator, and prune Soft bindings at LOW LOD"
+		dynamic_matches and root_error_max <= 0.001 and normal_sweep_clamp_hits == 0 and lod_matches,
+		"Headlight speed/load/road mappings preserve all bilateral lamp roots within 0.001 source px across every phase, keep normal-sweep Scale Y values off the safety rails, sample one shared oscillator, and prune Soft bindings at LOW LOD"
 	)
 
 
@@ -199,7 +205,7 @@ static func _modulation_set_matches(bindings_value: Variant, is_soft: bool) -> b
 		return false
 	var expected: Array[Dictionary] = [
 		_expected_mapping("TRANSFORM_SCALE_Y", "RUNTIME_INPUT", "speed_normalized", 0.0, 1.0, 1.0, 1.05),
-		_expected_mapping("TRANSFORM_SCALE_Y", "RUNTIME_INPUT", "longitudinal_load", -1.0, 1.0, 0.94, 1.06),
+		_expected_mapping("TRANSFORM_SCALE_Y", "RUNTIME_INPUT", "longitudinal_load", -1.0, 1.0, 0.90, 1.10),
 		_expected_mapping("TRANSFORM_SCALE_Y", "PRESET_SOURCE", "road.motion", -1.0, 1.0, 0.99, 1.01),
 		_expected_mapping("TRANSFORM_ROTATION_DEGREES", "PRESET_SOURCE", "road.motion", -1.0, 1.0, -0.2, 0.2)
 	]
@@ -250,14 +256,26 @@ static func _scale_y_clamp_matches(clamps_value: Variant, is_soft: bool) -> bool
 	if not clamps_value is Array or clamps_value.size() != 1 or not clamps_value[0] is Dictionary:
 		return false
 	var clamp: Dictionary = clamps_value[0]
-	var expected_min := 3.39 if is_soft else 1.48
-	var expected_max := 4.12 if is_soft else 1.81
+	var expected_bounds := _scale_y_clamp_bounds(is_soft)
 	return clamp.get("target") == "TRANSFORM_SCALE_Y" \
-		and is_equal_approx(float(clamp.get("min_effective", INF)), expected_min) \
-		and is_equal_approx(float(clamp.get("max_effective", INF)), expected_max)
+		and is_equal_approx(float(clamp.get("min_effective", INF)), expected_bounds.x) \
+		and is_equal_approx(float(clamp.get("max_effective", INF)), expected_bounds.y)
 
 
-static func _runtime_for(plan: RefCounted, speed: float, load_value: float, preview_time: float) -> RefCounted:
+static func _scale_y_clamp_bounds(is_soft: bool) -> Vector2:
+	return Vector2(3.697, 4.842) if is_soft else Vector2(1.425, 1.867)
+
+
+static func _phase_base_opacity(phase_name: String, is_soft: bool) -> float:
+	var values := {
+		"start": {"soft": 0.078571, "core": 0.276},
+		"loop": {"soft": 0.11, "core": 0.36},
+		"end": {"soft": 0.066786, "core": 0.252}
+	}
+	return float(values.get(phase_name, {}).get("soft" if is_soft else "core", 0.0))
+
+
+static func _runtime_for(plan: RefCounted, speed: float, load_value: float, preview_time: float, phase_name := "loop") -> RefCounted:
 	if plan == null or plan.runtime_modulation_program() == null:
 		return null
 	var runtime := VfxPreviewRenderRuntimeModel.new(plan, {"anchors": {"CENTER": [0.0, 0.0]}}, _registry(), VfxPreviewRendererFactoryModel.new(), VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new()))
@@ -265,7 +283,7 @@ static func _runtime_for(plan: RefCounted, speed: float, load_value: float, prev
 	inputs.set_named_value(plan.runtime_modulation_program(), "speed_normalized", speed)
 	inputs.set_named_value(plan.runtime_modulation_program(), "longitudinal_load", load_value)
 	runtime.set_runtime_input_state(inputs)
-	runtime.activate_phase("loop", {"preview_time": preview_time})
+	runtime.activate_phase(phase_name, {"preview_time": preview_time})
 	runtime.advance(0.0, {"preview_time": preview_time})
 	return runtime
 

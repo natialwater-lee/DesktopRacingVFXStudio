@@ -14,6 +14,7 @@ const VfxExportCompilerModel := preload("res://src/export/vfx_export_compiler.gd
 static func run(tests: TestAssert) -> void:
 	_test_modulated_headlights_select_runtime_definition_v2(tests)
 	_test_headlight_runtime_v2_preserves_portable_modulation_semantics(tests)
+	_test_headlight_runtime_v2_preserves_final_readability_authoring(tests)
 
 
 static func _test_modulated_headlights_select_runtime_definition_v2(tests: TestAssert) -> void:
@@ -83,6 +84,71 @@ static func _test_headlight_runtime_v2_preserves_portable_modulation_semantics(t
 	for term in purity_terms:
 		pure = pure and not first.value.runtime_text().contains(str(term))
 	tests.expect_true(pure, "Runtime Definition v2 excludes Studio/session paths, compiled slots, packets, and performance state")
+
+
+static func _test_headlight_runtime_v2_preserves_final_readability_authoring(tests: TestAssert) -> void:
+	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/driving.headlights.vfx.json")
+	var compiler_result := _compiler()
+	if not document_result.success or not compiler_result.success:
+		tests.expect_true(false, "Headlight final readability export requires a valid saved Preset and configured compiler")
+		return
+	var compiled: VfxResult = compiler_result.value.compile(document_result.value)
+	var runtime: Variant = JSON.parse_string(compiled.value.runtime_text()) if compiled.success else null
+	var matches := compiled.success and runtime is Dictionary
+	for phase_value in document_result.value.normalized_data.get("phases", {}).values():
+		if not phase_value is Dictionary:
+			matches = false
+			continue
+		for source_layer_value in phase_value.get("layers", []):
+			if not source_layer_value is Dictionary:
+				matches = false
+				continue
+			var source_layer: Dictionary = source_layer_value
+			var runtime_layer := _runtime_layer_named(runtime, str(source_layer.get("id", "")))
+			var is_soft := str(source_layer.get("id", "")).contains("soft")
+			var transform: Dictionary = runtime_layer.get("transform", {}) if runtime_layer.get("transform", {}) is Dictionary else {}
+			var expected_offset := Vector2(-60.328448, -378.698210) if str(source_layer.get("id", "")).contains("left") and is_soft else Vector2(63.117793, -378.454174)
+			if not is_soft:
+				expected_offset = Vector2(-55.638927, -317.925671) if str(source_layer.get("id", "")).contains("left") else Vector2(57.183029, -317.790579)
+			matches = matches and _vector_matches(transform.get("scale", []), Vector2(2.8, 4.15) if is_soft else Vector2(1.55, 1.6)) \
+				and _vector_matches(transform.get("offset", []), expected_offset) \
+				and _longitudinal_mapping_matches(runtime_layer.get("modulations", [])) \
+				and _scale_y_clamp_matches(runtime_layer.get("modulation_clamps", []), is_soft)
+	tests.expect_true(matches, "Runtime Definition v2 preserves longer Soft geometry, rebaselined bilateral offsets, stronger longitudinal Scale Y response, and non-contacting safety clamps without changing Core baseline geometry")
+
+
+static func _longitudinal_mapping_matches(modulations_value: Variant) -> bool:
+	if not modulations_value is Array:
+		return false
+	for modulation_value in modulations_value:
+		if not modulation_value is Dictionary:
+			continue
+		var modulation: Dictionary = modulation_value
+		var source: Dictionary = modulation.get("source", {}) if modulation.get("source", {}) is Dictionary else {}
+		var mapping: Dictionary = modulation.get("mapping", {}) if modulation.get("mapping", {}) is Dictionary else {}
+		if modulation.get("target") == "TRANSFORM_SCALE_Y" and source.get("type") == "RUNTIME_INPUT" and source.get("input") == "longitudinal_load":
+			return is_equal_approx(float(mapping.get("input_min", INF)), -1.0) \
+				and is_equal_approx(float(mapping.get("input_max", INF)), 1.0) \
+				and is_equal_approx(float(mapping.get("output_min", INF)), 0.90) \
+				and is_equal_approx(float(mapping.get("output_max", INF)), 1.10)
+	return false
+
+
+static func _scale_y_clamp_matches(clamps_value: Variant, is_soft: bool) -> bool:
+	if not clamps_value is Array or clamps_value.size() != 1 or not clamps_value[0] is Dictionary:
+		return false
+	var clamp: Dictionary = clamps_value[0]
+	var expected := Vector2(3.697, 4.842) if is_soft else Vector2(1.425, 1.867)
+	return clamp.get("target") == "TRANSFORM_SCALE_Y" \
+		and is_equal_approx(float(clamp.get("min_effective", INF)), expected.x) \
+		and is_equal_approx(float(clamp.get("max_effective", INF)), expected.y)
+
+
+static func _vector_matches(value: Variant, expected: Vector2) -> bool:
+	return value is Array and value.size() == 2 \
+		and is_equal_approx(float(value[0]), expected.x) and is_equal_approx(float(value[1]), expected.y)
+
+
 static func _compiler() -> VfxResult:
 	var assets := VfxExportAssetRegistryModel.new()
 	var policy := VfxExportPresetPolicyModel.new()
