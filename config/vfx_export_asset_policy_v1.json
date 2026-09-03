@@ -25,6 +25,18 @@
       "source_path": "res://assets/vfx/booster_flame_tail.png",
       "package_file_name": "booster_flame_tail.png"
     },
+    "fx.super_booster_flame_core": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/fx.super_booster_flame_core.png",
+      "package_file_name": "super_booster_flame_core.png"
+    },
+    "fx.super_booster_flame_soft": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/fx.super_booster_flame_soft.png",
+      "package_file_name": "super_booster_flame_soft.png"
+    },
     "fx.headlight_beam_core": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

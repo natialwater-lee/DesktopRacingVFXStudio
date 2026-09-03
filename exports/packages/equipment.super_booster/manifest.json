@@ -1,0 +1,72 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 72382,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_flame_core",
+      "package_path": "assets/super_booster_flame_core.png",
+      "sha256": "9422eae7361e68e00cf45bd9b9e5460d1e999e0e40fc7774792a34055bc03643"
+    },
+    {
+      "byte_size": 127285,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_flame_soft",
+      "package_path": "assets/super_booster_flame_soft.png",
+      "sha256": "af6f0fd9bc081b57853cf021df908ac9054815613bf1ee3027d4bfadd566655a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 72382,
+      "path": "assets/super_booster_flame_core.png",
+      "sha256": "9422eae7361e68e00cf45bd9b9e5460d1e999e0e40fc7774792a34055bc03643"
+    },
+    {
+      "byte_size": 127285,
+      "path": "assets/super_booster_flame_soft.png",
+      "sha256": "af6f0fd9bc081b57853cf021df908ac9054815613bf1ee3027d4bfadd566655a"
+    },
+    {
+      "byte_size": 9954,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "392c1cd135e6b8e21d03d2cac785c4ee28da9fa82ba881ee7e64e5024aadb65c"
+    },
+    {
+      "byte_size": 9452,
+      "path": "source/equipment.super_booster.vfx.json",
+      "sha256": "3998f102824c162f1bf31d8bbf67e1ac0b37206bfb5403decc7d94e3de89d9cb"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "equipment.super_booster",
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Super Booster",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.super_booster",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 3,
+      "DETAIL": 3,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "REAR_CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 9954,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "392c1cd135e6b8e21d03d2cac785c4ee28da9fa82ba881ee7e64e5024aadb65c",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 9452,
+    "path": "source/equipment.super_booster.vfx.json",
+    "sha256": "3998f102824c162f1bf31d8bbf67e1ac0b37206bfb5403decc7d94e3de89d9cb"
+  }
+}

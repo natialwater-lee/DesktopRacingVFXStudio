@@ -9,6 +9,7 @@ const RainTireSprayExportPolicyTests := preload("res://tests/export/test_rain_ti
 const SnowTireSprayExportPolicyTests := preload("res://tests/export/test_snow_tire_spray_export_policy.gd")
 const TexturedSpriteExportContractTests := preload("res://tests/export/test_textured_sprite_export_contract.gd")
 const HeadlightExportPolicyTests := preload("res://tests/export/test_headlight_export_policy.gd")
+const SuperBoosterExportPolicyTests := preload("res://tests/export/test_super_booster_export_policy.gd")
 const RuntimeModulationExportGuardTests := preload("res://tests/export/test_runtime_modulation_export_guard.gd")
 
 
@@ -26,6 +27,7 @@ func _run() -> void:
 	SnowTireSprayExportPolicyTests.run(tests)
 	TexturedSpriteExportContractTests.run(tests)
 	HeadlightExportPolicyTests.run(tests)
+	SuperBoosterExportPolicyTests.run(tests)
 	RuntimeModulationExportGuardTests.run(tests)
 	print("EXPORT_CONTRACT_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)
