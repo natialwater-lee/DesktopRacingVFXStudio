@@ -8,4 +8,5 @@ static func run(tests: TestAssert) -> void:
 	var compiler: Variant = ExportCompilerAndWriterTests._compiler(tests)
 	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://tests/fixtures/presets/utility.runtime_modulation_fixture.vfx.json")
 	var result: VfxResult = compiler.compile(document_result.value) if compiler != null and document_result.success else VfxResult.failure(document_result.issues if document_result != null else [])
-	tests.expect_true(not result.success and not result.issues.is_empty() and result.issues[0].code == "modulated_preset_requires_runtime_definition_v2", "modulation-bearing Presets fail closed before Runtime Definition v1 package compilation")
+	var manifest: Dictionary = result.value.manifest_data() if result.success else {}
+	tests.expect_true(result.success and manifest.get("runtime_definition", {}).get("version") == 2 and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json", "modulation-bearing Presets select Runtime Definition v2 rather than silently compiling a v1 runtime")

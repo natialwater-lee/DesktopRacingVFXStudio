@@ -57,6 +57,16 @@ packages remain reviewable project artifacts. Export neither serializes Preview
 or Performance data nor opens a game-project path. The full importer-facing
 format and validation requirements are in `docs/VFX_EXPORT_PACKAGE_V1.md`.
 
+Package Format v1 selects a Runtime Definition per Preset: static authoring
+uses Runtime Definition v1 while a Preset with declared Runtime Modulation uses
+portable Runtime Definition v2. The compiler decides this once in immutable
+`VfxExportPackagePlan`; the existing atomic writer writes its selected relative
+runtime path without inferring a version. A v2 Package is a complete replacement
+tree, so it cannot retain a stale v1 runtime file. The derived Runtime contract
+contains source declarations, mappings, clamps, pivots, and input requirements,
+but never Preview elapsed time, UI values, evaluator slots, packets, or
+performance state.
+
 ## Vehicle Preview and Anchor Profiles
 
 Phase 2 adds four editable Studio-owned vehicle Profile categories: `FORMULA`, `SPORTS`, `GT`, and `HYPER`. Each strict Profile JSON maps every Schema v1 vehicle Anchor to unscaled source-local pixels of its 256 by 512 reference PNG; it is separate from Preset `.vfx.json` data and from game runtime resources.
@@ -95,7 +105,7 @@ VfxVehiclePreviewCanvas
 
 `WORLD`, under-vehicle, vehicle art, over-vehicle, and overlay therefore have observable ordering. The reusable Preview additionally owns per-view Screen UI host boundaries; these are viewport overlays rather than vehicle- or scroll-content descendants. `FutureVfxHost` remains the Phase 2 seam for a later game-facing Renderer architecture, but no game runtime node hierarchy is assumed by Phase 3.
 
-`VfxPreviewRendererFactory` checks its small implementation mapping against Schema `x_vfx_layer_types` at startup. It dispatches `PARTICLE`, `TRAIL`, `RING`, `GLOW`, `TEXTURED_SPRITE`, and `SHIELD` only by Layer Type—never by Preset ID. Particle and Trail use compact deterministic CPU state; Ring and Glow produce direct Canvas geometry; `TEXTURED_SPRITE` keeps one static texture packet while its Phase is active; a textured Shield uses a fixed polar-annulus shader adapter with immutable Alpha/Additive variants solely for Schema blend behavior and UV scrolling. There is no Shader Graph or material authoring surface. The renderer respects declared blend mode, transform, render plane, Source lifetime, and Layer order. `importance` remains present in immutable specs as the Phase 4 performance/LOD seam; Phase 3 does not add a LOD control or analyzer.
+`VfxPreviewRendererFactory` checks its small implementation mapping against Schema `x_vfx_layer_types` at startup. It dispatches `PARTICLE`, `TRAIL`, `RING`, `GLOW`, `TEXTURED_SPRITE`, and `SHIELD` only by Layer Type—never by Preset ID. Particle and Trail use compact deterministic CPU state; Ring and Glow produce direct Canvas geometry; `TEXTURED_SPRITE` keeps one persistent texture packet while its Phase is active, and Runtime Modulation updates its numeric transform/alpha in place without changing packet identity; a textured Shield uses a fixed polar-annulus shader adapter with immutable Alpha/Additive variants solely for Schema blend behavior and UV scrolling. There is no Shader Graph or material authoring surface. The renderer respects declared blend mode, transform, render plane, Source lifetime, and Layer order. `importance` remains present in immutable specs as the Phase 4 performance/LOD seam; Phase 3 does not add a LOD control or analyzer.
 
 ## Runtime Modulation v1 Preview boundary
 
@@ -233,9 +243,12 @@ Render placement is deliberately limited to `UNDER_VEHICLE`, `OVER_VEHICLE`, `WO
 
 ## Runtime inputs
 
-The Schema declares the common runtime input contract: `intensity`, `speed_normalized`, `vehicle_velocity`, `turn_strength`, `effect_radius`, and `surface_type`. A Preset lists only inputs it actually needs in `runtime_inputs`.
+The Schema declares the common runtime input contract: `intensity`, `speed_normalized`, `vehicle_velocity`, `turn_strength`, `longitudinal_load`, `effect_radius`, and `surface_type`. A Preset lists only inputs it actually needs in `runtime_inputs`.
 
-Phase 0 defines the input names, value shapes, and default values only. It does not define a generic binding, expression, curve, or automation system that maps an input to a Layer parameter. A listed input is therefore an interface promise from the game to a future renderer, not an implicit visual rule.
+Phase 0 originally defined input names, value shapes, and default values only.
+Runtime Modulation v1 adds explicit Schema-validated bindings for the supported
+`TEXTURED_SPRITE` path; mappings are declared authoring data, not implicit
+visual rules. It still adds no generic expression, curve, or automation system.
 
 Gameplay target searches and effects such as Shockwave hit results remain game-owned inputs. They are not evaluated by the Studio contract.
 

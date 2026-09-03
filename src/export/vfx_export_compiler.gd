@@ -38,8 +38,6 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	var final_path: VfxResult = _paths.package_path_for(preset_id)
 	if not final_path.success:
 		return final_path
-	if _is_modulation_bearing(data):
-		return _failure("modulated_preset_requires_runtime_definition_v2", "Runtime Definition v1 cannot export Runtime Modulation authoring.")
 	var requirements: VfxResult = _deriver.derive(document)
 	if not requirements.success:
 		return requirements
@@ -49,7 +47,10 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	var coordinate_contract: Dictionary = _coordinate_contract.runtime_data() if _coordinate_contract.has_method("runtime_data") else {}
 	if coordinate_contract.is_empty():
 		return _failure("export_coordinate_contract", "Export compiler requires a loaded Coordinate Contract.")
-	var runtime_data: VfxResult = _compile_runtime_definition(data, requirements.value, coordinate_contract)
+	var is_modulated := _is_modulation_bearing(data)
+	var runtime_definition_version := 2 if is_modulated else 1
+	var runtime_path := "runtime/vfx_runtime_definition_v2.json" if is_modulated else "runtime/vfx_runtime_definition_v1.json"
+	var runtime_data: VfxResult = _compile_runtime_definition_v2(data, requirements.value, coordinate_contract) if is_modulated else _compile_runtime_definition(data, requirements.value, coordinate_contract)
 	if not runtime_data.success:
 		return runtime_data
 	var runtime_text: VfxResult = _encode_json(runtime_data.value)
@@ -59,7 +60,6 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	if not assets.success:
 		return assets
 	var source_path := "source/%s.vfx.json" % preset_id
-	var runtime_path := "runtime/vfx_runtime_definition_v1.json"
 	var source_metadata: VfxResult = _hasher.metadata_for_text(source_text.value)
 	var runtime_metadata: VfxResult = _hasher.metadata_for_text(runtime_text.value)
 	if not source_metadata.success:
@@ -86,7 +86,7 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 		},
 		"source": _file_entry(source_path, source_metadata.value),
 		"runtime_definition": {
-			"version": 1,
+			"version": runtime_definition_version,
 			"path": runtime_path,
 			"sha256": runtime_metadata.value["sha256"],
 			"byte_size": runtime_metadata.value["byte_size"]
@@ -118,7 +118,9 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 		manifest_text.value,
 		text_files,
 		files,
-		assets.value["copies"]
+		assets.value["copies"],
+		runtime_definition_version,
+		runtime_path
 	))
 
 
@@ -171,6 +173,64 @@ func _compile_runtime_definition(data: Dictionary, requirements: Dictionary, coo
 			"lifecycle_mode": str(data.get("lifecycle", {}).get("mode", "")),
 			"default_space_mode": str(data.get("default_space_mode", ""))
 		},
+		"required_vehicle_anchors": requirements["required_vehicle_anchors"],
+		"runtime_inputs": requirements["runtime_inputs"],
+		"phases": phases
+	})
+
+
+func _compile_runtime_definition_v2(data: Dictionary, requirements: Dictionary, coordinate_contract: Dictionary) -> VfxResult:
+	var schema: Dictionary = _registry.schema()
+	var lifecycle_rule := _rule_named(schema, "LIFECYCLE_PHASE_STRUCTURE")
+	var anchor_rule := _rule_named(schema, "EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS")
+	if lifecycle_rule.is_empty() or anchor_rule.is_empty():
+		return _failure("export_runtime_schema", "Runtime compilation requires lifecycle and anchor Schema rules.")
+	var phase_names := _phase_names(data, lifecycle_rule)
+	if phase_names.is_empty():
+		return _failure("export_runtime_lifecycle", "Runtime compilation could not resolve lifecycle phases.")
+	var phases: Array[Dictionary] = []
+	for phase_name in phase_names:
+		var phase: Variant = data.get("phases", {}).get(phase_name, {})
+		if not phase is Dictionary:
+			return _failure("export_runtime_phase", "Runtime compilation is missing a configured phase.")
+		var layers_value: Variant = phase.get("layers", [])
+		if not layers_value is Array:
+			return _failure("export_runtime_layers", "Runtime compilation requires Layer arrays.")
+		var layers: Array[Dictionary] = []
+		for layer_value in layers_value:
+			if not layer_value is Dictionary:
+				return _failure("export_runtime_layer", "Runtime compilation requires Layer objects.")
+			var layer: Dictionary = layer_value
+			layers.append({
+				"id": str(layer.get("id", "")),
+				"type": str(layer.get("type", "")),
+				"enabled": bool(layer.get("enabled", true)),
+				"importance": str(layer.get("importance", "")),
+				"blend_mode": str(layer.get("blend_mode", "")),
+				"render_plane": str(layer.get("render_plane", "")),
+				"sort_order": int(layer.get("sort_order", 0)),
+				"space_mode": _effective_space(data, layer, anchor_rule),
+				"anchors": (layer.get(str(anchor_rule.get("anchors_field", "")), []) as Array).duplicate(),
+				"transform": _runtime_v2_transform(layer),
+				"parameters": (layer.get("parameters", {}) as Dictionary).duplicate(true),
+				"modulations": (layer.get("modulations", []) as Array).duplicate(true),
+				"modulation_clamps": (layer.get("modulation_clamps", []) as Array).duplicate(true)
+			})
+		var compiled_phase := {"name": phase_name, "layers": layers}
+		if phase.has("duration_seconds"):
+			compiled_phase["duration_seconds"] = phase["duration_seconds"]
+		phases.append(compiled_phase)
+	return VfxResult.ok({
+		"runtime_definition_version": 2,
+		"coordinate_contract": coordinate_contract.duplicate(true),
+		"preset": {
+			"preset_id": str(data.get("preset_id", "")),
+			"display_name": str(data.get("display_name", "")),
+			"category": str(data.get("category", "")),
+			"lifecycle_mode": str(data.get("lifecycle", {}).get("mode", "")),
+			"default_space_mode": str(data.get("default_space_mode", ""))
+		},
+		"runtime_modulation_sources": (data.get("runtime_modulation_sources", []) as Array).duplicate(true),
 		"required_vehicle_anchors": requirements["required_vehicle_anchors"],
 		"runtime_inputs": requirements["runtime_inputs"],
 		"phases": phases
@@ -243,6 +303,13 @@ func _runtime_v1_transform(layer: Dictionary) -> Dictionary:
 		"rotation_degrees": float(transform.get("rotation_degrees", 0.0)),
 		"scale": (transform.get("scale", [1.0, 1.0]) as Array).duplicate()
 	}
+
+
+func _runtime_v2_transform(layer: Dictionary) -> Dictionary:
+	var transform := _runtime_v1_transform(layer)
+	var source_transform: Dictionary = layer.get("transform", {}) if layer.get("transform", {}) is Dictionary else {}
+	transform["modulation_pivot_local"] = (source_transform.get("modulation_pivot_local", [0.0, 0.0]) as Array).duplicate()
+	return transform
 
 
 func _encode_json(value: Variant) -> VfxResult:

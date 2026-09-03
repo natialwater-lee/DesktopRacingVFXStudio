@@ -44,11 +44,18 @@ static func run(tests: TestAssert) -> void:
 	run_compile_only(tests)
 	_test_atomic_writer_preserves_final_package_on_staging_failure(tests)
 	_test_atomic_writer_writes_and_replaces_real_package(tests)
+	_test_atomic_writer_replaces_stale_v1_with_selected_v2_runtime(tests)
 
 
 static func run_compile_only(tests: TestAssert) -> void:
 	_test_compiler_preserves_raw_source_and_compiles_runtime(tests)
 	_test_compiler_is_deterministic_and_deduplicates_assets(tests)
+
+
+static func run_writer_contract(tests: TestAssert) -> void:
+	_test_atomic_writer_preserves_final_package_on_staging_failure(tests)
+	_test_atomic_writer_writes_and_replaces_real_package(tests)
+	_test_atomic_writer_replaces_stale_v1_with_selected_v2_runtime(tests)
 
 
 static func _test_compiler_preserves_raw_source_and_compiles_runtime(tests: TestAssert) -> void:
@@ -79,8 +86,19 @@ static func _test_compiler_preserves_raw_source_and_compiles_runtime(tests: Test
 	tests.expect_true(coordinate_contract.get("origin") == "CENTER" and coordinate_contract.get("front_axis") == "-Y" and _is_expected_canvas_size(coordinate_contract.get("vehicle_source_canvas_size_px")), "Runtime Definition always carries the fixed vehicle source-coordinate contract")
 	tests.expect_true(not source_result.value.has("coordinate_contract") and not plan.manifest_data().has("coordinate_contract"), "coordinate contract remains Runtime-only metadata instead of changing Source or Manifest")
 	tests.expect_true(not plan.runtime_text().contains("res://") and not plan.runtime_text().contains("C:\\"), "Runtime Definition excludes Studio source and absolute paths")
+	var golden_runtime := FileAccess.get_file_as_string("res://exports/packages/talent.zero_zone/runtime/vfx_runtime_definition_v1.json")
+	tests.expect_true(plan.runtime_text() == golden_runtime and plan.runtime_definition_version() == 1 and plan.runtime_definition_path() == "runtime/vfx_runtime_definition_v1.json", "Static Zero Zone retains its byte-identical v1 Runtime Definition golden and selected v1 path")
 	var manifest: Dictionary = plan.manifest_data()
 	tests.expect_true(manifest["requirements"]["required_vehicle_anchors"] == ["CENTER"] and manifest["requirements"]["runtime_inputs"] == ["intensity"], "Manifest carries derived anchor and runtime-input requirements")
+	var raw_with_pivot: Dictionary = (document_result.value.raw_data as Dictionary).duplicate(true)
+	var normalized_with_pivot: Dictionary = document_result.value.normalized_data.duplicate(true)
+	(raw_with_pivot["phases"]["loop"]["layers"][0]["transform"] as Dictionary)["modulation_pivot_local"] = [17.0, -9.0]
+	(normalized_with_pivot["phases"]["loop"]["layers"][0]["transform"] as Dictionary)["modulation_pivot_local"] = [17.0, -9.0]
+	var pivot_document := VfxPresetDocument.new("res://tests/fixtures/presets/static_pivot_only.vfx.json", raw_with_pivot, normalized_with_pivot)
+	var pivot_plan_result: VfxResult = compiler.compile(pivot_document)
+	var pivot_runtime: Variant = JSON.parse_string(pivot_plan_result.value.runtime_text()) if pivot_plan_result.success else null
+	var pivot_layer: Dictionary = _runtime_layer_named(pivot_runtime, "loop", "loop.focus_core") if pivot_runtime is Dictionary else {}
+	tests.expect_true(pivot_plan_result.success and pivot_plan_result.value.runtime_definition_version() == 1 and pivot_plan_result.value.runtime_definition_path() == "runtime/vfx_runtime_definition_v1.json" and not pivot_layer.get("transform", {}).has("modulation_pivot_local"), "Pivot-only static authoring remains a v1 Package and does not leak a pivot into the v1 transform")
 
 
 static func _test_compiler_is_deterministic_and_deduplicates_assets(tests: TestAssert) -> void:
@@ -153,6 +171,48 @@ static func _test_atomic_writer_writes_and_replaces_real_package(tests: TestAsse
 	var manifest_path := "%smanifest.json" % str(plan_result.value.final_package_path())
 	tests.expect_true(initial.success and replacement.success and FileAccess.file_exists(manifest_path), "real writer stages, installs, and atomically replaces a complete Package")
 	cleanup.remove_tree("user://phase5_export_write_test")
+
+
+static func _test_atomic_writer_replaces_stale_v1_with_selected_v2_runtime(tests: TestAssert) -> void:
+	var package_root := "user://phase_c1_dynamic_runtime_test/packages/"
+	var staging_root := "user://phase_c1_dynamic_runtime_test/.staging/"
+	var backup_root := "user://phase_c1_dynamic_runtime_test/.backup/"
+	var compiler: Variant = _compiler(tests, package_root, staging_root, backup_root)
+	var writer_script := load("res://src/export/vfx_atomic_package_writer.gd") as Script
+	var paths_script := load("res://src/export/vfx_export_paths.gd") as Script
+	if compiler == null or writer_script == null or not writer_script.can_instantiate() or paths_script == null or not paths_script.can_instantiate():
+		tests.expect_true(false, "Dynamic Runtime Definition writer test requires Export compiler and writer dependencies")
+		return
+	var cleanup := VfxExportFileBackendModel.new()
+	cleanup.remove_tree("user://phase_c1_dynamic_runtime_test")
+	var stale_path := "%sdriving.headlights/runtime/vfx_runtime_definition_v1.json" % package_root
+	var stale_directory_error := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(stale_path.get_base_dir()))
+	var stale_file := FileAccess.open(stale_path, FileAccess.WRITE)
+	if stale_directory_error != OK or stale_file == null:
+		tests.expect_true(false, "Dynamic Runtime Definition writer test can arrange a stale v1 Package tree")
+		cleanup.remove_tree("user://phase_c1_dynamic_runtime_test")
+		return
+	stale_file.store_string("stale-v1-runtime")
+	stale_file.close()
+	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/driving.headlights.vfx.json")
+	var plan_result: VfxResult = compiler.compile(document_result.value) if document_result.success else VfxResult.failure(document_result.issues)
+	if not plan_result.success:
+		tests.expect_true(false, "Dynamic Runtime Definition writer test requires a compiled modulated Headlight Package")
+		cleanup.remove_tree("user://phase_c1_dynamic_runtime_test")
+		return
+	var writer: Variant = writer_script.new(null, null, paths_script.new(package_root, staging_root, backup_root))
+	var written: VfxResult = writer.write(plan_result.value, "REPLACE_EXISTING")
+	var final_path: String = str(plan_result.value.final_package_path())
+	var v2_path := "%sruntime/vfx_runtime_definition_v2.json" % final_path
+	var stale_v1_path := "%sruntime/vfx_runtime_definition_v1.json" % final_path
+	var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string("%smanifest.json" % final_path))
+	tests.expect_true(
+		written.success and FileAccess.file_exists(v2_path) and not FileAccess.file_exists(stale_v1_path) \
+		and manifest is Dictionary and manifest.get("runtime_definition", {}).get("version") == 2 \
+		and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json",
+		"Atomic whole-Package replacement writes the compiler-selected v2 runtime and removes a stale v1 artifact"
+	)
+	cleanup.remove_tree("user://phase_c1_dynamic_runtime_test")
 
 
 static func _compiler(tests: TestAssert, package_root: String = "res://exports/packages/", staging_root: String = "res://exports/.staging/", backup_root: String = "res://exports/.backup/") -> Variant:

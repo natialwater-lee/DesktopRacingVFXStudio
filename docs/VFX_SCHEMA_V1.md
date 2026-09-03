@@ -138,10 +138,12 @@ local offset, rotation, and non-uniform scale, while common blend mode,
 render plane, importance, enabled state, lifecycle Phase, Space Mode, and
 Anchors apply unchanged.
 
-The Preview holds one texture packet for the active Phase rather than spawning
-Particle instances. A later dynamic behavior extension must be an explicit,
-generic compatible contract addition; Schema v1 does not infer runtime input
-bindings, modulation, easing, or per-frame overrides for this Layer.
+The Preview holds one persistent texture packet for the active Phase rather
+than spawning Particle instances. Runtime Modulation v1 is the explicit,
+generic dynamic extension for this Layer: only a validated binding can update
+its numeric transform or alpha in place. A listed Runtime Input alone creates
+no implicit visual behavior, and Schema v1 still does not infer easing or
+arbitrary per-frame overrides.
 
 ### SHIELD
 
@@ -161,10 +163,14 @@ The Schema extension `x_vfx_runtime_inputs` contains the only accepted names and
 | `speed_normalized` | number, 0 through 1, default 0 |
 | `vehicle_velocity` | vector2 array, default `[0, 0]` |
 | `turn_strength` | number, -1 through 1, default 0 |
+| `longitudinal_load` | number, -1 through 1, default 0 |
 | `effect_radius` | number, minimum 0, default 0 |
 | `surface_type` | logical identifier string, default `surface.default` |
 
-A Preset lists only inputs it requires. v1 does not describe input-to-parameter bindings.
+A Preset lists only inputs it requires. Phase 0 initially declared only the
+input names and value contracts. The additive Runtime Modulation v1 contract
+now defines explicit, validated `TEXTURED_SPRITE` bindings; it does not imply a
+generic expression, curve, or automation system for all Layer Types.
 
 ## Semantic rules
 
@@ -179,6 +185,7 @@ The supported `x_vfx_rules` are:
 - `PARTICLE_MOTION_RANGE_ORDER`
 - `PARTICLE_SIZE_MULTIPLIER_RANGE_ORDER`
 - `RUNTIME_INPUT_NAMES`
+- `RUNTIME_MODULATION_CONFIGURATION`
 - `EFFECTIVE_SPACE_ANCHOR_REQUIREMENTS`
 - `RENDER_PLANE_FOR_EFFECTIVE_SPACE`
 

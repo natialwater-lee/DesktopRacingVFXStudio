@@ -27,14 +27,14 @@
       "sha256": "5af4793ef2ed626a0aa77c3dbcfc5429b13373f190b04adcccc1b12e26ac556b"
     },
     {
-      "byte_size": 9456,
-      "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "1a05363bb97416deceeb987bfc44f8230daf10ba791e5e39df916eb261a7897a"
+      "byte_size": 41657,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "817ea17fb6e5c415a87f7e8131def60538c50e469b19302eb44261977a555afd"
     },
     {
-      "byte_size": 8725,
+      "byte_size": 40689,
       "path": "source/driving.headlights.vfx.json",
-      "sha256": "4d1ef9a9add0977c90b43bb8520120767e0e21746ffa38892353f5b0cb4ed4d4"
+      "sha256": "c5eab67d69457764af6a2bd5dbc665fa6a3a4beb18cf87d53c4eb35c5c35b7a5"
     }
   ],
   "package_format_version": 1,
@@ -56,17 +56,20 @@
     "required_vehicle_anchors": [
       "CENTER"
     ],
-    "runtime_inputs": []
+    "runtime_inputs": [
+      "speed_normalized",
+      "longitudinal_load"
+    ]
   },
   "runtime_definition": {
-    "byte_size": 9456,
-    "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "1a05363bb97416deceeb987bfc44f8230daf10ba791e5e39df916eb261a7897a",
-    "version": 1
+    "byte_size": 41657,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "817ea17fb6e5c415a87f7e8131def60538c50e469b19302eb44261977a555afd",
+    "version": 2
   },
   "source": {
-    "byte_size": 8725,
+    "byte_size": 40689,
     "path": "source/driving.headlights.vfx.json",
-    "sha256": "4d1ef9a9add0977c90b43bb8520120767e0e21746ffa38892353f5b0cb4ed4d4"
+    "sha256": "c5eab67d69457764af6a2bd5dbc665fa6a3a4beb18cf87d53c4eb35c5c35b7a5"
   }
 }

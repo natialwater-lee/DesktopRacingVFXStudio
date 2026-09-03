@@ -19,11 +19,10 @@ static func _test_final_zero_zone_package(tests: TestAssert) -> void:
 		manifest_path,
 		"%ssource/talent.zero_zone.vfx.json" % ZERO_ZONE_ROOT,
 		"%sruntime/vfx_runtime_definition_v1.json" % ZERO_ZONE_ROOT,
-		"%sassets/energy_shard.png" % ZERO_ZONE_ROOT,
-		"%sassets/energy_spark.png" % ZERO_ZONE_ROOT,
-		"%sassets/zero_zone_flow_streak.png" % ZERO_ZONE_ROOT
+		"%sassets/zero_zone_focus_mote.png" % ZERO_ZONE_ROOT,
+		"%sassets/zero_zone_tunnel_arc.png" % ZERO_ZONE_ROOT
 	]
-	tests.expect_true(required_paths.all(func(path: String) -> bool: return FileAccess.file_exists(path)), "final Zero Zone Package contains Manifest, Source, Runtime, and all three Production PNG assets")
+	tests.expect_true(required_paths.all(func(path: String) -> bool: return FileAccess.file_exists(path)), "final Zero Zone Package contains Manifest, Source, Runtime, and its current Production PNG assets")
 	if not FileAccess.file_exists(manifest_path):
 		return
 	var codec := VfxPresetCodecModel.new()
@@ -35,9 +34,9 @@ static func _test_final_zero_zone_package(tests: TestAssert) -> void:
 	var requirements: Dictionary = manifest.get("requirements", {}) if manifest.get("requirements") is Dictionary else {}
 	var dependencies: Array = manifest.get("asset_dependencies", []) if manifest.get("asset_dependencies") is Array else []
 	tests.expect_true(manifest.get("package_format_version") == 1 and manifest.get("package_id") == "talent.zero_zone" and requirements.get("required_vehicle_anchors") == ["CENTER"] and requirements.get("runtime_inputs") == ["intensity"], "final Manifest fixes Zero Zone Package version, identity, CENTER Anchor, and intensity input")
-	var expected_asset_paths := {"fx.energy_shard": "assets/energy_shard.png", "fx.energy_spark": "assets/energy_spark.png", "fx.zero_zone_flow_streak": "assets/zero_zone_flow_streak.png"}
-	var manifest_maps_three_production_textures := dependencies.size() == 3 and dependencies.all(func(entry: Variant) -> bool: return entry is Dictionary and expected_asset_paths.get(str(entry.get("logical_id", "")), "") == entry.get("package_path") and str(entry.get("kind", "")) == "TEXTURE_PNG" and str(entry.get("sha256", "")).length() == 64 and int(entry.get("byte_size", 0)) > 0)
-	tests.expect_true(manifest_maps_three_production_textures, "final Manifest maps all three Production texture assets with package paths, SHA-256, and byte sizes")
+	var expected_asset_paths := {"fx.zero_zone_focus_mote": "assets/zero_zone_focus_mote.png", "fx.zero_zone_tunnel_arc": "assets/zero_zone_tunnel_arc.png"}
+	var manifest_maps_production_textures := dependencies.size() == 2 and dependencies.all(func(entry: Variant) -> bool: return entry is Dictionary and expected_asset_paths.get(str(entry.get("logical_id", "")), "") == entry.get("package_path") and str(entry.get("kind", "")) == "TEXTURE_PNG" and str(entry.get("sha256", "")).length() == 64 and int(entry.get("byte_size", 0)) > 0)
+	tests.expect_true(manifest_maps_production_textures, "final Manifest maps the current Production texture assets with package paths, SHA-256, and byte sizes")
 	var runtime_path := "%sruntime/vfx_runtime_definition_v1.json" % ZERO_ZONE_ROOT
 	var source_path := "%ssource/talent.zero_zone.vfx.json" % ZERO_ZONE_ROOT
 	var runtime: VfxResult = codec.decode_file(runtime_path)

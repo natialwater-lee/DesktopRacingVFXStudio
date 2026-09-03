@@ -28,7 +28,7 @@ exports/packages/<preset_id>/
   source/
     <preset_id>.vfx.json
   runtime/
-    vfx_runtime_definition_v1.json
+    vfx_runtime_definition_v1.json | vfx_runtime_definition_v2.json
   assets/
     <approved-production-png>.png
 ```
@@ -45,8 +45,11 @@ silently sanitising it. Phase 5 does not create `preview.png`.
 normalized, and validated. It preserves authoring meaning, including omitted
 Schema defaults, but does not preserve original whitespace or key order.
 
-`runtime/vfx_runtime_definition_v1.json` is compiled from
-`VfxPresetDocument.normalized_data`. It makes each Layer's effective
+Every Runtime Definition is compiled from `VfxPresetDocument.normalized_data`.
+Static Presets use `runtime/vfx_runtime_definition_v1.json`; a
+modulation-bearing Preset uses `runtime/vfx_runtime_definition_v2.json`. The
+v2 selection is additive to Package Format v1 and does not change the source
+or Manifest layout. Both versions make each Layer's effective
 `space_mode` explicit and carries portable semantic data only:
 
 - the mandatory `coordinate_contract` for the fixed vehicle source-local
@@ -62,8 +65,8 @@ normalized `type`, common Layer fields, and `parameters` object. The asset
 dependency is derived from `texture_asset_ref` through the Schema just like
 other logical texture fields. Package compilation does not create a Godot
 Sprite resource or imply that an importer already renders this Layer Type.
-Any future dynamic behavior needs a separately documented generic Runtime
-contract before a Preset may depend on it.
+Runtime Definition v2 adds the documented portable Runtime Modulation contract
+below. It does not export Preview state or an executable Studio evaluator.
 
 It never contains a Studio or game filesystem path, Preview renderer class,
 scene, shader, `.tres`, Vehicle Profile, Preview asset implementation detail,
@@ -71,7 +74,7 @@ Stress Snapshot, authoring budget, threshold, or other Performance data.
 
 ## Coordinate contract
 
-Every Runtime Definition v1 contains this top-level metadata block, even when
+Every Runtime Definition v1 or v2 contains this top-level metadata block, even when
 a Preset currently has only `WORLD_AREA` or `SCREEN_UI` Layers:
 
 ```json
@@ -113,8 +116,8 @@ range consumes no additional deterministic Preview RNG; a non-degenerate range
 uses exactly one seeded sample per spawn.
 
 The block is Runtime-only: it is not inserted into authoring Source JSON and
-is not duplicated in the Manifest. `runtime_definition_version` remains `1`;
-the contract was completed before a Game Importer was released.
+is not duplicated in the Manifest. The Manifest selects the Runtime Definition
+version and relative path whose bytes it hashes.
 
 ## Manifest v1
 
@@ -148,26 +151,72 @@ Preview fallback is exported.
 For example, `utility.renderer_showcase` remains a Studio validation fixture
 and is blocked without treating all `UTILITY` Presets as non-exportable.
 
-## Runtime Modulation Phase A export boundary
+## Runtime Definition v1/v2 selection and Runtime Modulation v1
 
-Runtime Definition v1 has no modulation representation. A Preset with a
-non-empty source table, Layer `modulations`, or Layer `modulation_clamps`
-fails compilation with
-`EXPORT_VALIDATION/modulated_preset_requires_runtime_definition_v2` before any
-package plan, Manifest, Runtime Definition, asset copy, or writer operation is
-created. Runtime Definition v2 is not implemented by this Studio phase.
+The compiler classifies a Preset as **modulation-bearing** when any of these
+validated authoring arrays is non-empty: root
+`runtime_modulation_sources`, a Layer's `modulations`, or a Layer's
+`modulation_clamps`. Static Presets compile to Runtime Definition v1 at
+`runtime/vfx_runtime_definition_v1.json`; modulation-bearing Presets compile
+to Runtime Definition v2 at `runtime/vfx_runtime_definition_v2.json`.
+`modulation_pivot_local` alone does not promote a static Preset to v2.
 
-Static v1 compatibility remains intentional: the v1 transform projection emits
-only `offset`, `rotation_degrees`, and `scale`. It omits every Phase A
-modulation field, including `modulation_pivot_local`; the unmodified authoring
-source copy remains the source of truth.
+Static v1 compatibility remains intentional: v1 transforms contain only
+`offset`, `rotation_degrees`, and `scale`. A pivot-only static Source copy
+retains its authored pivot, but the v1 Runtime Definition does not export it.
+If v2 compilation cannot produce a valid portable Runtime Definition, Export
+fails before a Package Plan, Manifest, asset copy, or writer operation exists;
+it never falls back to v1.
+
+Runtime Definition v2 retains every v1 field and adds only portable declarative
+modulation data:
+
+- root `runtime_modulation_sources` in source order;
+- each Layer's `modulations` and target-level `modulation_clamps` in source
+  order; and
+- `transform.modulation_pivot_local`.
+
+It retains all authoring Layer records, including disabled Layers and their
+`CORE`/`DETAIL`/`EXTRA` importance; Export never bakes Studio LOD filtering.
+It excludes Preview slider values, elapsed time, sampled oscillator values,
+compiled numeric slots, effective states, packets, performance data, Studio or
+game paths, and Godot Node paths.
+
+For one active Phase, an importer evaluates v2 as:
+
+```text
+authored base
+  -> binding mappings in declared order
+  -> ordered ADD/MULTIPLY target composition
+  -> one target clamp after composition
+  -> attachment-preserving effective transform
+  -> renderer
+```
+
+`OSCILLATOR/SINE` evaluates as
+`sin(TAU * frequency_hz * instance_elapsed_seconds + phase_radians)`, where
+`instance_elapsed_seconds` is the VFX lifecycle simulation time, not wall-clock
+time. `VISUAL_OPACITY_MULTIPLIER` produces final alpha
+`clamp(authored_or_animated_alpha * multiplier, 0, 1)`.
+
+For pivot `p`, authored origin `O_base`, authored matrix `M_base`, effective
+matrix `M_effective`, and intentional dynamic offset `D`, the attachment is
+preserved by:
+
+```text
+attachment_root = O_base + M_base * p
+O_effective = attachment_root + D - M_effective * p
+```
+
+This is a generic source-local transform contract, not a Headlight-specific
+offset rule.
 
 ## Importer validation requirements
 
 Before consuming a Package, an importer must:
 
-1. Require `package_format_version == 1` and supported runtime/VFX Schema
-   versions.
+1. Require `package_format_version == 1`, a supported Runtime Definition
+   version/path pair (`v1` or `v2`), and VFX Schema version.
 2. Reject an unsafe package-relative path: empty, absolute, drive-qualified,
    backslash-separated, `res://`, `user://`, or traversing (`.`/`..`) paths.
 3. Verify every Manifest-listed file exists beneath the Package root.

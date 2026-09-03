@@ -1,917 +1,14 @@
 {
-  "category": "UTILITY",
-  "default_space_mode": "VEHICLE_LOCAL",
-  "display_name": "Headlights",
-  "lifecycle": {
-    "mode": "START_LOOP_END"
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
   },
-  "phases": {
-    "end": {
-      "duration_seconds": 0.18,
-      "layers": [
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.left_soft_beam",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "end.left.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.left.soft.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.left.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.left.soft.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            },
-            {
-              "id": "end.left.soft.speed.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.066786,
-            "texture_asset_ref": "fx.headlight_beam_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              49.0
-            ],
-            "offset": [
-              -58.193132,
-              -354.29144
-            ],
-            "rotation_degrees": 355.0,
-            "scale": [
-              2.8,
-              3.65
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.right_soft_beam",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "end.right.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.right.soft.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.right.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.right.soft.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            },
-            {
-              "id": "end.right.soft.speed.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.066786,
-            "texture_asset_ref": "fx.headlight_beam_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              49.0
-            ],
-            "offset": [
-              60.982477,
-              -354.047404
-            ],
-            "rotation_degrees": 5.0,
-            "scale": [
-              2.8,
-              3.65
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "end.left_core_beam",
-          "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "end.left.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.left.core.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.left.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.left.core.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.252,
-            "texture_asset_ref": "fx.headlight_beam_core"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              89.0
-            ],
-            "offset": [
-              -55.638927,
-              -317.925671
-            ],
-            "rotation_degrees": 355.0,
-            "scale": [
-              1.55,
-              1.6
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "end.right_core_beam",
-          "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "end.right.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.right.core.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.right.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "end.right.core.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.252,
-            "texture_asset_ref": "fx.headlight_beam_core"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              89.0
-            ],
-            "offset": [
-              57.183029,
-              -317.790579
-            ],
-            "rotation_degrees": 5.0,
-            "scale": [
-              1.55,
-              1.6
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        }
-      ]
-    },
-    "loop": {
-      "layers": [
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.left_soft_beam",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.left.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left.soft.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left.soft.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            },
-            {
-              "id": "loop.left.soft.speed.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.11,
-            "texture_asset_ref": "fx.headlight_beam_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              49.0
-            ],
-            "offset": [
-              -58.193132,
-              -354.29144
-            ],
-            "rotation_degrees": 355.0,
-            "scale": [
-              2.8,
-              3.65
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.right_soft_beam",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 4.12,
-              "min_effective": 3.39,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.right.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right.soft.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right.soft.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            },
-            {
-              "id": "loop.right.soft.speed.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.11,
-            "texture_asset_ref": "fx.headlight_beam_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              49.0
-            ],
-            "offset": [
-              60.982477,
-              -354.047404
-            ],
-            "rotation_degrees": 5.0,
-            "scale": [
-              2.8,
-              3.65
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "loop.left_core_beam",
-          "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.left.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left.core.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left.core.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.36,
-            "texture_asset_ref": "fx.headlight_beam_core"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              89.0
-            ],
-            "offset": [
-              -55.638927,
-              -317.925671
-            ],
-            "rotation_degrees": 355.0,
-            "scale": [
-              1.55,
-              1.6
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "loop.right_core_beam",
-          "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 1.81,
-              "min_effective": 1.48,
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.right.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right.core.load.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "longitudinal_load",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right.core.road.rotation",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_ROTATION_DEGREES"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.36,
-            "texture_asset_ref": "fx.headlight_beam_core"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              89.0
-            ],
-            "offset": [
-              57.183029,
-              -317.790579
-            ],
-            "rotation_degrees": 5.0,
-            "scale": [
-              1.55,
-              1.6
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        }
-      ]
-    },
-    "start": {
+  "phases": [
+    {
       "duration_seconds": 0.18,
       "layers": [
         {
@@ -1016,7 +113,8 @@
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
               -0.5,
@@ -1136,7 +234,8 @@
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
               -0.5,
@@ -1240,7 +339,8 @@
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
               -0.5,
@@ -1344,7 +444,8 @@
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
               -0.5,
@@ -1362,13 +463,951 @@
           },
           "type": "TEXTURED_SPRITE"
         }
-      ]
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.left_soft_beam",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 4.12,
+              "min_effective": 3.39,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.left.soft.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left.soft.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left.soft.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left.soft.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.left.soft.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.11,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              49.0
+            ],
+            "offset": [
+              -58.193132,
+              -354.29144
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.right_soft_beam",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 4.12,
+              "min_effective": 3.39,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.right.soft.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right.soft.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right.soft.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right.soft.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.right.soft.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.11,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              49.0
+            ],
+            "offset": [
+              60.982477,
+              -354.047404
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.left_core_beam",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 1.81,
+              "min_effective": 1.48,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.left.core.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left.core.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left.core.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left.core.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.36,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              89.0
+            ],
+            "offset": [
+              -55.638927,
+              -317.925671
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.right_core_beam",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 1.81,
+              "min_effective": 1.48,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.right.core.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right.core.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right.core.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right.core.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.36,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              89.0
+            ],
+            "offset": [
+              57.183029,
+              -317.790579
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.18,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.left_soft_beam",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 4.12,
+              "min_effective": 3.39,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "end.left.soft.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.left.soft.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.left.soft.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.left.soft.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.left.soft.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.066786,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              49.0
+            ],
+            "offset": [
+              -58.193132,
+              -354.29144
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.right_soft_beam",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 4.12,
+              "min_effective": 3.39,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "end.right.soft.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.right.soft.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.right.soft.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.right.soft.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.right.soft.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.066786,
+            "texture_asset_ref": "fx.headlight_beam_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              49.0
+            ],
+            "offset": [
+              60.982477,
+              -354.047404
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              2.8,
+              3.65
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.left_core_beam",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 1.81,
+              "min_effective": 1.48,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "end.left.core.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.left.core.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.left.core.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.left.core.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.252,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              89.0
+            ],
+            "offset": [
+              -55.638927,
+              -317.925671
+            ],
+            "rotation_degrees": 355.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.right_core_beam",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 1.81,
+              "min_effective": 1.48,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "end.right.core.speed.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.right.core.load.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.right.core.road.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.01,
+                "output_min": 0.99,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "end.right.core.road.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.2,
+                "output_min": -0.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.motion",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.252,
+            "texture_asset_ref": "fx.headlight_beam_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              89.0
+            ],
+            "offset": [
+              57.183029,
+              -317.790579
+            ],
+            "rotation_degrees": 5.0,
+            "scale": [
+              1.55,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "end"
     }
+  ],
+  "preset": {
+    "category": "UTILITY",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Headlights",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "driving.headlights"
   },
-  "preset_id": "driving.headlights",
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 2,
   "runtime_inputs": [
-    "speed_normalized",
-    "longitudinal_load"
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "name": "speed_normalized",
+      "value_type": "number"
+    },
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": -1.0,
+      "name": "longitudinal_load",
+      "value_type": "number"
+    }
   ],
   "runtime_modulation_sources": [
     {
@@ -1378,6 +1417,5 @@
       "type": "OSCILLATOR",
       "wave": "SINE"
     }
-  ],
-  "schema_version": 1.0
+  ]
 }

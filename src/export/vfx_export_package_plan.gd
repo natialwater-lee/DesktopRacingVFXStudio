@@ -7,6 +7,8 @@ var _staging_root: String
 var _backup_root: String
 var _source_text: String
 var _runtime_text: String
+var _runtime_definition_version: int
+var _runtime_definition_path: String
 var _manifest_data: Dictionary
 var _manifest_text: String
 var _text_files: Dictionary
@@ -14,13 +16,15 @@ var _files: Array[Dictionary]
 var _asset_copies: Array[Dictionary]
 
 
-func _init(package_id_value: String, final_package_path_value: String, staging_root_value: String = "", backup_root_value: String = "", source_text_value: String = "", runtime_text_value: String = "", manifest_value: Dictionary = {}, manifest_text_value: String = "", text_file_values: Dictionary = {}, file_values: Array = [], asset_copy_values: Array = []) -> void:
+func _init(package_id_value: String, final_package_path_value: String, staging_root_value: String = "", backup_root_value: String = "", source_text_value: String = "", runtime_text_value: String = "", manifest_value: Dictionary = {}, manifest_text_value: String = "", text_file_values: Dictionary = {}, file_values: Array = [], asset_copy_values: Array = [], runtime_definition_version_value: int = 1, runtime_definition_path_value: String = "runtime/vfx_runtime_definition_v1.json") -> void:
 	_package_id = package_id_value
 	_final_package_path = final_package_path_value
 	_staging_root = staging_root_value
 	_backup_root = backup_root_value
 	_source_text = source_text_value
 	_runtime_text = runtime_text_value
+	_runtime_definition_version = runtime_definition_version_value
+	_runtime_definition_path = runtime_definition_path_value
 	_manifest_data = manifest_value.duplicate(true)
 	_manifest_text = manifest_text_value
 	_text_files = text_file_values.duplicate(true)
@@ -54,6 +58,14 @@ func source_text() -> String:
 
 func runtime_text() -> String:
 	return _runtime_text
+
+
+func runtime_definition_version() -> int:
+	return _runtime_definition_version
+
+
+func runtime_definition_path() -> String:
+	return _runtime_definition_path
 
 
 func manifest_data() -> Dictionary:
