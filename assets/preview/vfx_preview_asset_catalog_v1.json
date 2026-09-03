@@ -9,6 +9,10 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_spark.png"
     },
+    "fx.super_booster_spark_blue": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_spark_blue.png"
+    },
     "fx.booster_flame_core": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/booster_flame_core.png"

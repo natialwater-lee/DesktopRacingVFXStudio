@@ -39,31 +39,31 @@
       "sha256": "a524fe0576fd69285edac8e4cde585a6b6626b5ce97a7fe71b0e8e8aeb0e456e"
     },
     {
-      "byte_size": 11907,
+      "byte_size": 22994,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "8c1ba94850491144139209bced3074827c45e151d418af83950d8d1c51595883"
+      "sha256": "1a75a1cf05af0605c0283073c8cc27c0e58a942dc7d84ad1403ded0c6044092c"
     },
     {
-      "byte_size": 11366,
-      "path": "source/equipment.super_booster.vfx.json",
-      "sha256": "0faecd21a2b34588b44e8040230db37c95881fa51facb053f41a670e2e9c7ae7"
+      "byte_size": 22180,
+      "path": "source/equipment.super_booster.dual.vfx.json",
+      "sha256": "cbc7affe9ed7f3f6b128dab652b2d5bc39793f63692d2d9e3e403ee955728446"
     }
   ],
   "package_format_version": 1,
-  "package_id": "equipment.super_booster",
+  "package_id": "equipment.super_booster.dual",
   "preset": {
     "category": "SPECIAL_EQUIPMENT",
     "default_space_mode": "VEHICLE_LOCAL",
-    "display_name": "Super Booster",
+    "display_name": "Dual Super Booster",
     "lifecycle_mode": "START_LOOP_END",
-    "preset_id": "equipment.super_booster",
+    "preset_id": "equipment.super_booster.dual",
     "vfx_schema_version": 1
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 3,
-      "DETAIL": 3,
-      "EXTRA": 1
+      "CORE": 6,
+      "DETAIL": 6,
+      "EXTRA": 2
     },
     "required_vehicle_anchors": [
       "REAR_CENTER"
@@ -71,14 +71,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 11907,
+    "byte_size": 22994,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "8c1ba94850491144139209bced3074827c45e151d418af83950d8d1c51595883",
+    "sha256": "1a75a1cf05af0605c0283073c8cc27c0e58a942dc7d84ad1403ded0c6044092c",
     "version": 2
   },
   "source": {
-    "byte_size": 11366,
-    "path": "source/equipment.super_booster.vfx.json",
-    "sha256": "0faecd21a2b34588b44e8040230db37c95881fa51facb053f41a670e2e9c7ae7"
+    "byte_size": 22180,
+    "path": "source/equipment.super_booster.dual.vfx.json",
+    "sha256": "cbc7affe9ed7f3f6b128dab652b2d5bc39793f63692d2d9e3e403ee955728446"
   }
 }

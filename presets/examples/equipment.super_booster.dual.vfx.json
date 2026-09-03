@@ -1,0 +1,806 @@
+{
+  "category": "SPECIAL_EQUIPMENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Dual Super Booster",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.14,
+      "layers": [
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.left_core_fade",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.42,
+            "texture_asset_ref": "fx.super_booster_flame_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -181.0
+            ],
+            "offset": [
+              -60.0,
+              165.32
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.242,
+              0.72
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.left_soft_fade",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.18,
+            "texture_asset_ref": "fx.super_booster_flame_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              -183.0
+            ],
+            "offset": [
+              -59.722307692,
+              203.36
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.555384615,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.right_core_fade",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.42,
+            "texture_asset_ref": "fx.super_booster_flame_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -181.0
+            ],
+            "offset": [
+              60.0,
+              165.32
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.242,
+              0.72
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.right_soft_fade",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.18,
+            "texture_asset_ref": "fx.super_booster_flame_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              -183.0
+            ],
+            "offset": [
+              60.277692308,
+              203.36
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.555384615,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ]
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.left_core_flame",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 0.3366,
+              "min_effective": 0.3234,
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "max_effective": 1.197,
+              "min_effective": 1.083,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.left_core.pulse.scale_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.02,
+                "output_min": 0.98,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.left_core.pulse.scale_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.05,
+                "output_min": 0.95,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left_core.pulse.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.86,
+            "texture_asset_ref": "fx.super_booster_flame_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -181.0
+            ],
+            "offset": [
+              -60.0,
+              241.34
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.33,
+              1.14
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.left_soft_flame",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 0.7828,
+              "min_effective": 0.7372,
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "max_effective": 1.431,
+              "min_effective": 1.269,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.left_soft.pulse.scale_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.left_soft.pulse.scale_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.left_soft.pulse.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.04,
+                "output_min": 0.96,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.super_booster_flame_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              -183.0
+            ],
+            "offset": [
+              -59.62,
+              282.05
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.76,
+              1.35
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.left_energy_spark_accent",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 20.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                190.0,
+                180.0
+              ]
+            },
+            "lifetime_seconds": 0.16,
+            "max_particles": 6.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 19.6,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.75,
+            "size_start": 28.0,
+            "speed_max": 700.0,
+            "speed_min": 500.0,
+            "spread_degrees": 60.0,
+            "sprite_asset_ref": "fx.super_booster_spark_blue"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -60.0,
+              295.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.right_core_flame",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 0.3366,
+              "min_effective": 0.3234,
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "max_effective": 1.197,
+              "min_effective": 1.083,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.right_core.pulse.scale_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.02,
+                "output_min": 0.98,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.right_core.pulse.scale_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.05,
+                "output_min": 0.95,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right_core.pulse.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.86,
+            "texture_asset_ref": "fx.super_booster_flame_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -181.0
+            ],
+            "offset": [
+              60.0,
+              241.34
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.33,
+              1.14
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.right_soft_flame",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 0.7828,
+              "min_effective": 0.7372,
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "max_effective": 1.431,
+              "min_effective": 1.269,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.right_soft.pulse.scale_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.right_soft.pulse.scale_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.06,
+                "output_min": 0.94,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.right_soft.pulse.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.04,
+                "output_min": 0.96,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flame.pulse",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.super_booster_flame_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              -183.0
+            ],
+            "offset": [
+              60.38,
+              282.05
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.76,
+              1.35
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.right_energy_spark_accent",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 20.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                190.0,
+                180.0
+              ]
+            },
+            "lifetime_seconds": 0.16,
+            "max_particles": 6.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 19.6,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.75,
+            "size_start": 28.0,
+            "speed_max": 700.0,
+            "speed_min": 500.0,
+            "spread_degrees": 60.0,
+            "sprite_asset_ref": "fx.super_booster_spark_blue"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              60.0,
+              295.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.12,
+      "layers": [
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.left_core_ignition",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.92,
+            "texture_asset_ref": "fx.super_booster_flame_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -181.0
+            ],
+            "offset": [
+              -60.0,
+              190.66
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.286,
+              0.86
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.left_soft_ignition",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.42,
+            "texture_asset_ref": "fx.super_booster_flame_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              -183.0
+            ],
+            "offset": [
+              -59.678461538,
+              227.15
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.643076923,
+              1.05
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.right_core_ignition",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.92,
+            "texture_asset_ref": "fx.super_booster_flame_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -181.0
+            ],
+            "offset": [
+              60.0,
+              190.66
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.286,
+              0.86
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.right_soft_ignition",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "opacity": 0.42,
+            "texture_asset_ref": "fx.super_booster_flame_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "modulation_pivot_local": [
+              -0.5,
+              -183.0
+            ],
+            "offset": [
+              60.321538462,
+              227.15
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.643076923,
+              1.05
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ]
+    }
+  },
+  "preset_id": "equipment.super_booster.dual",
+  "runtime_inputs": [],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 7.0,
+      "id": "flame.pulse",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    }
+  ],
+  "schema_version": 1.0
+}

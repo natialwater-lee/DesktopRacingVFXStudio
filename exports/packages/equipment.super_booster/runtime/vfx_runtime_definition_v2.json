@@ -35,12 +35,12 @@
             ],
             "offset": [
               0.0,
-              170.66
+              214.009
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.26,
-              0.86
+              0.3289,
+              0.989
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -68,13 +68,13 @@
               -183.0
             ],
             "offset": [
-              0.279230769,
-              207.15
+              0.369769231,
+              255.9725
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.558461538,
-              1.05
+              0.739538461,
+              1.2075
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -94,13 +94,13 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 0.307,
-              "min_effective": 0.293,
+              "max_effective": 0.38709,
+              "min_effective": 0.37191,
               "target": "TRANSFORM_SCALE_X"
             },
             {
-              "max_effective": 1.197,
-              "min_effective": 1.083,
+              "max_effective": 1.37655,
+              "min_effective": 1.24545,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -168,12 +168,12 @@
             ],
             "offset": [
               0.0,
-              221.34
+              272.291
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.3,
-              1.14
+              0.3795,
+              1.311
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -188,13 +188,13 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 0.6798,
-              "min_effective": 0.6402,
+              "max_effective": 0.90022,
+              "min_effective": 0.84778,
               "target": "TRANSFORM_SCALE_X"
             },
             {
-              "max_effective": 1.431,
-              "min_effective": 1.269,
+              "max_effective": 1.64565,
+              "min_effective": 1.45935,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -261,16 +261,84 @@
               -183.0
             ],
             "offset": [
-              0.33,
-              262.05
+              0.437,
+              319.1075
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.66,
-              1.35
+              0.874,
+              1.5525
             ]
           },
           "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.energy_spark_accent",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 20.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                190.0,
+                180.0
+              ]
+            },
+            "lifetime_seconds": 0.16,
+            "max_particles": 6.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 19.6,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.75,
+            "size_start": 28.0,
+            "speed_max": 700.0,
+            "speed_min": 500.0,
+            "spread_degrees": 60.0,
+            "sprite_asset_ref": "fx.super_booster_spark_blue"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              295.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
         }
       ],
       "name": "loop"
@@ -302,12 +370,12 @@
             ],
             "offset": [
               0.0,
-              145.32
+              184.868
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.22,
-              0.72
+              0.2783,
+              0.828
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -335,13 +403,13 @@
               -183.0
             ],
             "offset": [
-              0.241153846,
-              183.36
+              0.319346154,
+              228.614
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.482307692,
-              0.92
+              0.638692307,
+              1.058
             ]
           },
           "type": "TEXTURED_SPRITE"

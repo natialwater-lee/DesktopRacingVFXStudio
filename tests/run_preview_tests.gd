@@ -23,6 +23,7 @@ const SnowTireSprayAuthoringTests := preload("res://tests/preview/test_snow_tire
 const TexturedSpriteLayerRendererTests := preload("res://tests/preview/test_textured_sprite_layer_renderer.gd")
 const HeadlightAuthoringTests := preload("res://tests/preview/test_headlight_authoring.gd")
 const SuperBoosterAuthoringTests := preload("res://tests/preview/test_super_booster_authoring.gd")
+const SuperBoosterDualAuthoringTests := preload("res://tests/preview/test_super_booster_dual_authoring.gd")
 const RuntimeModulationProgramTests := preload("res://tests/preview/test_runtime_modulation_program.gd")
 
 
@@ -54,6 +55,7 @@ func _run() -> void:
 	TexturedSpriteLayerRendererTests.run(tests)
 	HeadlightAuthoringTests.run(tests)
 	SuperBoosterAuthoringTests.run(tests)
+	SuperBoosterDualAuthoringTests.run(tests)
 	RuntimeModulationProgramTests.run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

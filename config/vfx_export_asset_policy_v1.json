@@ -13,6 +13,12 @@
       "source_path": "res://assets/vfx/energy_spark.png",
       "package_file_name": "energy_spark.png"
     },
+    "fx.super_booster_spark_blue": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_spark_blue.png",
+      "package_file_name": "super_booster_spark_blue.png"
+    },
     "fx.booster_flame_core": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

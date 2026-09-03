@@ -12,35 +12,14 @@ const VfxExportCompilerModel := preload("res://src/export/vfx_export_compiler.gd
 
 
 static func run(tests: TestAssert) -> void:
-	_test_flame_textures_are_explicitly_exportable(tests)
-	_test_super_booster_compiles_to_runtime_definition_v2_without_writer(tests)
+	_test_dual_compiles_to_one_v2_runtime_and_three_deduplicated_assets(tests)
 
 
-static func _test_flame_textures_are_explicitly_exportable(tests: TestAssert) -> void:
-	var registry := VfxExportAssetRegistryModel.new()
-	var loaded: VfxResult = registry.load()
-	var core: VfxResult = registry.resolve_exportable("fx.super_booster_flame_core") if loaded.success else VfxResult.failure(loaded.issues)
-	var soft: VfxResult = registry.resolve_exportable("fx.super_booster_flame_soft") if loaded.success else VfxResult.failure(loaded.issues)
-	var spark: VfxResult = registry.resolve_exportable("fx.super_booster_spark_blue") if loaded.success else VfxResult.failure(loaded.issues)
-	tests.expect_true(
-		loaded.success and core.success and soft.success and spark.success \
-		and core.value.get("export_policy") == "EXPORTABLE" and soft.value.get("export_policy") == "EXPORTABLE" and spark.value.get("export_policy") == "EXPORTABLE" \
-		and core.value.get("kind") == "TEXTURE_PNG" and soft.value.get("kind") == "TEXTURE_PNG" and spark.value.get("kind") == "TEXTURE_PNG" \
-		and core.value.get("source_path") == "res://assets/vfx/fx.super_booster_flame_core.png" \
-		and soft.value.get("source_path") == "res://assets/vfx/fx.super_booster_flame_soft.png" \
-		and spark.value.get("source_path") == "res://assets/vfx/super_booster_spark_blue.png" \
-		and core.value.get("package_file_name") == "super_booster_flame_core.png" \
-		and soft.value.get("package_file_name") == "super_booster_flame_soft.png" \
-		and spark.value.get("package_file_name") == "super_booster_spark_blue.png",
-		"Super Booster resolves its dedicated exportable blue-spark PNG alongside the supplied Core and Soft flame PNGs"
-	)
-
-
-static func _test_super_booster_compiles_to_runtime_definition_v2_without_writer(tests: TestAssert) -> void:
-	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/equipment.super_booster.vfx.json")
+static func _test_dual_compiles_to_one_v2_runtime_and_three_deduplicated_assets(tests: TestAssert) -> void:
+	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/equipment.super_booster.dual.vfx.json")
 	var compiler_result := _compiler()
 	if not document_result.success or not compiler_result.success:
-		tests.expect_true(false, "Super Booster export compile-only test requires a valid saved Preset and configured compiler")
+		tests.expect_true(false, "Dual Super Booster export compile-only regression requires its saved Preset and configured compiler.")
 		return
 	var first: VfxResult = compiler_result.value.compile(document_result.value)
 	var second: VfxResult = compiler_result.value.compile(document_result.value)
@@ -50,25 +29,31 @@ static func _test_super_booster_compiles_to_runtime_definition_v2_without_writer
 	var logical_ids := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("logical_id", "")))
 	var paths := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("package_path", "")))
 	var runtime_sources: Array = runtime.get("runtime_modulation_sources", []) if runtime is Dictionary else []
-	var loop_core: Dictionary = _runtime_layer(runtime, "loop", "loop.core_flame")
-	var loop_soft: Dictionary = _runtime_layer(runtime, "loop", "loop.soft_flame")
-	var loop_spark: Dictionary = _runtime_layer(runtime, "loop", "loop.energy_spark_accent")
-	var geometry_matches: bool = _vector_matches(loop_core.get("transform", {}).get("scale", []), Vector2(0.3795, 1.311)) \
-		and _vector_matches(loop_core.get("transform", {}).get("offset", []), Vector2(0.0, 272.291)) \
-		and _vector_matches(loop_soft.get("transform", {}).get("scale", []), Vector2(0.874, 1.5525)) \
-		and _vector_matches(loop_soft.get("transform", {}).get("offset", []), Vector2(0.437, 319.1075)) \
-		and _vector_matches(loop_spark.get("transform", {}).get("offset", []), Vector2(0.0, 295.0))
+	var left_core: Dictionary = _runtime_layer(runtime, "loop", "loop.left_core_flame")
+	var right_core: Dictionary = _runtime_layer(runtime, "loop", "loop.right_core_flame")
+	var left_soft: Dictionary = _runtime_layer(runtime, "loop", "loop.left_soft_flame")
+	var right_soft: Dictionary = _runtime_layer(runtime, "loop", "loop.right_soft_flame")
+	var left_spark: Dictionary = _runtime_layer(runtime, "loop", "loop.left_energy_spark_accent")
+	var right_spark: Dictionary = _runtime_layer(runtime, "loop", "loop.right_energy_spark_accent")
+	var geometry_matches: bool = _vector_matches(left_core.get("transform", {}).get("scale", []), Vector2(0.33, 1.14)) \
+		and _vector_matches(right_core.get("transform", {}).get("scale", []), Vector2(0.33, 1.14)) \
+		and _vector_matches(left_soft.get("transform", {}).get("scale", []), Vector2(0.76, 1.35)) \
+		and _vector_matches(right_soft.get("transform", {}).get("scale", []), Vector2(0.76, 1.35)) \
+		and _vector_matches(left_core.get("transform", {}).get("offset", []), Vector2(-60.0, 241.34)) \
+		and _vector_matches(right_core.get("transform", {}).get("offset", []), Vector2(60.0, 241.34)) \
+		and _vector_matches(left_soft.get("transform", {}).get("offset", []), Vector2(-59.62, 282.05)) \
+		and _vector_matches(right_soft.get("transform", {}).get("offset", []), Vector2(60.38, 282.05)) \
+		and _vector_matches(left_spark.get("transform", {}).get("offset", []), Vector2(-60.0, 295.0)) \
+		and _vector_matches(right_spark.get("transform", {}).get("offset", []), Vector2(60.0, 295.0))
 	tests.expect_true(
 		first.success and second.success and first.value.runtime_text() == second.value.runtime_text() \
-		and runtime is Dictionary and runtime.get("runtime_definition_version") == 2 \
-		and manifest.get("runtime_definition", {}).get("version") == 2 \
-		and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json" \
-		and runtime.get("runtime_inputs", []) == [] \
+		and runtime is Dictionary and runtime.get("preset", {}).get("preset_id") == "equipment.super_booster.dual" and runtime.get("runtime_definition_version") == 2 \
+		and manifest.get("runtime_definition", {}).get("version") == 2 and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json" \
 		and runtime_sources.size() == 1 and runtime_sources[0].get("id") == "flame.pulse" \
 		and logical_ids == ["fx.super_booster_flame_core", "fx.super_booster_flame_soft", "fx.super_booster_spark_blue"] \
 		and paths == ["assets/super_booster_flame_core.png", "assets/super_booster_flame_soft.png", "assets/super_booster_spark_blue.png"] \
-		and geometry_matches and not first.value.runtime_text().contains("res://"),
-		"Super Booster compile-only output deterministically carries its 15-percent scale-up, final twelve-pixel rear shift, portable pulse source, and three texture dependencies into Runtime Definition v2"
+		and geometry_matches and not logical_ids.has("fx.energy_spark") and not first.value.runtime_text().contains("res://"),
+		"Dual Super Booster compile-only export deterministically carries its full-size geometry to widened and rear-shifted roots while deduplicating Core, Soft, and blue-spark PNG dependencies"
 	)
 
 
