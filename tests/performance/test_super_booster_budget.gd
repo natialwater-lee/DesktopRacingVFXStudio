@@ -20,7 +20,7 @@ static func _test_single_nozzle_lod_keeps_spark_high_only(tests: TestAssert) -> 
 		return
 	var filter := load("res://src/performance/vfx_preview_lod_filter.gd") as Script
 	var analyzer := load("res://src/performance/vfx_performance_budget_analyzer.gd") as Script
-	var expected := {"HIGH": [3, 2, 6, 6], "MEDIUM": [2, 2, 0, 6], "LOW": [1, 1, 0, 3]}
+	var expected := {"HIGH": [3, 2, 6, 12], "MEDIUM": [2, 2, 0, 12], "LOW": [1, 1, 0, 6]}
 	var matches := filter != null and analyzer != null
 	for lod_level in expected:
 		var filtered: VfxResult = filter.new().filter(plan, lod_level, policy_result.value) if filter != null else VfxResult.failure([])
@@ -30,7 +30,7 @@ static func _test_single_nozzle_lod_keeps_spark_high_only(tests: TestAssert) -> 
 		matches = matches and workload != null and workload.expanded_instance_count() == values[0] \
 			and workload.persistent_textured_sprite_instance_count() == values[1] and workload.continuous_particle_capacity() == values[2] \
 			and filtered.value.runtime_modulation_program().binding_count() == values[3]
-	tests.expect_true(matches, "Super Booster uses Core plus Soft persistent texture sprites at HIGH and MEDIUM, adds one six-capacity EXTRA spark layer only at HIGH, and keeps Core only at LOW")
+	tests.expect_true(matches, "Super Booster keeps its 3/2/1 renderers and 6/0/0 particle capacity while all-phase Core/Soft turn bindings raise its generic modulation inventory to 12/12/6")
 
 
 static func _test_twenty_single_nozzle_instances_project_linearly(tests: TestAssert) -> void:

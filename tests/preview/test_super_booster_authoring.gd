@@ -28,6 +28,7 @@ static func run(tests: TestAssert) -> void:
 	_test_all_phase_attachment_roots_and_game_footprint(tests)
 	_test_loop_energy_spark_contract_and_cleanup(tests)
 	_test_loop_motion_preserves_attachment_and_lod(tests)
+	_test_turn_rate_rotation_preserves_attachment_across_all_phases(tests)
 
 
 static func _test_assets_and_single_nozzle_contract(tests: TestAssert) -> void:
@@ -46,7 +47,7 @@ static func _test_assets_and_single_nozzle_contract(tests: TestAssert) -> void:
 	var phases: Dictionary = data.get("phases", {})
 	var static_matches: bool = data.get("preset_id") == "equipment.super_booster" \
 		and data.get("category") == "SPECIAL_EQUIPMENT" and data.get("default_space_mode") == "VEHICLE_LOCAL" \
-		and data.get("lifecycle", {}).get("mode") == "START_LOOP_END" and data.get("runtime_inputs", []) == [] \
+		and data.get("lifecycle", {}).get("mode") == "START_LOOP_END" and data.get("runtime_inputs", []) == ["turn_rate_normalized"] \
 		and NOZZLE_ROOT == REAR_CENTER + PRESET_LOCAL_REAR_OFFSET \
 		and _phase_layer_ids(phases.get("start", {}).get("layers", []), ["start.core_ignition", "start.soft_ignition"]) \
 		and _phase_layer_ids(phases.get("loop", {}).get("layers", []), ["loop.core_flame", "loop.soft_flame", "loop.energy_spark_accent"]) \
@@ -109,7 +110,7 @@ static func _test_loop_energy_spark_contract_and_cleanup(tests: TestAssert) -> v
 	var game_start_max := _particle_game_footprint(SPARK_ALPHA_BOUNDS, Vector2i(64, 64), 28.0, 1.15, 1.0)
 	var game_start_track_085_min := _particle_game_footprint(SPARK_ALPHA_BOUNDS, Vector2i(64, 64), 28.0, 0.75, 0.85)
 	var game_start_track_085_max := _particle_game_footprint(SPARK_ALPHA_BOUNDS, Vector2i(64, 64), 28.0, 1.15, 0.85)
-	var runtime := _runtime_for(plan_result.value, 0.0)
+	var runtime := _runtime_for(plan_result.value, "loop", 0.0, 0.0)
 	if runtime == null:
 		tests.expect_true(false, "Super Booster energy-spark cleanup regression requires an active Preview Runtime")
 		return
@@ -157,7 +158,7 @@ static func _test_loop_motion_preserves_attachment_and_lod(tests: TestAssert) ->
 	var normal_sweep_range_violations := 0
 	var dynamics_match := true
 	for preview_time in [1.0 / 28.0, 0.0, 3.0 / 28.0]:
-		var runtime := _runtime_for(plan_result.value, preview_time)
+		var runtime := _runtime_for(plan_result.value, "loop", preview_time, 0.0)
 		if runtime == null:
 			dynamics_match = false
 			continue
@@ -182,14 +183,65 @@ static func _test_loop_motion_preserves_attachment_and_lod(tests: TestAssert) ->
 	var lod_matches := true
 	for lod_level in ["HIGH", "MEDIUM", "LOW"]:
 		var filtered: VfxResult = VfxPreviewLodFilterModel.new().filter(plan_result.value, lod_level, policy_result.value)
-		var runtime := _runtime_for(filtered.value, 0.0) if filtered.success else null
+		var runtime := _runtime_for(filtered.value, "loop", 0.0, 0.0) if filtered.success else null
 		var expected_renderers := 1 if lod_level == "LOW" else 3 if lod_level == "HIGH" else 2
-		var expected_bindings := 3 if lod_level == "LOW" else 6
+		var expected_bindings := 4 if lod_level == "LOW" else 8
 		lod_matches = lod_matches and runtime != null and runtime.active_renderer_count() == expected_renderers \
 			and runtime.active_runtime_modulation_binding_count() == expected_bindings and runtime.modulation_sample_count_last_tick() == 1
 	tests.expect_true(
 		dynamics_match and root_error_max <= 0.001 and normal_sweep_range_violations == 0 and lod_matches,
-		"Super Booster keeps one shared 7Hz Core/Soft pulse without root drift while HIGH alone adds the unmodulated EXTRA spark accent"
+		"Super Booster keeps the shared 7Hz Core/Soft pulse and its active LOOP turn bindings without root drift while HIGH alone adds the unmodulated EXTRA spark accent"
+	)
+
+
+static func _test_turn_rate_rotation_preserves_attachment_across_all_phases(tests: TestAssert) -> void:
+	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/equipment.super_booster.vfx.json")
+	var plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(_registry()).build(document_result.value.normalized_data) if document_result.success else VfxResult.failure(document_result.issues)
+	if not plan_result.success:
+		tests.expect_true(false, "Super Booster turn-response regression requires a valid saved Preset and compiled Render Plan")
+		return
+	var expected_turn_samples := [
+		{"value": -1.0, "core": 3.0, "soft": 6.0},
+		{"value": -0.20, "core": 3.0, "soft": 6.0},
+		{"value": -0.10, "core": 1.5, "soft": 3.0},
+		{"value": 0.0, "core": 0.0, "soft": 0.0},
+		{"value": 0.10, "core": -1.5, "soft": -3.0},
+		{"value": 0.20, "core": -3.0, "soft": -6.0},
+		{"value": 1.0, "core": -3.0, "soft": -6.0}
+	]
+	var root_error_max := 0.0
+	var mappings_match := true
+	for phase_name in ["start", "loop", "end"]:
+		for preview_time in [0.0, 1.0 / 28.0, 3.0 / 28.0]:
+			for sample_value in expected_turn_samples:
+				var sample: Dictionary = sample_value
+				var runtime := _runtime_for(plan_result.value, phase_name, preview_time, float(sample["value"]))
+				var flame_packets := _packets_for_layer(runtime.draw_packets(), _flame_layer_id(phase_name, "core")) if runtime != null else []
+				flame_packets.append_array(_packets_for_layer(runtime.draw_packets(), _flame_layer_id(phase_name, "soft"))) if runtime != null else null
+				mappings_match = mappings_match and flame_packets.size() == 2
+				for packet_value in flame_packets:
+					if not packet_value is Dictionary:
+						mappings_match = false
+						continue
+					var packet: Dictionary = packet_value
+					var is_core := str(packet.get("layer_id", "")) == _flame_layer_id(phase_name, "core")
+					var pivot := CORE_PIVOT if is_core else SOFT_PIVOT
+					var expected_rotation := float(sample["core"] if is_core else sample["soft"])
+					var scale: Vector2 = packet.get("geometry_scale", Vector2.ZERO)
+					var root: Vector2 = packet.get("position", Vector2.ZERO) + Vector2(pivot.x * scale.x, pivot.y * scale.y).rotated(deg_to_rad(float(packet.get("geometry_rotation_degrees", 0.0))))
+					root_error_max = maxf(root_error_max, root.distance_to(NOZZLE_ROOT))
+					mappings_match = mappings_match and is_equal_approx(float(packet.get("geometry_rotation_degrees", INF)), expected_rotation)
+	var source: Dictionary = document_result.value.normalized_data
+	var turn_bindings_match := true
+	for phase_name in ["start", "loop", "end"]:
+		var layers := _layers_by_id(source.get("phases", {}).get(phase_name, {}).get("layers", []))
+		turn_bindings_match = turn_bindings_match and _matches_turn_binding(layers.get(_flame_layer_id(phase_name, "core"), {}), "%s.core.turn.rotation" % phase_name, 3.0, -3.0) \
+			and _matches_turn_binding(layers.get(_flame_layer_id(phase_name, "soft"), {}), "%s.soft.turn.rotation" % phase_name, 6.0, -6.0)
+	var loop_layers := _layers_by_id(source.get("phases", {}).get("loop", {}).get("layers", []))
+	var spark_modulations: Array = loop_layers.get("loop.energy_spark_accent", {}).get("modulations", []) if loop_layers.get("loop.energy_spark_accent", {}) is Dictionary else []
+	tests.expect_true(
+		mappings_match and turn_bindings_match and spark_modulations.is_empty() and root_error_max <= 0.001,
+		"Super Booster maps signed turn rate to 3/6-degree Core/Soft counter-rotation across START, LOOP, and END without pivot-root drift or Spark modulation"
 	)
 
 
@@ -210,14 +262,42 @@ static func _attachment_root(layer: Dictionary, pivot: Vector2) -> Vector2:
 	return REAR_CENTER + offset + Vector2(pivot.x * scale.x, pivot.y * scale.y).rotated(deg_to_rad(float(transform.get("rotation_degrees", 0.0))))
 
 
-static func _runtime_for(plan: RefCounted, preview_time: float) -> RefCounted:
+static func _runtime_for(plan: RefCounted, phase_name: String, preview_time: float, turn_rate: float) -> RefCounted:
 	if plan == null or plan.runtime_modulation_program() == null:
 		return null
 	var runtime := VfxPreviewRenderRuntimeModel.new(plan, {"anchors": {"REAR_CENTER": [0.0, 220.0]}}, _registry(), VfxPreviewRendererFactoryModel.new(), VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new()))
-	runtime.set_runtime_input_state(VfxPreviewRuntimeInputStateModel.new(plan.runtime_modulation_program()))
-	runtime.activate_phase("loop", {"preview_time": preview_time})
+	var input_state := VfxPreviewRuntimeInputStateModel.new(plan.runtime_modulation_program())
+	if not input_state.set_named_value(plan.runtime_modulation_program(), "turn_rate_normalized", turn_rate):
+		return null
+	runtime.set_runtime_input_state(input_state)
+	runtime.activate_phase(phase_name, {"preview_time": preview_time})
 	runtime.advance(0.0, {"preview_time": preview_time})
 	return runtime
+
+
+static func _flame_layer_id(phase_name: String, family: String) -> String:
+	var suffix := "flame" if phase_name == "loop" else "ignition" if phase_name == "start" else "fade"
+	return "%s.%s_%s" % [phase_name, family, suffix]
+
+
+static func _matches_turn_binding(layer: Dictionary, binding_id: String, output_min: float, output_max: float) -> bool:
+	var bindings: Array = layer.get("modulations", []) if layer.get("modulations", []) is Array else []
+	var match_count := 0
+	for binding_value in bindings:
+		if not binding_value is Dictionary or str(binding_value.get("id", "")) != binding_id:
+			continue
+		var binding: Dictionary = binding_value
+		var source: Dictionary = binding.get("source", {}) if binding.get("source", {}) is Dictionary else {}
+		var mapping: Dictionary = binding.get("mapping", {}) if binding.get("mapping", {}) is Dictionary else {}
+		if binding.get("target") == "TRANSFORM_ROTATION_DEGREES" and binding.get("operation") == "ADD" \
+			and source == {"type": "RUNTIME_INPUT", "input": "turn_rate_normalized"} and mapping.get("type") == "LINEAR_RANGE" \
+			and is_equal_approx(float(mapping.get("input_min", INF)), -0.20) and is_equal_approx(float(mapping.get("input_max", INF)), 0.20) \
+			and is_equal_approx(float(mapping.get("output_min", INF)), output_min) and is_equal_approx(float(mapping.get("output_max", INF)), output_max):
+			match_count += 1
+	var clamps: Array = layer.get("modulation_clamps", []) if layer.get("modulation_clamps", []) is Array else []
+	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "TRANSFORM_ROTATION_DEGREES")
+	return match_count == 1 and rotation_clamps.size() == 1 and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_max) \
+		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_min)
 
 
 static func _game_footprint(bounds: Rect2i, layer: Dictionary, track_scale: float) -> Vector2:

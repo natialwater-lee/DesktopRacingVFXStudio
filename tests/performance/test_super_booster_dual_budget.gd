@@ -20,7 +20,7 @@ static func _test_dual_lod_inventory(tests: TestAssert) -> void:
 		return
 	var filter := load("res://src/performance/vfx_preview_lod_filter.gd") as Script
 	var analyzer := load("res://src/performance/vfx_performance_budget_analyzer.gd") as Script
-	var expected := {"HIGH": [6, 4, 12, 12], "MEDIUM": [4, 4, 0, 12], "LOW": [2, 2, 0, 6]}
+	var expected := {"HIGH": [6, 4, 12, 24], "MEDIUM": [4, 4, 0, 24], "LOW": [2, 2, 0, 12]}
 	var matches := filter != null and analyzer != null
 	for lod_level in expected:
 		var filtered: VfxResult = filter.new().filter(plan, lod_level, policy_result.value) if filter != null else VfxResult.failure([])
@@ -30,7 +30,7 @@ static func _test_dual_lod_inventory(tests: TestAssert) -> void:
 		matches = matches and workload != null and workload.expanded_instance_count() == values[0] \
 			and workload.persistent_textured_sprite_instance_count() == values[1] and workload.continuous_particle_capacity() == values[2] \
 			and filtered.value.runtime_modulation_program().binding_count() == values[3]
-	tests.expect_true(matches, "Dual Super Booster full-size authoring keeps 6/4/2 active layers, 4/4/2 persistent sprites, 12/0/0 particle capacity, and 12/12/6 shared-pulse bindings across HIGH/MEDIUM/LOW")
+	tests.expect_true(matches, "Dual Super Booster full-size authoring keeps 6/4/2 active layers, 4/4/2 persistent sprites, 12/0/0 particle capacity, and 24/24/12 shared-pulse-plus-turn bindings across HIGH/MEDIUM/LOW")
 
 
 static func _test_twenty_dual_instances_project_linearly(tests: TestAssert) -> void:

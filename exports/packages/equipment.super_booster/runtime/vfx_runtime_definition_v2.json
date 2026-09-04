@@ -19,8 +19,31 @@
           "enabled": true,
           "id": "start.core_ignition",
           "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [],
+          "modulation_clamps": [
+            {
+              "max_effective": 3.0,
+              "min_effective": -3.0,
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.core.turn.rotation",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -3.0,
+                "output_min": 3.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
           "parameters": {
             "opacity": 0.92,
             "texture_asset_ref": "fx.super_booster_flame_core"
@@ -53,8 +76,31 @@
           "enabled": true,
           "id": "start.soft_ignition",
           "importance": "DETAIL",
-          "modulation_clamps": [],
-          "modulations": [],
+          "modulation_clamps": [
+            {
+              "max_effective": 6.0,
+              "min_effective": -6.0,
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.soft.turn.rotation",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -6.0,
+                "output_min": 6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
           "parameters": {
             "opacity": 0.42,
             "texture_asset_ref": "fx.super_booster_flame_soft"
@@ -102,6 +148,11 @@
               "max_effective": 1.37655,
               "min_effective": 1.24545,
               "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "max_effective": 3.0,
+              "min_effective": -3.0,
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "modulations": [
@@ -152,6 +203,22 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.core.turn.rotation",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -3.0,
+                "output_min": 3.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -196,6 +263,11 @@
               "max_effective": 1.64565,
               "min_effective": 1.45935,
               "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "max_effective": 6.0,
+              "min_effective": -6.0,
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "modulations": [
@@ -246,6 +318,22 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.soft.turn.rotation",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -6.0,
+                "output_min": 6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -354,8 +442,31 @@
           "enabled": true,
           "id": "end.core_fade",
           "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [],
+          "modulation_clamps": [
+            {
+              "max_effective": 3.0,
+              "min_effective": -3.0,
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "end.core.turn.rotation",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -3.0,
+                "output_min": 3.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
           "parameters": {
             "opacity": 0.42,
             "texture_asset_ref": "fx.super_booster_flame_core"
@@ -388,8 +499,31 @@
           "enabled": true,
           "id": "end.soft_fade",
           "importance": "DETAIL",
-          "modulation_clamps": [],
-          "modulations": [],
+          "modulation_clamps": [
+            {
+              "max_effective": 6.0,
+              "min_effective": -6.0,
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "end.soft.turn.rotation",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -6.0,
+                "output_min": 6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
           "parameters": {
             "opacity": 0.18,
             "texture_asset_ref": "fx.super_booster_flame_soft"
@@ -429,7 +563,15 @@
     "REAR_CENTER"
   ],
   "runtime_definition_version": 2,
-  "runtime_inputs": [],
+  "runtime_inputs": [
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": -1.0,
+      "name": "turn_rate_normalized",
+      "value_type": "number"
+    }
+  ],
   "runtime_modulation_sources": [
     {
       "frequency_hz": 7.0,
