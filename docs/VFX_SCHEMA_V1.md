@@ -161,6 +161,7 @@ The Schema extension `x_vfx_runtime_inputs` contains the only accepted names and
 |---|---|
 | `intensity` | number, 0 through 1, default 1 |
 | `speed_normalized` | number, 0 through 1, default 0 |
+| `turn_rate_normalized` | number, -1 through 1, default 0; `-1` is a left turn, `0` is straight, and `+1` is a right turn |
 | `vehicle_velocity` | vector2 array, default `[0, 0]` |
 | `turn_strength` | number, -1 through 1, default 0 |
 | `longitudinal_load` | number, -1 through 1, default 0 |
@@ -208,6 +209,10 @@ has optional `modulations` and `modulation_clamps` arrays (both default `[]`), a
 `transform.modulation_pivot_local` defaults to `[0.0, 0.0]`. These defaults retain
 the static authoring result. `longitudinal_load` is the signed scalar Runtime Input
 (`-1.0..1.0`, default `0.0`).
+`turn_rate_normalized` is the signed scalar Runtime Input (`-1.0..1.0`, default
+`0.0`): `-1.0` means a left turn, `0.0` means straight, and `+1.0` means a right
+turn. It has no implicit visual behavior; a validated Runtime Modulation binding
+declares any use of it.
 
 The Schema-owned `RUNTIME_MODULATION_CONFIGURATION` rule is the contract for
 `SINE` sources and `LINEAR_RANGE` mappings. In Phase A every modulation target is

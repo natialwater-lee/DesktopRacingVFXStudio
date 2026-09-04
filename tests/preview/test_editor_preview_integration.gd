@@ -6,6 +6,8 @@ const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
 const VfxRuleCatalogModel := preload("res://src/model/vfx_rule_catalog.gd")
 const VfxSchemaRegistryModel := preload("res://src/model/vfx_schema_registry.gd")
 const VfxPreviewLayerContextResolverModel := preload("res://src/preview/vfx_preview_layer_context_resolver.gd")
+const VfxPresetPipelineModel := preload("res://src/app/vfx_preset_pipeline.gd")
+const VfxPreviewRenderPlanBuilderModel := preload("res://src/preview/rendering/vfx_preview_render_plan_builder.gd")
 const VfxPreviewWorkspaceModel := preload("res://src/preview/vfx_preview_workspace.gd")
 const VfxVehiclePreviewModel := preload("res://src/preview/vfx_vehicle_preview.gd")
 
@@ -14,6 +16,7 @@ static func run(tests: TestAssert) -> void:
 	_test_schema_resolved_context(tests)
 	_test_controller_preview_bridge(tests)
 	_test_main_runtime_preview_insertion(tests)
+	_test_turn_rate_preview_control_contract(tests)
 
 
 static func _test_schema_resolved_context(tests: TestAssert) -> void:
@@ -70,6 +73,31 @@ static func _test_main_runtime_preview_insertion(tests: TestAssert) -> void:
 	tests.expect_true(profile_select != null and profile_select.item_count == 4 and runtime_preview.shared_state().profile_data().get("category") == "FORMULA", "runtime Preview loads four Studio-owned Profiles and selects Formula without reading a game repository")
 	tree.root.remove_child(editor)
 	editor.free()
+
+
+static func _test_turn_rate_preview_control_contract(tests: TestAssert) -> void:
+	var packed := load("res://src/preview/vfx_vehicle_preview.tscn") as PackedScene
+	var preview := packed.instantiate() as VfxVehiclePreviewModel if packed != null else null
+	var fixture: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://tests/fixtures/presets/utility.runtime_modulation_fixture.vfx.json")
+	var registry := _registry()
+	var plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(registry).build(fixture.value.normalized_data) if fixture.success else VfxResult.failure(fixture.issues)
+	if preview == null or not plan_result.success:
+		tests.expect_true(false, "Turn Rate Preview control test requires the reusable Preview scene and a valid modulated fixture")
+		if preview != null:
+			preview.free()
+		return
+	var source_before := JSON.stringify(fixture.value.normalized_data)
+	var tree := Engine.get_main_loop() as SceneTree
+	tree.root.add_child(preview)
+	preview.set_schema_registry(registry)
+	preview.apply_render_plan(plan_result.value)
+	var slider := preview.get_node_or_null("PreviewControls/RuntimeInputsRow/TurnRateSlider") as HSlider
+	var initial_value := slider.value if slider != null else 99.0
+	slider.value = 1.0 if slider != null else 0.0
+	var values: Dictionary = preview.get("_runtime_input_values_by_name")
+	tests.expect_true(slider != null and slider.visible and is_equal_approx(slider.min_value, -1.0) and is_equal_approx(slider.max_value, 1.0) and is_equal_approx(initial_value, 0.0) and is_equal_approx(slider.value, 1.0) and slider.tick_count == 3 and slider.ticks_on_borders and is_equal_approx(float(values.get("turn_rate_normalized", 99.0)), 1.0) and source_before == JSON.stringify(fixture.value.normalized_data), "Turn Rate Preview control is signed, centered at neutral, writes only session state, and exposes its three comparison points")
+	tree.root.remove_child(preview)
+	preview.free()
 
 
 static func _registry() -> RefCounted:

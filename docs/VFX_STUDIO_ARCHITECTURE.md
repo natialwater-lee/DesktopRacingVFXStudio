@@ -243,7 +243,7 @@ Render placement is deliberately limited to `UNDER_VEHICLE`, `OVER_VEHICLE`, `WO
 
 ## Runtime inputs
 
-The Schema declares the common runtime input contract: `intensity`, `speed_normalized`, `vehicle_velocity`, `turn_strength`, `longitudinal_load`, `effect_radius`, and `surface_type`. A Preset lists only inputs it actually needs in `runtime_inputs`.
+The Schema declares the common runtime input contract: `intensity`, `speed_normalized`, `turn_rate_normalized`, `vehicle_velocity`, `turn_strength`, `longitudinal_load`, `effect_radius`, and `surface_type`. `turn_rate_normalized` is signed (`-1` left, `0` straight, `+1` right). A Preset lists only inputs it actually needs in `runtime_inputs`.
 
 Phase 0 originally defined input names, value shapes, and default values only.
 Runtime Modulation v1 adds explicit Schema-validated bindings for the supported

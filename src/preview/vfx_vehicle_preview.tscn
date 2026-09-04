@@ -107,6 +107,19 @@ min_value = -1.0
 max_value = 1.0
 step = 0.01
 
+[node name="TurnRateLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Turn Rate"
+
+[node name="TurnRateSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = -1.0
+max_value = 1.0
+step = 0.01
+tick_count = 3
+ticks_on_borders = true
+
 [node name="PlaybackRow" type="HBoxContainer" parent="PreviewControls"]
 layout_mode = 2
 

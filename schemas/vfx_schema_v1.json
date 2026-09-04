@@ -680,6 +680,12 @@
       "maximum": 1.0,
       "default": 0.0
     },
+    "turn_rate_normalized": {
+      "type": "number",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "default": 0.0
+    },
     "longitudinal_load": {
       "type": "number",
       "minimum": -1.0,

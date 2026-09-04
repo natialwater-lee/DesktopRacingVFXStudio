@@ -446,6 +446,9 @@ func _configure_controls() -> void:
 	var load_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/LongitudinalLoadSlider") as HSlider
 	if load_slider != null and not load_slider.value_changed.is_connected(_on_runtime_load_changed):
 		load_slider.value_changed.connect(_on_runtime_load_changed)
+	var turn_rate_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/TurnRateSlider") as HSlider
+	if turn_rate_slider != null and not turn_rate_slider.value_changed.is_connected(_on_runtime_turn_rate_changed):
+		turn_rate_slider.value_changed.connect(_on_runtime_turn_rate_changed)
 	_rebuild_track_scales()
 	_rebuild_profile_select()
 	_rebuild_anchor_controls()
@@ -505,6 +508,10 @@ func _on_runtime_load_changed(value: float) -> void:
 	set_runtime_input_value("longitudinal_load", value)
 
 
+func _on_runtime_turn_rate_changed(value: float) -> void:
+	set_runtime_input_value("turn_rate_normalized", value)
+
+
 func _configure_runtime_input_state() -> void:
 	if _active_render_plan == null:
 		_runtime_input_state = null
@@ -527,7 +534,7 @@ func _update_runtime_input_controls() -> void:
 	var visible: bool = row != null and program != null and program.binding_count() > 0 and _runtime_input_state != null
 	if row != null:
 		row.visible = visible
-	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"]]:
+	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"], ["turn_rate_normalized", "TurnRateLabel", "TurnRateSlider"]]:
 		var input_name := str(configuration[0])
 		var slot: int = program.runtime_input_slot(input_name) if visible else -1
 		var label := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % str(configuration[1])) as Control

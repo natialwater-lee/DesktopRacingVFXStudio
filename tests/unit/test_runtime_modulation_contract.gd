@@ -25,6 +25,17 @@ static func run(tests: TestAssert) -> void:
 		tests.expect_true(layer["modulation_clamps"] is Array and layer["modulation_clamps"].size() == 1, "Layer target clamps are retained")
 		tests.expect_true(layer["transform"]["modulation_pivot_local"] == [0.0, 0.0], "pivot defaults from Schema")
 
+	var turn_rate_rotation := _valid_preset()
+	turn_rate_rotation["runtime_inputs"].append("turn_rate_normalized")
+	turn_rate_rotation["phases"]["one_shot"]["layers"][0]["modulations"] = [{
+		"id": "rotation.by.turn_rate",
+		"target": "TRANSFORM_ROTATION_DEGREES",
+		"operation": "ADD",
+		"source": {"type": "RUNTIME_INPUT", "input": "turn_rate_normalized"},
+		"mapping": {"type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": -12.0, "output_max": 12.0}
+	}]
+	tests.expect_true(_validate(registry, turn_rate_rotation).success, "declared signed turn-rate input validates for existing TEXTURED_SPRITE rotation ADD modulation")
+
 	var contract: VfxResult = registry.runtime_modulation_contract()
 	tests.expect_true(contract.success, "registry exposes the Schema-owned runtime modulation contract")
 	if contract.success:

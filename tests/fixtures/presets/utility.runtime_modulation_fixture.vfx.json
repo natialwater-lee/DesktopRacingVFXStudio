@@ -5,7 +5,7 @@
   "category": "UTILITY",
   "lifecycle": { "mode": "ONE_SHOT" },
   "default_space_mode": "VEHICLE_LOCAL",
-  "runtime_inputs": ["speed_normalized", "longitudinal_load"],
+  "runtime_inputs": ["speed_normalized", "longitudinal_load", "turn_rate_normalized"],
   "runtime_modulation_sources": [
     { "id": "road.motion", "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": 0.5, "phase_degrees": 0.0 }
   ],
@@ -27,6 +27,7 @@
             { "id": "left.scale.load", "target": "TRANSFORM_SCALE_Y", "operation": "MULTIPLY", "source": { "type": "RUNTIME_INPUT", "input": "longitudinal_load" }, "mapping": { "type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": 0.9, "output_max": 1.1 } },
             { "id": "left.scale.motion", "target": "TRANSFORM_SCALE_Y", "operation": "MULTIPLY", "source": { "type": "PRESET_SOURCE", "source_id": "road.motion" }, "mapping": { "type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": 0.95, "output_max": 1.05 } },
             { "id": "left.rotation.motion", "target": "TRANSFORM_ROTATION_DEGREES", "operation": "ADD", "source": { "type": "PRESET_SOURCE", "source_id": "road.motion" }, "mapping": { "type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": -0.4, "output_max": 0.4 } },
+            { "id": "left.rotation.turn_rate", "target": "TRANSFORM_ROTATION_DEGREES", "operation": "ADD", "source": { "type": "RUNTIME_INPUT", "input": "turn_rate_normalized" }, "mapping": { "type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": -12.0, "output_max": 12.0 } },
             { "id": "left.offset.motion", "target": "TRANSFORM_OFFSET_X", "operation": "ADD", "source": { "type": "PRESET_SOURCE", "source_id": "road.motion" }, "mapping": { "type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": -1.0, "output_max": 1.0 } },
             { "id": "left.opacity.speed", "target": "VISUAL_OPACITY_MULTIPLIER", "operation": "MULTIPLY", "source": { "type": "RUNTIME_INPUT", "input": "speed_normalized" }, "mapping": { "type": "LINEAR_RANGE", "input_min": 0.0, "input_max": 1.0, "output_min": 0.8, "output_max": 1.05 } }
           ],

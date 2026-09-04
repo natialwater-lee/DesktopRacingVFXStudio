@@ -79,7 +79,7 @@ static func _test_headlight_runtime_v2_preserves_portable_modulation_semantics(t
 				and runtime_layer.get("modulation_clamps") == source_layer.get("modulation_clamps") \
 				and runtime_layer.get("transform", {}).get("modulation_pivot_local") == source_layer.get("transform", {}).get("modulation_pivot_local")
 	tests.expect_true(semantic_match, "Every Headlight runtime Layer preserves source-authored modulation bindings, target clamps, and local pivot declaratively")
-	var purity_terms := ["res://", "C:\\", "DesktopRacingVFXStudio", "DesktopIdleRacing", "preview_time", "SpeedNormalizedSlider", "LongitudinalLoadSlider", "effective_state", "runtime_input_slot", "target_slot", "source_slot", "packet", "Studio Stress", "Preview Frame Time"]
+	var purity_terms := ["res://", "C:\\", "DesktopRacingVFXStudio", "DesktopIdleRacing", "preview_time", "SpeedNormalizedSlider", "LongitudinalLoadSlider", "TurnRateSlider", "effective_state", "runtime_input_slot", "target_slot", "source_slot", "packet", "Studio Stress", "Preview Frame Time"]
 	var pure := first.success
 	for term in purity_terms:
 		pure = pure and not first.value.runtime_text().contains(str(term))
