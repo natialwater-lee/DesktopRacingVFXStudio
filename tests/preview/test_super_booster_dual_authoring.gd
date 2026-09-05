@@ -1,5 +1,7 @@
 extends RefCounted
 
+const BendAuthoringTests := preload("res://tests/preview/test_super_booster_bend_authoring.gd")
+
 const VfxPresetPipelineModel := preload("res://src/app/vfx_preset_pipeline.gd")
 const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
 const VfxRuleCatalogModel := preload("res://src/model/vfx_rule_catalog.gd")
@@ -14,13 +16,14 @@ const VfxPreviewLodFilterModel := preload("res://src/performance/vfx_preview_lod
 const VfxPerformancePolicyModel := preload("res://src/performance/vfx_performance_policy.gd")
 
 const REAR_CENTER := Vector2(0.0, 220.0)
-const LEFT_ROOT := Vector2(-60.0, 255.0)
-const RIGHT_ROOT := Vector2(60.0, 255.0)
+const LEFT_ROOT := Vector2(-60.0, 279.0)
+const RIGHT_ROOT := Vector2(60.0, 279.0)
 const CORE_PIVOT := Vector2(0.0, -181.0)
 const SOFT_PIVOT := Vector2(-0.5, -183.0)
 
 
 static func run(tests: TestAssert) -> void:
+	BendAuthoringTests.check_preset(tests, "res://presets/examples/equipment.super_booster.dual.vfx.json", 12)
 	_test_dual_static_authoring_and_provisional_roots(tests)
 	_test_dual_loop_pulse_roots_and_lod(tests)
 	_test_dual_spark_contract_and_cleanup(tests)
@@ -37,18 +40,18 @@ static func _test_dual_static_authoring_and_provisional_roots(tests: TestAssert)
 	var expected := {
 		"start": {
 			"duration": 0.12,
-			"core": [Vector2(0.286, 0.86), 0.92, Vector2(0.0, 190.66)],
-			"soft": [Vector2(0.643076923, 1.05), 0.42, Vector2(0.321538462, 227.15)]
+			"core": [Vector2(0.286, 0.86), 0.92, Vector2(0.0, 214.66)],
+			"soft": [Vector2(0.643076923, 1.05), 0.42, Vector2(0.321538462, 251.15)]
 		},
 		"loop": {
 			"duration": -1.0,
-			"core": [Vector2(0.33, 1.14), 0.86, Vector2(0.0, 241.34)],
-			"soft": [Vector2(0.76, 1.35), 0.55, Vector2(0.38, 282.05)]
+			"core": [Vector2(0.33, 1.14), 0.86, Vector2(0.0, 265.34)],
+			"soft": [Vector2(0.76, 1.35), 0.55, Vector2(0.38, 306.05)]
 		},
 		"end": {
 			"duration": 0.14,
-			"core": [Vector2(0.242, 0.72), 0.42, Vector2(0.0, 165.32)],
-			"soft": [Vector2(0.555384615, 0.92), 0.18, Vector2(0.277692308, 203.36)]
+			"core": [Vector2(0.242, 0.72), 0.42, Vector2(0.0, 189.32)],
+			"soft": [Vector2(0.555384615, 0.92), 0.18, Vector2(0.277692308, 227.36)]
 		}
 	}
 	var metadata_matches: bool = data.get("preset_id") == "equipment.super_booster.dual" \
@@ -162,7 +165,7 @@ static func _test_turn_rate_rotation_preserves_both_nozzle_roots_across_all_phas
 					var side := "left" if layer_id.contains(".left_") else "right" if layer_id.contains(".right_") else ""
 					var is_core := layer_id.contains("core_")
 					var pivot := CORE_PIVOT if is_core else SOFT_PIVOT
-					var expected_rotation := float(sample["core"] if is_core else sample["soft"])
+					var expected_rotation := 0.0 # B2 Preview deliberately leaves the bend texture straight.
 					var scale: Vector2 = packet.get("geometry_scale", Vector2.ZERO)
 					var root: Vector2 = packet.get("position", Vector2.ZERO) + Vector2(pivot.x * scale.x, pivot.y * scale.y).rotated(deg_to_rad(float(packet.get("geometry_rotation_degrees", 0.0))))
 					if side.is_empty():
@@ -176,14 +179,14 @@ static func _test_turn_rate_rotation_preserves_both_nozzle_roots_across_all_phas
 		var layers := _layers_by_id(source.get("phases", {}).get(phase_name, {}).get("layers", []))
 		for side in ["left", "right"]:
 			var suffix := "flame" if phase_name == "loop" else "ignition" if phase_name == "start" else "fade"
-			binding_matches = binding_matches and _matches_turn_binding(layers.get("%s.%s_core_%s" % [phase_name, side, suffix], {}), "%s.%s_core.turn.rotation" % [phase_name, side], 3.0, -3.0) \
-				and _matches_turn_binding(layers.get("%s.%s_soft_%s" % [phase_name, side, suffix], {}), "%s.%s_soft.turn.rotation" % [phase_name, side], 6.0, -6.0)
+			binding_matches = binding_matches and _matches_turn_binding(layers.get("%s.%s_core_%s" % [phase_name, side, suffix], {}), "%s.%s_core.turn.bend" % [phase_name, side], -102.0904551776, 102.0904551776) \
+				and _matches_turn_binding(layers.get("%s.%s_soft_%s" % [phase_name, side, suffix], {}), "%s.%s_soft.turn.bend" % [phase_name, side], -178.5185009320, 178.5185009320)
 	var loop_layers := _layers_by_id(source.get("phases", {}).get("loop", {}).get("layers", []))
 	var spark_bindings_match: bool = (loop_layers.get("loop.left_energy_spark_accent", {}).get("modulations", []) as Array).is_empty() \
 		and (loop_layers.get("loop.right_energy_spark_accent", {}).get("modulations", []) as Array).is_empty()
 	tests.expect_true(
 		mappings_match and binding_matches and spark_bindings_match and float(root_errors["left"]) <= 0.001 and float(root_errors["right"]) <= 0.001,
-		"Dual Super Booster maps shared signed turn rate to matching Core/Soft counter-rotation at both provisional nozzle roots without Spark bindings"
+		"Dual Super Booster maps shared signed turn rate to matching Core/Soft bend with straight Preview fallback at both provisional nozzle roots without Spark bindings"
 	)
 
 
@@ -200,7 +203,7 @@ static func _test_dual_spark_contract_and_cleanup(tests: TestAssert) -> void:
 	var right_parameters: Dictionary = right.get("parameters", {}) if right.get("parameters", {}) is Dictionary else {}
 	var left_transform: Dictionary = left.get("transform", {}) if left.get("transform", {}) is Dictionary else {}
 	var right_transform: Dictionary = right.get("transform", {}) if right.get("transform", {}) is Dictionary else {}
-	var particle_matches := _matches_spark(left, left_parameters, left_transform, -60.0, 295.0) and _matches_spark(right, right_parameters, right_transform, 60.0, 295.0)
+	var particle_matches := _matches_spark(left, left_parameters, left_transform, -60.0, 319.0) and _matches_spark(right, right_parameters, right_transform, 60.0, 319.0)
 	var runtime := _runtime_for(plan_result.value, "loop", 0.0, 0.0)
 	if runtime == null:
 		tests.expect_true(false, "Dual Super Booster spark cleanup regression requires an active Preview Runtime.")
@@ -209,7 +212,7 @@ static func _test_dual_spark_contract_and_cleanup(tests: TestAssert) -> void:
 	var spawned: Array = runtime.draw_packets().filter(func(packet: Variant) -> bool: return packet is Dictionary and str(packet.get("layer_id", "")).contains("energy_spark_accent"))
 	var spawned_in_boxes: bool = spawned.all(func(packet: Dictionary) -> bool:
 		var position: Vector2 = packet.get("position", Vector2.INF)
-		return position.y >= 425.0 and position.y <= 605.0 and (position.x >= -155.0 and position.x <= 35.0 or position.x >= -35.0 and position.x <= 155.0)
+		return position.y >= 449.0 and position.y <= 629.0 and (position.x >= -155.0 and position.x <= 35.0 or position.x >= -35.0 and position.x <= 155.0)
 	)
 	runtime.stop_phase_sources("loop")
 	runtime.advance(0.159, {"preview_time": 0.359})
@@ -291,15 +294,15 @@ static func _matches_turn_binding(layer: Dictionary, binding_id: String, output_
 		var binding: Dictionary = binding_value
 		var source: Dictionary = binding.get("source", {}) if binding.get("source", {}) is Dictionary else {}
 		var mapping: Dictionary = binding.get("mapping", {}) if binding.get("mapping", {}) is Dictionary else {}
-		if binding.get("target") == "TRANSFORM_ROTATION_DEGREES" and binding.get("operation") == "ADD" \
+		if binding.get("target") == "VISUAL_BEND_OFFSET_X" and binding.get("operation") == "ADD" \
 			and source == {"type": "RUNTIME_INPUT", "input": "turn_rate_normalized"} and mapping.get("type") == "LINEAR_RANGE" \
 			and is_equal_approx(float(mapping.get("input_min", INF)), -0.20) and is_equal_approx(float(mapping.get("input_max", INF)), 0.20) \
 			and is_equal_approx(float(mapping.get("output_min", INF)), output_min) and is_equal_approx(float(mapping.get("output_max", INF)), output_max):
 			match_count += 1
 	var clamps: Array = layer.get("modulation_clamps", []) if layer.get("modulation_clamps", []) is Array else []
-	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "TRANSFORM_ROTATION_DEGREES")
-	return match_count == 1 and rotation_clamps.size() == 1 and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_max) \
-		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_min)
+	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "VISUAL_BEND_OFFSET_X")
+	return match_count == 1 and rotation_clamps.size() == 1 and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_min) \
+		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_max)
 
 
 static func _load_document() -> VfxResult:

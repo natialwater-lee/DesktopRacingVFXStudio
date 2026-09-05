@@ -92,6 +92,42 @@ static func run(tests: TestAssert) -> void:
 		scale_x.value = 500.001
 		scale_x.get_line_edit().emit_signal("focus_exited")
 		tests.expect_true(controller.working_preset()["phases"]["one_shot"]["layers"][0]["transform"]["scale"][0] == 500.001 and scale_x.value == 500.001, "unbounded large scales survive Inspector focus commit and refresh")
+
+		controller.add_active_layer("TEXTURED_SPRITE")
+		var textured_layer: Dictionary = controller.working_preset()["phases"]["one_shot"]["layers"][1]
+		controller.select_layer(textured_layer["id"])
+		var visual_bend_section := common_layer_inspector.get_node_or_null("VisualBendSection") as VBoxContainer
+		var visual_bend_enabled := common_layer_inspector.get_node_or_null("VisualBendSection/VisualBendEnabled") as CheckBox
+		tests.expect_true(visual_bend_section != null and visual_bend_section.visible and visual_bend_enabled != null, "TEXTURED_SPRITE Inspector exposes the compact Visual Bend static section")
+		if visual_bend_enabled != null:
+			visual_bend_enabled.button_pressed = true
+			visual_bend_enabled.emit_signal("toggled", true)
+			var enabled_bend: Dictionary = controller.working_preset()["phases"]["one_shot"]["layers"][1].get("visual_bend", {})
+			tests.expect_true(enabled_bend == {"axis": "LOCAL_Y_POSITIVE", "start_ratio": 0.333333, "curve": "QUADRATIC", "span_source_px": 250.0}, "enabling Visual Bend writes the complete Schema-owned default metadata object")
+			var start_ratio := common_layer_inspector.get_node_or_null("VisualBendSection/VisualBendFields/start_ratio/Input") as SpinBox
+			tests.expect_true(start_ratio != null, "Visual Bend start ratio uses the existing Schema numeric control")
+			if start_ratio != null:
+				start_ratio.value = 0.4
+				start_ratio.get_line_edit().emit_signal("focus_exited")
+				tests.expect_true(is_equal_approx(float(controller.working_preset()["phases"]["one_shot"]["layers"][1]["visual_bend"]["start_ratio"]), 0.4), "Visual Bend field commits through the existing Layer working-copy path")
+			visual_bend_enabled.button_pressed = false
+			visual_bend_enabled.emit_signal("toggled", false)
+			tests.expect_true(not controller.working_preset()["phases"]["one_shot"]["layers"][1].has("visual_bend"), "disabling Visual Bend removes the optional static metadata object")
+
+		controller.select_layer("one_shot.renamed")
+		var glow_bend_section := common_layer_inspector.get_node_or_null("VisualBendSection") as VBoxContainer
+		tests.expect_true(glow_bend_section != null and not glow_bend_section.visible, "non-TEXTURED_SPRITE Layers do not expose the Visual Bend static section")
+
+		controller.select_layer(textured_layer["id"])
+		var pivot_x := common_layer_inspector.get_node_or_null("ModulationPivotX") as SpinBox
+		var pivot_y := common_layer_inspector.get_node_or_null("ModulationPivotY") as SpinBox
+		tests.expect_true(pivot_x != null and pivot_y != null, "Transform Inspector exposes the existing modulation pivot without a new editor component")
+		if pivot_x != null and pivot_y != null:
+			pivot_x.value = 12.5
+			pivot_x.get_line_edit().emit_signal("focus_exited")
+			pivot_y.value = -8.0
+			pivot_y.get_line_edit().emit_signal("focus_exited")
+			tests.expect_true(controller.working_preset()["phases"]["one_shot"]["layers"][1]["transform"]["modulation_pivot_local"] == [12.5, -8.0], "modulation pivot commits through the existing Transform working-copy path")
 	inspector_host.free()
 
 

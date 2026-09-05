@@ -153,12 +153,12 @@ and is blocked without treating all `UTILITY` Presets as non-exportable.
 
 ## Runtime Definition v1/v2 selection and Runtime Modulation v1
 
-The compiler classifies a Preset as **modulation-bearing** when any of these
-validated authoring arrays is non-empty: root
-`runtime_modulation_sources`, a Layer's `modulations`, or a Layer's
-`modulation_clamps`. Static Presets compile to Runtime Definition v1 at
-`runtime/vfx_runtime_definition_v1.json`; modulation-bearing Presets compile
-to Runtime Definition v2 at `runtime/vfx_runtime_definition_v2.json`.
+The compiler selects Runtime Definition v2 when any validated authoring array is
+non-empty—root `runtime_modulation_sources`, a Layer's `modulations`, or a
+Layer's `modulation_clamps`—or when a `TEXTURED_SPRITE` Layer declares static
+`visual_bend` metadata. Other static Presets compile to Runtime Definition v1 at
+`runtime/vfx_runtime_definition_v1.json`; v2-bearing Presets compile to Runtime
+Definition v2 at `runtime/vfx_runtime_definition_v2.json`.
 `modulation_pivot_local` alone does not promote a static Preset to v2.
 
 Static v1 compatibility remains intentional: v1 transforms contain only
@@ -174,7 +174,15 @@ modulation data:
 - root `runtime_modulation_sources` in source order;
 - each Layer's `modulations` and target-level `modulation_clamps` in source
   order; and
-- `transform.modulation_pivot_local`.
+- `transform.modulation_pivot_local`; and
+- optional `TEXTURED_SPRITE.visual_bend` metadata exactly when authored.
+
+`visual_bend` is portable declarative metadata: `LOCAL_Y_POSITIVE` axis,
+quadratic curve, start ratio, and source-pixel span. Its
+`VISUAL_BEND_OFFSET_X` bindings use the existing generic mapping/ADD/clamp
+rules. Runtime Definition v2 carries the data but does not carry Preview packet
+state, a shader, a material, an evaluated bend curve, or any instruction that a
+consumer must infer behavior without a validated binding.
 
 It retains all authoring Layer records, including disabled Layers and their
 `CORE`/`DETAIL`/`EXTRA` importance; Export never bakes Studio LOD filtering.

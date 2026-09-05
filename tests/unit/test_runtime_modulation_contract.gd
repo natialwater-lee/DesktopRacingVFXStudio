@@ -6,6 +6,7 @@ const VfxSchemaRegistryModel := preload("res://src/model/vfx_schema_registry.gd"
 const VfxSchemaSubsetValidatorModel := preload("res://src/model/vfx_schema_subset_validator.gd")
 const VfxPresetNormalizerModel := preload("res://src/model/vfx_preset_normalizer.gd")
 const VfxContractValidatorModel := preload("res://src/model/vfx_contract_validator.gd")
+const VfxPresetPipelineModel := preload("res://src/app/vfx_preset_pipeline.gd")
 
 
 static func run(tests: TestAssert) -> void:
@@ -41,6 +42,96 @@ static func run(tests: TestAssert) -> void:
 	if contract.success:
 		var target_contracts: Dictionary = contract.value["target_contracts"]
 		tests.expect_true(target_contracts["TRANSFORM_SCALE_Y"]["compatible_layer_types"] == ["TEXTURED_SPRITE"], "target compatibility is Schema-owned and TEXTURED_SPRITE-only")
+		tests.expect_true(
+			target_contracts.has("VISUAL_BEND_OFFSET_X")
+				and target_contracts["VISUAL_BEND_OFFSET_X"].get("operation") == "ADD"
+				and target_contracts["VISUAL_BEND_OFFSET_X"].get("compatible_layer_types") == ["TEXTURED_SPRITE"]
+				and target_contracts["VISUAL_BEND_OFFSET_X"].get("requires_static_field") == "visual_bend"
+				and target_contracts["VISUAL_BEND_OFFSET_X"].get("requires_target_clamp") == true,
+			"visual bend target is Schema-owned, additive, TEXTURED_SPRITE-only, and requires metadata plus a clamp"
+		)
+
+	var valid_bend := _valid_bend_preset()
+	var valid_bend_result := _validate(registry, valid_bend)
+	tests.expect_true(valid_bend_result.success, "valid TEXTURED_SPRITE visual bend metadata and ADD binding validate")
+	if valid_bend_result.success:
+		var bend_layer: Dictionary = valid_bend_result.value["phases"]["one_shot"]["layers"][0]
+		tests.expect_true(
+			bend_layer.get("visual_bend") == {
+				"axis": "LOCAL_Y_POSITIVE",
+				"start_ratio": 0.333333,
+				"curve": "QUADRATIC",
+				"span_source_px": 240.0
+			},
+			"valid visual bend metadata survives normalization and validation"
+		)
+
+	var bend_pipeline := VfxPresetPipelineModel.new()
+	var bend_document := bend_pipeline.build_document_from_value(_valid_bend_preset(), "res://tests/fixtures/presets/utility.visual_bend_round_trip.vfx.json")
+	var bend_serialized: VfxResult = bend_pipeline.serialize_document(bend_document.value) if bend_document.success else VfxResult.failure(bend_document.issues)
+	var bend_decoded: VfxResult = VfxPresetCodecModel.new().decode_text(bend_serialized.value, "res://tests/fixtures/presets/utility.visual_bend_round_trip.vfx.json") if bend_serialized.success else VfxResult.failure(bend_serialized.issues)
+	var bend_reloaded: VfxResult = bend_pipeline.build_document_from_value(bend_decoded.value, "res://tests/fixtures/presets/utility.visual_bend_round_trip.vfx.json") if bend_decoded.success else VfxResult.failure(bend_decoded.issues)
+	var round_trip_layer: Dictionary = bend_reloaded.value.normalized_data["phases"]["one_shot"]["layers"][0] if bend_reloaded.success else {}
+	tests.expect_true(
+		bend_reloaded.success \
+			and round_trip_layer.get("visual_bend") == _valid_bend_preset()["phases"]["one_shot"]["layers"][0]["visual_bend"] \
+			and round_trip_layer.get("modulations") == _valid_bend_preset()["phases"]["one_shot"]["layers"][0]["modulations"] \
+			and round_trip_layer.get("modulation_clamps") == _valid_bend_preset()["phases"]["one_shot"]["layers"][0]["modulation_clamps"],
+		"Visual Bend metadata, binding, and clamp survive Pipeline save/load round-trip"
+	)
+
+	var invalid_axis := _valid_bend_preset()
+	invalid_axis["phases"]["one_shot"]["layers"][0]["visual_bend"]["axis"] = "LOCAL_X"
+	tests.expect_true(not _validate(registry, invalid_axis).success, "unsupported visual bend axis is rejected")
+
+	var invalid_curve := _valid_bend_preset()
+	invalid_curve["phases"]["one_shot"]["layers"][0]["visual_bend"]["curve"] = "CUBIC"
+	tests.expect_true(not _validate(registry, invalid_curve).success, "unsupported visual bend curve is rejected")
+
+	var negative_ratio := _valid_bend_preset()
+	negative_ratio["phases"]["one_shot"]["layers"][0]["visual_bend"]["start_ratio"] = -0.01
+	tests.expect_true(not _validate(registry, negative_ratio).success, "negative visual bend start ratio is rejected")
+
+	var terminal_ratio := _valid_bend_preset()
+	terminal_ratio["phases"]["one_shot"]["layers"][0]["visual_bend"]["start_ratio"] = 1.0
+	tests.expect_true(_has_code(_validate(registry, terminal_ratio), "visual_bend_start_ratio"), "visual bend start ratio of one is rejected")
+
+	var nonfinite_ratio := _valid_bend_preset()
+	nonfinite_ratio["phases"]["one_shot"]["layers"][0]["visual_bend"]["start_ratio"] = NAN
+	tests.expect_true(_has_code(_validate(registry, nonfinite_ratio), "visual_bend_start_ratio"), "non-finite visual bend start ratio is rejected")
+
+	var zero_span := _valid_bend_preset()
+	zero_span["phases"]["one_shot"]["layers"][0]["visual_bend"]["span_source_px"] = 0.0
+	tests.expect_true(_has_code(_validate(registry, zero_span), "visual_bend_span_source_px"), "zero visual bend span is rejected")
+
+	var negative_span := _valid_bend_preset()
+	negative_span["phases"]["one_shot"]["layers"][0]["visual_bend"]["span_source_px"] = -1.0
+	tests.expect_true(not _validate(registry, negative_span).success, "negative visual bend span is rejected")
+
+	var nonfinite_span := _valid_bend_preset()
+	nonfinite_span["phases"]["one_shot"]["layers"][0]["visual_bend"]["span_source_px"] = INF
+	tests.expect_true(_has_code(_validate(registry, nonfinite_span), "visual_bend_span_source_px"), "non-finite visual bend span is rejected")
+
+	var bend_without_metadata := _valid_bend_preset()
+	bend_without_metadata["phases"]["one_shot"]["layers"][0].erase("visual_bend")
+	tests.expect_true(_has_code(_validate(registry, bend_without_metadata), "runtime_modulation_target_requires_static_field"), "visual bend target without visual bend metadata is rejected")
+
+	var bend_wrong_operation := _valid_bend_preset()
+	bend_wrong_operation["phases"]["one_shot"]["layers"][0]["modulations"][0]["operation"] = "MULTIPLY"
+	tests.expect_true(_has_code(_validate(registry, bend_wrong_operation), "runtime_modulation_operation"), "visual bend target rejects non-ADD operation")
+
+	var bend_without_clamp := _valid_bend_preset()
+	bend_without_clamp["phases"]["one_shot"]["layers"][0]["modulation_clamps"] = []
+	tests.expect_true(_has_code(_validate(registry, bend_without_clamp), "runtime_modulation_target_clamp_required"), "visual bend target requires an explicit target clamp")
+
+	var bend_nonfinite_mapping := _valid_bend_preset()
+	bend_nonfinite_mapping["phases"]["one_shot"]["layers"][0]["modulations"][0]["mapping"]["output_max"] = NAN
+	tests.expect_true(_has_code(_validate(registry, bend_nonfinite_mapping), "runtime_modulation_mapping_nonfinite"), "visual bend mapping values must be finite")
+
+	var bend_on_glow := _valid_bend_preset()
+	bend_on_glow["phases"]["one_shot"]["layers"][0]["type"] = "GLOW"
+	bend_on_glow["phases"]["one_shot"]["layers"][0]["parameters"] = _parameters_for("GLOW")
+	tests.expect_true(_has_code(_validate(registry, bend_on_glow), "visual_bend_layer_type_incompatible"), "visual bend metadata on a non-TEXTURED_SPRITE Layer is rejected")
 
 	var duplicate_source := _valid_preset()
 	duplicate_source["runtime_modulation_sources"].append(duplicate_source["runtime_modulation_sources"][0].duplicate(true))
@@ -151,6 +242,44 @@ static func _valid_preset() -> Dictionary:
 			}
 		}
 	}
+
+
+static func _valid_bend_preset() -> Dictionary:
+	var preset := _valid_preset()
+	preset["runtime_inputs"] = ["turn_rate_normalized"]
+	preset["runtime_modulation_sources"] = []
+	var layer: Dictionary = preset["phases"]["one_shot"]["layers"][0]
+	layer["transform"] = {
+		"offset": [0.0, 0.0],
+		"rotation_degrees": 0.0,
+		"scale": [1.0, 1.0],
+		"modulation_pivot_local": [0.0, 40.0]
+	}
+	layer["visual_bend"] = {
+		"axis": "LOCAL_Y_POSITIVE",
+		"start_ratio": 0.333333,
+		"curve": "QUADRATIC",
+		"span_source_px": 240.0
+	}
+	layer["modulations"] = [{
+		"id": "bend.by.turn_rate",
+		"target": "VISUAL_BEND_OFFSET_X",
+		"operation": "ADD",
+		"source": {"type": "RUNTIME_INPUT", "input": "turn_rate_normalized"},
+		"mapping": {
+			"type": "LINEAR_RANGE",
+			"input_min": -0.2,
+			"input_max": 0.2,
+			"output_min": 60.0,
+			"output_max": -60.0
+		}
+	}]
+	layer["modulation_clamps"] = [{
+		"target": "VISUAL_BEND_OFFSET_X",
+		"min_effective": -60.0,
+		"max_effective": 60.0
+	}]
+	return preset
 
 
 static func _parameters_for(layer_type: String) -> Dictionary:

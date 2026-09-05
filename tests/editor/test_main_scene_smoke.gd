@@ -113,6 +113,7 @@ static func run(tests: TestAssert) -> void:
 
 	var focus_created := editor.editor_controller.create_new_preset("utility.diagnostic_focus", "Diagnostic Focus", "UTILITY", "START_LOOP_END", "WORLD_AREA")
 	tests.expect_true(focus_created.success, "diagnostic focus fixture creates a multi-phase Preset")
+	editor.editor_controller.select_phase("start")
 	editor.editor_controller.add_active_layer("GLOW")
 	var focus_layer_id: String = editor.editor_controller.working_preset()["phases"]["start"]["layers"][0]["id"]
 	var diagnostics_panel := editor.get_node("EditorLayout/DiagnosticsPanel") as VfxDiagnosticsPanel
@@ -235,7 +236,7 @@ static func run(tests: TestAssert) -> void:
 	tree.auto_accept_quit = original_auto_accept_quit
 	tree.root.remove_child(editor)
 	editor.free()
-	_remove_test_file(INVALID_LIBRARY_PATH)
+	_restore_invalid_library_fixture()
 	_remove_test_file(WORKFLOW_SAVE_PATH)
 	var second_editor := packed.instantiate() as VfxEditorMainModel
 	tests.expect_true(second_editor != null, "main scene can instantiate a second independent editor root")
@@ -253,6 +254,10 @@ static func _has_issue(issues: Array[VfxIssue], code: String) -> bool:
 static func _remove_test_file(path: String) -> void:
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+static func _restore_invalid_library_fixture() -> void:
+	VfxPresetCodecModel.new().write_text_file(INVALID_LIBRARY_PATH, "{\"schema_version\": 1}")
 
 
 static func _find_library_row(rows: VBoxContainer, text_fragment: String) -> Button:

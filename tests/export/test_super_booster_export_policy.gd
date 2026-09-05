@@ -55,11 +55,11 @@ static func _test_super_booster_compiles_to_runtime_definition_v2_without_writer
 	var loop_soft: Dictionary = _runtime_layer(runtime, "loop", "loop.soft_flame")
 	var loop_spark: Dictionary = _runtime_layer(runtime, "loop", "loop.energy_spark_accent")
 	var geometry_matches: bool = _vector_matches(loop_core.get("transform", {}).get("scale", []), Vector2(0.3795, 1.311)) \
-		and _vector_matches(loop_core.get("transform", {}).get("offset", []), Vector2(0.0, 272.291)) \
+		and _vector_matches(loop_core.get("transform", {}).get("offset", []), Vector2(0.0, 296.291)) \
 		and _vector_matches(loop_soft.get("transform", {}).get("scale", []), Vector2(0.874, 1.5525)) \
-		and _vector_matches(loop_soft.get("transform", {}).get("offset", []), Vector2(0.437, 319.1075)) \
-		and _vector_matches(loop_spark.get("transform", {}).get("offset", []), Vector2(0.0, 295.0))
-	var turn_contract_matches := _turn_rotation_contract_matches(runtime)
+		and _vector_matches(loop_soft.get("transform", {}).get("offset", []), Vector2(0.437, 343.1075)) \
+		and _vector_matches(loop_spark.get("transform", {}).get("offset", []), Vector2(0.0, 319.0))
+	var turn_contract_matches := _turn_bend_contract_matches(runtime)
 	tests.expect_true(
 		first.success and second.success and first.value.runtime_text() == second.value.runtime_text() \
 		and runtime is Dictionary and runtime.get("runtime_definition_version") == 2 \
@@ -71,7 +71,7 @@ static func _test_super_booster_compiles_to_runtime_definition_v2_without_writer
 		and logical_ids == ["fx.super_booster_flame_core", "fx.super_booster_flame_soft", "fx.super_booster_spark_blue"] \
 		and paths == ["assets/super_booster_flame_core.png", "assets/super_booster_flame_soft.png", "assets/super_booster_spark_blue.png"] \
 		and geometry_matches and turn_contract_matches and not first.value.runtime_text().contains("res://"),
-		"Super Booster compile-only output deterministically carries the saturated 0.20 signed turn-rate rotation contract, existing pulse source, and three texture dependencies into Runtime Definition v2"
+		"Super Booster compile-only output deterministically carries the saturated 0.20 signed turn-rate bend contract, existing pulse source, and three texture dependencies into Runtime Definition v2"
 	)
 
 
@@ -111,17 +111,22 @@ static func _runtime_layer(runtime: Variant, phase_name: String, layer_id: Strin
 	return {}
 
 
-static func _turn_rotation_contract_matches(runtime: Variant) -> bool:
+static func _turn_bend_contract_matches(runtime: Variant) -> bool:
 	var matches := true
 	for phase_name in ["start", "loop", "end"]:
 		var suffix := "flame" if phase_name == "loop" else "ignition" if phase_name == "start" else "fade"
-		matches = matches and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.core_%s" % [phase_name, suffix]), "%s.core.turn.rotation" % phase_name, 3.0, -3.0) \
-			and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.soft_%s" % [phase_name, suffix]), "%s.soft.turn.rotation" % phase_name, 6.0, -6.0)
+		matches = matches and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.core_%s" % [phase_name, suffix]), "%s.core.turn.bend" % phase_name, -102.0904551776, 102.0904551776) \
+			and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.soft_%s" % [phase_name, suffix]), "%s.soft.turn.bend" % phase_name, -178.5185009320, 178.5185009320)
 	return matches
 
 
 static func _runtime_turn_layer_matches(layer: Dictionary, binding_id: String, output_min: float, output_max: float) -> bool:
+	var span := 365.0 if binding_id.contains("core") else 375.0
+	if layer.get("visual_bend") != {"axis": "LOCAL_Y_POSITIVE", "start_ratio": 0.333333333, "curve": "QUADRATIC", "span_source_px": span}:
+		return false
 	var bindings: Array = layer.get("modulations", []) if layer.get("modulations", []) is Array else []
+	if bindings.any(func(b: Dictionary) -> bool: return b.get("target") == "TRANSFORM_ROTATION_DEGREES"):
+		return false
 	var matches := 0
 	for binding_value in bindings:
 		if not binding_value is Dictionary or str(binding_value.get("id", "")) != binding_id:
@@ -129,16 +134,16 @@ static func _runtime_turn_layer_matches(layer: Dictionary, binding_id: String, o
 		var binding: Dictionary = binding_value
 		var source: Dictionary = binding.get("source", {}) if binding.get("source", {}) is Dictionary else {}
 		var mapping: Dictionary = binding.get("mapping", {}) if binding.get("mapping", {}) is Dictionary else {}
-		if binding.get("target") == "TRANSFORM_ROTATION_DEGREES" and binding.get("operation") == "ADD" \
+		if binding.get("target") == "VISUAL_BEND_OFFSET_X" and binding.get("operation") == "ADD" \
 			and source == {"type": "RUNTIME_INPUT", "input": "turn_rate_normalized"} and mapping.get("type") == "LINEAR_RANGE" \
 			and is_equal_approx(float(mapping.get("input_min", INF)), -0.20) and is_equal_approx(float(mapping.get("input_max", INF)), 0.20) \
 			and is_equal_approx(float(mapping.get("output_min", INF)), output_min) and is_equal_approx(float(mapping.get("output_max", INF)), output_max):
 			matches += 1
 	var clamps: Array = layer.get("modulation_clamps", []) if layer.get("modulation_clamps", []) is Array else []
-	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "TRANSFORM_ROTATION_DEGREES")
+	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "VISUAL_BEND_OFFSET_X")
 	return matches == 1 and rotation_clamps.size() == 1 \
-		and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_max) \
-		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_min)
+		and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_min) \
+		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_max)
 
 
 static func _vector_matches(value: Variant, expected: Vector2) -> bool:

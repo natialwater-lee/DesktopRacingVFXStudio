@@ -370,6 +370,13 @@ func _validate_runtime_modulation_rule_coverage(rule: Dictionary, pointer: Strin
 	}, issues)
 	var transform_schema := _schema_property_of_type(layer_schema, rule["transform_field"], "object", "%s/transform_field" % pointer, issues)
 	_validate_schema_type(_schema_property(transform_schema, rule["pivot_field"], "%s/pivot_field" % pointer, issues), "array", "%s/pivot_field" % pointer, issues)
+	var visual_bend_schema := _schema_property_of_type(layer_schema, rule["visual_bend_field"], "object", "%s/visual_bend_field" % pointer, issues)
+	var axis_schema := _schema_property_of_type(visual_bend_schema, rule["visual_bend_axis_field"], "string", "%s/visual_bend_axis_field" % pointer, issues)
+	var curve_schema := _schema_property_of_type(visual_bend_schema, rule["visual_bend_curve_field"], "string", "%s/visual_bend_curve_field" % pointer, issues)
+	_validate_schema_type(_schema_property(visual_bend_schema, rule["visual_bend_start_ratio_field"], "%s/visual_bend_start_ratio_field" % pointer, issues), "number", "%s/visual_bend_start_ratio_field" % pointer, issues)
+	_validate_schema_type(_schema_property(visual_bend_schema, rule["visual_bend_span_source_px_field"], "%s/visual_bend_span_source_px_field" % pointer, issues), "number", "%s/visual_bend_span_source_px_field" % pointer, issues)
+	_schema_string_enum(axis_schema, "%s/visual_bend_axis_field" % pointer, issues)
+	_schema_string_enum(curve_schema, "%s/visual_bend_curve_field" % pointer, issues)
 
 	var bindings_schema := _schema_property_of_type(layer_schema, rule["bindings_field"], "array", "%s/bindings_field" % pointer, issues)
 	var resolved_bindings := _resolve_schema_node(bindings_schema, "%s/bindings_field" % pointer, issues)
@@ -387,9 +394,14 @@ func _validate_runtime_modulation_rule_coverage(rule: Dictionary, pointer: Strin
 		for layer_type in target_definition.get("compatible_layer_types", []):
 			if not _active_schema["x_vfx_layer_types"].has(layer_type):
 				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target compatibility references an unknown Layer Type.", "%s/target_contracts/%s/compatible_layer_types" % [pointer, target]))
+		if target_definition.has("requires_static_field") and target_definition["requires_static_field"] != rule["visual_bend_field"]:
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation target static-field requirement is not declared by the configured Bend contract.", "%s/target_contracts/%s/requires_static_field" % [pointer, target]))
 	for layer_type in rule["pivot_compatible_layer_types"]:
 		if not _active_schema["x_vfx_layer_types"].has(layer_type):
 			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation pivot compatibility references an unknown Layer Type.", "%s/pivot_compatible_layer_types" % pointer))
+	for layer_type in rule["visual_bend_compatible_layer_types"]:
+		if not _active_schema["x_vfx_layer_types"].has(layer_type):
+			issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation visual bend compatibility references an unknown Layer Type.", "%s/visual_bend_compatible_layer_types" % pointer))
 
 
 func _particle_parameters_schema(rule: Dictionary, pointer: String, issues: Array[VfxIssue]) -> Dictionary:

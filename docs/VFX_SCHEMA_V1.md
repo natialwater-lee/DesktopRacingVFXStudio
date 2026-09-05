@@ -223,6 +223,23 @@ composition. `VISUAL_OPACITY_MULTIPLIER` must be finite and non-negative, has no
 authoring upper bound, and only the final `TEXTURED_SPRITE` alpha application
 clamps its rendered result to `[0, 1]`.
 
+### Visual Bend B2 — declared-but-straight Preview boundary
+
+`TEXTURED_SPRITE` may additionally declare optional static `visual_bend` metadata:
+`axis: LOCAL_Y_POSITIVE`, `start_ratio` in `[0, 1)`, `curve: QUADRATIC`, and a
+finite positive `span_source_px`. It uses the existing
+`transform.modulation_pivot_local`; no Bend-specific pivot exists. Its only
+associated target is `VISUAL_BEND_OFFSET_X`, which is `TEXTURED_SPRITE`-only,
+`ADD`-only, requires this metadata, and requires one explicit target clamp. The
+normal generic `LINEAR_RANGE` evaluator composes and clamps this numeric target;
+there is no Bend-specific evaluator, validator, service, or source type.
+
+B2 deliberately does not deform a Preview texture. The target can be validated,
+evaluated, saved, and exported, while the existing Preview retains one straight
+texture packet with unchanged draw order and geometry. A later renderer may
+consume this portable Runtime Definition v2 contract; it must not infer Bend
+behavior from a Runtime Input alone.
+
 ## Reference support
 
 Only local `#/$defs/...` references are valid. The Registry rejects external references, missing local references, reference cycles, malformed supported keyword values, and malformed nested rule configuration before a Preset is processed. It also rejects JSON Schema keywords outside the documented v1 subset.

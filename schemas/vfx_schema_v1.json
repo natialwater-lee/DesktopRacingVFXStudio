@@ -180,7 +180,8 @@
         "TRANSFORM_ROTATION_DEGREES",
         "TRANSFORM_SCALE_X",
         "TRANSFORM_SCALE_Y",
-        "VISUAL_OPACITY_MULTIPLIER"
+        "VISUAL_OPACITY_MULTIPLIER",
+        "VISUAL_BEND_OFFSET_X"
       ]
     },
     "runtime_modulation_operation": {
@@ -243,6 +244,34 @@
         "max_effective": {"type": "number"}
       }
     },
+    "visual_bend": {
+      "type": "object",
+      "required": ["axis", "start_ratio", "curve", "span_source_px"],
+      "additionalProperties": false,
+      "properties": {
+        "axis": {
+          "type": "string",
+          "enum": ["LOCAL_Y_POSITIVE"],
+          "default": "LOCAL_Y_POSITIVE"
+        },
+        "start_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 0.333333
+        },
+        "curve": {
+          "type": "string",
+          "enum": ["QUADRATIC"],
+          "default": "QUADRATIC"
+        },
+        "span_source_px": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 250.0
+        }
+      }
+    },
     "layer": {
       "type": "object",
       "required": ["id", "type", "importance", "blend_mode", "render_plane", "parameters"],
@@ -300,6 +329,9 @@
           "type": "array",
           "items": {"$ref": "#/$defs/runtime_modulation_clamp"},
           "default": []
+        },
+        "visual_bend": {
+          "$ref": "#/$defs/visual_bend"
         },
         "parameters": {
           "type": "object"
@@ -885,6 +917,11 @@
       "output_max_field": "output_max",
       "minimum_effective_field": "min_effective",
       "maximum_effective_field": "max_effective",
+      "visual_bend_field": "visual_bend",
+      "visual_bend_axis_field": "axis",
+      "visual_bend_start_ratio_field": "start_ratio",
+      "visual_bend_curve_field": "curve",
+      "visual_bend_span_source_px_field": "span_source_px",
       "source_types": {
         "OSCILLATOR": {
           "waves": ["SINE"],
@@ -921,9 +958,16 @@
           "operation": "MULTIPLY",
           "minimum_effective": 0.0,
           "compatible_layer_types": ["TEXTURED_SPRITE"]
+        },
+        "VISUAL_BEND_OFFSET_X": {
+          "operation": "ADD",
+          "compatible_layer_types": ["TEXTURED_SPRITE"],
+          "requires_static_field": "visual_bend",
+          "requires_target_clamp": true
         }
       },
-      "pivot_compatible_layer_types": ["TEXTURED_SPRITE"]
+      "pivot_compatible_layer_types": ["TEXTURED_SPRITE"],
+      "visual_bend_compatible_layer_types": ["TEXTURED_SPRITE"]
     }
   ]
 }

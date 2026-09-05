@@ -38,6 +38,7 @@ static func run(tests: TestAssert) -> void:
 	_test_pivot_compensation(tests)
 	_test_textured_sprite_runtime_consumer(tests, plan_result.value)
 	_test_lod_reachability(tests, plan_result.value)
+	_test_visual_bend_evaluator_and_straight_preview_fallback(tests)
 
 
 static func _test_evaluator(tests: TestAssert, plan: RefCounted, program: RefCounted) -> void:
@@ -96,6 +97,60 @@ static func _test_lod_reachability(tests: TestAssert, plan: RefCounted) -> void:
 	var policy_result: VfxResult = VfxPerformancePolicyModel.new().load(_registry())
 	var low_result: VfxResult = VfxPreviewLodFilterModel.new().filter(plan, "LOW", policy_result.value) if policy_result.success else VfxResult.failure(policy_result.issues)
 	tests.expect_true(low_result.success and low_result.value.runtime_modulation_program().binding_count() == 13, "LOW LOD removes the EXTRA binding before runtime evaluator construction")
+
+
+static func _test_visual_bend_evaluator_and_straight_preview_fallback(tests: TestAssert) -> void:
+	var fixture := VfxPresetPipelineModel.new().load_and_validate("res://tests/fixtures/presets/utility.visual_bend_fixture.vfx.json")
+	var plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(_registry()).build(fixture.value.normalized_data) if fixture.success else VfxResult.failure(fixture.issues)
+	tests.expect_true(plan_result.success, "Visual Bend fixture validates, saves/loads through the normal Pipeline, and builds a generic Preview modulation program")
+	if not plan_result.success:
+		return
+	var plan: RefCounted = plan_result.value
+	var program: RefCounted = plan.runtime_modulation_program()
+	var bend_slot := _target_slot(program, "VISUAL_BEND_OFFSET_X")
+	tests.expect_true(program != null and bend_slot >= 0 and program.runtime_input_slot("turn_rate_normalized") >= 0, "Visual Bend uses the existing generic turn-rate input and a Schema-derived modulation target slot")
+	if program == null or bend_slot < 0:
+		return
+	var input_state := VfxPreviewRuntimeInputStateModel.new(program)
+	var evaluator := VfxPreviewRuntimeModulationEvaluatorModel.new(program, input_state)
+	var phase: RefCounted = plan.phase_named("one_shot")
+	var state: RefCounted = evaluator.create_effective_state(phase.layer_specs()[0])
+	var values_by_turn: Dictionary = {}
+	for turn_value in [-1.0, 0.0, 1.0]:
+		input_state.set_named_value(program, "turn_rate_normalized", turn_value)
+		evaluator.refresh(0.0, [state])
+		values_by_turn[turn_value] = state.effective_value(bend_slot)
+	tests.expect_true(is_equal_approx(float(values_by_turn[-1.0]), -18.0) and is_equal_approx(float(values_by_turn[0.0]), 0.0) and is_equal_approx(float(values_by_turn[1.0]), 18.0), "generic LINEAR_RANGE evaluates VISUAL_BEND_OFFSET_X and applies its configured target clamp exactly once")
+
+	var runtime := VfxPreviewRenderRuntimeModel.new(plan, {"anchors": {"CENTER": [0.0, 0.0]}}, _registry(), VfxPreviewRendererFactoryModel.new(), VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new()))
+	runtime.set_runtime_input_state(input_state)
+	input_state.set_named_value(program, "turn_rate_normalized", -1.0)
+	runtime.activate_phase("one_shot", {"preview_time": 0.0})
+	runtime.advance(0.0, {"preview_time": 0.0})
+	var negative_packet := _packet_for_layer(runtime.draw_packets(), "one_shot.visual_bend_fixture")
+	input_state.set_named_value(program, "turn_rate_normalized", 1.0)
+	runtime.refresh_modulation({"preview_time": 0.0})
+	var positive_packet := _packet_for_layer(runtime.draw_packets(), "one_shot.visual_bend_fixture")
+	tests.expect_true(
+		negative_packet.get("position") == positive_packet.get("position") and negative_packet.get("geometry_scale") == positive_packet.get("geometry_scale") and negative_packet.get("geometry_rotation_degrees") == positive_packet.get("geometry_rotation_degrees"),
+		"Preview keeps Visual Bend metadata and its numeric target on the existing straight TEXTURED_SPRITE packet path without renderer or packet-order changes"
+	)
+
+
+static func _target_slot(program: RefCounted, target_name: String) -> int:
+	if program == null:
+		return -1
+	for slot in program.target_count():
+		if program.target_name(slot) == target_name:
+			return slot
+	return -1
+
+
+static func _packet_for_layer(packets: Array, layer_id: String) -> Dictionary:
+	for packet in packets:
+		if packet is Dictionary and packet.get("layer_id") == layer_id:
+			return packet
+	return {}
 
 
 static func _registry() -> RefCounted:

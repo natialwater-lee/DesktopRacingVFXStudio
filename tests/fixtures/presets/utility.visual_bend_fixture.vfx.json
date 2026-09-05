@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "preset_id": "utility.visual_bend.fixture",
+  "display_name": "Visual Bend Fixture",
+  "category": "UTILITY",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": ["turn_rate_normalized"],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 1.0,
+      "layers": [
+        {
+          "id": "one_shot.visual_bend_fixture",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "blend_mode": "ALPHA",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": {
+            "offset": [0.0, -80.0],
+            "rotation_degrees": 0.0,
+            "scale": [1.0, 1.0],
+            "modulation_pivot_local": [0.0, 40.0]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 240.0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.headlight_beam_soft",
+            "opacity": 0.8
+          },
+          "modulations": [
+            {
+              "id": "fixture.bend.turn_rate",
+              "target": "VISUAL_BEND_OFFSET_X",
+              "operation": "ADD",
+              "source": { "type": "RUNTIME_INPUT", "input": "turn_rate_normalized" },
+              "mapping": {
+                "type": "LINEAR_RANGE",
+                "input_min": -0.5,
+                "input_max": 0.5,
+                "output_min": -9.0,
+                "output_max": 9.0
+              }
+            }
+          ],
+          "modulation_clamps": [
+            {
+              "target": "VISUAL_BEND_OFFSET_X",
+              "min_effective": -18.0,
+              "max_effective": 18.0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

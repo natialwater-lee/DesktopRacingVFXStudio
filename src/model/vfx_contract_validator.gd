@@ -227,6 +227,7 @@ func _validate_runtime_modulation_configuration(preset: Dictionary, rule: Dictio
 		var layer_pointer: String = entry["pointer"]
 		var layer_type := str(layer.get(rule["layer_type_field"], ""))
 		_validate_modulation_pivot(layer, layer_pointer, layer_type, rule, issues)
+		_validate_visual_bend(layer, layer_pointer, layer_type, rule, issues)
 		var binding_ids: Dictionary = {}
 		var bindings: Variant = layer.get(rule["bindings_field"], [])
 		if bindings is Array:
@@ -251,6 +252,7 @@ func _validate_runtime_modulation_configuration(preset: Dictionary, rule: Dictio
 				else:
 					clamp_targets[target] = true
 				_validate_modulation_clamp(clamp, clamp_pointer, rule, issues)
+		_validate_modulation_target_requirements(layer, layer_pointer, bindings, clamp_targets, rule, issues)
 
 
 func _validate_modulation_source(source: Dictionary, pointer: String, rule: Dictionary, issues: Array[VfxIssue]) -> void:
@@ -337,6 +339,49 @@ func _validate_modulation_pivot(layer: Dictionary, layer_pointer: String, layer_
 		return
 	if (not is_zero_approx(float(pivot[0])) or not is_zero_approx(float(pivot[1]))) and not rule["pivot_compatible_layer_types"].has(layer_type):
 		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_pivot_layer_type_incompatible", "Non-zero Runtime Modulation pivot is not supported by this Layer Type.", "%s/%s/%s" % [layer_pointer, rule["transform_field"], rule["pivot_field"]]))
+
+
+func _validate_visual_bend(layer: Dictionary, layer_pointer: String, layer_type: String, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	var bend_field: String = rule["visual_bend_field"]
+	if not layer.has(bend_field):
+		return
+	var bend: Variant = layer[bend_field]
+	if not bend is Dictionary:
+		return
+	if not rule["visual_bend_compatible_layer_types"].has(layer_type):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "visual_bend_layer_type_incompatible", "Visual Bend is supported only by configured Layer Types.", "%s/%s" % [layer_pointer, bend_field]))
+		return
+	var axis: Variant = bend.get(rule["visual_bend_axis_field"])
+	var curve: Variant = bend.get(rule["visual_bend_curve_field"])
+	if not axis is String or axis.is_empty():
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "visual_bend_axis", "Visual Bend axis must be configured.", "%s/%s/%s" % [layer_pointer, bend_field, rule["visual_bend_axis_field"]]))
+	if not curve is String or curve.is_empty():
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "visual_bend_curve", "Visual Bend curve must be configured.", "%s/%s/%s" % [layer_pointer, bend_field, rule["visual_bend_curve_field"]]))
+	var start_ratio: Variant = bend.get(rule["visual_bend_start_ratio_field"])
+	if not _is_finite_number(start_ratio) or float(start_ratio) < 0.0 or float(start_ratio) >= 1.0:
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "visual_bend_start_ratio", "Visual Bend start_ratio must be finite and within [0, 1).", "%s/%s/%s" % [layer_pointer, bend_field, rule["visual_bend_start_ratio_field"]]))
+	var span_source_px: Variant = bend.get(rule["visual_bend_span_source_px_field"])
+	if not _is_finite_number(span_source_px) or float(span_source_px) <= 0.0:
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "visual_bend_span_source_px", "Visual Bend span_source_px must be finite and greater than zero.", "%s/%s/%s" % [layer_pointer, bend_field, rule["visual_bend_span_source_px_field"]]))
+
+
+func _validate_modulation_target_requirements(layer: Dictionary, layer_pointer: String, bindings: Variant, clamp_targets: Dictionary, rule: Dictionary, issues: Array[VfxIssue]) -> void:
+	if not bindings is Array:
+		return
+	for binding_index in bindings.size():
+		var binding: Variant = bindings[binding_index]
+		if not binding is Dictionary:
+			continue
+		var target := str(binding.get(rule["target_field"], ""))
+		var target_contracts: Dictionary = rule["target_contracts"]
+		if not target_contracts.has(target):
+			continue
+		var target_contract: Dictionary = target_contracts[target]
+		var binding_pointer := "%s/%s/%d" % [layer_pointer, rule["bindings_field"], binding_index]
+		if target_contract.has("requires_static_field") and not layer.has(str(target_contract["requires_static_field"])):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_target_requires_static_field", "Runtime Modulation target requires its configured static Layer metadata.", "%s/%s" % [binding_pointer, rule["target_field"]]))
+		if target_contract.get("requires_target_clamp", false) and not clamp_targets.has(target):
+			issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_target_clamp_required", "Runtime Modulation target requires an explicit target clamp.", "%s/%s" % [binding_pointer, rule["target_field"]]))
 
 
 func _runtime_input_is_number(contract: Variant, input_name: String) -> bool:

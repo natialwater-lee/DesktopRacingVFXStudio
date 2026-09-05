@@ -4,6 +4,7 @@ extends VBoxContainer
 signal layer_field_commit(json_pointer: String, value: Variant)
 signal space_override_changed(mode_or_inherit: String)
 signal layer_type_change_requested(target_type: String)
+signal visual_bend_enabled_changed(enabled: bool)
 
 const INHERIT_DEFAULT := "INHERIT_DEFAULT"
 const VfxSchemaInspectorFactoryModel := preload("res://src/editor/inspector/vfx_schema_inspector_factory.gd")
@@ -28,7 +29,12 @@ var _offset_y: SpinBox
 var _rotation: SpinBox
 var _scale_x: SpinBox
 var _scale_y: SpinBox
+var _modulation_pivot_x: SpinBox
+var _modulation_pivot_y: SpinBox
 var _parameter_fields: VBoxContainer
+var _visual_bend_section: VBoxContainer
+var _visual_bend_enabled: CheckBox
+var _visual_bend_fields: VBoxContainer
 var _schema_inspector_factory: RefCounted
 var _anchor_editor
 
@@ -133,6 +139,7 @@ func _ensure_controls() -> void:
 	_anchor_editor.anchors_cleared.connect(func() -> void: anchors_cleared.emit())
 	add_child(_anchor_editor)
 	_append_transform_controls()
+	_append_visual_bend_controls()
 	_add_label("Parameters")
 	_parameter_fields = VBoxContainer.new()
 	_parameter_fields.name = "Parameters"
@@ -175,6 +182,38 @@ func _append_transform_controls() -> void:
 	_scale_y.set_meta("vfx_json_pointer", "/transform/scale/1")
 	_scale_y.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["scale", 1], _scale_y))
 	add_child(_scale_y)
+	var pivot_result := _reader.property_schema(transform_schema, "modulation_pivot_local")
+	var pivot_schema: Dictionary = pivot_result.value if pivot_result.success else {}
+	var pivot_item_schema: Dictionary = pivot_schema.get("items", {})
+	_add_label("Modulation Pivot X")
+	_modulation_pivot_x = create_numeric_control("ModulationPivotX", pivot_item_schema)
+	_modulation_pivot_x.step = 0.001
+	_modulation_pivot_x.set_meta("vfx_json_pointer", "/transform/modulation_pivot_local/0")
+	_modulation_pivot_x.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["modulation_pivot_local", 0], _modulation_pivot_x))
+	add_child(_modulation_pivot_x)
+	_add_label("Modulation Pivot Y")
+	_modulation_pivot_y = create_numeric_control("ModulationPivotY", pivot_item_schema)
+	_modulation_pivot_y.step = 0.001
+	_modulation_pivot_y.set_meta("vfx_json_pointer", "/transform/modulation_pivot_local/1")
+	_modulation_pivot_y.get_line_edit().focus_exited.connect(_on_transform_focus_exited.bind(["modulation_pivot_local", 1], _modulation_pivot_y))
+	add_child(_modulation_pivot_y)
+
+
+func _append_visual_bend_controls() -> void:
+	_visual_bend_section = VBoxContainer.new()
+	_visual_bend_section.name = "VisualBendSection"
+	var title := Label.new()
+	title.text = "Visual Bend"
+	_visual_bend_section.add_child(title)
+	_visual_bend_enabled = CheckBox.new()
+	_visual_bend_enabled.name = "VisualBendEnabled"
+	_visual_bend_enabled.text = "Enabled"
+	_visual_bend_enabled.toggled.connect(_on_visual_bend_toggled)
+	_visual_bend_section.add_child(_visual_bend_enabled)
+	_visual_bend_fields = VBoxContainer.new()
+	_visual_bend_fields.name = "VisualBendFields"
+	_visual_bend_section.add_child(_visual_bend_fields)
+	add_child(_visual_bend_section)
 
 
 func _refresh_controls() -> void:
@@ -193,13 +232,19 @@ func _refresh_controls() -> void:
 	var transform: Dictionary = _layer.get("transform", default_transform)
 	var offset: Array = transform.get("offset", [])
 	var scale: Array = transform.get("scale", [])
+	var modulation_pivot: Array = transform.get("modulation_pivot_local", [])
 	var default_offset: Array = default_transform["offset"]
 	var default_scale: Array = default_transform["scale"]
+	var pivot_schema_result := _reader.property_schema(_property("transform").value, "modulation_pivot_local")
+	var default_modulation_pivot: Array = _reader.default_value(pivot_schema_result.value) if pivot_schema_result.success else [0.0, 0.0]
 	_offset_x.value = float(offset[0]) if offset.size() > 0 else float(default_offset[0])
 	_offset_y.value = float(offset[1]) if offset.size() > 1 else float(default_offset[1])
 	_rotation.value = float(transform.get("rotation_degrees", default_transform["rotation_degrees"]))
 	_scale_x.value = float(scale[0]) if scale.size() > 0 else float(default_scale[0])
 	_scale_y.value = float(scale[1]) if scale.size() > 1 else float(default_scale[1])
+	_modulation_pivot_x.value = float(modulation_pivot[0]) if modulation_pivot.size() > 0 else float(default_modulation_pivot[0])
+	_modulation_pivot_y.value = float(modulation_pivot[1]) if modulation_pivot.size() > 1 else float(default_modulation_pivot[1])
+	_refresh_visual_bend_controls()
 	_rebuild_parameter_fields()
 
 
@@ -222,6 +267,34 @@ func _rebuild_parameter_fields() -> void:
 	for field in fields:
 		field.field_committed.connect(_on_parameter_field_committed)
 		_parameter_fields.add_child(field)
+
+
+func _refresh_visual_bend_controls() -> void:
+	if _visual_bend_section == null:
+		return
+	var is_textured_sprite: bool = _layer.get("type") == "TEXTURED_SPRITE"
+	_visual_bend_section.visible = is_textured_sprite
+	if not is_textured_sprite:
+		return
+	var bend: Dictionary = _layer.get("visual_bend", {}) if _layer.get("visual_bend") is Dictionary else {}
+	_visual_bend_enabled.set_pressed_no_signal(not bend.is_empty())
+	_rebuild_visual_bend_fields(bend)
+
+
+func _rebuild_visual_bend_fields(bend: Dictionary) -> void:
+	if _visual_bend_fields == null or _schema_inspector_factory == null:
+		return
+	for child in _visual_bend_fields.get_children():
+		_visual_bend_fields.remove_child(child)
+		child.queue_free()
+	if bend.is_empty():
+		return
+	var bend_schema_result := _property("visual_bend")
+	if not bend_schema_result.success:
+		return
+	for field in _schema_inspector_factory.build_fields(bend_schema_result.value, bend):
+		field.field_committed.connect(_on_visual_bend_field_committed)
+		_visual_bend_fields.add_child(field)
 
 
 func _add_schema_enum(node_name: String, property_name: String, pointer: String) -> OptionButton:
@@ -348,6 +421,16 @@ func _on_parameter_field_committed(json_pointer_suffix: String, value: Variant) 
 	layer_field_commit.emit("/parameters%s" % json_pointer_suffix, value)
 
 
+func _on_visual_bend_toggled(enabled: bool) -> void:
+	if enabled == _layer.has("visual_bend"):
+		return
+	visual_bend_enabled_changed.emit(enabled)
+
+
+func _on_visual_bend_field_committed(json_pointer_suffix: String, value: Variant) -> void:
+	layer_field_commit.emit("/visual_bend%s" % json_pointer_suffix, value)
+
+
 func _on_transform_focus_exited(path: Array, control: SpinBox) -> void:
 	var transform: Dictionary = _layer.get("transform", _reader.default_value(_property("transform").value)).duplicate(true)
 	if path.size() == 1:
@@ -355,7 +438,11 @@ func _on_transform_focus_exited(path: Array, control: SpinBox) -> void:
 			return
 		transform[path[0]] = control.value
 	else:
-		var values: Array = transform.get(path[0], []).duplicate()
+		var fallback_values: Array = []
+		if path[0] == "modulation_pivot_local":
+			var pivot_schema_result := _reader.property_schema(_property("transform").value, "modulation_pivot_local")
+			fallback_values = _reader.default_value(pivot_schema_result.value) if pivot_schema_result.success else [0.0, 0.0]
+		var values: Array = transform.get(path[0], fallback_values).duplicate()
 		if values.size() <= int(path[1]):
 			return
 		if values[int(path[1])] == control.value:

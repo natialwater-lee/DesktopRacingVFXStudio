@@ -18,16 +18,16 @@
           "id": "end.left_core_fade",
           "importance": "CORE",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -3.0, "max_effective": 3.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -102.0904551776, "max_effective": 102.0904551776}
           ],
           "modulations": [
             {
-              "id": "end.left_core.turn.rotation",
+              "id": "end.left_core.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -3.0,
-                "output_min": 3.0,
+                "output_max": 102.0904551776,
+                "output_min": -102.0904551776,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -35,7 +35,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -51,13 +51,19 @@
             ],
             "offset": [
               -60.0,
-              165.32
+              189.32
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.242,
               0.72
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 365.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -70,16 +76,16 @@
           "id": "end.left_soft_fade",
           "importance": "DETAIL",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -6.0, "max_effective": 6.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -178.5185009320, "max_effective": 178.5185009320}
           ],
           "modulations": [
             {
-              "id": "end.left_soft.turn.rotation",
+              "id": "end.left_soft.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -6.0,
-                "output_min": 6.0,
+                "output_max": 178.5185009320,
+                "output_min": -178.5185009320,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -87,7 +93,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -103,13 +109,19 @@
             ],
             "offset": [
               -59.722307692,
-              203.36
+              227.36
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.555384615,
               0.92
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 375.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -122,16 +134,16 @@
           "id": "end.right_core_fade",
           "importance": "CORE",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -3.0, "max_effective": 3.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -102.0904551776, "max_effective": 102.0904551776}
           ],
           "modulations": [
             {
-              "id": "end.right_core.turn.rotation",
+              "id": "end.right_core.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -3.0,
-                "output_min": 3.0,
+                "output_max": 102.0904551776,
+                "output_min": -102.0904551776,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -139,7 +151,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -155,13 +167,19 @@
             ],
             "offset": [
               60.0,
-              165.32
+              189.32
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.242,
               0.72
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 365.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -174,16 +192,16 @@
           "id": "end.right_soft_fade",
           "importance": "DETAIL",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -6.0, "max_effective": 6.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -178.5185009320, "max_effective": 178.5185009320}
           ],
           "modulations": [
             {
-              "id": "end.right_soft.turn.rotation",
+              "id": "end.right_soft.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -6.0,
-                "output_min": 6.0,
+                "output_max": 178.5185009320,
+                "output_min": -178.5185009320,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -191,7 +209,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -207,13 +225,19 @@
             ],
             "offset": [
               60.277692308,
-              203.36
+              227.36
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.555384615,
               0.92
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 375.0
           },
           "type": "TEXTURED_SPRITE"
         }
@@ -241,9 +265,9 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "max_effective": 3.0,
-              "min_effective": -3.0,
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "max_effective": 102.0904551776,
+              "min_effective": -102.0904551776,
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
@@ -296,12 +320,12 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
-              "id": "loop.left_core.turn.rotation",
+              "id": "loop.left_core.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -3.0,
-                "output_min": 3.0,
+                "output_max": 102.0904551776,
+                "output_min": -102.0904551776,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -309,7 +333,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -325,13 +349,19 @@
             ],
             "offset": [
               -60.0,
-              241.34
+              265.34
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.33,
               1.14
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 365.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -355,9 +385,9 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "max_effective": 6.0,
-              "min_effective": -6.0,
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "max_effective": 178.5185009320,
+              "min_effective": -178.5185009320,
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
@@ -410,12 +440,12 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
-              "id": "loop.left_soft.turn.rotation",
+              "id": "loop.left_soft.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -6.0,
-                "output_min": 6.0,
+                "output_max": 178.5185009320,
+                "output_min": -178.5185009320,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -423,7 +453,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -439,13 +469,19 @@
             ],
             "offset": [
               -59.62,
-              282.05
+              306.05
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.76,
               1.35
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 375.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -506,7 +542,7 @@
             ],
             "offset": [
               -60.0,
-              295.0
+              319.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -536,9 +572,9 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "max_effective": 3.0,
-              "min_effective": -3.0,
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "max_effective": 102.0904551776,
+              "min_effective": -102.0904551776,
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
@@ -591,12 +627,12 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
-              "id": "loop.right_core.turn.rotation",
+              "id": "loop.right_core.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -3.0,
-                "output_min": 3.0,
+                "output_max": 102.0904551776,
+                "output_min": -102.0904551776,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -604,7 +640,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -620,13 +656,19 @@
             ],
             "offset": [
               60.0,
-              241.34
+              265.34
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.33,
               1.14
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 365.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -650,9 +692,9 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "max_effective": 6.0,
-              "min_effective": -6.0,
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "max_effective": 178.5185009320,
+              "min_effective": -178.5185009320,
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
@@ -705,12 +747,12 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
-              "id": "loop.right_soft.turn.rotation",
+              "id": "loop.right_soft.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -6.0,
-                "output_min": 6.0,
+                "output_max": 178.5185009320,
+                "output_min": -178.5185009320,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -718,7 +760,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -734,13 +776,19 @@
             ],
             "offset": [
               60.38,
-              282.05
+              306.05
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.76,
               1.35
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 375.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -801,7 +849,7 @@
             ],
             "offset": [
               60.0,
-              295.0
+              319.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -825,16 +873,16 @@
           "id": "start.left_core_ignition",
           "importance": "CORE",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -3.0, "max_effective": 3.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -102.0904551776, "max_effective": 102.0904551776}
           ],
           "modulations": [
             {
-              "id": "start.left_core.turn.rotation",
+              "id": "start.left_core.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -3.0,
-                "output_min": 3.0,
+                "output_max": 102.0904551776,
+                "output_min": -102.0904551776,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -842,7 +890,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -858,13 +906,19 @@
             ],
             "offset": [
               -60.0,
-              190.66
+              214.66
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.286,
               0.86
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 365.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -877,16 +931,16 @@
           "id": "start.left_soft_ignition",
           "importance": "DETAIL",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -6.0, "max_effective": 6.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -178.5185009320, "max_effective": 178.5185009320}
           ],
           "modulations": [
             {
-              "id": "start.left_soft.turn.rotation",
+              "id": "start.left_soft.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -6.0,
-                "output_min": 6.0,
+                "output_max": 178.5185009320,
+                "output_min": -178.5185009320,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -894,7 +948,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -910,13 +964,19 @@
             ],
             "offset": [
               -59.678461538,
-              227.15
+              251.15
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.643076923,
               1.05
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 375.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -929,16 +989,16 @@
           "id": "start.right_core_ignition",
           "importance": "CORE",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -3.0, "max_effective": 3.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -102.0904551776, "max_effective": 102.0904551776}
           ],
           "modulations": [
             {
-              "id": "start.right_core.turn.rotation",
+              "id": "start.right_core.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -3.0,
-                "output_min": 3.0,
+                "output_max": 102.0904551776,
+                "output_min": -102.0904551776,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -946,7 +1006,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -962,13 +1022,19 @@
             ],
             "offset": [
               60.0,
-              190.66
+              214.66
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.286,
               0.86
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 365.0
           },
           "type": "TEXTURED_SPRITE"
         },
@@ -981,16 +1047,16 @@
           "id": "start.right_soft_ignition",
           "importance": "DETAIL",
           "modulation_clamps": [
-            {"target": "TRANSFORM_ROTATION_DEGREES", "min_effective": -6.0, "max_effective": 6.0}
+            {"target": "VISUAL_BEND_OFFSET_X", "min_effective": -178.5185009320, "max_effective": 178.5185009320}
           ],
           "modulations": [
             {
-              "id": "start.right_soft.turn.rotation",
+              "id": "start.right_soft.turn.bend",
               "mapping": {
                 "input_max": 0.20,
                 "input_min": -0.20,
-                "output_max": -6.0,
-                "output_min": 6.0,
+                "output_max": 178.5185009320,
+                "output_min": -178.5185009320,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -998,7 +1064,7 @@
                 "input": "turn_rate_normalized",
                 "type": "RUNTIME_INPUT"
               },
-              "target": "TRANSFORM_ROTATION_DEGREES"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
@@ -1014,13 +1080,19 @@
             ],
             "offset": [
               60.321538462,
-              227.15
+              251.15
             ],
             "rotation_degrees": 0.0,
             "scale": [
               0.643076923,
               1.05
             ]
+          },
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "start_ratio": 0.333333333,
+            "curve": "QUADRATIC",
+            "span_source_px": 375.0
           },
           "type": "TEXTURED_SPRITE"
         }

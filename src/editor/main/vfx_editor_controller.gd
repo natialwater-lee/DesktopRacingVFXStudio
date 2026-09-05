@@ -337,6 +337,8 @@ func configure_inspectors(preset_inspector: VfxPresetInspector, layer_inspector:
 		_layer_inspector.space_override_changed.connect(_on_space_override_changed)
 	if not _layer_inspector.layer_type_change_requested.is_connected(_on_layer_type_change_requested):
 		_layer_inspector.layer_type_change_requested.connect(_on_layer_type_change_requested)
+	if not _layer_inspector.visual_bend_enabled_changed.is_connected(_on_visual_bend_enabled_changed):
+		_layer_inspector.visual_bend_enabled_changed.connect(_on_visual_bend_enabled_changed)
 	if not _layer_inspector.anchors_committed.is_connected(_on_anchors_committed):
 		_layer_inspector.anchors_committed.connect(_on_anchors_committed)
 	if not _layer_inspector.anchors_cleared.is_connected(_on_anchors_cleared):
@@ -434,6 +436,35 @@ func commit_selected_layer_field(json_pointer: String, value: Variant) -> bool:
 	if json_pointer == "/id" and value is String:
 		_selected_layer_id = value
 	return _commit_workspace_change("Edit Layer Field", next)
+
+
+func set_selected_layer_visual_bend_enabled(enabled: bool) -> bool:
+	var index := _selected_layer_index(_selected_layer_id)
+	if _selected_phase.is_empty() or index < 0:
+		return false
+	var before := _session.working_copy()
+	var next := before.duplicate(true)
+	var layer: Dictionary = next["phases"][_selected_phase]["layers"][index]
+	if enabled:
+		if layer.has("visual_bend"):
+			return false
+		var bend_schema := _registry.resolve_local_ref("#/$defs/visual_bend")
+		if not bend_schema.success:
+			_set_issues(bend_schema.issues)
+			return false
+		var defaults: Dictionary = {}
+		for field_name_variant in bend_schema.value.get("properties", {}):
+			var field_name := str(field_name_variant)
+			var field_schema: Dictionary = bend_schema.value["properties"][field_name]
+			if not field_schema.has("default"):
+				return false
+			defaults[field_name] = _duplicate_value(field_schema["default"])
+		layer["visual_bend"] = defaults
+	else:
+		if not layer.has("visual_bend"):
+			return false
+		layer.erase("visual_bend")
+	return _commit_workspace_change("Set Visual Bend", next)
 
 
 func commit_selected_layer_parameter(json_pointer_suffix: String, value: Variant) -> bool:
@@ -831,6 +862,10 @@ func _on_runtime_inputs_committed(inputs: Array[String]) -> void:
 
 func _on_layer_field_commit(json_pointer: String, value: Variant) -> void:
 	commit_selected_layer_field(json_pointer, value)
+
+
+func _on_visual_bend_enabled_changed(enabled: bool) -> void:
+	set_selected_layer_visual_bend_enabled(enabled)
 
 
 func _on_space_override_changed(mode_or_inherit: String) -> void:

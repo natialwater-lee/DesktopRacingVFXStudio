@@ -146,7 +146,7 @@ func _compile_runtime_definition(data: Dictionary, requirements: Dictionary, coo
 			if not layer_value is Dictionary:
 				return _failure("export_runtime_layer", "Runtime compilation requires Layer objects.")
 			var layer: Dictionary = layer_value
-			layers.append({
+			var compiled_layer := {
 				"id": str(layer.get("id", "")),
 				"type": str(layer.get("type", "")),
 				"enabled": bool(layer.get("enabled", true)),
@@ -158,7 +158,8 @@ func _compile_runtime_definition(data: Dictionary, requirements: Dictionary, coo
 				"anchors": (layer.get(str(anchor_rule.get("anchors_field", "")), []) as Array).duplicate(),
 				"transform": _runtime_v1_transform(layer),
 				"parameters": (layer.get("parameters", {}) as Dictionary).duplicate(true)
-			})
+			}
+			layers.append(compiled_layer)
 		var compiled_phase := {"name": phase_name, "layers": layers}
 		if phase.has("duration_seconds"):
 			compiled_phase["duration_seconds"] = phase["duration_seconds"]
@@ -201,7 +202,7 @@ func _compile_runtime_definition_v2(data: Dictionary, requirements: Dictionary, 
 			if not layer_value is Dictionary:
 				return _failure("export_runtime_layer", "Runtime compilation requires Layer objects.")
 			var layer: Dictionary = layer_value
-			layers.append({
+			var compiled_layer := {
 				"id": str(layer.get("id", "")),
 				"type": str(layer.get("type", "")),
 				"enabled": bool(layer.get("enabled", true)),
@@ -215,7 +216,10 @@ func _compile_runtime_definition_v2(data: Dictionary, requirements: Dictionary, 
 				"parameters": (layer.get("parameters", {}) as Dictionary).duplicate(true),
 				"modulations": (layer.get("modulations", []) as Array).duplicate(true),
 				"modulation_clamps": (layer.get("modulation_clamps", []) as Array).duplicate(true)
-			})
+			}
+			if layer.get("visual_bend") is Dictionary:
+				compiled_layer["visual_bend"] = (layer["visual_bend"] as Dictionary).duplicate(true)
+			layers.append(compiled_layer)
 		var compiled_phase := {"name": phase_name, "layers": layers}
 		if phase.has("duration_seconds"):
 			compiled_phase["duration_seconds"] = phase["duration_seconds"]
@@ -289,6 +293,8 @@ func _is_modulation_bearing(data: Dictionary) -> bool:
 			continue
 		for layer in phase.get("layers", []):
 			if layer is Dictionary:
+				if layer.get("visual_bend") is Dictionary:
+					return true
 				var bindings: Variant = layer.get("modulations", [])
 				var clamps: Variant = layer.get("modulation_clamps", [])
 				if (bindings is Array and not bindings.is_empty()) or (clamps is Array and not clamps.is_empty()):

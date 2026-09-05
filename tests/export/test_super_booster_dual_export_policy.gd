@@ -40,13 +40,13 @@ static func _test_dual_compiles_to_one_v2_runtime_and_three_deduplicated_assets(
 		and _vector_matches(right_core.get("transform", {}).get("scale", []), Vector2(0.33, 1.14)) \
 		and _vector_matches(left_soft.get("transform", {}).get("scale", []), Vector2(0.76, 1.35)) \
 		and _vector_matches(right_soft.get("transform", {}).get("scale", []), Vector2(0.76, 1.35)) \
-		and _vector_matches(left_core.get("transform", {}).get("offset", []), Vector2(-60.0, 241.34)) \
-		and _vector_matches(right_core.get("transform", {}).get("offset", []), Vector2(60.0, 241.34)) \
-		and _vector_matches(left_soft.get("transform", {}).get("offset", []), Vector2(-59.62, 282.05)) \
-		and _vector_matches(right_soft.get("transform", {}).get("offset", []), Vector2(60.38, 282.05)) \
-		and _vector_matches(left_spark.get("transform", {}).get("offset", []), Vector2(-60.0, 295.0)) \
-		and _vector_matches(right_spark.get("transform", {}).get("offset", []), Vector2(60.0, 295.0))
-	var turn_contract_matches := _turn_rotation_contract_matches(runtime)
+		and _vector_matches(left_core.get("transform", {}).get("offset", []), Vector2(-60.0, 265.34)) \
+		and _vector_matches(right_core.get("transform", {}).get("offset", []), Vector2(60.0, 265.34)) \
+		and _vector_matches(left_soft.get("transform", {}).get("offset", []), Vector2(-59.62, 306.05)) \
+		and _vector_matches(right_soft.get("transform", {}).get("offset", []), Vector2(60.38, 306.05)) \
+		and _vector_matches(left_spark.get("transform", {}).get("offset", []), Vector2(-60.0, 319.0)) \
+		and _vector_matches(right_spark.get("transform", {}).get("offset", []), Vector2(60.0, 319.0))
+	var turn_contract_matches := _turn_bend_contract_matches(runtime)
 	tests.expect_true(
 		first.success and second.success and first.value.runtime_text() == second.value.runtime_text() \
 		and runtime is Dictionary and runtime.get("preset", {}).get("preset_id") == "equipment.super_booster.dual" and runtime.get("runtime_definition_version") == 2 \
@@ -57,7 +57,7 @@ static func _test_dual_compiles_to_one_v2_runtime_and_three_deduplicated_assets(
 		and logical_ids == ["fx.super_booster_flame_core", "fx.super_booster_flame_soft", "fx.super_booster_spark_blue"] \
 		and paths == ["assets/super_booster_flame_core.png", "assets/super_booster_flame_soft.png", "assets/super_booster_spark_blue.png"] \
 		and geometry_matches and turn_contract_matches and not logical_ids.has("fx.energy_spark") and not first.value.runtime_text().contains("res://"),
-		"Dual Super Booster compile-only export preserves the saturated 0.20 shared turn-rate rotation contract at widened rear-shifted roots while deduplicating Core, Soft, and blue-spark PNG dependencies"
+		"Dual Super Booster compile-only export preserves the saturated 0.20 shared turn-rate bend contract at widened rear-shifted roots while deduplicating Core, Soft, and blue-spark PNG dependencies"
 	)
 
 
@@ -97,18 +97,23 @@ static func _runtime_layer(runtime: Variant, phase_name: String, layer_id: Strin
 	return {}
 
 
-static func _turn_rotation_contract_matches(runtime: Variant) -> bool:
+static func _turn_bend_contract_matches(runtime: Variant) -> bool:
 	var matches := true
 	for phase_name in ["start", "loop", "end"]:
 		var suffix := "flame" if phase_name == "loop" else "ignition" if phase_name == "start" else "fade"
 		for side in ["left", "right"]:
-			matches = matches and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.%s_core_%s" % [phase_name, side, suffix]), "%s.%s_core.turn.rotation" % [phase_name, side], 3.0, -3.0) \
-				and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.%s_soft_%s" % [phase_name, side, suffix]), "%s.%s_soft.turn.rotation" % [phase_name, side], 6.0, -6.0)
+			matches = matches and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.%s_core_%s" % [phase_name, side, suffix]), "%s.%s_core.turn.bend" % [phase_name, side], -102.0904551776, 102.0904551776) \
+				and _runtime_turn_layer_matches(_runtime_layer(runtime, phase_name, "%s.%s_soft_%s" % [phase_name, side, suffix]), "%s.%s_soft.turn.bend" % [phase_name, side], -178.5185009320, 178.5185009320)
 	return matches
 
 
 static func _runtime_turn_layer_matches(layer: Dictionary, binding_id: String, output_min: float, output_max: float) -> bool:
+	var span := 365.0 if binding_id.contains("core") else 375.0
+	if layer.get("visual_bend") != {"axis": "LOCAL_Y_POSITIVE", "start_ratio": 0.333333333, "curve": "QUADRATIC", "span_source_px": span}:
+		return false
 	var bindings: Array = layer.get("modulations", []) if layer.get("modulations", []) is Array else []
+	if bindings.any(func(b: Dictionary) -> bool: return b.get("target") == "TRANSFORM_ROTATION_DEGREES"):
+		return false
 	var matches := 0
 	for binding_value in bindings:
 		if not binding_value is Dictionary or str(binding_value.get("id", "")) != binding_id:
@@ -116,16 +121,16 @@ static func _runtime_turn_layer_matches(layer: Dictionary, binding_id: String, o
 		var binding: Dictionary = binding_value
 		var source: Dictionary = binding.get("source", {}) if binding.get("source", {}) is Dictionary else {}
 		var mapping: Dictionary = binding.get("mapping", {}) if binding.get("mapping", {}) is Dictionary else {}
-		if binding.get("target") == "TRANSFORM_ROTATION_DEGREES" and binding.get("operation") == "ADD" \
+		if binding.get("target") == "VISUAL_BEND_OFFSET_X" and binding.get("operation") == "ADD" \
 			and source == {"type": "RUNTIME_INPUT", "input": "turn_rate_normalized"} and mapping.get("type") == "LINEAR_RANGE" \
 			and is_equal_approx(float(mapping.get("input_min", INF)), -0.20) and is_equal_approx(float(mapping.get("input_max", INF)), 0.20) \
 			and is_equal_approx(float(mapping.get("output_min", INF)), output_min) and is_equal_approx(float(mapping.get("output_max", INF)), output_max):
 			matches += 1
 	var clamps: Array = layer.get("modulation_clamps", []) if layer.get("modulation_clamps", []) is Array else []
-	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "TRANSFORM_ROTATION_DEGREES")
+	var rotation_clamps: Array = clamps.filter(func(clamp: Variant) -> bool: return clamp is Dictionary and clamp.get("target") == "VISUAL_BEND_OFFSET_X")
 	return matches == 1 and rotation_clamps.size() == 1 \
-		and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_max) \
-		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_min)
+		and is_equal_approx(float(rotation_clamps[0].get("min_effective", INF)), output_min) \
+		and is_equal_approx(float(rotation_clamps[0].get("max_effective", INF)), output_max)
 
 
 static func _vector_matches(value: Variant, expected: Vector2) -> bool:
