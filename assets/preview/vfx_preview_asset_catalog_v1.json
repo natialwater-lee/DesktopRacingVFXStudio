@@ -1,6 +1,14 @@
 {
   "catalog_version": 1,
   "assets": {
+    "fx.forcefield_tire_overcurrent_strip": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/forcefield_tire_overcurrent_strip.png"
+    },
+    "fx.forcefield_tire_spark_burst": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/forcefield_tire_spark_burst.png"
+    },
     "fx.energy_shard": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_shard.png"

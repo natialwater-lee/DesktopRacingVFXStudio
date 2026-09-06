@@ -1,0 +1,60 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 5731,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_streak",
+      "package_path": "assets/speed_wind_streak.png",
+      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 5731,
+      "path": "assets/speed_wind_streak.png",
+      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    },
+    {
+      "byte_size": 11067,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "81f1ce886e0204d0757068e23983d9432f2eedf0b54b55a9c361f9e310d93252"
+    },
+    {
+      "byte_size": 10570,
+      "path": "source/equipment.downforce_wing.wind_streak.vfx.json",
+      "sha256": "39e0b266ddee306dccafff3eeb5873a51646f18fd1675f2cbe3f9a58283ebc49"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "equipment.downforce_wing.wind_streak",
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Downforce Wing Wind Streak",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.downforce_wing.wind_streak",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 4,
+      "DETAIL": 2,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 11067,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "81f1ce886e0204d0757068e23983d9432f2eedf0b54b55a9c361f9e310d93252",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 10570,
+    "path": "source/equipment.downforce_wing.wind_streak.vfx.json",
+    "sha256": "39e0b266ddee306dccafff3eeb5873a51646f18fd1675f2cbe3f9a58283ebc49"
+  }
+}

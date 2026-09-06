@@ -51,6 +51,8 @@ func _run() -> void:
 	TexturedParticleAssetTests.run(tests)
 	StandardBoosterAuthoringTests.run(tests)
 	HighSpeedWindAuthoringTests.run(tests)
+	preload("res://tests/preview/test_forcefield_tire_authoring.gd").run(tests)
+	preload("res://tests/preview/test_downforce_wing_authoring.gd").run(tests)
 	RainTireSprayAuthoringTests.run(tests)
 	SnowTireSprayAuthoringTests.run(tests)
 	TexturedSpriteLayerRendererTests.run(tests)

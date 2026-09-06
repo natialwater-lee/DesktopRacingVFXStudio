@@ -1,6 +1,18 @@
 {
   "policy_version": 1,
   "assets": {
+    "fx.forcefield_tire_overcurrent_strip": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/forcefield_tire_overcurrent_strip.png",
+      "package_file_name": "forcefield_tire_overcurrent_strip.png"
+    },
+    "fx.forcefield_tire_spark_burst": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/forcefield_tire_spark_burst.png",
+      "package_file_name": "forcefield_tire_spark_burst.png"
+    },
     "fx.energy_shard": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

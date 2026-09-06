@@ -1,0 +1,725 @@
+{
+  "schema_version": 1,
+  "preset_id": "equipment.forcefield_tire.overcurrent",
+  "display_name": "Forcefield Tire Overcurrent",
+  "category": "SPECIAL_EQUIPMENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "runtime_inputs": [],
+  "runtime_modulation_sources": [
+    {
+      "id": "charge.fl",
+      "type": "OSCILLATOR",
+      "wave": "SINE",
+      "frequency_hz": 1,
+      "phase_degrees": 0
+    },
+    {
+      "id": "charge.fr",
+      "type": "OSCILLATOR",
+      "wave": "SINE",
+      "frequency_hz": 1,
+      "phase_degrees": 90
+    },
+    {
+      "id": "charge.rl",
+      "type": "OSCILLATOR",
+      "wave": "SINE",
+      "frequency_hz": 1,
+      "phase_degrees": 180
+    },
+    {
+      "id": "charge.rr",
+      "type": "OSCILLATOR",
+      "wave": "SINE",
+      "frequency_hz": 1,
+      "phase_degrees": 270
+    }
+  ],
+  "phases": {
+    "start": {
+      "duration_seconds": 0.12,
+      "layers": [
+        {
+          "id": "start.fl_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              -170,
+              -125
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.12
+          }
+        },
+        {
+          "id": "start.fr_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              170,
+              -125
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.12
+          }
+        },
+        {
+          "id": "start.rl_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              -170,
+              140
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.12
+          }
+        },
+        {
+          "id": "start.rr_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              170,
+              140
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.12
+          }
+        }
+      ]
+    },
+    "loop": {
+      "layers": [
+        {
+          "id": "loop.fl_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              -170,
+              -125
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.22
+          },
+          "modulations": [
+            {
+              "id": "loop.fl_current",
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "operation": "MULTIPLY",
+              "source": {
+                "type": "PRESET_SOURCE",
+                "source_id": "charge.fl"
+              },
+              "mapping": {
+                "type": "LINEAR_RANGE",
+                "input_min": -1,
+                "input_max": 1,
+                "output_min": 0.7272727272727273,
+                "output_max": 1.272727272727273
+              }
+            }
+          ],
+          "modulation_clamps": [
+            {
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "min_effective": 0.7272727272727273,
+              "max_effective": 1.272727272727273
+            }
+          ]
+        },
+        {
+          "id": "loop.fr_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              170,
+              -125
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.22
+          },
+          "modulations": [
+            {
+              "id": "loop.fr_current",
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "operation": "MULTIPLY",
+              "source": {
+                "type": "PRESET_SOURCE",
+                "source_id": "charge.fr"
+              },
+              "mapping": {
+                "type": "LINEAR_RANGE",
+                "input_min": -1,
+                "input_max": 1,
+                "output_min": 0.7272727272727273,
+                "output_max": 1.272727272727273
+              }
+            }
+          ],
+          "modulation_clamps": [
+            {
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "min_effective": 0.7272727272727273,
+              "max_effective": 1.272727272727273
+            }
+          ]
+        },
+        {
+          "id": "loop.rl_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              -170,
+              140
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.22
+          },
+          "modulations": [
+            {
+              "id": "loop.rl_current",
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "operation": "MULTIPLY",
+              "source": {
+                "type": "PRESET_SOURCE",
+                "source_id": "charge.rl"
+              },
+              "mapping": {
+                "type": "LINEAR_RANGE",
+                "input_min": -1,
+                "input_max": 1,
+                "output_min": 0.7272727272727273,
+                "output_max": 1.272727272727273
+              }
+            }
+          ],
+          "modulation_clamps": [
+            {
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "min_effective": 0.7272727272727273,
+              "max_effective": 1.272727272727273
+            }
+          ]
+        },
+        {
+          "id": "loop.rr_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              170,
+              140
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.22
+          },
+          "modulations": [
+            {
+              "id": "loop.rr_current",
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "operation": "MULTIPLY",
+              "source": {
+                "type": "PRESET_SOURCE",
+                "source_id": "charge.rr"
+              },
+              "mapping": {
+                "type": "LINEAR_RANGE",
+                "input_min": -1,
+                "input_max": 1,
+                "output_min": 0.7272727272727273,
+                "output_max": 1.272727272727273
+              }
+            }
+          ],
+          "modulation_clamps": [
+            {
+              "target": "VISUAL_OPACITY_MULTIPLIER",
+              "min_effective": 0.7272727272727273,
+              "max_effective": 1.272727272727273
+            }
+          ]
+        },
+        {
+          "id": "loop.fl_spark",
+          "type": "PARTICLE",
+          "importance": "EXTRA",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "transform": {
+            "offset": [
+              -170,
+              -125
+            ],
+            "scale": [
+              1,
+              1
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "sprite_asset_ref": "fx.forcefield_tire_spark_burst",
+            "color_rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 0.75,
+            "max_particles": 1,
+            "lifetime_seconds": 0.18,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                12,
+                20
+              ]
+            },
+            "direction_degrees": 180,
+            "spread_degrees": 360,
+            "speed_min": 0,
+            "speed_max": 12,
+            "acceleration": [
+              0,
+              0
+            ],
+            "size_start": 32,
+            "size_end": 18,
+            "size_multiplier_min": 0.8,
+            "size_multiplier_max": 1.1,
+            "alpha_start": 0.55,
+            "alpha_end": 0,
+            "rotation_min_degrees": 0,
+            "rotation_max_degrees": 360,
+            "angular_velocity_min_degrees_per_second": 0,
+            "angular_velocity_max_degrees_per_second": 0
+          }
+        },
+        {
+          "id": "loop.fr_spark",
+          "type": "PARTICLE",
+          "importance": "EXTRA",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "transform": {
+            "offset": [
+              170,
+              -125
+            ],
+            "scale": [
+              1,
+              1
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "sprite_asset_ref": "fx.forcefield_tire_spark_burst",
+            "color_rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 0.9,
+            "max_particles": 1,
+            "lifetime_seconds": 0.18,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                12,
+                20
+              ]
+            },
+            "direction_degrees": 180,
+            "spread_degrees": 360,
+            "speed_min": 0,
+            "speed_max": 12,
+            "acceleration": [
+              0,
+              0
+            ],
+            "size_start": 32,
+            "size_end": 18,
+            "size_multiplier_min": 0.8,
+            "size_multiplier_max": 1.1,
+            "alpha_start": 0.55,
+            "alpha_end": 0,
+            "rotation_min_degrees": 0,
+            "rotation_max_degrees": 360,
+            "angular_velocity_min_degrees_per_second": 0,
+            "angular_velocity_max_degrees_per_second": 0
+          }
+        },
+        {
+          "id": "loop.rl_spark",
+          "type": "PARTICLE",
+          "importance": "EXTRA",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "transform": {
+            "offset": [
+              -170,
+              140
+            ],
+            "scale": [
+              1,
+              1
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "sprite_asset_ref": "fx.forcefield_tire_spark_burst",
+            "color_rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.05,
+            "max_particles": 1,
+            "lifetime_seconds": 0.18,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                12,
+                20
+              ]
+            },
+            "direction_degrees": 180,
+            "spread_degrees": 360,
+            "speed_min": 0,
+            "speed_max": 12,
+            "acceleration": [
+              0,
+              0
+            ],
+            "size_start": 32,
+            "size_end": 18,
+            "size_multiplier_min": 0.8,
+            "size_multiplier_max": 1.1,
+            "alpha_start": 0.55,
+            "alpha_end": 0,
+            "rotation_min_degrees": 0,
+            "rotation_max_degrees": 360,
+            "angular_velocity_min_degrees_per_second": 0,
+            "angular_velocity_max_degrees_per_second": 0
+          }
+        },
+        {
+          "id": "loop.rr_spark",
+          "type": "PARTICLE",
+          "importance": "EXTRA",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "transform": {
+            "offset": [
+              170,
+              140
+            ],
+            "scale": [
+              1,
+              1
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "sprite_asset_ref": "fx.forcefield_tire_spark_burst",
+            "color_rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 0.8,
+            "max_particles": 1,
+            "lifetime_seconds": 0.18,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                12,
+                20
+              ]
+            },
+            "direction_degrees": 180,
+            "spread_degrees": 360,
+            "speed_min": 0,
+            "speed_max": 12,
+            "acceleration": [
+              0,
+              0
+            ],
+            "size_start": 32,
+            "size_end": 18,
+            "size_multiplier_min": 0.8,
+            "size_multiplier_max": 1.1,
+            "alpha_start": 0.55,
+            "alpha_end": 0,
+            "rotation_min_degrees": 0,
+            "rotation_max_degrees": 360,
+            "angular_velocity_min_degrees_per_second": 0,
+            "angular_velocity_max_degrees_per_second": 0
+          }
+        }
+      ]
+    },
+    "end": {
+      "duration_seconds": 0.18,
+      "layers": [
+        {
+          "id": "end.fl_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              -170,
+              -125
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.08
+          }
+        },
+        {
+          "id": "end.fr_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              170,
+              -125
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.08
+          }
+        },
+        {
+          "id": "end.rl_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              -170,
+              140
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.08
+          }
+        },
+        {
+          "id": "end.rr_strip",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "enabled": true,
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "transform": {
+            "offset": [
+              170,
+              140
+            ],
+            "scale": [
+              0.28,
+              0.28
+            ],
+            "rotation_degrees": 0
+          },
+          "parameters": {
+            "texture_asset_ref": "fx.forcefield_tire_overcurrent_strip",
+            "opacity": 0.08
+          }
+        }
+      ]
+    }
+  }
+}
