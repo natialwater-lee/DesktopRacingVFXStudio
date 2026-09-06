@@ -13,6 +13,18 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/super_booster_spark_blue.png"
     },
+    "fx.rotor_lift_downwash_core": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rotor_lift_downwash_core.png"
+    },
+    "fx.rotor_lift_downwash_soft": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rotor_lift_downwash_soft.png"
+    },
+    "fx.rotor_lift_turbulence_particle": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rotor_lift_turbulence_particle.png"
+    },
     "fx.booster_flame_core": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/booster_flame_core.png"

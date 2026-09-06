@@ -207,6 +207,17 @@ authored base
 time. `VISUAL_OPACITY_MULTIPLIER` produces final alpha
 `clamp(authored_or_animated_alpha * multiplier, 0, 1)`.
 
+Runtime Definition v2 may also carry a strict portable `LINEAR_PHASE` source
+record containing only `id`, `type: "LINEAR_PHASE"`, and a finite positive
+`frequency_hz`. It carries no `wave` or `phase_degrees`. A compatible consumer
+evaluates it from the same effect-local elapsed time as
+`fposmod(instance_elapsed_seconds * frequency_hz, 1.0)`, whose result is in
+`[0.0, 1.0)`. Continuous rotation direction is authored through an existing
+`LINEAR_RANGE` mapping and `TRANSFORM_ROTATION_DEGREES` `ADD`, not through a
+negative frequency. This is declarative v2 data only; it does not change
+Package Format v1 or export Preview runtime state. Static v1 definitions do not
+contain `LINEAR_PHASE`, `frequency_hz`, or an empty source-table placeholder.
+
 For pivot `p`, authored origin `O_base`, authored matrix `M_base`, effective
 matrix `M_effective`, and intentional dynamic offset `D`, the attachment is
 preserved by:

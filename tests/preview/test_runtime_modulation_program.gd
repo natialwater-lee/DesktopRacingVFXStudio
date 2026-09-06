@@ -35,6 +35,7 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(program.bindings_for_layer("one.shot.lod.extra").size() == 1, "EXTRA binding remains Layer-local")
 	tests.expect_true(program.clamps_for_layer("one.shot.left.core").size() == 1, "clamp belongs to its Layer target, not a binding")
 	_test_evaluator(tests, plan_result.value, program)
+	_test_linear_phase_rotation_program(tests)
 	_test_pivot_compensation(tests)
 	_test_textured_sprite_runtime_consumer(tests, plan_result.value)
 	_test_lod_reachability(tests, plan_result.value)
@@ -66,6 +67,113 @@ static func _test_evaluator(tests: TestAssert, plan: RefCounted, program: RefCou
 	tests.expect_true(is_equal_approx(left_state.effective_rotation_degrees(), 367.4), "turn-rate +1 maps through generic LINEAR_RANGE into rotation ADD")
 	evaluator.refresh(0.5, [left_state, right_state])
 	tests.expect_true(is_equal_approx(left_state.effective_scale().y, 1.7) and is_equal_approx(left_state.effective_rotation_degrees(), 367.4), "refreshing the same time is deterministic without advancing playback")
+
+
+static func _test_linear_phase_rotation_program(tests: TestAssert) -> void:
+	var pipeline := VfxPresetPipelineModel.new()
+	var fixture: VfxResult = pipeline.load_and_validate("res://tests/fixtures/presets/utility.linear_phase_rotation_fixture.vfx.json")
+	var plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(_registry()).build(fixture.value.normalized_data) if fixture.success else VfxResult.failure(fixture.issues)
+	tests.expect_true(plan_result.success, "LINEAR_PHASE rotation fixture validates and compiles into the existing Preview modulation program")
+	if not plan_result.success:
+		return
+	var plan: RefCounted = plan_result.value
+	var program: RefCounted = plan.runtime_modulation_program()
+	tests.expect_true(program != null and program.source_count() == 2 and program.binding_count() == 4, "two LINEAR_PHASE sources and four rotation bindings compile once into the immutable program")
+	if program == null:
+		return
+
+	var serialized: VfxResult = pipeline.serialize_document(fixture.value)
+	var decoded: VfxResult = VfxPresetCodecModel.new().decode_text(serialized.value, "res://tests/fixtures/presets/utility.linear_phase_rotation_fixture.vfx.json") if serialized.success else VfxResult.failure(serialized.issues)
+	var reloaded: VfxResult = pipeline.build_document_from_value(decoded.value, "res://tests/fixtures/presets/utility.linear_phase_rotation_fixture.vfx.json") if decoded.success else VfxResult.failure(decoded.issues)
+	tests.expect_true(reloaded.success and reloaded.value.normalized_data.get("runtime_modulation_sources") == fixture.value.normalized_data.get("runtime_modulation_sources"), "LINEAR_PHASE source table survives Pipeline save/load round-trip without wave or phase fields")
+
+	var input_state := VfxPreviewRuntimeInputStateModel.new(program)
+	var evaluator := VfxPreviewRuntimeModulationEvaluatorModel.new(program, input_state)
+	var phase: RefCounted = plan.phase_named("one_shot")
+	var states_by_id: Dictionary = {}
+	var states: Array = []
+	for layer_spec in phase.layer_specs():
+		var state: RefCounted = evaluator.create_effective_state(layer_spec)
+		states_by_id[state.layer_id()] = state
+		states.append(state)
+	var left_core: RefCounted = states_by_id["one_shot.left.core"]
+	var right_core: RefCounted = states_by_id["one_shot.right.core"]
+	var left_soft: RefCounted = states_by_id["one_shot.left.soft"]
+	var right_soft: RefCounted = states_by_id["one_shot.right.soft"]
+
+	var one_hz_expected := {0.0: 0.0, 0.125: 0.125, 0.25: 0.25, 0.5: 0.5, 0.999: 0.999, 1.0: 0.0, 1.25: 0.25, 2.5: 0.5}
+	for elapsed_value in one_hz_expected:
+		var elapsed := float(elapsed_value)
+		evaluator.refresh(elapsed, states)
+		var phase_value: float = (left_core.effective_rotation_degrees() - 10.0) / 360.0
+		tests.expect_true(phase_value >= 0.0 and phase_value < 1.0 and is_equal_approx(phase_value, float(one_hz_expected[elapsed_value])), "one-Hz LINEAR_PHASE evaluates into [0, 1) at %.3f seconds" % elapsed)
+
+	evaluator.refresh(0.25, states)
+	tests.expect_true(is_equal_approx(left_core.effective_rotation_degrees(), 100.0) and is_equal_approx(right_core.effective_rotation_degrees(), -70.0), "one shared LINEAR_PHASE maps through opposite +360 and -360 rotation ADD bindings")
+	tests.expect_true(is_equal_approx(left_soft.effective_rotation_degrees(), 90.0) and is_equal_approx(right_soft.effective_rotation_degrees(), 15.0), "independent half-Hz source composes with each Layer authored base rotation")
+	tests.expect_true(evaluator.sampled_source_count_last_tick() == 2, "two sources are sampled once each even when consumed by four bindings")
+
+	evaluator.refresh(0.999, states)
+	var before_wrap: float = left_core.effective_rotation_degrees()
+	evaluator.refresh(1.001, states)
+	var after_wrap: float = left_core.effective_rotation_degrees()
+	tests.expect_true(is_equal_approx(_wrapped_angular_delta(before_wrap, after_wrap), 0.72), "359.x-to-0.x mapped rotation has a small wrapped visual delta at the period boundary")
+
+	var base_origin := Vector2(-64.0, -120.0)
+	var base_root := VfxPreviewCoordinateResolverModel.attachment_root(base_origin, Vector2.ONE, 10.0, Vector2(0.0, 40.0))
+	var max_root_error := 0.0
+	for elapsed in [0.0, 0.25, 0.5, 0.75, 359.0 / 360.0]:
+		evaluator.refresh(elapsed, states)
+		var effective_origin := VfxPreviewCoordinateResolverModel.compensated_source_origin(base_origin, Vector2.ONE, 10.0, Vector2(0.0, 40.0), left_core.effective_scale(), left_core.effective_rotation_degrees(), Vector2.ZERO)
+		var effective_root := VfxPreviewCoordinateResolverModel.attachment_root(effective_origin, left_core.effective_scale(), left_core.effective_rotation_degrees(), Vector2(0.0, 40.0))
+		max_root_error = maxf(max_root_error, base_root.distance_to(effective_root))
+	tests.expect_true(max_root_error <= 0.001, "LINEAR_PHASE rotation preserves the existing modulation pivot root across cardinal and wrap-adjacent angles")
+
+	var two_hz_plan_result := _linear_phase_plan_with_second_frequency(2.0)
+	if two_hz_plan_result.success:
+		var two_hz_program: RefCounted = two_hz_plan_result.value.runtime_modulation_program()
+		var two_hz_evaluator := VfxPreviewRuntimeModulationEvaluatorModel.new(two_hz_program, VfxPreviewRuntimeInputStateModel.new(two_hz_program))
+		var two_hz_phase: RefCounted = two_hz_plan_result.value.phase_named("one_shot")
+		var two_hz_left_soft: RefCounted = two_hz_evaluator.create_effective_state(two_hz_phase.layer_specs()[2])
+		for sample in [{"time": 0.125, "rotation": 135.0}, {"time": 0.25, "rotation": 225.0}, {"time": 0.5, "rotation": 45.0}]:
+			two_hz_evaluator.refresh(float(sample["time"]), [two_hz_left_soft])
+			tests.expect_true(is_equal_approx(two_hz_left_soft.effective_rotation_degrees(), float(sample["rotation"])), "two-Hz LINEAR_PHASE has the expected half-period wrap at %.3f seconds" % float(sample["time"]))
+	else:
+		tests.expect_true(false, "two-Hz LINEAR_PHASE test fixture rebuilds through the normal Pipeline")
+
+	var runtime := VfxPreviewRenderRuntimeModel.new(plan, {"anchors": {"CENTER": [0.0, 0.0]}}, _registry(), VfxPreviewRendererFactoryModel.new(), VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new()))
+	runtime.set_runtime_input_state(input_state)
+	runtime.activate_phase("one_shot", {"preview_time": 0.0})
+	runtime.advance(0.25, {"preview_time": 0.25})
+	var left_packet := _packet_for_layer(runtime.draw_packets(), "one_shot.left.core")
+	tests.expect_true(is_equal_approx(float(left_packet.get("geometry_rotation_degrees", 0.0)), 100.0) and runtime.active_renderer_count() == 4, "existing TEXTURED_SPRITE packet path receives continuous rotation without a renderer change")
+
+	var sine_fixture: VfxResult = pipeline.load_and_validate("res://tests/fixtures/presets/utility.runtime_modulation_fixture.vfx.json")
+	var sine_plan_result: VfxResult = VfxPreviewRenderPlanBuilderModel.new(_registry()).build(sine_fixture.value.normalized_data) if sine_fixture.success else VfxResult.failure(sine_fixture.issues)
+	if sine_plan_result.success:
+		var sine_program: RefCounted = sine_plan_result.value.runtime_modulation_program()
+		var sine_evaluator := VfxPreviewRuntimeModulationEvaluatorModel.new(sine_program, VfxPreviewRuntimeInputStateModel.new(sine_program))
+		var sine_phase: RefCounted = sine_plan_result.value.phase_named("one_shot")
+		var sine_left: RefCounted = sine_evaluator.create_effective_state(sine_phase.layer_specs()[0])
+		sine_evaluator.refresh(0.25, [sine_left])
+		tests.expect_true(is_equal_approx(sine_left.effective_rotation_degrees(), 355.2828427125), "existing OSCILLATOR SINE numeric rotation behavior remains unchanged")
+	else:
+		tests.expect_true(false, "existing SINE fixture still compiles for its regression sample")
+
+
+static func _linear_phase_plan_with_second_frequency(frequency_hz: float) -> VfxResult:
+	var pipeline := VfxPresetPipelineModel.new()
+	var fixture: VfxResult = pipeline.load_and_validate("res://tests/fixtures/presets/utility.linear_phase_rotation_fixture.vfx.json")
+	if not fixture.success:
+		return VfxResult.failure(fixture.issues)
+	var source: Dictionary = fixture.value.raw_data.duplicate(true)
+	source["runtime_modulation_sources"][1]["frequency_hz"] = frequency_hz
+	var document: VfxResult = pipeline.build_document_from_value(source, "res://tests/fixtures/presets/utility.linear_phase_rotation_fixture.vfx.json")
+	return VfxPreviewRenderPlanBuilderModel.new(_registry()).build(document.value.normalized_data) if document.success else VfxResult.failure(document.issues)
+
+
+static func _wrapped_angular_delta(from_degrees: float, to_degrees: float) -> float:
+	return absf(fposmod(to_degrees - from_degrees + 180.0, 360.0) - 180.0)
 
 
 static func _test_pivot_compensation(tests: TestAssert) -> void:

@@ -1,0 +1,895 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.18,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.left_core_spin",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.left_core_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.core.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.3,
+            "texture_asset_ref": "fx.rotor_lift_downwash_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.8,
+              0.8
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.left_soft_spin",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.left_soft_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.soft.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.14,
+            "texture_asset_ref": "fx.rotor_lift_downwash_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 45.0,
+            "scale": [
+              0.92,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.right_core_spin",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.right_core_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.core.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.3,
+            "texture_asset_ref": "fx.rotor_lift_downwash_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 22.5,
+            "scale": [
+              0.8,
+              0.8
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.right_soft_spin",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.right_soft_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.soft.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.14,
+            "texture_asset_ref": "fx.rotor_lift_downwash_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 67.5,
+            "scale": [
+              0.92,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.left_core_spin",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.left_core_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.core.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.48,
+            "texture_asset_ref": "fx.rotor_lift_downwash_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.8,
+              0.8
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.left_soft_spin",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 0.95,
+              "min_effective": 0.89,
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "max_effective": 0.95,
+              "min_effective": 0.89,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.left_soft_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.soft.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.left_soft_spin.pressure.scale_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03260869565217,
+                "output_min": 0.967391304347826,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "rotor.left_soft.pressure",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.left_soft_spin.pressure.scale_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03260869565217,
+                "output_min": 0.967391304347826,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "rotor.left_soft.pressure",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.24,
+            "texture_asset_ref": "fx.rotor_lift_downwash_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 45.0,
+            "scale": [
+              0.92,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.right_core_spin",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.right_core_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.core.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.48,
+            "texture_asset_ref": "fx.rotor_lift_downwash_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 22.5,
+            "scale": [
+              0.8,
+              0.8
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.right_soft_spin",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 0.95,
+              "min_effective": 0.89,
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "max_effective": 0.95,
+              "min_effective": 0.89,
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.right_soft_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.soft.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.right_soft_spin.pressure.scale_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03260869565217,
+                "output_min": 0.967391304347826,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "rotor.right_soft.pressure",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.right_soft_spin.pressure.scale_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03260869565217,
+                "output_min": 0.967391304347826,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "rotor.right_soft.pressure",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.24,
+            "texture_asset_ref": "fx.rotor_lift_downwash_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 67.5,
+            "scale": [
+              0.92,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.left_turbulence",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.42,
+            "angular_velocity_max_degrees_per_second": -180.0,
+            "angular_velocity_min_degrees_per_second": -360.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 7.0,
+            "emitter": {
+              "radius": 110.0,
+              "shape": "CIRCLE"
+            },
+            "lifetime_seconds": 0.32,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 11.0,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.75,
+            "size_start": 18.0,
+            "speed_max": 150.0,
+            "speed_min": 90.0,
+            "spread_degrees": 360.0,
+            "sprite_asset_ref": "fx.rotor_lift_turbulence_particle"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.right_turbulence",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.42,
+            "angular_velocity_max_degrees_per_second": 360.0,
+            "angular_velocity_min_degrees_per_second": 180.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 7.0,
+            "emitter": {
+              "radius": 110.0,
+              "shape": "CIRCLE"
+            },
+            "lifetime_seconds": 0.32,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 11.0,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.75,
+            "size_start": 18.0,
+            "speed_max": 150.0,
+            "speed_min": 90.0,
+            "spread_degrees": 360.0,
+            "sprite_asset_ref": "fx.rotor_lift_turbulence_particle"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.2,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.left_core_spin",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "end.left_core_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.core.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.22,
+            "texture_asset_ref": "fx.rotor_lift_downwash_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.8,
+              0.8
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.left_soft_spin",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "end.left_soft_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.soft.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.12,
+            "texture_asset_ref": "fx.rotor_lift_downwash_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -150.0,
+              0.0
+            ],
+            "rotation_degrees": 45.0,
+            "scale": [
+              0.92,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.right_core_spin",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "end.right_core_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.core.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.22,
+            "texture_asset_ref": "fx.rotor_lift_downwash_core"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 22.5,
+            "scale": [
+              0.8,
+              0.8
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.right_soft_spin",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "end.right_soft_spin.rotation",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 360.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "rotor.soft.phase",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.12,
+            "texture_asset_ref": "fx.rotor_lift_downwash_soft"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              150.0,
+              0.0
+            ],
+            "rotation_degrees": 67.5,
+            "scale": [
+              0.92,
+              0.92
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Rotor Lift Downwash",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.rotor_lift.downwash"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 2,
+  "runtime_inputs": [],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 2.4,
+      "id": "rotor.core.phase",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.35,
+      "id": "rotor.soft.phase",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.1,
+      "id": "rotor.left_soft.pressure",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.1,
+      "id": "rotor.right_soft.pressure",
+      "phase_degrees": 90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    }
+  ]
+}

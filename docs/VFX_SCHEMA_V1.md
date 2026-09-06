@@ -215,13 +215,35 @@ turn. It has no implicit visual behavior; a validated Runtime Modulation binding
 declares any use of it.
 
 The Schema-owned `RUNTIME_MODULATION_CONFIGURATION` rule is the contract for
-`SINE` sources and `LINEAR_RANGE` mappings. In Phase A every modulation target is
+`OSCILLATOR/SINE`, `LINEAR_PHASE`, and `LINEAR_RANGE` mappings. In Phase A every modulation target is
 compatible only with `TEXTURED_SPRITE`. A binding on `PARTICLE`, `TRAIL`, `RING`,
 `GLOW`, or `SHIELD` is a `PRESET_VALIDATION` error; it is never silently ignored.
 Target clamps are Layer-target contracts and run once after ordered binding
 composition. `VISUAL_OPACITY_MULTIPLIER` must be finite and non-negative, has no
 authoring upper bound, and only the final `TEXTURED_SPRITE` alpha application
 clamps its rendered result to `[0, 1]`.
+
+`LINEAR_PHASE` is a generic authored source with this strict shape:
+
+```json
+{
+  "id": "rotor.core.phase",
+  "type": "LINEAR_PHASE",
+  "frequency_hz": 1.5
+}
+```
+
+`frequency_hz` must be finite and greater than zero. `LINEAR_PHASE` rejects
+`wave` and `phase_degrees`; `OSCILLATOR/SINE` retains its existing required
+`wave`, `phase_degrees`, and non-negative-frequency contract. At each existing
+effect-local elapsed-time sample, `LINEAR_PHASE` evaluates as
+`fposmod(instance_elapsed_seconds * frequency_hz, 1.0)`, yielding
+`0.0 <= value < 1.0`. It adds no clock, timer, tween, history accumulator, or
+direction-through-negative-frequency rule. Rotation direction belongs in the
+existing `LINEAR_RANGE` output mapping, for example `0..1 -> 0..+360` or
+`0..1 -> 0..-360` with `TRANSFORM_ROTATION_DEGREES` and `ADD`. The scalar wraps
+at every period; rotation values near `359.x` and `0.x` degrees are
+orientation-adjacent and must be compared with wrapped angular semantics.
 
 ### Visual Bend B2 — declared-but-straight Preview boundary
 

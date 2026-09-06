@@ -3,6 +3,7 @@ extends RefCounted
 
 const VfxPreviewEffectiveLayerStateModel := preload("res://src/preview/runtime_modulation/vfx_preview_effective_layer_state.gd")
 const VfxRuntimeModulationBindingSpecModel := preload("res://src/preview/runtime_modulation/vfx_runtime_modulation_binding_spec.gd")
+const VfxRuntimeModulationSourceSpecModel := preload("res://src/preview/runtime_modulation/vfx_runtime_modulation_source_spec.gd")
 
 var _program: RefCounted
 var _input_state: RefCounted
@@ -42,7 +43,11 @@ func _sample_sources(instance_elapsed_seconds: float) -> void:
 		return
 	for slot in _program.source_count():
 		var source: RefCounted = _program.source_at(slot)
-		_source_values[slot] = sin(TAU * source.frequency_hz() * instance_elapsed_seconds + source.phase_radians())
+		match source.source_kind():
+			VfxRuntimeModulationSourceSpecModel.SOURCE_OSCILLATOR_SINE:
+				_source_values[slot] = sin(TAU * source.frequency_hz() * instance_elapsed_seconds + source.phase_radians())
+			VfxRuntimeModulationSourceSpecModel.SOURCE_LINEAR_PHASE:
+				_source_values[slot] = fposmod(instance_elapsed_seconds * source.frequency_hz(), 1.0)
 		_sampled_source_count_last_tick += 1
 
 

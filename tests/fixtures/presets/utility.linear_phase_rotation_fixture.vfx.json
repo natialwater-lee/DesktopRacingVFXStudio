@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "preset_id": "utility.linear.phase.rotation.fixture",
+  "display_name": "Linear Phase Rotation Fixture",
+  "category": "UTILITY",
+  "lifecycle": { "mode": "ONE_SHOT" },
+  "default_space_mode": "VEHICLE_LOCAL",
+  "runtime_inputs": [],
+  "runtime_modulation_sources": [
+    { "id": "rotation.one_hz", "type": "LINEAR_PHASE", "frequency_hz": 1.0 },
+    { "id": "rotation.half_hz", "type": "LINEAR_PHASE", "frequency_hz": 0.5 }
+  ],
+  "phases": {
+    "one_shot": {
+      "duration_seconds": 3.0,
+      "layers": [
+        {
+          "id": "one_shot.left.core",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "blend_mode": "ALPHA",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": { "offset": [-64.0, -120.0], "rotation_degrees": 10.0, "scale": [1.0, 1.0], "modulation_pivot_local": [0.0, 40.0] },
+          "parameters": { "texture_asset_ref": "fx.headlight_beam_soft", "opacity": 0.8 },
+          "modulations": [
+            { "id": "left.core.rotation", "target": "TRANSFORM_ROTATION_DEGREES", "operation": "ADD", "source": { "type": "PRESET_SOURCE", "source_id": "rotation.one_hz" }, "mapping": { "type": "LINEAR_RANGE", "input_min": 0.0, "input_max": 1.0, "output_min": 0.0, "output_max": 360.0 } }
+          ]
+        },
+        {
+          "id": "one_shot.right.core",
+          "type": "TEXTURED_SPRITE",
+          "importance": "CORE",
+          "blend_mode": "ALPHA",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": { "offset": [64.0, -120.0], "rotation_degrees": 20.0, "scale": [1.0, 1.0], "modulation_pivot_local": [0.0, 40.0] },
+          "parameters": { "texture_asset_ref": "fx.headlight_beam_soft", "opacity": 0.8 },
+          "modulations": [
+            { "id": "right.core.rotation", "target": "TRANSFORM_ROTATION_DEGREES", "operation": "ADD", "source": { "type": "PRESET_SOURCE", "source_id": "rotation.one_hz" }, "mapping": { "type": "LINEAR_RANGE", "input_min": 0.0, "input_max": 1.0, "output_min": 0.0, "output_max": -360.0 } }
+          ]
+        },
+        {
+          "id": "one_shot.left.soft",
+          "type": "TEXTURED_SPRITE",
+          "importance": "DETAIL",
+          "blend_mode": "ALPHA",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": { "offset": [-64.0, -120.0], "rotation_degrees": 45.0, "scale": [1.0, 1.0], "modulation_pivot_local": [0.0, 40.0] },
+          "parameters": { "texture_asset_ref": "fx.headlight_beam_soft", "opacity": 0.6 },
+          "modulations": [
+            { "id": "left.soft.rotation", "target": "TRANSFORM_ROTATION_DEGREES", "operation": "ADD", "source": { "type": "PRESET_SOURCE", "source_id": "rotation.half_hz" }, "mapping": { "type": "LINEAR_RANGE", "input_min": 0.0, "input_max": 1.0, "output_min": 0.0, "output_max": 360.0 } }
+          ]
+        },
+        {
+          "id": "one_shot.right.soft",
+          "type": "TEXTURED_SPRITE",
+          "importance": "DETAIL",
+          "blend_mode": "ALPHA",
+          "render_plane": "UNDER_VEHICLE",
+          "anchors": ["CENTER"],
+          "transform": { "offset": [64.0, -120.0], "rotation_degrees": 60.0, "scale": [1.0, 1.0], "modulation_pivot_local": [0.0, 40.0] },
+          "parameters": { "texture_asset_ref": "fx.headlight_beam_soft", "opacity": 0.6 },
+          "modulations": [
+            { "id": "right.soft.rotation", "target": "TRANSFORM_ROTATION_DEGREES", "operation": "ADD", "source": { "type": "PRESET_SOURCE", "source_id": "rotation.half_hz" }, "mapping": { "type": "LINEAR_RANGE", "input_min": 0.0, "input_max": 1.0, "output_min": 0.0, "output_max": -360.0 } }
+          ]
+        }
+      ]
+    }
+  }
+}

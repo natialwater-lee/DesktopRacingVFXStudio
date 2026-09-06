@@ -97,10 +97,19 @@ func _validate_runtime_modulation_configuration(rule: Dictionary, pointer: Strin
 			if not source_type is String or (source_type as String).is_empty() or not source_definition is Dictionary:
 				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source type requires an object definition.", source_pointer))
 				continue
-			if not source_definition.has("waves") or not source_definition.has("output_min") or not source_definition.has("output_max"):
-				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source type requires waves and output bounds.", source_pointer))
+			if not source_definition.has("requires_wave") or not source_definition.has("requires_phase") or not source_definition.has("requires_positive_frequency") or not source_definition.has("output_min") or not source_definition.has("output_max"):
+				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source type requires field requirements and output bounds.", source_pointer))
 				continue
-			_validate_string_array(source_definition["waves"], "%s/waves" % source_pointer, issues, false)
+			for requirement_key in ["requires_wave", "requires_phase", "requires_positive_frequency"]:
+				if not source_definition[requirement_key] is bool:
+					issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source field requirement must be boolean.", "%s/%s" % [source_pointer, requirement_key]))
+			if source_definition.get("requires_wave", false):
+				if not source_definition.has("waves"):
+					issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation wave source requires configured waves.", source_pointer))
+				else:
+					_validate_string_array(source_definition["waves"], "%s/waves" % source_pointer, issues, false)
+			elif source_definition.has("waves"):
+				_validate_string_array(source_definition["waves"], "%s/waves" % source_pointer, issues, true)
 			if not _is_finite_number(source_definition["output_min"]) or not _is_finite_number(source_definition["output_max"]) or source_definition["output_min"] > source_definition["output_max"]:
 				issues.append(VfxIssue.new("SCHEMA_CONFIGURATION", "runtime_modulation_contract_configuration", "Runtime Modulation source output bounds must be finite and ordered.", source_pointer))
 

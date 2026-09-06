@@ -190,13 +190,13 @@
     },
     "runtime_modulation_source": {
       "type": "object",
-      "required": ["id", "type", "wave", "frequency_hz", "phase_degrees"],
+      "required": ["id", "type", "frequency_hz"],
       "additionalProperties": false,
       "properties": {
         "id": {"$ref": "#/$defs/logical_id"},
-        "type": {"type": "string", "enum": ["OSCILLATOR"]},
+        "type": {"type": "string", "enum": ["OSCILLATOR", "LINEAR_PHASE"]},
         "wave": {"type": "string", "enum": ["SINE"]},
-        "frequency_hz": {"type": "number", "minimum": 0.0},
+        "frequency_hz": {"type": "number"},
         "phase_degrees": {"type": "number"}
       }
     },
@@ -925,7 +925,17 @@
       "source_types": {
         "OSCILLATOR": {
           "waves": ["SINE"],
+          "requires_wave": true,
+          "requires_phase": true,
+          "requires_positive_frequency": false,
           "output_min": -1.0,
+          "output_max": 1.0
+        },
+        "LINEAR_PHASE": {
+          "requires_wave": false,
+          "requires_phase": false,
+          "requires_positive_frequency": true,
+          "output_min": 0.0,
           "output_max": 1.0
         }
       },

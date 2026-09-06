@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 384808,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rotor_lift_downwash_core",
+      "package_path": "assets/rotor_lift_downwash_core.png",
+      "sha256": "74b1d14458d162c34ad3d6015a146bef45c33ec337dae33fb8178e1b78c3f3b8"
+    },
+    {
+      "byte_size": 386988,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rotor_lift_downwash_soft",
+      "package_path": "assets/rotor_lift_downwash_soft.png",
+      "sha256": "c419e7c9c50732214c114a3df9e250609ad7d0feb2d69335d0d51295d7804f49"
+    },
+    {
+      "byte_size": 29904,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rotor_lift_turbulence_particle",
+      "package_path": "assets/rotor_lift_turbulence_particle.png",
+      "sha256": "99665f44888229022dbb8994808f991db291e8abbeb47474df4a69b65f567f5c"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 384808,
+      "path": "assets/rotor_lift_downwash_core.png",
+      "sha256": "74b1d14458d162c34ad3d6015a146bef45c33ec337dae33fb8178e1b78c3f3b8"
+    },
+    {
+      "byte_size": 386988,
+      "path": "assets/rotor_lift_downwash_soft.png",
+      "sha256": "c419e7c9c50732214c114a3df9e250609ad7d0feb2d69335d0d51295d7804f49"
+    },
+    {
+      "byte_size": 29904,
+      "path": "assets/rotor_lift_turbulence_particle.png",
+      "sha256": "99665f44888229022dbb8994808f991db291e8abbeb47474df4a69b65f567f5c"
+    },
+    {
+      "byte_size": 24772,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "2f067ee8639f41d64dd7e0316f5e37339d4ca560b31d86cc71ed97e644cf6133"
+    },
+    {
+      "byte_size": 23963,
+      "path": "source/equipment.rotor_lift.downwash.vfx.json",
+      "sha256": "d4ccf4adac7e2d1bdda6caf706696ed8185ab41fe26f1fe7e9040ce9617ee9d4"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "equipment.rotor_lift.downwash",
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Rotor Lift Downwash",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.rotor_lift.downwash",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 6,
+      "EXTRA": 2
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 24772,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "2f067ee8639f41d64dd7e0316f5e37339d4ca560b31d86cc71ed97e644cf6133",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 23963,
+    "path": "source/equipment.rotor_lift.downwash.vfx.json",
+    "sha256": "d4ccf4adac7e2d1bdda6caf706696ed8185ab41fe26f1fe7e9040ce9617ee9d4"
+  }
+}

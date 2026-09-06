@@ -15,6 +15,32 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(result.success and manifest.get("runtime_definition", {}).get("version") == 2 and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json", "modulation-bearing Presets select Runtime Definition v2 rather than silently compiling a v1 runtime")
 	tests.expect_true(turn_rate_contract == {"name": "turn_rate_normalized", "value_type": "number", "default": 0.0, "minimum": -1.0, "maximum": 1.0} and manifest.get("requirements", {}).get("runtime_inputs", []).has("turn_rate_normalized"), "used turn-rate input serializes as a portable signed Runtime Definition v2 contract")
 	_test_visual_bend_runtime_v2_projection_and_v1_isolation(tests, compiler)
+	_test_linear_phase_runtime_v2_projection_and_static_v1_no_leak(tests, compiler)
+
+
+static func _test_linear_phase_runtime_v2_projection_and_static_v1_no_leak(tests: TestAssert, compiler: Variant) -> void:
+	var fixture: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://tests/fixtures/presets/utility.linear_phase_rotation_fixture.vfx.json")
+	var first: VfxResult = compiler.compile(fixture.value) if compiler != null and fixture.success else VfxResult.failure(fixture.issues if fixture != null else [])
+	var second: VfxResult = compiler.compile(fixture.value) if compiler != null and fixture.success else VfxResult.failure(fixture.issues if fixture != null else [])
+	var runtime: Variant = JSON.parse_string(first.value.runtime_text()) if first.success else null
+	var manifest: Dictionary = first.value.manifest_data() if first.success else {}
+	var expected_sources: Array = fixture.value.normalized_data.get("runtime_modulation_sources", []) if fixture.success else []
+	var portable: bool = first.success and runtime is Dictionary and not first.value.runtime_text().contains("res://") and not first.value.runtime_text().contains("C:\\")
+	tests.expect_true(
+		first.success and second.success and runtime is Dictionary and manifest.get("package_format_version") == 1 \
+			and runtime.get("runtime_definition_version") == 2 and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json" \
+			and runtime.get("runtime_modulation_sources") == expected_sources and first.value.runtime_text() == second.value.runtime_text() and portable,
+		"LINEAR_PHASE source records deep-copy deterministically into portable Runtime Definition v2 while Package Format remains v1"
+	)
+
+	var static_document: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/talent.zero_zone.vfx.json")
+	var static_result: VfxResult = compiler.compile(static_document.value) if compiler != null and static_document.success else VfxResult.failure(static_document.issues if static_document != null else [])
+	var static_runtime: Variant = JSON.parse_string(static_result.value.runtime_text()) if static_result.success else null
+	tests.expect_true(
+		static_result.success and static_runtime is Dictionary and static_runtime.get("runtime_definition_version") == 1 \
+			and not static_result.value.runtime_text().contains("LINEAR_PHASE") and not static_result.value.runtime_text().contains("frequency_hz"),
+		"static Runtime Definition v1 remains free of LINEAR_PHASE source-table fields"
+	)
 
 
 static func _test_visual_bend_runtime_v2_projection_and_v1_isolation(tests: TestAssert, compiler: Variant) -> void:

@@ -25,6 +25,7 @@ static func run(tests: TestAssert) -> void:
 		tests.expect_true(layer["modulations"] is Array and layer["modulations"].size() == 1, "Layer bindings are retained")
 		tests.expect_true(layer["modulation_clamps"] is Array and layer["modulation_clamps"].size() == 1, "Layer target clamps are retained")
 		tests.expect_true(layer["transform"]["modulation_pivot_local"] == [0.0, 0.0], "pivot defaults from Schema")
+	_test_linear_phase_source_contract(tests, registry)
 
 	var turn_rate_rotation := _valid_preset()
 	turn_rate_rotation["runtime_inputs"].append("turn_rate_normalized")
@@ -41,6 +42,8 @@ static func run(tests: TestAssert) -> void:
 	tests.expect_true(contract.success, "registry exposes the Schema-owned runtime modulation contract")
 	if contract.success:
 		var target_contracts: Dictionary = contract.value["target_contracts"]
+		var source_types: Dictionary = contract.value["source_types"]
+		tests.expect_true(source_types.has("LINEAR_PHASE") and source_types["LINEAR_PHASE"].get("output_min") == 0.0 and source_types["LINEAR_PHASE"].get("output_max") == 1.0, "LINEAR_PHASE is Schema-owned with a zero-to-one output contract")
 		tests.expect_true(target_contracts["TRANSFORM_SCALE_Y"]["compatible_layer_types"] == ["TEXTURED_SPRITE"], "target compatibility is Schema-owned and TEXTURED_SPRITE-only")
 		tests.expect_true(
 			target_contracts.has("VISUAL_BEND_OFFSET_X")
@@ -190,6 +193,43 @@ static func _validate(registry: VfxSchemaRegistry, preset: Dictionary) -> VfxRes
 	if not normalized.success:
 		return normalized
 	return VfxContractValidatorModel.new(registry, VfxSchemaSubsetValidatorModel.new(registry)).validate(normalized.value)
+
+
+static func _test_linear_phase_source_contract(tests: TestAssert, registry: VfxSchemaRegistry) -> void:
+	var valid_linear := _valid_preset()
+	valid_linear["runtime_modulation_sources"] = [_linear_phase_source(1.0)]
+	tests.expect_true(_validate(registry, valid_linear).success, "strict LINEAR_PHASE source with a positive finite frequency validates")
+
+	var missing_frequency := _valid_preset()
+	missing_frequency["runtime_modulation_sources"] = [{"id": "linear.phase", "type": "LINEAR_PHASE"}]
+	tests.expect_true(not _validate(registry, missing_frequency).success, "LINEAR_PHASE without frequency_hz is rejected")
+
+	for invalid_frequency in [0.0, -0.5, NAN, INF, -INF]:
+		var invalid_linear := _valid_preset()
+		invalid_linear["runtime_modulation_sources"] = [_linear_phase_source(invalid_frequency)]
+		tests.expect_true(not _validate(registry, invalid_linear).success, "LINEAR_PHASE rejects non-positive or non-finite frequency_hz")
+
+	var unexpected_wave := _valid_preset()
+	unexpected_wave["runtime_modulation_sources"] = [_linear_phase_source(1.0)]
+	unexpected_wave["runtime_modulation_sources"][0]["wave"] = "SINE"
+	tests.expect_true(not _validate(registry, unexpected_wave).success, "LINEAR_PHASE rejects the OSCILLATOR wave field")
+
+	var unexpected_phase := _valid_preset()
+	unexpected_phase["runtime_modulation_sources"] = [_linear_phase_source(1.0)]
+	unexpected_phase["runtime_modulation_sources"][0]["phase_degrees"] = 0.0
+	tests.expect_true(not _validate(registry, unexpected_phase).success, "LINEAR_PHASE rejects the OSCILLATOR phase field")
+
+	var zero_frequency_sine := _valid_preset()
+	zero_frequency_sine["runtime_modulation_sources"][0]["frequency_hz"] = 0.0
+	tests.expect_true(_validate(registry, zero_frequency_sine).success, "existing OSCILLATOR SINE keeps its finite non-negative frequency contract")
+
+
+static func _linear_phase_source(frequency_hz: float) -> Dictionary:
+	return {
+		"id": "linear.phase",
+		"type": "LINEAR_PHASE",
+		"frequency_hz": frequency_hz
+	}
 
 
 static func _has_code(result: VfxResult, code: String) -> bool:

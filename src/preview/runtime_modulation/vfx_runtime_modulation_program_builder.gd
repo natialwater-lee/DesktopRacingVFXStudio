@@ -58,8 +58,12 @@ func build(normalized_data: Dictionary, _layer_ids_by_phase: Dictionary = {}) ->
 			continue
 		var source: Dictionary = source_value
 		var source_id := str(source["id"])
+		var source_kind := _source_kind_for_type(str(source[contract["source_type_field"]]))
+		if source_kind < 0:
+			return _failure("runtime_modulation_source_type", "Runtime Modulation source type is not compiled by the Preview program.")
 		source_slots[source_id] = sources.size()
-		sources.append(VfxRuntimeModulationSourceSpecModel.new(sources.size(), source_id, float(source[contract["frequency_field"]]), deg_to_rad(float(source[contract["phase_field"]]))))
+		var phase_radians := deg_to_rad(float(source[contract["phase_field"]])) if source_kind == VfxRuntimeModulationSourceSpecModel.SOURCE_OSCILLATOR_SINE else 0.0
+		sources.append(VfxRuntimeModulationSourceSpecModel.new(sources.size(), source_id, source_kind, float(source[contract["frequency_field"]]), phase_radians))
 
 	var bindings_by_layer: Dictionary = {}
 	var clamps_by_layer: Dictionary = {}
@@ -100,6 +104,15 @@ func _compile_binding(layer_id: String, binding_value: Dictionary, contract: Dic
 	var target_contract: Dictionary = contract["target_contracts"][target_name]
 	var operation_slot := 0 if target_contract["operation"] == "ADD" else 1
 	return VfxRuntimeModulationBindingSpecModel.new(layer_id, VfxRuntimeModulationBindingSpecModel.SOURCE_RUNTIME_INPUT if is_runtime_input else VfxRuntimeModulationBindingSpecModel.SOURCE_PRESET_SOURCE, source_slot, source_id, int(target_slots[target_name]), operation_slot, float(mapping[contract["input_min_field"]]), float(mapping[contract["input_max_field"]]), float(mapping[contract["output_min_field"]]), float(mapping[contract["output_max_field"]]))
+
+
+func _source_kind_for_type(source_type: String) -> int:
+	match source_type:
+		"OSCILLATOR":
+			return VfxRuntimeModulationSourceSpecModel.SOURCE_OSCILLATOR_SINE
+		"LINEAR_PHASE":
+			return VfxRuntimeModulationSourceSpecModel.SOURCE_LINEAR_PHASE
+	return -1
 
 
 func _used_runtime_inputs(data: Dictionary, contract: Dictionary) -> Dictionary:

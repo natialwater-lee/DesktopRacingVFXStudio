@@ -19,6 +19,24 @@
       "source_path": "res://assets/vfx/super_booster_spark_blue.png",
       "package_file_name": "super_booster_spark_blue.png"
     },
+    "fx.rotor_lift_downwash_core": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rotor_lift_downwash_core.png",
+      "package_file_name": "rotor_lift_downwash_core.png"
+    },
+    "fx.rotor_lift_downwash_soft": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rotor_lift_downwash_soft.png",
+      "package_file_name": "rotor_lift_downwash_soft.png"
+    },
+    "fx.rotor_lift_turbulence_particle": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rotor_lift_turbulence_particle.png",
+      "package_file_name": "rotor_lift_turbulence_particle.png"
+    },
     "fx.booster_flame_core": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

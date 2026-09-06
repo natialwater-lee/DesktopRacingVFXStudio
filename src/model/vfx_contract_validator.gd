@@ -262,12 +262,20 @@ func _validate_modulation_source(source: Dictionary, pointer: String, rule: Dict
 		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_source_type", "Runtime Modulation source type is not configured.", "%s/%s" % [pointer, rule["source_type_field"]]))
 		return
 	var source_contract: Dictionary = source_types[source_type]
-	if not source_contract["waves"].has(source.get(rule["wave_field"])):
+	var requires_wave: bool = source_contract.get("requires_wave", false)
+	var requires_phase: bool = source_contract.get("requires_phase", false)
+	var requires_positive_frequency: bool = source_contract.get("requires_positive_frequency", false)
+	if requires_wave and (not source_contract.get("waves", []).has(source.get(rule["wave_field"]))):
 		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_wave", "Runtime Modulation source wave is not configured.", "%s/%s" % [pointer, rule["wave_field"]]))
-	if not _is_finite_number(source.get(rule["frequency_field"])) or float(source.get(rule["frequency_field"])) < 0.0:
-		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_frequency", "Runtime Modulation frequency must be finite and non-negative.", "%s/%s" % [pointer, rule["frequency_field"]]))
-	if not _is_finite_number(source.get(rule["phase_field"])):
+	if not requires_wave and source.has(rule["wave_field"]):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_source_field", "Runtime Modulation source type does not support wave.", "%s/%s" % [pointer, rule["wave_field"]]))
+	var frequency: Variant = source.get(rule["frequency_field"])
+	if not _is_finite_number(frequency) or (requires_positive_frequency and float(frequency) <= 0.0) or (not requires_positive_frequency and float(frequency) < 0.0):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_frequency", "Runtime Modulation frequency must be finite and positive when required by its source type.", "%s/%s" % [pointer, rule["frequency_field"]]))
+	if requires_phase and not _is_finite_number(source.get(rule["phase_field"])):
 		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_phase", "Runtime Modulation phase must be finite.", "%s/%s" % [pointer, rule["phase_field"]]))
+	if not requires_phase and source.has(rule["phase_field"]):
+		issues.append(VfxIssue.new("PRESET_VALIDATION", "runtime_modulation_source_field", "Runtime Modulation source type does not support phase_degrees.", "%s/%s" % [pointer, rule["phase_field"]]))
 
 
 func _validate_modulation_binding(binding: Dictionary, pointer: String, layer_type: String, declared_inputs: Dictionary, source_ids: Dictionary, runtime_input_contract: Variant, rule: Dictionary, issues: Array[VfxIssue]) -> void:
