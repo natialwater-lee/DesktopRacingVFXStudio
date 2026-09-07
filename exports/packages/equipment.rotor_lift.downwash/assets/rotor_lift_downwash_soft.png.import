@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c37853jkby6pw"
-path="res://.godot/imported/forcefield_tire_overcurrent_strip.png-60db1e9b936b112b346e9abe82932eb3.ctex"
+uid="uid://dad82b7whf5c6"
+path="res://.godot/imported/rotor_lift_downwash_soft.png-f7842deff9d8be67733213605a47eeaf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/vfx/forcefield_tire_overcurrent_strip.png"
-dest_files=["res://.godot/imported/forcefield_tire_overcurrent_strip.png-60db1e9b936b112b346e9abe82932eb3.ctex"]
+source_file="res://exports/packages/equipment.rotor_lift.downwash/assets/rotor_lift_downwash_soft.png"
+dest_files=["res://.godot/imported/rotor_lift_downwash_soft.png-f7842deff9d8be67733213605a47eeaf.ctex"]
 
 [params]
 

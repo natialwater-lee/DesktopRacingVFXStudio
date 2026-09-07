@@ -1,14 +1,6 @@
 {
   "catalog_version": 1,
   "assets": {
-    "fx.forcefield_tire_overcurrent_strip": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/forcefield_tire_overcurrent_strip.png"
-    },
-    "fx.forcefield_tire_spark_burst": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/forcefield_tire_spark_burst.png"
-    },
     "fx.energy_shard": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_shard.png"
@@ -101,19 +93,19 @@
       "source": "PROCEDURAL",
       "primitive": "SQUARE",
       "size_px": [6, 6],
-      "color_rgba": [1.0, 0.75, 0.2, 1.0]
+      "color_rgba": [1, 0.75, 0.2, 1]
     },
     "fx.trail_streak": {
       "source": "PROCEDURAL",
       "primitive": "STREAK",
       "size_px": [12, 4],
-      "color_rgba": [1.0, 1.0, 1.0, 1.0]
+      "color_rgba": [1, 1, 1, 1]
     },
     "fx.placeholder": {
       "source": "PROCEDURAL",
       "primitive": "DOT",
       "size_px": [4, 4],
-      "color_rgba": [0.8, 0.8, 0.8, 1.0]
+      "color_rgba": [0.8, 0.8, 0.8, 1]
     },
     "fx.preview_texture_fixture": {
       "source": "TEXTURE",

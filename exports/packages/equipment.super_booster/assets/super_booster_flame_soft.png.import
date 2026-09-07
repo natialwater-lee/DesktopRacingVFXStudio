@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ioolm1awsdv0"
-path="res://.godot/imported/forcefield_tire_spark_burst.png-9c319022d8b79923baed2fa2815a6e15.ctex"
+uid="uid://clr48mqgedevn"
+path="res://.godot/imported/super_booster_flame_soft.png-4ba9d470c8e99417579f1115292a7b21.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/vfx/forcefield_tire_spark_burst.png"
-dest_files=["res://.godot/imported/forcefield_tire_spark_burst.png-9c319022d8b79923baed2fa2815a6e15.ctex"]
+source_file="res://exports/packages/equipment.super_booster/assets/super_booster_flame_soft.png"
+dest_files=["res://.godot/imported/super_booster_flame_soft.png-4ba9d470c8e99417579f1115292a7b21.ctex"]
 
 [params]
 
