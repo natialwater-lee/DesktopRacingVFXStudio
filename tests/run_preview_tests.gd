@@ -60,5 +60,6 @@ func _run() -> void:
 	SuperBoosterDualAuthoringTests.run(tests)
 	RotorLiftDownwashAuthoringTests.run(tests)
 	RuntimeModulationProgramTests.run(tests)
+	preload("res://tests/preview/test_photosynthesis_authoring.gd").run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

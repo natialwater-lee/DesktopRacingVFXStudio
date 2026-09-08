@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 108350,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.photosynthesis_absorption_glow",
+      "package_path": "assets/talent_photosynthesis_absorption_glow.png",
+      "sha256": "3e252e36e73edca0c5890388ef350694d3cda32873500ded5c56a88390347b45"
+    },
+    {
+      "byte_size": 55709,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.photosynthesis_leaf_arc",
+      "package_path": "assets/talent_photosynthesis_leaf_arc.png",
+      "sha256": "6994e88bd3fdbf48fe65963e458920cabe998b6f12e72bdc14de0fcf46f9943c"
+    },
+    {
+      "byte_size": 72461,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.photosynthesis_solar_streak",
+      "package_path": "assets/talent_photosynthesis_solar_streak.png",
+      "sha256": "e56f74c68f8cee0d3339cbc6151656fa971cd6824ad5d58fb7d065306484a58c"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 108350,
+      "path": "assets/talent_photosynthesis_absorption_glow.png",
+      "sha256": "3e252e36e73edca0c5890388ef350694d3cda32873500ded5c56a88390347b45"
+    },
+    {
+      "byte_size": 55709,
+      "path": "assets/talent_photosynthesis_leaf_arc.png",
+      "sha256": "6994e88bd3fdbf48fe65963e458920cabe998b6f12e72bdc14de0fcf46f9943c"
+    },
+    {
+      "byte_size": 72461,
+      "path": "assets/talent_photosynthesis_solar_streak.png",
+      "sha256": "e56f74c68f8cee0d3339cbc6151656fa971cd6824ad5d58fb7d065306484a58c"
+    },
+    {
+      "byte_size": 24490,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "4c3d089963fd447f98de63dae04e98076e7b2833000fe6fd5d0cb5d728bb6c36"
+    },
+    {
+      "byte_size": 23642,
+      "path": "source/talent.photosynthesis.vfx.json",
+      "sha256": "cafbc1347b6cefa2dadb865896f9b30c41ce1ca762935dde90dd6fe51a7aeaf7"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.photosynthesis",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Photosynthesis",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.photosynthesis",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 11,
+      "DETAIL": 4,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 24490,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "4c3d089963fd447f98de63dae04e98076e7b2833000fe6fd5d0cb5d728bb6c36",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 23642,
+    "path": "source/talent.photosynthesis.vfx.json",
+    "sha256": "cafbc1347b6cefa2dadb865896f9b30c41ce1ca762935dde90dd6fe51a7aeaf7"
+  }
+}

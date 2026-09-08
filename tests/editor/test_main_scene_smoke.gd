@@ -98,7 +98,10 @@ static func run(tests: TestAssert) -> void:
 	if race_talent_index >= 0:
 		category_filter.select(race_talent_index)
 		category_filter.emit_signal("item_selected", race_talent_index)
-		tests.expect_true(library_rows.get_child_count() == 1 and (library_rows.get_child(0) as Button).text.contains("RACE_TALENT"), "Library category selection filters through the existing Library model")
+		var talent_rows: Array[String] = []
+		for row in library_rows.get_children():
+			talent_rows.append((row as Button).text)
+		tests.expect_true(talent_rows.size() == 2 and talent_rows.all(func(text: String): return text.contains("RACE_TALENT")) and talent_rows.any(func(text: String): return text.contains("talent.zero_zone")) and talent_rows.any(func(text: String): return text.contains("talent.photosynthesis")), "Library category filter includes Zero Zone and Photosynthesis only")
 		category_filter.select(0)
 		category_filter.emit_signal("item_selected", 0)
 	var invalid_library_row: Button = null

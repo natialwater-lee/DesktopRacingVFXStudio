@@ -1,6 +1,24 @@
 {
   "policy_version": 1,
   "assets": {
+    "fx.photosynthesis_absorption_glow": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_photosynthesis_absorption_glow.png",
+      "package_file_name": "talent_photosynthesis_absorption_glow.png"
+    },
+    "fx.photosynthesis_solar_streak": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_photosynthesis_solar_streak.png",
+      "package_file_name": "talent_photosynthesis_solar_streak.png"
+    },
+    "fx.photosynthesis_leaf_arc": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_photosynthesis_leaf_arc.png",
+      "package_file_name": "talent_photosynthesis_leaf_arc.png"
+    },
     "fx.energy_shard": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

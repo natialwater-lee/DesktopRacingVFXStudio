@@ -1,6 +1,18 @@
 {
   "catalog_version": 1,
   "assets": {
+    "fx.photosynthesis_absorption_glow": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_photosynthesis_absorption_glow.png"
+    },
+    "fx.photosynthesis_solar_streak": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_photosynthesis_solar_streak.png"
+    },
+    "fx.photosynthesis_leaf_arc": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_photosynthesis_leaf_arc.png"
+    },
     "fx.energy_shard": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_shard.png"
