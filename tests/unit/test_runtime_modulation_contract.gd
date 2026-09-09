@@ -48,11 +48,27 @@ static func run(tests: TestAssert) -> void:
 		tests.expect_true(
 			target_contracts.has("VISUAL_BEND_OFFSET_X")
 				and target_contracts["VISUAL_BEND_OFFSET_X"].get("operation") == "ADD"
-				and target_contracts["VISUAL_BEND_OFFSET_X"].get("compatible_layer_types") == ["TEXTURED_SPRITE"]
+				and target_contracts["VISUAL_BEND_OFFSET_X"].get("compatible_layer_types") == ["TEXTURED_SPRITE", "PARTICLE"]
 				and target_contracts["VISUAL_BEND_OFFSET_X"].get("requires_static_field") == "visual_bend"
 				and target_contracts["VISUAL_BEND_OFFSET_X"].get("requires_target_clamp") == true,
-			"visual bend target is Schema-owned, additive, TEXTURED_SPRITE-only, and requires metadata plus a clamp"
+			"visual bend target is Schema-owned, additive for sprites/particles, and requires metadata plus a clamp"
 		)
+
+	var particle_bend := _valid_bend_preset()
+	var particle_layer: Dictionary = particle_bend.phases.one_shot.layers[0]
+	particle_layer.type = "PARTICLE"
+	particle_layer.parameters = _parameters_for("PARTICLE")
+	tests.expect_true(_validate(registry, particle_bend).success, "PARTICLE accepts existing Bend metadata, nonzero pivot and ADD binding")
+	for mutation in ["metadata", "clamp", "operation", "span", "mapping"]:
+		var invalid := particle_bend.duplicate(true)
+		var changed: Dictionary = invalid.phases.one_shot.layers[0]
+		match mutation:
+			"metadata": changed.erase("visual_bend")
+			"clamp": changed.modulation_clamps = []
+			"operation": changed.modulations[0].operation = "MULTIPLY"
+			"span": changed.visual_bend.span_source_px = INF
+			"mapping": changed.modulations[0].mapping.output_max = NAN
+		tests.expect_true(not _validate(registry, invalid).success, "Particle Bend retains strict " + mutation + " validation")
 
 	var valid_bend := _valid_bend_preset()
 	var valid_bend_result := _validate(registry, valid_bend)

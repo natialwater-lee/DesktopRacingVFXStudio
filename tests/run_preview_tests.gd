@@ -26,6 +26,7 @@ const SuperBoosterAuthoringTests := preload("res://tests/preview/test_super_boos
 const SuperBoosterDualAuthoringTests := preload("res://tests/preview/test_super_booster_dual_authoring.gd")
 const RotorLiftDownwashAuthoringTests := preload("res://tests/preview/test_rotor_lift_downwash_authoring.gd")
 const RuntimeModulationProgramTests := preload("res://tests/preview/test_runtime_modulation_program.gd")
+const SoloRunAuthoringTests := preload("res://tests/preview/test_solo_run_authoring.gd")
 
 
 func _init() -> void:
@@ -61,5 +62,6 @@ func _run() -> void:
 	RotorLiftDownwashAuthoringTests.run(tests)
 	RuntimeModulationProgramTests.run(tests)
 	preload("res://tests/preview/test_photosynthesis_authoring.gd").run(tests)
+	SoloRunAuthoringTests.run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

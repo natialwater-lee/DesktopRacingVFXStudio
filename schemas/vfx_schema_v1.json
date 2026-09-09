@@ -971,13 +971,13 @@
         },
         "VISUAL_BEND_OFFSET_X": {
           "operation": "ADD",
-          "compatible_layer_types": ["TEXTURED_SPRITE"],
+          "compatible_layer_types": ["TEXTURED_SPRITE", "PARTICLE"],
           "requires_static_field": "visual_bend",
           "requires_target_clamp": true
         }
       },
-      "pivot_compatible_layer_types": ["TEXTURED_SPRITE"],
-      "visual_bend_compatible_layer_types": ["TEXTURED_SPRITE"]
+      "pivot_compatible_layer_types": ["TEXTURED_SPRITE", "PARTICLE"],
+      "visual_bend_compatible_layer_types": ["TEXTURED_SPRITE", "PARTICLE"]
     }
   ]
 }

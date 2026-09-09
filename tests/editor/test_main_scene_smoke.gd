@@ -101,7 +101,7 @@ static func run(tests: TestAssert) -> void:
 		var talent_rows: Array[String] = []
 		for row in library_rows.get_children():
 			talent_rows.append((row as Button).text)
-		tests.expect_true(talent_rows.size() == 2 and talent_rows.all(func(text: String): return text.contains("RACE_TALENT")) and talent_rows.any(func(text: String): return text.contains("talent.zero_zone")) and talent_rows.any(func(text: String): return text.contains("talent.photosynthesis")), "Library category filter includes Zero Zone and Photosynthesis only")
+		tests.expect_true(talent_rows.size() == 3 and talent_rows.all(func(text: String): return text.contains("RACE_TALENT")) and talent_rows.any(func(text: String): return text.contains("talent.zero_zone")) and talent_rows.any(func(text: String): return text.contains("talent.photosynthesis")) and talent_rows.any(func(text: String): return text.contains("talent.solo_run")), "Library category filter includes every saved Race Talent, including Solo Run")
 		category_filter.select(0)
 		category_filter.emit_signal("item_selected", 0)
 	var invalid_library_row: Button = null

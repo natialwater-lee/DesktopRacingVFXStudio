@@ -1,6 +1,14 @@
 {
   "catalog_version": 1,
   "assets": {
+    "fx.solo_run_rear_streak_left": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_solo_run_rear_streak_left.png"
+    },
+    "fx.solo_run_rear_streak_right": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_solo_run_rear_streak_right.png"
+    },
     "fx.photosynthesis_absorption_glow": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_photosynthesis_absorption_glow.png"
@@ -104,24 +112,56 @@
     "fx.confetti_square": {
       "source": "PROCEDURAL",
       "primitive": "SQUARE",
-      "size_px": [6, 6],
-      "color_rgba": [1, 0.75, 0.2, 1]
+      "size_px": [
+        6,
+        6
+      ],
+      "color_rgba": [
+        1,
+        0.75,
+        0.2,
+        1
+      ]
     },
     "fx.trail_streak": {
       "source": "PROCEDURAL",
       "primitive": "STREAK",
-      "size_px": [12, 4],
-      "color_rgba": [1, 1, 1, 1]
+      "size_px": [
+        12,
+        4
+      ],
+      "color_rgba": [
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "fx.placeholder": {
       "source": "PROCEDURAL",
       "primitive": "DOT",
-      "size_px": [4, 4],
-      "color_rgba": [0.8, 0.8, 0.8, 1]
+      "size_px": [
+        4,
+        4
+      ],
+      "color_rgba": [
+        0.8,
+        0.8,
+        0.8,
+        1
+      ]
     },
     "fx.preview_texture_fixture": {
       "source": "TEXTURE",
       "texture_path": "res://tests/fixtures/preview/texture_particle_test.png"
+    },
+    "fx.solo_run_side_stream_left": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_solo_run_side_stream_left.png"
+    },
+    "fx.solo_run_side_stream_right": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_solo_run_side_stream_right.png"
     }
   }
 }
