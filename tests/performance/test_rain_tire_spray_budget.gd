@@ -28,7 +28,7 @@ static func _test_rain_spray_lod_stays_within_two_wheel_band_budget(tests: TestA
 		var workload = budget_result.value.active_workload() if budget_result.success else null
 		var values: Array = expected[lod_level]
 		matches = matches and workload != null and workload.expanded_instance_count() == values[0] and workload.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Rain Tire Wake keeps only two continuous CORE sheets at every LOD for the smallest translucent weather workload")
+	tests.expect_true(matches, "Rain Tire Spray keeps two CORE wheel droplet layers (2 x 2 particles) at every LOD; the mist wake is drawn by the Game wake strip")
 
 
 static func _test_twenty_rain_spray_instances_stay_below_weather_particle_wall(tests: TestAssert) -> void:
@@ -51,7 +51,7 @@ static func _test_twenty_rain_spray_instances_stay_below_weather_particle_wall(t
 		var projection = projection_script.new().project([workload], scenario) if projection_script != null and workload != null else null
 		var values: Array = expected[lod_level]
 		matches = matches and projection != null and projection.expanded_instance_count() == values[0] and projection.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Twenty Rain Tire Wake instances project to 80 continuous sheets at every LOD without optional detail layers")
+	tests.expect_true(matches, "Twenty Rain Tire Spray instances project to 80 wheel droplets at every LOD")
 
 
 static func _rain_plan() -> RefCounted:

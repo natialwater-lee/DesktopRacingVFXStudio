@@ -12,25 +12,22 @@ const VfxExportCompilerModel := preload("res://src/export/vfx_export_compiler.gd
 
 
 static func run(tests: TestAssert) -> void:
-	_test_snow_mist_textures_are_allow_listed_for_production_export(tests)
+	_test_snow_chunk_texture_is_allow_listed_for_production_export(tests)
 	_test_snow_tire_spray_compiles_without_invoking_package_writer(tests)
 
 
-static func _test_snow_mist_textures_are_allow_listed_for_production_export(tests: TestAssert) -> void:
+static func _test_snow_chunk_texture_is_allow_listed_for_production_export(tests: TestAssert) -> void:
 	var registry := VfxExportAssetRegistryModel.new()
 	var loaded: VfxResult = registry.load()
-	var right: VfxResult = registry.resolve_exportable("fx.snow_tire_mist_right") if loaded.success else VfxResult.failure(loaded.issues)
-	var left: VfxResult = registry.resolve_exportable("fx.snow_tire_mist_left") if loaded.success else VfxResult.failure(loaded.issues)
+	var chunk: VfxResult = registry.resolve_exportable("fx.weather_snow_chunk") if loaded.success else VfxResult.failure(loaded.issues)
 	tests.expect_true(
-		loaded.success \
-		and right.success and left.success \
-		and right.value.get("export_policy") == "EXPORTABLE" and left.value.get("export_policy") == "EXPORTABLE" \
-		and right.value.get("kind") == "TEXTURE_PNG" and left.value.get("kind") == "TEXTURE_PNG" \
-		and right.value.get("source_path") == "res://assets/vfx/snow_tire_mist_right.png" \
-		and left.value.get("source_path") == "res://assets/vfx/snow_tire_mist_left.png" \
-		and right.value.get("package_file_name") == "snow_tire_mist_right.png" \
-		and left.value.get("package_file_name") == "snow_tire_mist_left.png",
-		"Snow Tire Mist explicitly allow-lists its mirrored side-specific production PNG assets"
+		loaded.success
+		and chunk.success
+		and chunk.value.get("export_policy") == "EXPORTABLE"
+		and chunk.value.get("kind") == "TEXTURE_PNG"
+		and chunk.value.get("source_path") == "res://assets/vfx/weather_snow_chunk.png"
+		and chunk.value.get("package_file_name") == "weather_snow_chunk.png",
+		"Snow Tire Roost explicitly allow-lists the snow chunk production PNG asset"
 	)
 
 
@@ -38,17 +35,19 @@ static func _test_snow_tire_spray_compiles_without_invoking_package_writer(tests
 	var document_result: VfxResult = VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/driving.snow_tire_spray.vfx.json")
 	var compiler_result := _compiler()
 	if not document_result.success or not compiler_result.success:
-		tests.expect_true(false, "Snow Tire Mist export compile-only test requires a valid Preset and configured compiler")
+		tests.expect_true(false, "Snow Tire Roost export compile-only test requires a valid Preset and configured compiler")
 		return
 	var compiled: VfxResult = compiler_result.value.compile(document_result.value)
-	var dependencies: Array = compiled.value.manifest_data().get("asset_dependencies", []) if compiled.success else []
+	var manifest: Dictionary = compiled.value.manifest_data() if compiled.success else {}
+	var dependencies: Array = manifest.get("asset_dependencies", [])
 	var logical_ids := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("logical_id", "")))
 	var paths := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("package_path", "")))
 	tests.expect_true(
-		compiled.success \
-		and logical_ids == ["fx.snow_tire_mist_left", "fx.snow_tire_mist_right"] \
-		and paths == ["assets/snow_tire_mist_left.png", "assets/snow_tire_mist_right.png"],
-		"Snow Tire Mist compile-only output derives only its safe mirrored powder-mist PNG dependencies without calling the Package writer"
+		compiled.success
+		and logical_ids == ["fx.weather_snow_chunk"]
+		and paths == ["assets/weather_snow_chunk.png"]
+		and int(manifest.get("runtime_definition", {}).get("version", 0)) == 1,
+		"Snow Tire Roost compile-only output is a Runtime v1 package that depends only on the snow chunk PNG, without calling the Package writer"
 	)
 
 

@@ -99,42 +99,6 @@
       "source_path": "res://assets/vfx/speed_wind_streak.png",
       "package_file_name": "speed_wind_streak.png"
     },
-    "fx.rain_tire_spray": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/rain_tire_spray.png",
-      "package_file_name": "rain_tire_spray.png"
-    },
-    "fx.rain_tire_spray_left": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/rain_tire_spray_left.png",
-      "package_file_name": "rain_tire_spray_left.png"
-    },
-    "fx.rain_tire_wake_right": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/rain_tire_wake_right.png",
-      "package_file_name": "rain_tire_wake_right.png"
-    },
-    "fx.rain_tire_wake_left": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/rain_tire_wake_left.png",
-      "package_file_name": "rain_tire_wake_left.png"
-    },
-    "fx.snow_tire_mist_right": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/snow_tire_mist_right.png",
-      "package_file_name": "snow_tire_mist_right.png"
-    },
-    "fx.snow_tire_mist_left": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/snow_tire_mist_left.png",
-      "package_file_name": "snow_tire_mist_left.png"
-    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
@@ -152,6 +116,24 @@
       "kind": "TEXTURE_PNG",
       "source_path": "res://assets/vfx/zero_zone_focus_mote.png",
       "package_file_name": "zero_zone_focus_mote.png"
+    },
+    "fx.night_vision_scan_arc": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_night_vision_scan_arc.png",
+      "package_file_name": "talent_night_vision_scan_arc.png"
+    },
+    "fx.weather_rain_droplet": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/weather_rain_droplet.png",
+      "package_file_name": "weather_rain_droplet.png"
+    },
+    "fx.weather_snow_chunk": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/weather_snow_chunk.png",
+      "package_file_name": "weather_snow_chunk.png"
     },
     "fx.confetti_square": {
       "export_policy": "PROCEDURAL",

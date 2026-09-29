@@ -1,259 +1,14 @@
 {
   "category": "WEATHER",
   "default_space_mode": "VEHICLE_LOCAL",
-  "display_name": "Snow Tire Mist",
+  "display_name": "Snow Tire Roost",
   "lifecycle": {
     "mode": "START_LOOP_END"
   },
   "phases": {
     "end": {
-      "duration_seconds": 0.7,
-      "layers": [
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.front_right_mist_dissipate",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.17,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 148.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.53,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 1.1,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 190.0,
-            "rotation_min_degrees": 190.0,
-            "size_end": 150.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_left"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "offset": [
-              40.0,
-              -124.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.rear_right_mist_dissipate",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.17,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 148.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.53,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 1.1,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 190.0,
-            "rotation_min_degrees": 190.0,
-            "size_end": 150.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_left"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "offset": [
-              41.0,
-              117.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.front_left_mist_dissipate",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.17,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 212.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.53,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 1.1,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 170.0,
-            "rotation_min_degrees": 170.0,
-            "size_end": 150.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_right"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2.0,
-          "transform": {
-            "offset": [
-              -40.0,
-              -124.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.rear_left_mist_dissipate",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.17,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 212.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.53,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 1.1,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 170.0,
-            "rotation_min_degrees": 170.0,
-            "size_end": 150.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_right"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 3.0,
-          "transform": {
-            "offset": [
-              -41.0,
-              117.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        }
-      ]
+      "duration_seconds": 0.3,
+      "layers": []
     },
     "loop": {
       "layers": [
@@ -263,52 +18,54 @@
           ],
           "blend_mode": "ALPHA",
           "enabled": true,
-          "id": "loop.front_right_mist",
+          "id": "loop.left_chunks",
           "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.11,
-            "alpha_start": 0.24,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 240.0,
+            "angular_velocity_min_degrees_per_second": 90.0,
             "color_rgba": [
-              0.92,
-              0.96,
+              1.0,
+              1.0,
               1.0,
               1.0
             ],
-            "direction_degrees": 148.0,
+            "direction_degrees": 210.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.75,
+            "emission_rate_per_second": 5.0,
             "emitter": {
               "shape": "BOX",
               "size": [
-                18.0,
-                26.0
+                20.0,
+                10.0
               ]
             },
-            "lifetime_seconds": 1.2,
+            "lifetime_seconds": 0.5,
             "max_particles": 2.0,
-            "rotation_max_degrees": 190.0,
-            "rotation_min_degrees": 190.0,
-            "size_end": 120.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_left"
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 9.0,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.85,
+            "size_start": 20.0,
+            "speed_max": 340.0,
+            "speed_min": 220.0,
+            "spread_degrees": 40.0,
+            "sprite_asset_ref": "fx.weather_snow_chunk"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0.0,
           "transform": {
             "offset": [
-              40.0,
-              -124.0
+              -84.0,
+              172.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -324,174 +81,54 @@
           ],
           "blend_mode": "ALPHA",
           "enabled": true,
-          "id": "loop.rear_right_mist",
+          "id": "loop.right_chunks",
           "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
           "parameters": {
             "acceleration": [
               0.0,
               0.0
             ],
-            "alpha_end": 0.11,
-            "alpha_start": 0.24,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 240.0,
+            "angular_velocity_min_degrees_per_second": 90.0,
             "color_rgba": [
-              0.92,
-              0.96,
+              1.0,
+              1.0,
               1.0,
               1.0
             ],
-            "direction_degrees": 148.0,
+            "direction_degrees": 150.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.75,
+            "emission_rate_per_second": 5.0,
             "emitter": {
               "shape": "BOX",
               "size": [
-                18.0,
-                26.0
+                20.0,
+                10.0
               ]
             },
-            "lifetime_seconds": 1.2,
+            "lifetime_seconds": 0.5,
             "max_particles": 2.0,
-            "rotation_max_degrees": 190.0,
-            "rotation_min_degrees": 190.0,
-            "size_end": 120.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_left"
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 9.0,
+            "size_multiplier_max": 1.15,
+            "size_multiplier_min": 0.85,
+            "size_start": 20.0,
+            "speed_max": 340.0,
+            "speed_min": 220.0,
+            "spread_degrees": 40.0,
+            "sprite_asset_ref": "fx.weather_snow_chunk"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
+          "sort_order": 0.0,
           "transform": {
             "offset": [
-              41.0,
-              117.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.front_left_mist",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.11,
-            "alpha_start": 0.24,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 212.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.75,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 1.2,
-            "max_particles": 2.0,
-            "rotation_max_degrees": 170.0,
-            "rotation_min_degrees": 170.0,
-            "size_end": 120.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_right"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2.0,
-          "transform": {
-            "offset": [
-              -40.0,
-              -124.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.rear_left_mist",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.11,
-            "alpha_start": 0.24,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 212.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.75,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 1.2,
-            "max_particles": 2.0,
-            "rotation_max_degrees": 170.0,
-            "rotation_min_degrees": 170.0,
-            "size_end": 120.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 120.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_right"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 3.0,
-          "transform": {
-            "offset": [
-              -41.0,
-              117.0
+              84.0,
+              172.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -504,253 +141,8 @@
       ]
     },
     "start": {
-      "duration_seconds": 0.6,
-      "layers": [
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "start.front_right_mist_entry",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.09,
-            "alpha_start": 0.19,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 148.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.77,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 0.95,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 190.0,
-            "rotation_min_degrees": 190.0,
-            "size_end": 140.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 115.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_left"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "offset": [
-              40.0,
-              -124.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "start.rear_right_mist_entry",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.09,
-            "alpha_start": 0.19,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 148.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.77,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 0.95,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 190.0,
-            "rotation_min_degrees": 190.0,
-            "size_end": 140.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 115.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_left"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "offset": [
-              41.0,
-              117.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "start.front_left_mist_entry",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.09,
-            "alpha_start": 0.19,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 212.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.77,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 0.95,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 170.0,
-            "rotation_min_degrees": 170.0,
-            "size_end": 140.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 115.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_right"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2.0,
-          "transform": {
-            "offset": [
-              -40.0,
-              -124.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "start.rear_left_mist_entry",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.09,
-            "alpha_start": 0.19,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              0.92,
-              0.96,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 212.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.77,
-            "emitter": {
-              "shape": "BOX",
-              "size": [
-                18.0,
-                26.0
-              ]
-            },
-            "lifetime_seconds": 0.95,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 170.0,
-            "rotation_min_degrees": 170.0,
-            "size_end": 140.0,
-            "size_multiplier_max": 1.1,
-            "size_multiplier_min": 0.95,
-            "size_start": 115.0,
-            "speed_max": 140.0,
-            "speed_min": 80.0,
-            "spread_degrees": 22.0,
-            "sprite_asset_ref": "fx.snow_tire_mist_right"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 3.0,
-          "transform": {
-            "offset": [
-              -41.0,
-              117.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        }
-      ]
+      "duration_seconds": 0.05,
+      "layers": []
     }
   },
   "preset_id": "driving.snow_tire_spray",

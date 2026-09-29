@@ -8,16 +8,16 @@ const VfxPreviewRenderPlanBuilderModel := preload("res://src/preview/rendering/v
 
 
 static func run(tests: TestAssert) -> void:
-	_test_snow_mist_lod_stays_within_two_wheel_band_budget(tests)
-	_test_twenty_snow_mist_instances_stay_below_weather_particle_wall(tests)
+	_test_snow_roost_lod_stays_within_two_wheel_budget(tests)
+	_test_twenty_snow_roost_instances_stay_below_weather_particle_wall(tests)
 
 
-static func _test_snow_mist_lod_stays_within_two_wheel_band_budget(tests: TestAssert) -> void:
-	var expected := {"HIGH": [4, 8], "MEDIUM": [4, 8], "LOW": [4, 8]}
+static func _test_snow_roost_lod_stays_within_two_wheel_budget(tests: TestAssert) -> void:
+	var expected := {"HIGH": [2, 4], "MEDIUM": [2, 4], "LOW": [2, 4]}
 	var policy_result := _policy_result()
 	var plan := _snow_plan()
 	if not policy_result.success or plan == null:
-		tests.expect_true(false, "Snow Tire Mist LOD budget requires a valid policy and Preset render plan")
+		tests.expect_true(false, "Snow Tire Roost LOD budget requires a valid policy and Preset render plan")
 		return
 	var filter := load("res://src/performance/vfx_preview_lod_filter.gd") as Script
 	var analyzer := load("res://src/performance/vfx_performance_budget_analyzer.gd") as Script
@@ -28,15 +28,15 @@ static func _test_snow_mist_lod_stays_within_two_wheel_band_budget(tests: TestAs
 		var workload = budget_result.value.active_workload() if budget_result.success else null
 		var values: Array = expected[lod_level]
 		matches = matches and workload != null and workload.expanded_instance_count() == values[0] and workload.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Snow Tire Mist keeps four continuous CORE wheel plumes at every LOD for a capped translucent weather workload")
+	tests.expect_true(matches, "Snow Tire Roost keeps two CORE wheel chunk layers (2 x 2 particles) at every LOD; the powder wake is drawn by the Game wake strip")
 
 
-static func _test_twenty_snow_mist_instances_stay_below_weather_particle_wall(tests: TestAssert) -> void:
-	var expected := {"HIGH": [80, 160], "MEDIUM": [80, 160], "LOW": [80, 160]}
+static func _test_twenty_snow_roost_instances_stay_below_weather_particle_wall(tests: TestAssert) -> void:
+	var expected := {"HIGH": [40, 80], "MEDIUM": [40, 80], "LOW": [40, 80]}
 	var policy_result := _policy_result()
 	var plan := _snow_plan()
 	if not policy_result.success or plan == null:
-		tests.expect_true(false, "Snow Tire Mist stress projection requires a valid policy and Preset render plan")
+		tests.expect_true(false, "Snow Tire Roost stress projection requires a valid policy and Preset render plan")
 		return
 	var filter := load("res://src/performance/vfx_preview_lod_filter.gd") as Script
 	var analyzer := load("res://src/performance/vfx_performance_budget_analyzer.gd") as Script
@@ -51,7 +51,7 @@ static func _test_twenty_snow_mist_instances_stay_below_weather_particle_wall(te
 		var projection = projection_script.new().project([workload], scenario) if projection_script != null and workload != null else null
 		var values: Array = expected[lod_level]
 		matches = matches and projection != null and projection.expanded_instance_count() == values[0] and projection.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Twenty Snow Tire Mist instances project to 160 continuous wheel-mist particles at every LOD without optional detail layers")
+	tests.expect_true(matches, "Twenty Snow Tire Roost instances project to 80 wheel chunks at every LOD")
 
 
 static func _snow_plan() -> RefCounted:

@@ -67,30 +67,6 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/speed_wind_streak.png"
     },
-    "fx.rain_tire_spray": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/rain_tire_spray.png"
-    },
-    "fx.rain_tire_spray_left": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/rain_tire_spray_left.png"
-    },
-    "fx.rain_tire_wake_right": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/rain_tire_wake_right.png"
-    },
-    "fx.rain_tire_wake_left": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/rain_tire_wake_left.png"
-    },
-    "fx.snow_tire_mist_right": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/snow_tire_mist_right.png"
-    },
-    "fx.snow_tire_mist_left": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/snow_tire_mist_left.png"
-    },
     "fx.zero_zone_flow_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"
@@ -102,6 +78,18 @@
     "fx.zero_zone_focus_mote": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_focus_mote.png"
+    },
+    "fx.night_vision_scan_arc": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_night_vision_scan_arc.png"
+    },
+    "fx.weather_rain_droplet": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/weather_rain_droplet.png"
+    },
+    "fx.weather_snow_chunk": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/weather_snow_chunk.png"
     },
     "fx.confetti_square": {
       "source": "PROCEDURAL",

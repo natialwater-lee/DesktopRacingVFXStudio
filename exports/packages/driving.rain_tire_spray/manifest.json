@@ -1,40 +1,28 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 18706,
+      "byte_size": 777,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.rain_tire_wake_left",
-      "package_path": "assets/rain_tire_wake_left.png",
-      "sha256": "f9635d42fb42f399eb05d8c724fbc8e03837b3fad0fc27c2a117d8c0d01fe56d"
-    },
-    {
-      "byte_size": 18711,
-      "kind": "TEXTURE_PNG",
-      "logical_id": "fx.rain_tire_wake_right",
-      "package_path": "assets/rain_tire_wake_right.png",
-      "sha256": "b7f23b2d4378ae378e77fba078f1a185b6ada57fa0a07785f0ded6c9a9891977"
+      "logical_id": "fx.weather_rain_droplet",
+      "package_path": "assets/weather_rain_droplet.png",
+      "sha256": "8885cceb3ba555031bb9c9134af42f65cfabd05b0a9fc8586daaf040761d4fe0"
     }
   ],
   "files": [
     {
-      "byte_size": 18706,
-      "path": "assets/rain_tire_wake_left.png",
-      "sha256": "f9635d42fb42f399eb05d8c724fbc8e03837b3fad0fc27c2a117d8c0d01fe56d"
+      "byte_size": 777,
+      "path": "assets/weather_rain_droplet.png",
+      "sha256": "8885cceb3ba555031bb9c9134af42f65cfabd05b0a9fc8586daaf040761d4fe0"
     },
     {
-      "byte_size": 18711,
-      "path": "assets/rain_tire_wake_right.png",
-      "sha256": "b7f23b2d4378ae378e77fba078f1a185b6ada57fa0a07785f0ded6c9a9891977"
-    },
-    {
-      "byte_size": 10695,
+      "byte_size": 4188,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "13a9678f9e49191af94664fb70b133116ec17497f0672af6750086cdd7b370da"
+      "sha256": "378caa623695bd0ba7318c9d4c48483233f7d22e51271ff3852e96bdf3c34323"
     },
     {
-      "byte_size": 10198,
+      "byte_size": 3975,
       "path": "source/driving.rain_tire_spray.vfx.json",
-      "sha256": "538afde1d1c9960c3fb439507182955cd6bed4baca24a80ef7aa94cb40d7186c"
+      "sha256": "260800880502266e84cf459cf81b6c3a42de1666030fa7aa1836f6cc333899c9"
     }
   ],
   "package_format_version": 1,
@@ -42,14 +30,14 @@
   "preset": {
     "category": "WEATHER",
     "default_space_mode": "VEHICLE_LOCAL",
-    "display_name": "Rain Tire Wake",
+    "display_name": "Rain Tire Spray",
     "lifecycle_mode": "START_LOOP_END",
     "preset_id": "driving.rain_tire_spray",
     "vfx_schema_version": 1
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 6,
+      "CORE": 2,
       "DETAIL": 0,
       "EXTRA": 0
     },
@@ -59,14 +47,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 10695,
+    "byte_size": 4188,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "13a9678f9e49191af94664fb70b133116ec17497f0672af6750086cdd7b370da",
+    "sha256": "378caa623695bd0ba7318c9d4c48483233f7d22e51271ff3852e96bdf3c34323",
     "version": 1
   },
   "source": {
-    "byte_size": 10198,
+    "byte_size": 3975,
     "path": "source/driving.rain_tire_spray.vfx.json",
-    "sha256": "538afde1d1c9960c3fb439507182955cd6bed4baca24a80ef7aa94cb40d7186c"
+    "sha256": "260800880502266e84cf459cf81b6c3a42de1666030fa7aa1836f6cc333899c9"
   }
 }

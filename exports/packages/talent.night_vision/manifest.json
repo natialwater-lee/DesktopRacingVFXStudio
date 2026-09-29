@@ -1,0 +1,60 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 73144,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.night_vision_scan_arc",
+      "package_path": "assets/talent_night_vision_scan_arc.png",
+      "sha256": "4abc6be13bb4c290f9a2af6816a83998bf05530e936741bc2d407b84222381f5"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 73144,
+      "path": "assets/talent_night_vision_scan_arc.png",
+      "sha256": "4abc6be13bb4c290f9a2af6816a83998bf05530e936741bc2d407b84222381f5"
+    },
+    {
+      "byte_size": 7408,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "a52f49e7e25dba30677789c4639313baacadb71a213d32f3a1e9847b6ce4bb61"
+    },
+    {
+      "byte_size": 6911,
+      "path": "source/talent.night_vision.vfx.json",
+      "sha256": "e17dad38f38dad24fb223c2b31d15d8df5535a27886df8b5b37bcef30368b784"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.night_vision",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Night Vision",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.night_vision",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 3,
+      "DETAIL": 3,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 7408,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "a52f49e7e25dba30677789c4639313baacadb71a213d32f3a1e9847b6ce4bb61",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 6911,
+    "path": "source/talent.night_vision.vfx.json",
+    "sha256": "e17dad38f38dad24fb223c2b31d15d8df5535a27886df8b5b37bcef30368b784"
+  }
+}

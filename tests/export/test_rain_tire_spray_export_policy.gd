@@ -12,48 +12,22 @@ const VfxExportCompilerModel := preload("res://src/export/vfx_export_compiler.gd
 
 
 static func run(tests: TestAssert) -> void:
-	_test_legacy_rain_spray_textures_remain_allow_listed_for_production_export(tests)
-	_test_rain_wake_textures_are_allow_listed_for_production_export(tests)
+	_test_rain_droplet_texture_is_allow_listed_for_production_export(tests)
 	_test_rain_tire_spray_compiles_without_invoking_package_writer(tests)
 
 
-static func _test_legacy_rain_spray_textures_remain_allow_listed_for_production_export(tests: TestAssert) -> void:
+static func _test_rain_droplet_texture_is_allow_listed_for_production_export(tests: TestAssert) -> void:
 	var registry := VfxExportAssetRegistryModel.new()
 	var loaded: VfxResult = registry.load()
-	var right: VfxResult = registry.resolve_exportable("fx.rain_tire_spray") if loaded.success else VfxResult.failure(loaded.issues)
-	var left: VfxResult = registry.resolve_exportable("fx.rain_tire_spray_left") if loaded.success else VfxResult.failure(loaded.issues)
+	var droplet: VfxResult = registry.resolve_exportable("fx.weather_rain_droplet") if loaded.success else VfxResult.failure(loaded.issues)
 	tests.expect_true(
 		loaded.success
-		and right.success and left.success
-		and right.value.get("export_policy") == "EXPORTABLE"
-		and left.value.get("export_policy") == "EXPORTABLE"
-		and right.value.get("kind") == "TEXTURE_PNG"
-		and left.value.get("kind") == "TEXTURE_PNG"
-		and right.value.get("source_path") == "res://assets/vfx/rain_tire_spray.png"
-		and left.value.get("source_path") == "res://assets/vfx/rain_tire_spray_left.png"
-		and right.value.get("package_file_name") == "rain_tire_spray.png"
-		and left.value.get("package_file_name") == "rain_tire_spray_left.png",
-		"Rain Tire Spray explicitly allow-lists two side-specific production PNG assets"
-	)
-
-
-static func _test_rain_wake_textures_are_allow_listed_for_production_export(tests: TestAssert) -> void:
-	var registry := VfxExportAssetRegistryModel.new()
-	var loaded: VfxResult = registry.load()
-	var right: VfxResult = registry.resolve_exportable("fx.rain_tire_wake_right") if loaded.success else VfxResult.failure(loaded.issues)
-	var left: VfxResult = registry.resolve_exportable("fx.rain_tire_wake_left") if loaded.success else VfxResult.failure(loaded.issues)
-	tests.expect_true(
-		loaded.success
-		and right.success and left.success
-		and right.value.get("export_policy") == "EXPORTABLE"
-		and left.value.get("export_policy") == "EXPORTABLE"
-		and right.value.get("kind") == "TEXTURE_PNG"
-		and left.value.get("kind") == "TEXTURE_PNG"
-		and right.value.get("source_path") == "res://assets/vfx/rain_tire_wake_right.png"
-		and left.value.get("source_path") == "res://assets/vfx/rain_tire_wake_left.png"
-		and right.value.get("package_file_name") == "rain_tire_wake_right.png"
-		and left.value.get("package_file_name") == "rain_tire_wake_left.png",
-		"Rain Tire Wake explicitly allow-lists two side-specific production PNG assets"
+		and droplet.success
+		and droplet.value.get("export_policy") == "EXPORTABLE"
+		and droplet.value.get("kind") == "TEXTURE_PNG"
+		and droplet.value.get("source_path") == "res://assets/vfx/weather_rain_droplet.png"
+		and droplet.value.get("package_file_name") == "weather_rain_droplet.png",
+		"Rain Tire Spray explicitly allow-lists the droplet production PNG asset"
 	)
 
 
@@ -64,14 +38,16 @@ static func _test_rain_tire_spray_compiles_without_invoking_package_writer(tests
 		tests.expect_true(false, "Rain Tire Spray export compile-only test requires a valid Preset and configured compiler")
 		return
 	var compiled: VfxResult = compiler_result.value.compile(document_result.value)
-	var dependencies: Array = compiled.value.manifest_data().get("asset_dependencies", []) if compiled.success else []
+	var manifest: Dictionary = compiled.value.manifest_data() if compiled.success else {}
+	var dependencies: Array = manifest.get("asset_dependencies", [])
 	var logical_ids := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("logical_id", "")))
 	var paths := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("package_path", "")))
 	tests.expect_true(
 		compiled.success
-		and logical_ids == ["fx.rain_tire_wake_left", "fx.rain_tire_wake_right"]
-		and paths == ["assets/rain_tire_wake_left.png", "assets/rain_tire_wake_right.png"],
-		"Rain Tire Wake compile-only output derives only the new safe side-specific wake PNG dependencies without calling the Package writer"
+		and logical_ids == ["fx.weather_rain_droplet"]
+		and paths == ["assets/weather_rain_droplet.png"]
+		and int(manifest.get("runtime_definition", {}).get("version", 0)) == 1,
+		"Rain Tire Spray compile-only output is a Runtime v1 package that depends only on the droplet PNG, without calling the Package writer"
 	)
 
 

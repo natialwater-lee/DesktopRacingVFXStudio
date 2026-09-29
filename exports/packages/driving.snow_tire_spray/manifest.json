@@ -1,40 +1,28 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 48868,
+      "byte_size": 1530,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.snow_tire_mist_left",
-      "package_path": "assets/snow_tire_mist_left.png",
-      "sha256": "fd6c264bcaf5e9feacd57ea1c28db974df4c65f938d95bc6c5b5191dc65a6518"
-    },
-    {
-      "byte_size": 46935,
-      "kind": "TEXTURE_PNG",
-      "logical_id": "fx.snow_tire_mist_right",
-      "package_path": "assets/snow_tire_mist_right.png",
-      "sha256": "fe6e0ddad6fd0b486bee6f45c8ff8c7e6a96e0a3f073820fd98603ea3dcf8c1a"
+      "logical_id": "fx.weather_snow_chunk",
+      "package_path": "assets/weather_snow_chunk.png",
+      "sha256": "3600f98305a6dc9a358f17dd877277eb7da3f7802919261d7007b5423500f04c"
     }
   ],
   "files": [
     {
-      "byte_size": 48868,
-      "path": "assets/snow_tire_mist_left.png",
-      "sha256": "fd6c264bcaf5e9feacd57ea1c28db974df4c65f938d95bc6c5b5191dc65a6518"
+      "byte_size": 1530,
+      "path": "assets/weather_snow_chunk.png",
+      "sha256": "3600f98305a6dc9a358f17dd877277eb7da3f7802919261d7007b5423500f04c"
     },
     {
-      "byte_size": 46935,
-      "path": "assets/snow_tire_mist_right.png",
-      "sha256": "fe6e0ddad6fd0b486bee6f45c8ff8c7e6a96e0a3f073820fd98603ea3dcf8c1a"
-    },
-    {
-      "byte_size": 21726,
+      "byte_size": 4188,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "8f1fb3c79e365d1ffa944879cbee0faef3432cbe7aecbd7d6d614f93e7ff6670"
+      "sha256": "9c4f21817fbe2a05b4e2c10326bdd7a869cf3b473839dd0eccf924c5bf263d93"
     },
     {
-      "byte_size": 20995,
+      "byte_size": 3975,
       "path": "source/driving.snow_tire_spray.vfx.json",
-      "sha256": "06dbcb421dc3bf29427093ab6d0b59b6cc34e1cc6ac0d05827810d2034c4a584"
+      "sha256": "954916c5bb6f33bc5e389dc58ae7ca136682cc793df5300b2f208930afdfd084"
     }
   ],
   "package_format_version": 1,
@@ -42,14 +30,14 @@
   "preset": {
     "category": "WEATHER",
     "default_space_mode": "VEHICLE_LOCAL",
-    "display_name": "Snow Tire Mist",
+    "display_name": "Snow Tire Roost",
     "lifecycle_mode": "START_LOOP_END",
     "preset_id": "driving.snow_tire_spray",
     "vfx_schema_version": 1
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 12,
+      "CORE": 2,
       "DETAIL": 0,
       "EXTRA": 0
     },
@@ -59,14 +47,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 21726,
+    "byte_size": 4188,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "8f1fb3c79e365d1ffa944879cbee0faef3432cbe7aecbd7d6d614f93e7ff6670",
+    "sha256": "9c4f21817fbe2a05b4e2c10326bdd7a869cf3b473839dd0eccf924c5bf263d93",
     "version": 1
   },
   "source": {
-    "byte_size": 20995,
+    "byte_size": 3975,
     "path": "source/driving.snow_tire_spray.vfx.json",
-    "sha256": "06dbcb421dc3bf29427093ab6d0b59b6cc34e1cc6ac0d05827810d2034c4a584"
+    "sha256": "954916c5bb6f33bc5e389dc58ae7ca136682cc793df5300b2f208930afdfd084"
   }
 }
