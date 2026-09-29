@@ -44,6 +44,8 @@ func activate_phase(phase_name: String, frame_context: Dictionary) -> void:
 		if not renderer_script is Script:
 			continue
 		var renderer: RefCounted = renderer_script.new(instance, asset_result.value, null)
+		if layer_spec.layer_type() == "CURVE_FLOW" and layer_spec.parameters().profile_version == 2:
+			renderer.geometry = _plan.curve_geometry(layer_spec.parameters())
 		renderer.restart(frame_context)
 		_entries.append({"phase_name": phase_name, "renderer": renderer, "layer_id": layer_spec.layer_id(), "layer_spec": layer_spec, "effective_state": null})
 	_rebuild_runtime_modulation_for_renderer_entries()

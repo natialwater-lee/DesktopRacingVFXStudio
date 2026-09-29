@@ -13,6 +13,7 @@ var _registrations: Dictionary
 
 func _init(registrations: Variant = null) -> void:
 	_registrations = registrations.duplicate() if registrations is Dictionary else {
+		"CURVE_FLOW": preload("res://src/preview/curve_flow/vfx_curve_flow_layer_renderer.gd"),
 		"PARTICLE": ParticleRendererModel,
 		"TRAIL": TrailRendererModel,
 		"RING": RingRendererModel,

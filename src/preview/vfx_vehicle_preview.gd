@@ -318,7 +318,7 @@ func _present_render_packets() -> void:
 				routed[key] = {"host": host, "packets": []}
 			routed[key]["packets"].append(packet)
 	for host_entry in _render_hosts.values():
-		if host_entry is Node and host_entry.has_method("clear_packets"):
+		if host_entry is Node and host_entry.has_method("clear_packets") and not routed.has(str(host_entry.get_instance_id())):
 			host_entry.clear_packets()
 	for route in routed.values():
 		var host: Variant = route["host"]

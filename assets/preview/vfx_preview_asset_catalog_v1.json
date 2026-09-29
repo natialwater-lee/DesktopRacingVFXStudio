@@ -1,14 +1,8 @@
 {
   "catalog_version": 1,
   "assets": {
-    "fx.solo_run_rear_streak_left": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_solo_run_rear_streak_left.png"
-    },
-    "fx.solo_run_rear_streak_right": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_solo_run_rear_streak_right.png"
-    },
+    "fx.solo_run_flow_strand_v1": {"source": "TEXTURE", "import_as_resource": true, "texture_path": "res://assets/vfx/solo_run_flow_strand_v1.png"},
+    "fx.curve_flow_filaments_v1": {"source": "TEXTURE", "import_as_resource": true, "texture_path": "res://assets/vfx/curve_flow_filaments_v1.png"},
     "fx.photosynthesis_absorption_glow": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_photosynthesis_absorption_glow.png"
@@ -154,14 +148,6 @@
     "fx.preview_texture_fixture": {
       "source": "TEXTURE",
       "texture_path": "res://tests/fixtures/preview/texture_particle_test.png"
-    },
-    "fx.solo_run_side_stream_left": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_solo_run_side_stream_left.png"
-    },
-    "fx.solo_run_side_stream_right": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_solo_run_side_stream_right.png"
     }
   }
 }

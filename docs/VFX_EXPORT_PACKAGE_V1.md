@@ -1,11 +1,13 @@
 # VFX Export Package v1
 
+공용 작업 경계·확인 순서·인계 형식: [Game 공용 VFX 작업 안내](../../DesktopIdleRacing/docs/VFX_EXPORT_PACKAGE_V1.md#shared-vfx-workflow).
+
 ## Purpose and ownership
 
 A VFX Export Package is a deterministic, self-contained artifact produced by
 DesktopRacingVFXStudio from one **saved, contract-valid** `.vfx.json` Preset.
 The Preset source remains the authoring source of truth. A package is derived
-data for review and for a future DesktopIdleRacing importer/runtime.
+data for review and the DesktopIdleRacing importer/runtime.
 
 The direction is strictly one way:
 
@@ -15,7 +17,7 @@ DesktopRacingVFXStudio
   -> DesktopIdleRacing importer/runtime
 ```
 
-The Studio does not read, modify, or write into the game repository. An
+The Studio application/export pipeline does not depend on or write into the game repository. Agent read-only inspection follows the shared workflow linked above. An
 importer owns game resource creation, gameplay trigger timing, target results,
 ownership, and lifecycle activation. The Package contains no gameplay decision
 logic.

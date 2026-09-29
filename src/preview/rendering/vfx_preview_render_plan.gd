@@ -6,6 +6,7 @@ var _lifecycle_mode: String
 var _phase_plans: Array[RefCounted] = []
 var _revision: int
 var _runtime_modulation_program: RefCounted
+var _curve_geometry: Dictionary = {}
 
 
 func _init(preset_id_value: String, lifecycle_mode_value: String, phase_plan_values: Array, revision_value: int, runtime_modulation_program_value: RefCounted = null) -> void:
@@ -16,6 +17,16 @@ func _init(preset_id_value: String, lifecycle_mode_value: String, phase_plan_val
 			_phase_plans.append(phase_plan)
 	_revision = revision_value
 	_runtime_modulation_program = runtime_modulation_program_value
+	var geometry = preload("res://src/preview/curve_flow/vfx_curve_flow_static_geometry.gd")
+	for phase in _phase_plans:
+		for layer in phase.layer_specs():
+			if layer.layer_type() == "CURVE_FLOW" and layer.parameters().profile_version == 2:
+				var key: String = geometry.key(layer.parameters())
+				if not _curve_geometry.has(key): _curve_geometry[key] = geometry.prepare(layer.parameters())
+	_curve_geometry.make_read_only()
+
+func curve_geometry(parameters: Dictionary) -> RefCounted:
+	return _curve_geometry.get(preload("res://src/preview/curve_flow/vfx_curve_flow_static_geometry.gd").key(parameters))
 
 
 func preset_id() -> String:

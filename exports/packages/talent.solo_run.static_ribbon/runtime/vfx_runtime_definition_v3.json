@@ -1,0 +1,650 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.0,
+      "layers": [],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.side_left_0",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.88,
+            "cap": 3.0,
+            "curves": [
+              [
+                [
+                  -76.0,
+                  -247.0
+                ],
+                [
+                  -117.0,
+                  -207.0
+                ],
+                [
+                  -130.0,
+                  -35.0
+                ],
+                [
+                  -125.0,
+                  100.0
+                ]
+              ],
+              [
+                [
+                  -125.0,
+                  100.0
+                ],
+                [
+                  -120.0,
+                  235.0
+                ],
+                [
+                  -113.0,
+                  332.299987792969
+                ],
+                [
+                  -110.0,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.02,
+            "half_width": 45.0,
+            "interval": 0.47,
+            "length": 470.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1020.0,
+            "texture_asset_ref": "fx.solo_run_flow_strand_v1",
+            "texture_mode": "NATIVE_STRAND",
+            "texture_phase": 0.0
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.side_left_1",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.43,
+            "cap": 3.0,
+            "curves": [
+              [
+                [
+                  -85.0,
+                  -239.0
+                ],
+                [
+                  -127.0,
+                  -207.0
+                ],
+                [
+                  -140.0,
+                  -35.0
+                ],
+                [
+                  -135.0,
+                  100.0
+                ]
+              ],
+              [
+                [
+                  -135.0,
+                  100.0
+                ],
+                [
+                  -130.0,
+                  235.0
+                ],
+                [
+                  -123.0,
+                  332.299987792969
+                ],
+                [
+                  -120.0,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.19,
+            "half_width": 17.1,
+            "interval": 0.5,
+            "length": 330.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1077.0,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.137
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.side_left_2",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.27,
+            "cap": 3.0,
+            "curves": [
+              [
+                [
+                  -94.0,
+                  -231.0
+                ],
+                [
+                  -137.0,
+                  -207.0
+                ],
+                [
+                  -150.0,
+                  -35.0
+                ],
+                [
+                  -145.0,
+                  100.0
+                ]
+              ],
+              [
+                [
+                  -145.0,
+                  100.0
+                ],
+                [
+                  -140.0,
+                  235.0
+                ],
+                [
+                  -133.0,
+                  332.299987792969
+                ],
+                [
+                  -130.0,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.38,
+            "half_width": 13.5,
+            "interval": 0.53,
+            "length": 240.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1134.0,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.274
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.side_right_0",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.88,
+            "cap": 3.0,
+            "curves": [
+              [
+                [
+                  76.0,
+                  -247.0
+                ],
+                [
+                  117.0,
+                  -207.0
+                ],
+                [
+                  130.0,
+                  -35.0
+                ],
+                [
+                  125.0,
+                  100.0
+                ]
+              ],
+              [
+                [
+                  125.0,
+                  100.0
+                ],
+                [
+                  120.0,
+                  235.0
+                ],
+                [
+                  113.0,
+                  332.299987792969
+                ],
+                [
+                  110.0,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.11,
+            "half_width": 45.0,
+            "interval": 0.487,
+            "length": 470.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1041.0,
+            "texture_asset_ref": "fx.solo_run_flow_strand_v1",
+            "texture_mode": "NATIVE_STRAND",
+            "texture_phase": 0.411
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.side_right_1",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.43,
+            "cap": 3.0,
+            "curves": [
+              [
+                [
+                  85.0,
+                  -239.0
+                ],
+                [
+                  127.0,
+                  -207.0
+                ],
+                [
+                  140.0,
+                  -35.0
+                ],
+                [
+                  135.0,
+                  100.0
+                ]
+              ],
+              [
+                [
+                  135.0,
+                  100.0
+                ],
+                [
+                  130.0,
+                  235.0
+                ],
+                [
+                  123.0,
+                  332.299987792969
+                ],
+                [
+                  120.0,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.31,
+            "half_width": 17.1,
+            "interval": 0.517,
+            "length": 330.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1098.0,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.548
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.side_right_2",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.27,
+            "cap": 3.0,
+            "curves": [
+              [
+                [
+                  94.0,
+                  -231.0
+                ],
+                [
+                  137.0,
+                  -207.0
+                ],
+                [
+                  150.0,
+                  -35.0
+                ],
+                [
+                  145.0,
+                  100.0
+                ]
+              ],
+              [
+                [
+                  145.0,
+                  100.0
+                ],
+                [
+                  140.0,
+                  235.0
+                ],
+                [
+                  133.0,
+                  332.299987792969
+                ],
+                [
+                  130.0,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.49,
+            "half_width": 13.5,
+            "interval": 0.547,
+            "length": 240.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1155.0,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.685
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.top_left",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.34,
+            "cap": 2.0,
+            "curves": [
+              [
+                [
+                  -24.0,
+                  -225.0
+                ],
+                [
+                  -48.0,
+                  -130.0
+                ],
+                [
+                  -46.0,
+                  -30.0
+                ],
+                [
+                  -38.0,
+                  90.0
+                ]
+              ],
+              [
+                [
+                  -38.0,
+                  90.0
+                ],
+                [
+                  -30.0,
+                  210.0
+                ],
+                [
+                  -49.0,
+                  410.0
+                ],
+                [
+                  -73.0,
+                  608.0
+                ]
+              ]
+            ],
+            "delay": 0.26,
+            "half_width": 18.0,
+            "interval": 0.69,
+            "length": 340.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 985.0,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.822
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.top_right",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.34,
+            "cap": 2.0,
+            "curves": [
+              [
+                [
+                  24.0,
+                  -225.0
+                ],
+                [
+                  48.0,
+                  -130.0
+                ],
+                [
+                  46.0,
+                  -30.0
+                ],
+                [
+                  38.0,
+                  90.0
+                ]
+              ],
+              [
+                [
+                  38.0,
+                  90.0
+                ],
+                [
+                  30.0,
+                  210.0
+                ],
+                [
+                  49.0,
+                  410.0
+                ],
+                [
+                  73.0,
+                  608.0
+                ]
+              ]
+            ],
+            "delay": 0.57,
+            "half_width": 18.0,
+            "interval": 0.74,
+            "length": 385.0,
+            "profile_version": 2.0,
+            "seed": 0.0,
+            "speed": 1050.0,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.959
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "CURVE_FLOW"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.001,
+      "layers": [],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Solo Run Static Ribbon",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.solo_run.static_ribbon"
+  },
+  "required_capabilities": [
+    "CURVE_FLOW_STATIC_RIBBON_F2"
+  ],
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 3,
+  "runtime_inputs": []
+}

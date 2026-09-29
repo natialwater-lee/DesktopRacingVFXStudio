@@ -1,0 +1,609 @@
+{
+  "category": "UTILITY",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Curve Flow F1 Compatibility",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.001,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.side_left_0",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.88,
+            "cap": 3,
+            "curves": [
+              [
+                [
+                  -76,
+                  -247
+                ],
+                [
+                  -117,
+                  -207
+                ],
+                [
+                  -130,
+                  -35
+                ],
+                [
+                  -125,
+                  100
+                ]
+              ],
+              [
+                [
+                  -125,
+                  100
+                ],
+                [
+                  -120,
+                  235
+                ],
+                [
+                  -113,
+                  332.299987792969
+                ],
+                [
+                  -110,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.02,
+            "half_width": 30,
+            "interval": 0.47,
+            "length": 470,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1020,
+            "texture_asset_ref": "fx.solo_run_flow_strand_v1",
+            "texture_mode": "NATIVE_STRAND",
+            "texture_phase": 0
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.side_left_1",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.43,
+            "cap": 3,
+            "curves": [
+              [
+                [
+                  -85,
+                  -239
+                ],
+                [
+                  -127,
+                  -207
+                ],
+                [
+                  -140,
+                  -35
+                ],
+                [
+                  -135,
+                  100
+                ]
+              ],
+              [
+                [
+                  -135,
+                  100
+                ],
+                [
+                  -130,
+                  235
+                ],
+                [
+                  -123,
+                  332.299987792969
+                ],
+                [
+                  -120,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.19,
+            "half_width": 11.4,
+            "interval": 0.5,
+            "length": 330,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1077,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.137
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.side_left_2",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.27,
+            "cap": 3,
+            "curves": [
+              [
+                [
+                  -94,
+                  -231
+                ],
+                [
+                  -137,
+                  -207
+                ],
+                [
+                  -150,
+                  -35
+                ],
+                [
+                  -145,
+                  100
+                ]
+              ],
+              [
+                [
+                  -145,
+                  100
+                ],
+                [
+                  -140,
+                  235
+                ],
+                [
+                  -133,
+                  332.299987792969
+                ],
+                [
+                  -130,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.38,
+            "half_width": 9,
+            "interval": 0.53,
+            "length": 240,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1134,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.274
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.side_right_0",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.88,
+            "cap": 3,
+            "curves": [
+              [
+                [
+                  76,
+                  -247
+                ],
+                [
+                  117,
+                  -207
+                ],
+                [
+                  130,
+                  -35
+                ],
+                [
+                  125,
+                  100
+                ]
+              ],
+              [
+                [
+                  125,
+                  100
+                ],
+                [
+                  120,
+                  235
+                ],
+                [
+                  113,
+                  332.299987792969
+                ],
+                [
+                  110,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.11,
+            "half_width": 30,
+            "interval": 0.487,
+            "length": 470,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1041,
+            "texture_asset_ref": "fx.solo_run_flow_strand_v1",
+            "texture_mode": "NATIVE_STRAND",
+            "texture_phase": 0.411
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.side_right_1",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.43,
+            "cap": 3,
+            "curves": [
+              [
+                [
+                  85,
+                  -239
+                ],
+                [
+                  127,
+                  -207
+                ],
+                [
+                  140,
+                  -35
+                ],
+                [
+                  135,
+                  100
+                ]
+              ],
+              [
+                [
+                  135,
+                  100
+                ],
+                [
+                  130,
+                  235
+                ],
+                [
+                  123,
+                  332.299987792969
+                ],
+                [
+                  120,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.31,
+            "half_width": 11.4,
+            "interval": 0.517,
+            "length": 330,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1098,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.548
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.side_right_2",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.27,
+            "cap": 3,
+            "curves": [
+              [
+                [
+                  94,
+                  -231
+                ],
+                [
+                  137,
+                  -207
+                ],
+                [
+                  150,
+                  -35
+                ],
+                [
+                  145,
+                  100
+                ]
+              ],
+              [
+                [
+                  145,
+                  100
+                ],
+                [
+                  140,
+                  235
+                ],
+                [
+                  133,
+                  332.299987792969
+                ],
+                [
+                  130,
+                  397.299987792969
+                ]
+              ]
+            ],
+            "delay": 0.49,
+            "half_width": 9,
+            "interval": 0.547,
+            "length": 240,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1155,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.685
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.top_left",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.34,
+            "cap": 2,
+            "curves": [
+              [
+                [
+                  -24,
+                  -225
+                ],
+                [
+                  -48,
+                  -130
+                ],
+                [
+                  -46,
+                  -30
+                ],
+                [
+                  -38,
+                  90
+                ]
+              ],
+              [
+                [
+                  -38,
+                  90
+                ],
+                [
+                  -30,
+                  210
+                ],
+                [
+                  -49,
+                  410
+                ],
+                [
+                  -73,
+                  608
+                ]
+              ]
+            ],
+            "delay": 0.26,
+            "half_width": 12,
+            "interval": 0.69,
+            "length": 340,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 985,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.822
+          },
+          "render_plane": "OVER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "id": "loop.top_right",
+          "importance": "CORE",
+          "parameters": {
+            "brightness": 0.34,
+            "cap": 2,
+            "curves": [
+              [
+                [
+                  24,
+                  -225
+                ],
+                [
+                  48,
+                  -130
+                ],
+                [
+                  46,
+                  -30
+                ],
+                [
+                  38,
+                  90
+                ]
+              ],
+              [
+                [
+                  38,
+                  90
+                ],
+                [
+                  30,
+                  210
+                ],
+                [
+                  49,
+                  410
+                ],
+                [
+                  73,
+                  608
+                ]
+              ]
+            ],
+            "delay": 0.57,
+            "half_width": 12,
+            "interval": 0.74,
+            "length": 385,
+            "profile_version": 1,
+            "seed": 0,
+            "speed": 1050,
+            "texture_asset_ref": "fx.curve_flow_filaments_v1",
+            "texture_mode": "PROCEDURAL_RG",
+            "texture_phase": 0.959
+          },
+          "render_plane": "OVER_VEHICLE",
+          "transform": {
+            "offset": [
+              0,
+              0
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "CURVE_FLOW"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0,
+      "layers": []
+    }
+  },
+  "preset_id": "utility.fixture.curve_flow_f1",
+  "runtime_inputs": [],
+  "schema_version": 1
+}

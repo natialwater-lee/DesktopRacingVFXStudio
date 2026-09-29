@@ -85,7 +85,8 @@ func advance(delta_seconds: float) -> Dictionary:
 			if not routed.has(key):
 				routed[key] = {"host": host, "packets": []}
 			routed[key]["packets"].append(packet)
-	_clear_render_packets()
+	for host in _render_hosts.values():
+		if not routed.has(str(host.get_instance_id())): host.clear_packets()
 	for route in routed.values():
 		route["host"].apply_packets(route["packets"])
 	return facts

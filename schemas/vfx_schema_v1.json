@@ -51,6 +51,7 @@
     }
   },
   "$defs": {
+    "curve_flow_parameters": {"type":"object","additionalProperties":false,"required":["profile_version","curves","delay","interval","length","speed","cap","brightness","half_width","texture_mode","texture_phase","texture_asset_ref","seed"],"properties":{"profile_version":{"type":"integer","enum":[1,2]},"curves":{"type":"array","minItems":1,"maxItems":16,"items":{"type":"array","minItems":4,"maxItems":4,"items":{"$ref":"#/$defs/number_vector2"}}},"delay":{"type":"number","minimum":0,"maximum":60},"interval":{"type":"number","minimum":0.001,"maximum":60},"length":{"type":"number","minimum":0.001,"maximum":10000},"speed":{"type":"number","minimum":0.001,"maximum":10000},"cap":{"type":"integer","minimum":1,"maximum":64},"brightness":{"type":"number","minimum":0,"maximum":1},"half_width":{"type":"number","minimum":0.001,"maximum":1000},"texture_mode":{"type":"string","enum":["NATIVE_STRAND","PROCEDURAL_RG"]},"texture_phase":{"type":"number","minimum":0,"maximum":100},"texture_asset_ref":{"$ref":"#/$defs/logical_id"},"seed":{"type":"integer","enum":[0]}}},
     "logical_id": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
@@ -365,7 +366,7 @@
       "properties": {
         "duration_seconds": {
           "type": "number",
-          "minimum": 0.001
+          "minimum": 0.0
         },
         "layers": {
           "$ref": "#/$defs/phase_layers"
@@ -680,6 +681,7 @@
     }
   },
   "x_vfx_layer_types": {
+    "CURVE_FLOW": {"parameters_ref": "#/$defs/curve_flow_parameters"},
     "PARTICLE": {
       "parameters_ref": "#/$defs/particle_parameters"
     },

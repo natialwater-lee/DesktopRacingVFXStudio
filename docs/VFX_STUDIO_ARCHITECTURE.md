@@ -39,7 +39,7 @@ DesktopRacingVFXStudio
   -> DesktopIdleRacing importer/runtime
 ```
 
-The Studio must not read from, modify, format, stage, commit, or use the DesktopIdleRacing repository as an output directory. It owns authoring source, Studio reference assets, Preview Profiles, and derived export packages only. A DesktopIdleRacing-specific importer/runtime project is responsible for accepting an exported package and for gameplay activation, targets, ownership, and runtime lifecycle.
+The Studio application/export pipeline must not depend on the DesktopIdleRacing repository or use it as an output directory. Agent source inspection and editing boundaries follow the [shared VFX workflow](../../DesktopIdleRacing/docs/VFX_EXPORT_PACKAGE_V1.md#shared-vfx-workflow). It owns authoring source, Studio reference assets, Preview Profiles, and derived export packages only. A DesktopIdleRacing-specific importer/runtime project is responsible for accepting an exported package and for gameplay activation, targets, ownership, and runtime lifecycle.
 
 ## Phase 5 export package boundary
 

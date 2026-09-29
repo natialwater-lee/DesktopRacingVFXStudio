@@ -1,0 +1,125 @@
+{
+  "category": "UTILITY",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Particle Bend Compatibility",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.2,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.rear_flow_left",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 21.763595,
+              "min_effective": -21.763595,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.rear_flow_left.turn.bend",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 21.763595,
+                "output_min": -21.763595,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "acceleration": [
+              0,
+              0
+            ],
+            "alpha_end": 0,
+            "alpha_start": 0.72,
+            "angular_velocity_max_degrees_per_second": 0,
+            "angular_velocity_min_degrees_per_second": 0,
+            "color_rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "direction_degrees": 180,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.6,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                15,
+                12
+              ]
+            },
+            "lifetime_seconds": 0.55,
+            "max_particles": 1,
+            "rotation_max_degrees": 0,
+            "rotation_min_degrees": 0,
+            "size_end": 250,
+            "size_multiplier_max": 1,
+            "size_multiplier_min": 1,
+            "size_start": 270,
+            "speed_max": 130,
+            "speed_min": 115,
+            "spread_degrees": 2,
+            "sprite_asset_ref": "fx.solo_run_flow_strand_v1"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0,
+              -192
+            ],
+            "offset": [
+              -6,
+              355.5
+            ],
+            "rotation_degrees": 0,
+            "scale": [
+              1,
+              1
+            ]
+          },
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 384,
+            "start_ratio": 0.333333333
+          }
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.18,
+      "layers": []
+    }
+  },
+  "preset_id": "utility.fixture.particle_bend",
+  "runtime_inputs": [
+    "turn_rate_normalized"
+  ],
+  "runtime_modulation_sources": [],
+  "schema_version": 1
+}

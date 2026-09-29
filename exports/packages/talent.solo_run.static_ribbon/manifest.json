@@ -1,0 +1,72 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 8561,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.curve_flow_filaments_v1",
+      "package_path": "assets/curve_flow_filaments_v1.png",
+      "sha256": "39a53177b7384c9afaa484db8f38a17379d7a685b53c4cfcf3913557f350eb56"
+    },
+    {
+      "byte_size": 39372,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.solo_run_flow_strand_v1",
+      "package_path": "assets/solo_run_flow_strand_v1.png",
+      "sha256": "fb65ed8e39452e78d677fa1875b9bda8669f9dbdcea28706a0903da3d8dae7ca"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 8561,
+      "path": "assets/curve_flow_filaments_v1.png",
+      "sha256": "39a53177b7384c9afaa484db8f38a17379d7a685b53c4cfcf3913557f350eb56"
+    },
+    {
+      "byte_size": 39372,
+      "path": "assets/solo_run_flow_strand_v1.png",
+      "sha256": "fb65ed8e39452e78d677fa1875b9bda8669f9dbdcea28706a0903da3d8dae7ca"
+    },
+    {
+      "byte_size": 15449,
+      "path": "runtime/vfx_runtime_definition_v3.json",
+      "sha256": "1dbde2a0ba4cb2489706e1fa16fe2c763dcf041b8224280a14f31a76bfec4a68"
+    },
+    {
+      "byte_size": 14358,
+      "path": "source/talent.solo_run.static_ribbon.vfx.json",
+      "sha256": "f6701808d2ffd0f8908963df6e35fb639c5bbe80e0af15106db245d48bd30b9f"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.solo_run.static_ribbon",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Solo Run Static Ribbon",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.solo_run.static_ribbon",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 8,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 15449,
+    "path": "runtime/vfx_runtime_definition_v3.json",
+    "sha256": "1dbde2a0ba4cb2489706e1fa16fe2c763dcf041b8224280a14f31a76bfec4a68",
+    "version": 3
+  },
+  "source": {
+    "byte_size": 14358,
+    "path": "source/talent.solo_run.static_ribbon.vfx.json",
+    "sha256": "f6701808d2ffd0f8908963df6e35fb639c5bbe80e0af15106db245d48bd30b9f"
+  }
+}

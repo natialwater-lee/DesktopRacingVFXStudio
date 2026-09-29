@@ -54,6 +54,9 @@ func restart(frame_context: Dictionary = {}) -> void:
 	_simulation_time_seconds = 0.0
 	_accumulator_seconds = 0.0
 	_active_phase = _initial_phase()
+	var initial: RefCounted = _plan.phase_named(_active_phase)
+	if _active_phase == "start" and initial != null and initial.has_duration() and initial.duration_seconds() == 0.0:
+		_active_phase = "loop"
 	_state = "PLAYING"
 	_runtime.activate_phase(_active_phase, _frame_context(frame_context))
 

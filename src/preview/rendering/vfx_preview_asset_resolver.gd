@@ -35,12 +35,21 @@ func _resolve_texture_asset(logical_id: String, definition: Dictionary) -> VfxRe
 	var texture_path := str(definition.get("texture_path", ""))
 	if texture_path.is_empty():
 		return _resolve_with_fallback(logical_id, "preview_asset_texture_path_missing", "TEXTURE Preview Asset has no texture_path: %s" % logical_id)
-	if not FileAccess.file_exists(texture_path):
+	# CURVE_FLOW assets use importable mipmapped Texture2D resources, also valid in PCK builds.
+	var use_imported := bool(definition.get("import_as_resource", false))
+	if use_imported and not ResourceLoader.exists(texture_path, "Texture2D"):
+		return VfxResult.failure([VfxIssue.new("PREVIEW_ASSET", "imported_texture_missing", "Required imported texture is missing: " + logical_id)])
+	if not use_imported and not FileAccess.file_exists(texture_path):
 		return _resolve_with_fallback(logical_id, "preview_asset_texture_load_failed", "TEXTURE Preview Asset cannot load texture_path: %s" % texture_path)
-	var image: Image = Image.load_from_file(ProjectSettings.globalize_path(texture_path))
+	var imported: Texture2D = load(texture_path) if use_imported else null
+	if use_imported and imported == null:
+		return VfxResult.failure([VfxIssue.new("PREVIEW_ASSET", "imported_texture_missing", "Required imported texture could not be loaded: " + logical_id)])
+	var image: Image = imported.get_image() if imported != null else Image.load_from_file(ProjectSettings.globalize_path(texture_path))
 	if image == null or image.is_empty():
+		if use_imported:
+			return VfxResult.failure([VfxIssue.new("PREVIEW_ASSET", "imported_texture_empty", "Required imported texture is empty: " + logical_id)])
 		return _resolve_with_fallback(logical_id, "preview_asset_texture_load_failed", "TEXTURE Preview Asset cannot create Texture2D: %s" % texture_path)
-	var texture := ImageTexture.create_from_image(image)
+	var texture: Texture2D = imported if imported != null else ImageTexture.create_from_image(image)
 	if texture == null:
 		return _resolve_with_fallback(logical_id, "preview_asset_texture_load_failed", "TEXTURE Preview Asset cannot create Texture2D: %s" % texture_path)
 	var texture_size := texture.get_size()

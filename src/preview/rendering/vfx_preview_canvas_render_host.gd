@@ -6,6 +6,7 @@ const VfxPreviewShieldArcHostModel := preload("res://src/preview/rendering/vfx_p
 var _packets: Array[Dictionary] = []
 var _trail_adapters: Dictionary = {}
 var _shield_adapters: Dictionary = {}
+var _curve_adapters: Dictionary = {}
 var _glow_texture: GradientTexture2D
 
 
@@ -23,11 +24,14 @@ func set_packets(packet_values: Array) -> void:
 	_packets.clear()
 	var trail_packets: Array[Dictionary] = []
 	var textured_shield_packets: Array[Dictionary] = []
+	var curve_packets: Array[Dictionary] = []
 	for packet_value in packet_values:
 		if not packet_value is Dictionary:
 			continue
 		var packet: Dictionary = packet_value.duplicate(true)
-		if packet.get("type") == "TRAIL":
+		if packet.get("type") == "CURVE_FLOW":
+			curve_packets.append(packet)
+		elif packet.get("type") == "TRAIL":
 			trail_packets.append(packet)
 		elif packet.get("type") == "SHIELD" and _has_texture(packet):
 			textured_shield_packets.append(packet)
@@ -35,11 +39,43 @@ func set_packets(packet_values: Array) -> void:
 			_packets.append(packet)
 	_sync_trail_adapters(trail_packets)
 	_sync_textured_shield_adapters(textured_shield_packets)
+	_sync_curve_adapters(curve_packets)
 	queue_redraw()
 
 
 func clear_packets() -> void:
 	set_packets([])
+
+func _sync_curve_adapters(packets: Array[Dictionary]) -> void:
+	var used := {}
+	for packet in packets:
+		var key := str(packet.layer_id) + (":static" if packet.has("curve_geometry") else ":dynamic")
+		used[key] = true
+		var node: Node2D = _curve_adapters.get(key)
+		if node != null and not is_same(node.evaluator, packet.curve_flow):
+			node.visible = false
+			node.queue_free()
+			node = null
+		if node == null:
+			if packet.has("curve_geometry"):
+				node = preload("res://src/preview/curve_flow/vfx_curve_flow_static_host.gd").new()
+				node.geometry = packet.curve_geometry
+			else:
+				node = preload("res://src/preview/curve_flow/vfx_curve_flow_mesh.gd").new()
+			node.evaluator = packet.curve_flow
+			node.configure(packet.asset.texture)
+			add_child(node)
+			_curve_adapters[key] = node
+		node.position = packet.position
+		node.scale = _geometry_scale(packet)
+		node.rotation_degrees = packet.geometry_rotation_degrees
+		node.evaluator = packet.curve_flow
+		node.refresh()
+	for key in _curve_adapters.keys():
+		if not used.has(key):
+			_curve_adapters[key].visible = false
+			_curve_adapters[key].queue_free()
+			_curve_adapters.erase(key)
 
 
 func _draw() -> void:

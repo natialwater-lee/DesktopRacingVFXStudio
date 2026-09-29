@@ -48,11 +48,26 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 	if coordinate_contract.is_empty():
 		return _failure("export_coordinate_contract", "Export compiler requires a loaded Coordinate Contract.")
 	var is_modulated := _is_modulation_bearing(data)
+	var has_curve_flow := false
+	var curve_capabilities: Array = []
+	for phase in data.get("phases", {}).values():
+		for layer in phase.get("layers", []):
+			has_curve_flow = has_curve_flow or layer.get("type") == "CURVE_FLOW"
+			if layer.get("type") == "CURVE_FLOW":
+				var capability := "CURVE_FLOW_STATIC_RIBBON_F2" if layer.parameters.profile_version == 2 else "CURVE_FLOW_F1"
+				if not capability in curve_capabilities: curve_capabilities.append(capability)
 	var runtime_definition_version := 2 if is_modulated else 1
 	var runtime_path := "runtime/vfx_runtime_definition_v2.json" if is_modulated else "runtime/vfx_runtime_definition_v1.json"
+	if has_curve_flow:
+		runtime_definition_version = 3
+		runtime_path = "runtime/vfx_runtime_definition_v3.json"
 	var runtime_data: VfxResult = _compile_runtime_definition_v2(data, requirements.value, coordinate_contract) if is_modulated else _compile_runtime_definition(data, requirements.value, coordinate_contract)
 	if not runtime_data.success:
 		return runtime_data
+	if has_curve_flow:
+		runtime_data.value["runtime_definition_version"] = 3
+		curve_capabilities.sort()
+		runtime_data.value["required_capabilities"] = curve_capabilities
 	var runtime_text: VfxResult = _encode_json(runtime_data.value)
 	if not runtime_text.success:
 		return runtime_text

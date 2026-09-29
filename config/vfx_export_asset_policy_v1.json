@@ -1,18 +1,8 @@
 {
   "policy_version": 1,
   "assets": {
-    "fx.solo_run_rear_streak_left": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_solo_run_rear_streak_left.png",
-      "package_file_name": "talent_solo_run_rear_streak_left.png"
-    },
-    "fx.solo_run_rear_streak_right": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_solo_run_rear_streak_right.png",
-      "package_file_name": "talent_solo_run_rear_streak_right.png"
-    },
+    "fx.solo_run_flow_strand_v1": {"export_policy": "EXPORTABLE", "kind": "TEXTURE_PNG", "source_path": "res://assets/vfx/solo_run_flow_strand_v1.png", "package_file_name": "solo_run_flow_strand_v1.png"},
+    "fx.curve_flow_filaments_v1": {"export_policy": "EXPORTABLE", "kind": "TEXTURE_PNG", "source_path": "res://assets/vfx/curve_flow_filaments_v1.png", "package_file_name": "curve_flow_filaments_v1.png"},
     "fx.photosynthesis_absorption_glow": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
@@ -178,18 +168,6 @@
     "fx.preview_texture_fixture": {
       "export_policy": "PREVIEW_ONLY",
       "reason": "TEST_FIXTURE"
-    },
-    "fx.solo_run_side_stream_left": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_solo_run_side_stream_left.png",
-      "package_file_name": "talent_solo_run_side_stream_left.png"
-    },
-    "fx.solo_run_side_stream_right": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_solo_run_side_stream_right.png",
-      "package_file_name": "talent_solo_run_side_stream_right.png"
     }
   }
 }
