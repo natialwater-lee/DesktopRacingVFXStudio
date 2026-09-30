@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ve4ojvjsnsw8"
-path="res://.godot/imported/talent_photosynthesis_leaf_arc.png-30763ef136f5fe946e969d3f033f93da.ctex"
+uid="uid://c7ekbdovhva81"
+path="res://.godot/imported/talent_rain_surfer_splash_wing.png-9441911ef2a4e115ef107b5cbdb0c92d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/vfx/talent_photosynthesis_leaf_arc.png"
-dest_files=["res://.godot/imported/talent_photosynthesis_leaf_arc.png-30763ef136f5fe946e969d3f033f93da.ctex"]
+source_file="res://assets/vfx/talent_rain_surfer_splash_wing.png"
+dest_files=["res://.godot/imported/talent_rain_surfer_splash_wing.png-9441911ef2a4e115ef107b5cbdb0c92d.ctex"]
 
 [params]
 

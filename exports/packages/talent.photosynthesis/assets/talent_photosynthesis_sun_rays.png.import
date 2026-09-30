@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b17ol7hnaq2vj"
-path="res://.godot/imported/talent_photosynthesis_solar_streak.png-7b69ddbe2beb56a289e08fa80d56bc76.ctex"
+uid="uid://b740mx3eldv13"
+path="res://.godot/imported/talent_photosynthesis_sun_rays.png-2d1d79da9d18d3964d188d2adc34725e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/talent.photosynthesis/assets/talent_photosynthesis_solar_streak.png"
-dest_files=["res://.godot/imported/talent_photosynthesis_solar_streak.png-7b69ddbe2beb56a289e08fa80d56bc76.ctex"]
+source_file="res://exports/packages/talent.photosynthesis/assets/talent_photosynthesis_sun_rays.png"
+dest_files=["res://.godot/imported/talent_photosynthesis_sun_rays.png-2d1d79da9d18d3964d188d2adc34725e.ctex"]
 
 [params]
 

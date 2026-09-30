@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7bhsli316dxh"
-path="res://.godot/imported/talent_photosynthesis_absorption_glow.png-b6effeaf1c5b71c00341a9f6f736bdf0.ctex"
+uid="uid://cb8yjuxi463sc"
+path="res://.godot/imported/talent_rain_surfer_neon_b.png-da3a7b2ddb9871ff8a5649322cd255c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/vfx/talent_photosynthesis_absorption_glow.png"
-dest_files=["res://.godot/imported/talent_photosynthesis_absorption_glow.png-b6effeaf1c5b71c00341a9f6f736bdf0.ctex"]
+source_file="res://assets/vfx/talent_rain_surfer_neon_b.png"
+dest_files=["res://.godot/imported/talent_rain_surfer_neon_b.png-da3a7b2ddb9871ff8a5649322cd255c5.ctex"]
 
 [params]
 

@@ -62,6 +62,7 @@ func _run() -> void:
 	RotorLiftDownwashAuthoringTests.run(tests)
 	RuntimeModulationProgramTests.run(tests)
 	preload("res://tests/preview/test_photosynthesis_authoring.gd").run(tests)
+	preload("res://tests/preview/test_rain_surfer_authoring.gd").run(tests)
 	SoloRunAuthoringTests.run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

@@ -3,18 +3,6 @@
   "assets": {
     "fx.solo_run_flow_strand_v1": {"source": "TEXTURE", "import_as_resource": true, "texture_path": "res://assets/vfx/solo_run_flow_strand_v1.png"},
     "fx.curve_flow_filaments_v1": {"source": "TEXTURE", "import_as_resource": true, "texture_path": "res://assets/vfx/curve_flow_filaments_v1.png"},
-    "fx.photosynthesis_absorption_glow": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_photosynthesis_absorption_glow.png"
-    },
-    "fx.photosynthesis_solar_streak": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_photosynthesis_solar_streak.png"
-    },
-    "fx.photosynthesis_leaf_arc": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_photosynthesis_leaf_arc.png"
-    },
     "fx.energy_shard": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_shard.png"
@@ -78,6 +66,34 @@
     "fx.zero_zone_focus_mote": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_focus_mote.png"
+    },
+    "fx.photosynthesis_energy_aura_a": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_photosynthesis_energy_aura_a.png"
+    },
+    "fx.photosynthesis_energy_aura_b": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_photosynthesis_energy_aura_b.png"
+    },
+    "fx.photosynthesis_sun_rays": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_photosynthesis_sun_rays.png"
+    },
+    "fx.rain_surfer_splash_wing": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rain_surfer_splash_wing.png"
+    },
+    "fx.rain_surfer_neon_a": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rain_surfer_neon_a.png"
+    },
+    "fx.rain_surfer_neon_b": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rain_surfer_neon_b.png"
+    },
+    "fx.rain_surfer_light_trail": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rain_surfer_light_trail.png"
     },
     "fx.night_vision_scan_arc": {
       "source": "TEXTURE",

@@ -1,7 +1,7 @@
 {
   "category": "RACE_TALENT",
   "default_space_mode": "VEHICLE_LOCAL",
-  "display_name": "Photosynthesis",
+  "display_name": "Rain Surfer",
   "lifecycle": {
     "mode": "START_LOOP_END"
   },
@@ -18,7 +18,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.energy_aura_a",
+          "id": "loop.neon_a",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -26,7 +26,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.75,
+            "alpha_start": 0.7,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
@@ -37,22 +37,22 @@
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.35,
+            "emission_rate_per_second": 1.3,
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 1.05,
+            "lifetime_seconds": 1.1,
             "max_particles": 2.0,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 372.0,
+            "size_end": 368.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
             "size_start": 340.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.photosynthesis_energy_aura_a"
+            "sprite_asset_ref": "fx.rain_surfer_neon_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0.0,
@@ -75,7 +75,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.energy_aura_b",
+          "id": "loop.neon_b",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -83,7 +83,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.75,
+            "alpha_start": 0.7,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
@@ -94,22 +94,22 @@
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 1.1,
+            "emission_rate_per_second": 1.05,
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 1.25,
+            "lifetime_seconds": 1.3,
             "max_particles": 2.0,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 372.0,
+            "size_end": 368.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
             "size_start": 340.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.photosynthesis_energy_aura_b"
+            "sprite_asset_ref": "fx.rain_surfer_neon_b"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0.0,
@@ -132,8 +132,8 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.sun_charge",
-          "importance": "DETAIL",
+          "id": "loop.trail_left",
+          "importance": "CORE",
           "parameters": {
             "acceleration": [
               0.0,
@@ -141,39 +141,98 @@
             ],
             "alpha_end": 0.0,
             "alpha_start": 1.0,
-            "angular_velocity_max_degrees_per_second": 50.0,
-            "angular_velocity_min_degrees_per_second": 30.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               1.0,
               1.0,
               1.0
             ],
-            "direction_degrees": 0.0,
+            "direction_degrees": 180.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 0.45,
+            "emission_rate_per_second": 18.0,
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.5,
-            "max_particles": 1.0,
-            "rotation_max_degrees": 360.0,
+            "lifetime_seconds": 0.45,
+            "max_particles": 9.0,
+            "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 70.0,
+            "size_end": 100.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 250.0,
+            "size_start": 120.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.photosynthesis_sun_rays"
+            "sprite_asset_ref": "fx.rain_surfer_light_trail"
           },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 2.0,
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "space_mode": "VEHICLE_FOLLOW_WORLD_TRAIL",
           "transform": {
             "offset": [
+              -84.0,
+              200.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.trail_right",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
               0.0,
-              -30.0
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 18.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 9.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 120.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.rain_surfer_light_trail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "space_mode": "VEHICLE_FOLLOW_WORLD_TRAIL",
+          "transform": {
+            "offset": [
+              84.0,
+              200.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -194,41 +253,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.sun_pool",
-          "importance": "CORE",
-          "parameters": {
-            "color_rgba": [
-              1.0,
-              0.82,
-              0.35,
-              1.0
-            ],
-            "opacity": 0.35,
-            "pulse_hz": 0.0,
-            "radius": 330.0
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0.0,
-          "transform": {
-            "offset": [
-              0.0,
-              0.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              0.9,
-              1.35
-            ]
-          },
-          "type": "GLOW"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "start.sun_rays",
+          "id": "start.bow_splash",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -237,8 +262,8 @@
             ],
             "alpha_end": 0.0,
             "alpha_start": 1.0,
-            "angular_velocity_max_degrees_per_second": 50.0,
-            "angular_velocity_min_degrees_per_second": 30.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
             "color_rgba": [
               1.0,
@@ -246,29 +271,29 @@
               1.0,
               1.0
             ],
-            "direction_degrees": 0.0,
+            "direction_degrees": 180.0,
             "emission_mode": "BURST",
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.5,
-            "rotation_max_degrees": 360.0,
-            "rotation_min_degrees": 0.0,
-            "size_end": 90.0,
+            "lifetime_seconds": 0.75,
+            "rotation_max_degrees": 180.0,
+            "rotation_min_degrees": 180.0,
+            "size_end": 400.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 360.0,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
+            "size_start": 280.0,
+            "speed_max": 108.0,
+            "speed_min": 108.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.photosynthesis_sun_rays"
+            "sprite_asset_ref": "fx.rain_surfer_splash_wing"
           },
-          "render_plane": "OVER_VEHICLE",
+          "render_plane": "UNDER_VEHICLE",
           "sort_order": 2.0,
           "transform": {
             "offset": [
-              0.0,
-              -30.0
+              25.0,
+              -41.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -284,7 +309,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.green_release",
+          "id": "start.neon_on",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -303,22 +328,22 @@
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 3.3,
+            "emission_rate_per_second": 5.0,
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 1.4,
+            "lifetime_seconds": 1.2,
             "max_particles": 2.0,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 368.0,
+            "size_end": 360.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
             "size_start": 300.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.photosynthesis_energy_aura_b"
+            "sprite_asset_ref": "fx.rain_surfer_neon_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0.0,
@@ -338,7 +363,7 @@
       ]
     }
   },
-  "preset_id": "talent.photosynthesis",
+  "preset_id": "talent.rain_surfer",
   "runtime_inputs": [],
   "schema_version": 1.0
 }

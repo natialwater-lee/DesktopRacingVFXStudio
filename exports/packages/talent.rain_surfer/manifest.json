@@ -1,0 +1,96 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 7595,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rain_surfer_light_trail",
+      "package_path": "assets/talent_rain_surfer_light_trail.png",
+      "sha256": "6b78823afb347554caaa49477e3fd8a51c3b670d0c101bae46c701ac1abcd48c"
+    },
+    {
+      "byte_size": 85429,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rain_surfer_neon_a",
+      "package_path": "assets/talent_rain_surfer_neon_a.png",
+      "sha256": "eacdf9740f706b81f3a5266cc97a80550fd6e9a88c2f5e81ae62b04b266c6dbf"
+    },
+    {
+      "byte_size": 83174,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rain_surfer_neon_b",
+      "package_path": "assets/talent_rain_surfer_neon_b.png",
+      "sha256": "6ec8a34e78b9a1efbd89df474bb949007596b3616f53f6c49148055c0271195e"
+    },
+    {
+      "byte_size": 33732,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rain_surfer_splash_wing",
+      "package_path": "assets/talent_rain_surfer_splash_wing.png",
+      "sha256": "08d6225c275ed4c0e51346c924e1de796d15393ad6d49dc538e1d47c84dfc534"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 7595,
+      "path": "assets/talent_rain_surfer_light_trail.png",
+      "sha256": "6b78823afb347554caaa49477e3fd8a51c3b670d0c101bae46c701ac1abcd48c"
+    },
+    {
+      "byte_size": 85429,
+      "path": "assets/talent_rain_surfer_neon_a.png",
+      "sha256": "eacdf9740f706b81f3a5266cc97a80550fd6e9a88c2f5e81ae62b04b266c6dbf"
+    },
+    {
+      "byte_size": 83174,
+      "path": "assets/talent_rain_surfer_neon_b.png",
+      "sha256": "6ec8a34e78b9a1efbd89df474bb949007596b3616f53f6c49148055c0271195e"
+    },
+    {
+      "byte_size": 33732,
+      "path": "assets/talent_rain_surfer_splash_wing.png",
+      "sha256": "08d6225c275ed4c0e51346c924e1de796d15393ad6d49dc538e1d47c84dfc534"
+    },
+    {
+      "byte_size": 10563,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "a1225971a59a007fbda4ff01f9f9d0a625615dd213b99bfa34dfd920cbbc8ef1"
+    },
+    {
+      "byte_size": 10148,
+      "path": "source/talent.rain_surfer.vfx.json",
+      "sha256": "dc2a83a42d68a2446c94c8451819abf887363013b01296fec9739859c0b9ceb8"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.rain_surfer",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Rain Surfer",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.rain_surfer",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 10563,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "a1225971a59a007fbda4ff01f9f9d0a625615dd213b99bfa34dfd920cbbc8ef1",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 10148,
+    "path": "source/talent.rain_surfer.vfx.json",
+    "sha256": "dc2a83a42d68a2446c94c8451819abf887363013b01296fec9739859c0b9ceb8"
+  }
+}

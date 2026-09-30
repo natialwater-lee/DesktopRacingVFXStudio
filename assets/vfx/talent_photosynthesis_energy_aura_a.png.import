@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qlptwlef0odd"
-path="res://.godot/imported/talent_photosynthesis_absorption_glow.png-b4f898f2b2a4a9694f74889ccf27f55c.ctex"
+uid="uid://dkb7akdra3cg4"
+path="res://.godot/imported/talent_photosynthesis_energy_aura_a.png-1a13507cdb4baceb106fa7b436653bae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/talent.photosynthesis/assets/talent_photosynthesis_absorption_glow.png"
-dest_files=["res://.godot/imported/talent_photosynthesis_absorption_glow.png-b4f898f2b2a4a9694f74889ccf27f55c.ctex"]
+source_file="res://assets/vfx/talent_photosynthesis_energy_aura_a.png"
+dest_files=["res://.godot/imported/talent_photosynthesis_energy_aura_a.png-1a13507cdb4baceb106fa7b436653bae.ctex"]
 
 [params]
 
