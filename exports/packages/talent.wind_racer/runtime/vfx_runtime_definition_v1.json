@@ -1,0 +1,328 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.5,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.gust_a",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.9,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 400.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 300.0,
+            "speed_max": 380.0,
+            "speed_min": 380.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wind_racer_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              -120.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.gust_b",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 400.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 320.0,
+            "speed_max": 330.0,
+            "speed_min": 330.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wind_racer_flow_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              -160.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.flow_a",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 3.2,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.0,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 360.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 330.0,
+            "speed_max": 220.0,
+            "speed_min": 220.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wind_racer_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              -90.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.flow_b",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 2.7,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.2,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 360.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 330.0,
+            "speed_max": 190.0,
+            "speed_min": 190.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wind_racer_flow_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              -90.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.tail",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.7,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 5.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 170.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 130.0,
+            "speed_max": 520.0,
+            "speed_min": 420.0,
+            "spread_degrees": 8.0,
+            "sprite_asset_ref": "fx.wind_racer_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              230.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.4,
+      "layers": [],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Wind Racer",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.wind_racer"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 1,
+  "runtime_inputs": []
+}

@@ -1,0 +1,98 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 43398,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_conversion_rear_arc_a",
+      "package_path": "assets/talent_energy_conversion_rear_arc_a.png",
+      "sha256": "931d63ee6a93038773618c65b546318f85925605e14a0e00c0e7a30d89a3acbe"
+    },
+    {
+      "byte_size": 55473,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_conversion_rear_arc_b",
+      "package_path": "assets/talent_energy_conversion_rear_arc_b.png",
+      "sha256": "993802015247f1011257b40160e5cf135426a8e2e2d2b5bd9084436e89d0893e"
+    },
+    {
+      "byte_size": 24040,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_conversion_release",
+      "package_path": "assets/talent_energy_conversion_release.png",
+      "sha256": "726e5a18942410f3223deadff1a5561023e89239a30689734518a5e0b9e3a24b"
+    },
+    {
+      "byte_size": 147139,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_conversion_swirl",
+      "package_path": "assets/talent_energy_conversion_swirl.png",
+      "sha256": "607f993d0609b5a9f8ef08dd33d5d4670f37b9dbfed71c845c950ffca6d72bb4"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 43398,
+      "path": "assets/talent_energy_conversion_rear_arc_a.png",
+      "sha256": "931d63ee6a93038773618c65b546318f85925605e14a0e00c0e7a30d89a3acbe"
+    },
+    {
+      "byte_size": 55473,
+      "path": "assets/talent_energy_conversion_rear_arc_b.png",
+      "sha256": "993802015247f1011257b40160e5cf135426a8e2e2d2b5bd9084436e89d0893e"
+    },
+    {
+      "byte_size": 24040,
+      "path": "assets/talent_energy_conversion_release.png",
+      "sha256": "726e5a18942410f3223deadff1a5561023e89239a30689734518a5e0b9e3a24b"
+    },
+    {
+      "byte_size": 147139,
+      "path": "assets/talent_energy_conversion_swirl.png",
+      "sha256": "607f993d0609b5a9f8ef08dd33d5d4670f37b9dbfed71c845c950ffca6d72bb4"
+    },
+    {
+      "byte_size": 12226,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "f86c699071896825c4eb692802e1dcb40b5e87fdf85b0a6f705a688e6b84f7b5"
+    },
+    {
+      "byte_size": 10760,
+      "path": "source/talent.energy_conversion.vfx.json",
+      "sha256": "2600b6b36f47ba570b64212f92513819047fdaf4b0aaf10fa19cc6df8b44732a"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.energy_conversion",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Energy Conversion",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.energy_conversion",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "boost_active"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 12226,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "f86c699071896825c4eb692802e1dcb40b5e87fdf85b0a6f705a688e6b84f7b5",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 10760,
+    "path": "source/talent.energy_conversion.vfx.json",
+    "sha256": "2600b6b36f47ba570b64212f92513819047fdaf4b0aaf10fa19cc6df8b44732a"
+  }
+}

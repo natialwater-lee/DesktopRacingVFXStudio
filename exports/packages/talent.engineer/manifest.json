@@ -1,0 +1,86 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 10628,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.engineer_corner_bracket",
+      "package_path": "assets/talent_engineer_corner_bracket.png",
+      "sha256": "086fe50f8993dee17b607a5ecd7c3d26faad0adb54652012b93f8b7cc6a004de"
+    },
+    {
+      "byte_size": 7453,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.engineer_nozzle_ring",
+      "package_path": "assets/talent_engineer_nozzle_ring.png",
+      "sha256": "ac651fad0504e220e19bd7890e796e1d0ded854f0bd37b532504b74661f8c2ff"
+    },
+    {
+      "byte_size": 19000,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.engineer_scan_line",
+      "package_path": "assets/talent_engineer_scan_line.png",
+      "sha256": "4b81c6af0b97b022d77c8cabc04e84d32f49644130d99fa171cd10a8eaf089b5"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 10628,
+      "path": "assets/talent_engineer_corner_bracket.png",
+      "sha256": "086fe50f8993dee17b607a5ecd7c3d26faad0adb54652012b93f8b7cc6a004de"
+    },
+    {
+      "byte_size": 7453,
+      "path": "assets/talent_engineer_nozzle_ring.png",
+      "sha256": "ac651fad0504e220e19bd7890e796e1d0ded854f0bd37b532504b74661f8c2ff"
+    },
+    {
+      "byte_size": 19000,
+      "path": "assets/talent_engineer_scan_line.png",
+      "sha256": "4b81c6af0b97b022d77c8cabc04e84d32f49644130d99fa171cd10a8eaf089b5"
+    },
+    {
+      "byte_size": 35776,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "74d16604fa976f97398a29bb328ecd97881d59382b4307686903f493873204d2"
+    },
+    {
+      "byte_size": 33579,
+      "path": "source/talent.engineer.vfx.json",
+      "sha256": "50d5a57a01e0c4fdcc180262b0c421db110e224f1fbaa0a1cfa2ef50e3404582"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.engineer",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Engineer",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.engineer",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 18,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "boost_active"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 35776,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "74d16604fa976f97398a29bb328ecd97881d59382b4307686903f493873204d2",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 33579,
+    "path": "source/talent.engineer.vfx.json",
+    "sha256": "50d5a57a01e0c4fdcc180262b0c421db110e224f1fbaa0a1cfa2ef50e3404582"
+  }
+}

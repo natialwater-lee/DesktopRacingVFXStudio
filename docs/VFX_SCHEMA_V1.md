@@ -167,6 +167,8 @@ The Schema extension `x_vfx_runtime_inputs` contains the only accepted names and
 | `longitudinal_load` | number, -1 through 1, default 0 |
 | `effect_radius` | number, minimum 0, default 0 |
 | `surface_type` | logical identifier string, default `surface.default` |
+| `boost_active` | number, 0 through 1, default 0; the vehicle's normal booster state, smoothed by the Game (rise about 0.08 s, fall about 0.3 s) |
+| `defense_impact` | number, 0 through 1, default 0; set to 1 when the vehicle makes a valid defense, then decays linearly to 0 over 0.5 s (Game-owned) |
 
 A Preset lists only inputs it requires. Phase 0 initially declared only the
 input names and value contracts. The additive Runtime Modulation v1 contract
@@ -213,6 +215,23 @@ the static authoring result. `longitudinal_load` is the signed scalar Runtime In
 `0.0`): `-1.0` means a left turn, `0.0` means straight, and `+1.0` means a right
 turn. It has no implicit visual behavior; a validated Runtime Modulation binding
 declares any use of it.
+`boost_active` is the unsigned scalar Runtime Input (`0.0..1.0`, default `0.0`):
+`1.0` while the vehicle's **normal** booster is effective (super booster and
+benchmark fixed boost excluded; ready/stopped/pit states are `0.0`). The Game owns
+smoothing (linear rise about 0.08 s, fall about 0.3 s, evaluated only for effects
+that declare the input), starts at `0.0` when an effect starts, holds its value
+while the race is paused, and stops updating when the effect ends. Studio Preview
+exposes it as a slider plus a Boost toggle that applies the same rise/fall.
+`defense_impact` is the unsigned scalar Runtime Input (`0.0..1.0`, default `0.0`): the
+Game sets it to `1.0` when the vehicle makes a valid defense (the same
+`race_ability_defense_succeeded` event the talent trigger counts) and decays it
+linearly to `0.0` over 0.5 s of VFX time; another success resets it to `1.0`
+(several successes in one frame collapse into one reset). It starts at `0.0`,
+holds while paused, and stops receiving/decaying when the effect enters END or is
+removed. Events while the vehicle is in ready, stopped, finished or pit states are
+ignored (the defense rule itself is unchanged). Only effects that declare the input
+subscribe and decay it. Studio Preview exposes it as a slider plus a
+Hit button that applies the same 1 → 0 decay.
 
 The Schema-owned `RUNTIME_MODULATION_CONFIGURATION` rule is the contract for
 `OSCILLATOR/SINE`, `LINEAR_PHASE`, and `LINEAR_RANGE` mappings. In Phase A every modulation target is

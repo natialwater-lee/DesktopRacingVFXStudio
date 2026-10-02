@@ -1,0 +1,96 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 1082,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_spark",
+      "package_path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 12108,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.pit_stop_ace_launch_line",
+      "package_path": "assets/talent_pit_stop_ace_launch_line.png",
+      "sha256": "c34a38fabc9f60b69322f6e0999191075b0a8ca171a752c2eadbea2a58d8aa2f"
+    },
+    {
+      "byte_size": 148972,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.pit_stop_ace_service_flash",
+      "package_path": "assets/talent_pit_stop_ace_service_flash.png",
+      "sha256": "d6f436ce9a76fa6be09f45a6fde3ae0a92b5e3f5b1ca617d3d2a992b55da2111"
+    },
+    {
+      "byte_size": 31609,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.pit_stop_ace_wheel_ring",
+      "package_path": "assets/talent_pit_stop_ace_wheel_ring.png",
+      "sha256": "9b53ee704d3dfdc10ade777fe52b8a2a19cedda81b2b8b57b4466e47bfa08a7a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 1082,
+      "path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 12108,
+      "path": "assets/talent_pit_stop_ace_launch_line.png",
+      "sha256": "c34a38fabc9f60b69322f6e0999191075b0a8ca171a752c2eadbea2a58d8aa2f"
+    },
+    {
+      "byte_size": 148972,
+      "path": "assets/talent_pit_stop_ace_service_flash.png",
+      "sha256": "d6f436ce9a76fa6be09f45a6fde3ae0a92b5e3f5b1ca617d3d2a992b55da2111"
+    },
+    {
+      "byte_size": 31609,
+      "path": "assets/talent_pit_stop_ace_wheel_ring.png",
+      "sha256": "9b53ee704d3dfdc10ade777fe52b8a2a19cedda81b2b8b57b4466e47bfa08a7a"
+    },
+    {
+      "byte_size": 15332,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "c479de8ce320117fc159e64341b8cf1a608b3193844af6355622e87db2ea9ef3"
+    },
+    {
+      "byte_size": 14718,
+      "path": "source/talent.pit_stop_ace.vfx.json",
+      "sha256": "36e9506b80121abda6e5df4ff6b1ec7a6d42586578572935ecf7df591d31ffb3"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.pit_stop_ace",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Pit Stop Ace",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.pit_stop_ace",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 9,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 15332,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "c479de8ce320117fc159e64341b8cf1a608b3193844af6355622e87db2ea9ef3",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 14718,
+    "path": "source/talent.pit_stop_ace.vfx.json",
+    "sha256": "36e9506b80121abda6e5df4ff6b1ec7a6d42586578572935ecf7df591d31ffb3"
+  }
+}

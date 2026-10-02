@@ -1,0 +1,365 @@
+{
+  "category": "RACE_TALENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Underdog Revolt",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.3,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.streak_l",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.8,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 4.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.75,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 190.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 210.0,
+            "speed_max": 480.0,
+            "speed_min": 480.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.underdog_revolt_flame_streak"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              -150.0,
+              190.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.streak_r",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.8,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 4.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.75,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 190.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 210.0,
+            "speed_max": 480.0,
+            "speed_min": 480.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.underdog_revolt_flame_streak"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              150.0,
+              190.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.embers",
+          "importance": "DETAIL",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.55,
+              0.2,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 3.5,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.7,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 20.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 70.0,
+            "speed_max": 180.0,
+            "speed_min": 80.0,
+            "spread_degrees": 120.0,
+            "sprite_asset_ref": "fx.furious_overtake_spark"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "offset": [
+              0.0,
+              215.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.6,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.ember_burst",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.8,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 370.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 260.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.underdog_revolt_ember_burst"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "offset": [
+              0.0,
+              210.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.streak_l",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.9,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 200.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 220.0,
+            "speed_max": 560.0,
+            "speed_min": 560.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.underdog_revolt_flame_streak"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              -150.0,
+              190.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.streak_r",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.9,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 200.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 220.0,
+            "speed_max": 560.0,
+            "speed_min": 560.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.underdog_revolt_flame_streak"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              150.0,
+              190.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    }
+  },
+  "preset_id": "talent.underdog_revolt",
+  "runtime_inputs": [],
+  "schema_version": 1.0
+}

@@ -1,0 +1,86 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 32051,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.absolute_defense_rear_shield",
+      "package_path": "assets/talent_absolute_defense_rear_shield.png",
+      "sha256": "a02f493660854176cbe0c0e7aa51be58c361dfc20d9299edf2d5e28683196fae"
+    },
+    {
+      "byte_size": 30003,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.absolute_defense_side_wall_a",
+      "package_path": "assets/talent_absolute_defense_side_wall_a.png",
+      "sha256": "b86dfb7be4d8b005f24198c584214200906c07b07bb0be73f4c93c8a9409223c"
+    },
+    {
+      "byte_size": 30246,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.absolute_defense_side_wall_b",
+      "package_path": "assets/talent_absolute_defense_side_wall_b.png",
+      "sha256": "13ee7002bc0743774ce20d0be133a7d80deccda5615372d58eb306ba044a4fe7"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 32051,
+      "path": "assets/talent_absolute_defense_rear_shield.png",
+      "sha256": "a02f493660854176cbe0c0e7aa51be58c361dfc20d9299edf2d5e28683196fae"
+    },
+    {
+      "byte_size": 30003,
+      "path": "assets/talent_absolute_defense_side_wall_a.png",
+      "sha256": "b86dfb7be4d8b005f24198c584214200906c07b07bb0be73f4c93c8a9409223c"
+    },
+    {
+      "byte_size": 30246,
+      "path": "assets/talent_absolute_defense_side_wall_b.png",
+      "sha256": "13ee7002bc0743774ce20d0be133a7d80deccda5615372d58eb306ba044a4fe7"
+    },
+    {
+      "byte_size": 21574,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "615e1024d1aa29dbdb556b692af60927e84e96adeeb23c6f6f2d5ed2fd397212"
+    },
+    {
+      "byte_size": 19895,
+      "path": "source/talent.absolute_defense.vfx.json",
+      "sha256": "9c00b46a329188888e68e12cac815e58ac62089c3793f40a1848c652f31d05b2"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.absolute_defense",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Absolute Defense",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.absolute_defense",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 11,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "defense_impact"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 21574,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "615e1024d1aa29dbdb556b692af60927e84e96adeeb23c6f6f2d5ed2fd397212",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 19895,
+    "path": "source/talent.absolute_defense.vfx.json",
+    "sha256": "9c00b46a329188888e68e12cac815e58ac62089c3793f40a1848c652f31d05b2"
+  }
+}

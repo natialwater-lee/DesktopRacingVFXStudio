@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 14007,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.sandwich_escape_chevron",
+      "package_path": "assets/talent_sandwich_escape_chevron.png",
+      "sha256": "7aee0a45d33507756c5d733d4fb7af30b813d75c57874656d86cec40b4a3c28d"
+    },
+    {
+      "byte_size": 11179,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.sandwich_escape_path",
+      "package_path": "assets/talent_sandwich_escape_path.png",
+      "sha256": "1c9067f85d18ce2fbef16de2ddc7ab0c4062742d7c29d8793437ad12638ea0a1"
+    },
+    {
+      "byte_size": 20878,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.sandwich_escape_thrust",
+      "package_path": "assets/talent_sandwich_escape_thrust.png",
+      "sha256": "d4bd35a224b8665777537fdef6e90d079519d77dd28b7c707751970798e2f9fb"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 14007,
+      "path": "assets/talent_sandwich_escape_chevron.png",
+      "sha256": "7aee0a45d33507756c5d733d4fb7af30b813d75c57874656d86cec40b4a3c28d"
+    },
+    {
+      "byte_size": 11179,
+      "path": "assets/talent_sandwich_escape_path.png",
+      "sha256": "1c9067f85d18ce2fbef16de2ddc7ab0c4062742d7c29d8793437ad12638ea0a1"
+    },
+    {
+      "byte_size": 20878,
+      "path": "assets/talent_sandwich_escape_thrust.png",
+      "sha256": "d4bd35a224b8665777537fdef6e90d079519d77dd28b7c707751970798e2f9fb"
+    },
+    {
+      "byte_size": 10564,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "b333bb18359c9c8a32d0cc9d368ce9f354960fc89e55e77d40fb046c68ac4a49"
+    },
+    {
+      "byte_size": 10067,
+      "path": "source/talent.sandwich_escape.vfx.json",
+      "sha256": "21b7ba2d9a1e3ad966faac2e5a1a7b694fa2b13412f44af9cdd5d99a277b5dcd"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.sandwich_escape",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Sandwich Escape",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.sandwich_escape",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 10564,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "b333bb18359c9c8a32d0cc9d368ce9f354960fc89e55e77d40fb046c68ac4a49",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 10067,
+    "path": "source/talent.sandwich_escape.vfx.json",
+    "sha256": "21b7ba2d9a1e3ad966faac2e5a1a7b694fa2b13412f44af9cdd5d99a277b5dcd"
+  }
+}

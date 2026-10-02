@@ -1,0 +1,62 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 361661,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.shockwave_ring",
+      "package_path": "assets/talent_shockwave_ring.png",
+      "sha256": "04e02fffb299464949986a092c251f17bac02966b6405ffc6db36fc93a3c36a5"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 361661,
+      "path": "assets/talent_shockwave_ring.png",
+      "sha256": "04e02fffb299464949986a092c251f17bac02966b6405ffc6db36fc93a3c36a5"
+    },
+    {
+      "byte_size": 7882,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "bdf3a9c9a0a89c86de1bfc27eb71089105a212d7a0121a0d2b08640a66450994"
+    },
+    {
+      "byte_size": 7059,
+      "path": "source/talent.shockwave.vfx.json",
+      "sha256": "4da83945d85a3aa6ee2bcd87c4e04e79ce1eff9625279b64f74a7b29b26e3a32"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.shockwave",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Shockwave",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.shockwave",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 3,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "effect_radius"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 7882,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "bdf3a9c9a0a89c86de1bfc27eb71089105a212d7a0121a0d2b08640a66450994",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 7059,
+    "path": "source/talent.shockwave.vfx.json",
+    "sha256": "4da83945d85a3aa6ee2bcd87c4e04e79ce1eff9625279b64f74a7b29b26e3a32"
+  }
+}

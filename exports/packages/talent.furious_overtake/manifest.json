@@ -1,0 +1,96 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 63738,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_aura_a",
+      "package_path": "assets/talent_furious_overtake_aura_a.png",
+      "sha256": "522de09ddb6a2a723ad5405ca5daf3b11623dab800d21342cc877acf65277d87"
+    },
+    {
+      "byte_size": 55422,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_aura_b",
+      "package_path": "assets/talent_furious_overtake_aura_b.png",
+      "sha256": "e6260fd8dac3e54002992a1379cb2fac8f8112822f349a1da689265bcd61e524"
+    },
+    {
+      "byte_size": 15472,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_rear_beam",
+      "package_path": "assets/talent_furious_overtake_rear_beam.png",
+      "sha256": "a74b01b51bb6d308121605cb74399f97c4efae6b0ce86c384117d6616e2d137e"
+    },
+    {
+      "byte_size": 1082,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_spark",
+      "package_path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 63738,
+      "path": "assets/talent_furious_overtake_aura_a.png",
+      "sha256": "522de09ddb6a2a723ad5405ca5daf3b11623dab800d21342cc877acf65277d87"
+    },
+    {
+      "byte_size": 55422,
+      "path": "assets/talent_furious_overtake_aura_b.png",
+      "sha256": "e6260fd8dac3e54002992a1379cb2fac8f8112822f349a1da689265bcd61e524"
+    },
+    {
+      "byte_size": 15472,
+      "path": "assets/talent_furious_overtake_rear_beam.png",
+      "sha256": "a74b01b51bb6d308121605cb74399f97c4efae6b0ce86c384117d6616e2d137e"
+    },
+    {
+      "byte_size": 1082,
+      "path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 12123,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "e1998989fae68051936a2a4e77fd99ef4708f60164b61c0b0be8c5b8ee53bbd3"
+    },
+    {
+      "byte_size": 11587,
+      "path": "source/talent.furious_overtake.vfx.json",
+      "sha256": "d9c2b35d0fd4e6db66e85f93f77ef86aab834ceeddc631f5f261ae5278ec3849"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.furious_overtake",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Furious Overtake",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.furious_overtake",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 6,
+      "DETAIL": 1,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 12123,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "e1998989fae68051936a2a4e77fd99ef4708f60164b61c0b0be8c5b8ee53bbd3",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 11587,
+    "path": "source/talent.furious_overtake.vfx.json",
+    "sha256": "d9c2b35d0fd4e6db66e85f93f77ef86aab834ceeddc631f5f261ae5278ec3849"
+  }
+}

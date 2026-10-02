@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 1082,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_spark",
+      "package_path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 58454,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.shockwave_impact_arc_a",
+      "package_path": "assets/talent_shockwave_impact_arc_a.png",
+      "sha256": "50e466f227c6cae0d86c40fd8c07ef87eeb1aa2e910d631a46f51b3ee49984aa"
+    },
+    {
+      "byte_size": 61809,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.shockwave_impact_arc_b",
+      "package_path": "assets/talent_shockwave_impact_arc_b.png",
+      "sha256": "9464035d7a107956059af071fe2b2934d2476e6ae6340a6917ef155f8ad4f2b4"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 1082,
+      "path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 58454,
+      "path": "assets/talent_shockwave_impact_arc_a.png",
+      "sha256": "50e466f227c6cae0d86c40fd8c07ef87eeb1aa2e910d631a46f51b3ee49984aa"
+    },
+    {
+      "byte_size": 61809,
+      "path": "assets/talent_shockwave_impact_arc_b.png",
+      "sha256": "9464035d7a107956059af071fe2b2934d2476e6ae6340a6917ef155f8ad4f2b4"
+    },
+    {
+      "byte_size": 8930,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "dc5960db41fff2f5bd9c03a25eb7b5f695227079fab455f5bae7842dcfe75ff6"
+    },
+    {
+      "byte_size": 8472,
+      "path": "source/talent.shockwave_impact.vfx.json",
+      "sha256": "a3bb7af91a120034738c5c3b2a2136e7c660f57a1e0264f50fb2550b3f4bd54a"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.shockwave_impact",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Shockwave Impact",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.shockwave_impact",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 5,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 8930,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "dc5960db41fff2f5bd9c03a25eb7b5f695227079fab455f5bae7842dcfe75ff6",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 8472,
+    "path": "source/talent.shockwave_impact.vfx.json",
+    "sha256": "a3bb7af91a120034738c5c3b2a2136e7c660f57a1e0264f50fb2550b3f4bd54a"
+  }
+}

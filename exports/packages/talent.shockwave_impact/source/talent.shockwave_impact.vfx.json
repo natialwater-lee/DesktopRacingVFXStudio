@@ -1,0 +1,313 @@
+{
+  "category": "RACE_TALENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Shockwave Impact",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.3,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.arc_a",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 0.8,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.6,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 349.44,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 336.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.shockwave_impact_arc_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.arc_b",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 0.65,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.9,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 349.44,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 336.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.shockwave_impact_arc_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.body_sparks",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.85,
+              0.5,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 4.5,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                150.0,
+                340.0
+              ]
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 40.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 130.0,
+            "speed_max": 220.0,
+            "speed_min": 90.0,
+            "spread_degrees": 360.0,
+            "sprite_asset_ref": "fx.furious_overtake_spark"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.4,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.hit_sparks",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 8.0,
+            "color_rgba": [
+              1.0,
+              0.7,
+              0.3,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.6,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 25.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 75.0,
+            "speed_max": 450.0,
+            "speed_min": 250.0,
+            "spread_degrees": 360.0,
+            "sprite_asset_ref": "fx.furious_overtake_spark"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.hit_arc",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.7,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 349.44,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 309.12,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.shockwave_impact_arc_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    }
+  },
+  "preset_id": "talent.shockwave_impact",
+  "runtime_inputs": [],
+  "schema_version": 1.0
+}

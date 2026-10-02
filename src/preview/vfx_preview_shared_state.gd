@@ -15,7 +15,7 @@ var _vehicle_translation_source := Vector2.ZERO
 var _vehicle_rotation_degrees := 0.0
 var _layer_context: RefCounted
 var _selected_profile_anchor := ""
-var _show_anchors := true
+var _show_anchors := false
 
 
 func set_profile_data(profile_data: Dictionary) -> void:

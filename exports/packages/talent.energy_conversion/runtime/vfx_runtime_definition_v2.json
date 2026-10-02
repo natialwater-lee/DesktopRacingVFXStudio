@@ -1,0 +1,449 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.6,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.swirl",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": -420.0,
+            "angular_velocity_min_degrees_per_second": -420.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.55,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 150.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 420.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.energy_conversion_swirl"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.release_flash",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.8,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 240.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 200.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.energy_conversion_release"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              403.75
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.arc_entry",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 179.025,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 170.5,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.energy_conversion_rear_arc_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -4.9951171875,
+              120.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.arc_a",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.4,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.0,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 179.025,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 170.5,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.energy_conversion_rear_arc_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -4.9951171875,
+              120.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.arc_b",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.15,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.2,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 179.025,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 170.5,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.energy_conversion_rear_arc_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -8.924609375,
+              120.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.boost_release",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.boost_release.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.boost_release.length",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.boost_release.width",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.95,
+            "texture_asset_ref": "fx.energy_conversion_release"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -151.2
+            ],
+            "offset": [
+              0.0,
+              386.2
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.15,
+              1.4
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.3,
+      "layers": [],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Energy Conversion",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.energy_conversion"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 2,
+  "runtime_inputs": [
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "name": "boost_active",
+      "value_type": "number"
+    }
+  ],
+  "runtime_modulation_sources": []
+}

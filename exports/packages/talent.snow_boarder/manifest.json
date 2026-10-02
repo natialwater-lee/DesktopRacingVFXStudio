@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 8305,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.snow_boarder_frost_trail",
+      "package_path": "assets/talent_snow_boarder_frost_trail.png",
+      "sha256": "09df9a298fa817763fa63913c715b49b333d5e881138b2161367e72797af15bb"
+    },
+    {
+      "byte_size": 759,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.snow_boarder_ice_glint",
+      "package_path": "assets/talent_snow_boarder_ice_glint.png",
+      "sha256": "34e05b94841adec5e8c5c407b14eb0d3f9bf3792a7117e0a5ddf3e78647118dc"
+    },
+    {
+      "byte_size": 31454,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.snow_boarder_powder_fan",
+      "package_path": "assets/talent_snow_boarder_powder_fan.png",
+      "sha256": "272d93c6819a4e5d6fa6ba314ad581c67cb330f97325b26c4fd4fefdb2b55241"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 8305,
+      "path": "assets/talent_snow_boarder_frost_trail.png",
+      "sha256": "09df9a298fa817763fa63913c715b49b333d5e881138b2161367e72797af15bb"
+    },
+    {
+      "byte_size": 759,
+      "path": "assets/talent_snow_boarder_ice_glint.png",
+      "sha256": "34e05b94841adec5e8c5c407b14eb0d3f9bf3792a7117e0a5ddf3e78647118dc"
+    },
+    {
+      "byte_size": 31454,
+      "path": "assets/talent_snow_boarder_powder_fan.png",
+      "sha256": "272d93c6819a4e5d6fa6ba314ad581c67cb330f97325b26c4fd4fefdb2b55241"
+    },
+    {
+      "byte_size": 8905,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "53ed1c586ec821a56655d267ba3f0c374665040c986c701f7dd01b2b10f78b6e"
+    },
+    {
+      "byte_size": 8529,
+      "path": "source/talent.snow_boarder.vfx.json",
+      "sha256": "024c5692d1cef40b3c063f234e46b8cf371ac65f95a468dc41a60afa52723fdb"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.snow_boarder",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Snow Boarder",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.snow_boarder",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 5,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 8905,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "53ed1c586ec821a56655d267ba3f0c374665040c986c701f7dd01b2b10f78b6e",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 8529,
+    "path": "source/talent.snow_boarder.vfx.json",
+    "sha256": "024c5692d1cef40b3c063f234e46b8cf371ac65f95a468dc41a60afa52723fdb"
+  }
+}

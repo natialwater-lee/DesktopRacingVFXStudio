@@ -141,6 +141,192 @@
       "source_path": "res://assets/vfx/talent_rain_surfer_light_trail.png",
       "package_file_name": "talent_rain_surfer_light_trail.png"
     },
+    "fx.wind_racer_flow_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wind_racer_flow_a.png",
+      "package_file_name": "talent_wind_racer_flow_a.png"
+    },
+    "fx.wind_racer_flow_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wind_racer_flow_b.png",
+      "package_file_name": "talent_wind_racer_flow_b.png"
+    },
+    "fx.wind_racer_tail": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wind_racer_tail.png",
+      "package_file_name": "talent_wind_racer_tail.png"
+    },
+    "fx.furious_overtake_aura_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_furious_overtake_aura_a.png",
+      "package_file_name": "talent_furious_overtake_aura_a.png"
+    },
+    "fx.furious_overtake_aura_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_furious_overtake_aura_b.png",
+      "package_file_name": "talent_furious_overtake_aura_b.png"
+    },
+    "fx.furious_overtake_rear_beam": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_furious_overtake_rear_beam.png",
+      "package_file_name": "talent_furious_overtake_rear_beam.png"
+    },
+    "fx.furious_overtake_spark": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_furious_overtake_spark.png",
+      "package_file_name": "talent_furious_overtake_spark.png"
+    },
+    "fx.sandwich_escape_chevron": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_sandwich_escape_chevron.png",
+      "package_file_name": "talent_sandwich_escape_chevron.png"
+    },
+    "fx.sandwich_escape_path": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_sandwich_escape_path.png",
+      "package_file_name": "talent_sandwich_escape_path.png"
+    },
+    "fx.sandwich_escape_thrust": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_sandwich_escape_thrust.png",
+      "package_file_name": "talent_sandwich_escape_thrust.png"
+    },
+    "fx.snow_boarder_frost_trail": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_snow_boarder_frost_trail.png",
+      "package_file_name": "talent_snow_boarder_frost_trail.png"
+    },
+    "fx.snow_boarder_ice_glint": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_snow_boarder_ice_glint.png",
+      "package_file_name": "talent_snow_boarder_ice_glint.png"
+    },
+    "fx.snow_boarder_powder_fan": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_snow_boarder_powder_fan.png",
+      "package_file_name": "talent_snow_boarder_powder_fan.png"
+    },
+    "fx.energy_conversion_swirl": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_energy_conversion_swirl.png",
+      "package_file_name": "talent_energy_conversion_swirl.png"
+    },
+    "fx.energy_conversion_rear_arc_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_energy_conversion_rear_arc_a.png",
+      "package_file_name": "talent_energy_conversion_rear_arc_a.png"
+    },
+    "fx.energy_conversion_rear_arc_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_energy_conversion_rear_arc_b.png",
+      "package_file_name": "talent_energy_conversion_rear_arc_b.png"
+    },
+    "fx.energy_conversion_release": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_energy_conversion_release.png",
+      "package_file_name": "talent_energy_conversion_release.png"
+    },
+    "fx.engineer_scan_line": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_engineer_scan_line.png",
+      "package_file_name": "talent_engineer_scan_line.png"
+    },
+    "fx.engineer_corner_bracket": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_engineer_corner_bracket.png",
+      "package_file_name": "talent_engineer_corner_bracket.png"
+    },
+    "fx.engineer_nozzle_ring": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_engineer_nozzle_ring.png",
+      "package_file_name": "talent_engineer_nozzle_ring.png"
+    },
+    "fx.absolute_defense_side_wall_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_absolute_defense_side_wall_a.png",
+      "package_file_name": "talent_absolute_defense_side_wall_a.png"
+    },
+    "fx.absolute_defense_side_wall_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_absolute_defense_side_wall_b.png",
+      "package_file_name": "talent_absolute_defense_side_wall_b.png"
+    },
+    "fx.absolute_defense_rear_shield": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_absolute_defense_rear_shield.png",
+      "package_file_name": "talent_absolute_defense_rear_shield.png"
+    },
+    "fx.shockwave_ring": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_shockwave_ring.png",
+      "package_file_name": "talent_shockwave_ring.png"
+    },
+    "fx.shockwave_impact_arc_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_shockwave_impact_arc_a.png",
+      "package_file_name": "talent_shockwave_impact_arc_a.png"
+    },
+    "fx.shockwave_impact_arc_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_shockwave_impact_arc_b.png",
+      "package_file_name": "talent_shockwave_impact_arc_b.png"
+    },
+    "fx.pit_stop_ace_wheel_ring": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_pit_stop_ace_wheel_ring.png",
+      "package_file_name": "talent_pit_stop_ace_wheel_ring.png"
+    },
+    "fx.pit_stop_ace_service_flash": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_pit_stop_ace_service_flash.png",
+      "package_file_name": "talent_pit_stop_ace_service_flash.png"
+    },
+    "fx.pit_stop_ace_launch_line": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_pit_stop_ace_launch_line.png",
+      "package_file_name": "talent_pit_stop_ace_launch_line.png"
+    },
+    "fx.underdog_revolt_flame_streak": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_underdog_revolt_flame_streak.png",
+      "package_file_name": "talent_underdog_revolt_flame_streak.png"
+    },
+    "fx.underdog_revolt_ember_burst": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_underdog_revolt_ember_burst.png",
+      "package_file_name": "talent_underdog_revolt_ember_burst.png"
+    },
     "fx.night_vision_scan_arc": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

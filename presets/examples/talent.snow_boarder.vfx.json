@@ -1,0 +1,310 @@
+{
+  "category": "RACE_TALENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Snow Boarder",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.3,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.trail_left",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              0.7,
+              0.93,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 18.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.7,
+            "max_particles": 13.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 120.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.snow_boarder_frost_trail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "space_mode": "VEHICLE_FOLLOW_WORLD_TRAIL",
+          "transform": {
+            "offset": [
+              -84.0,
+              200.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.trail_right",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              0.7,
+              0.93,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 18.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.7,
+            "max_particles": 13.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 120.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.snow_boarder_frost_trail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "space_mode": "VEHICLE_FOLLOW_WORLD_TRAIL",
+          "transform": {
+            "offset": [
+              84.0,
+              200.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.5,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.powder_left",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.6,
+            "rotation_max_degrees": 20.0,
+            "rotation_min_degrees": 20.0,
+            "size_end": 210.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 150.0,
+            "speed_max": 120.0,
+            "speed_min": 120.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.snow_boarder_powder_fan"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              -125.04241719908,
+              272.763114494309
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.powder_right",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.6,
+            "rotation_max_degrees": -20.0,
+            "rotation_min_degrees": -20.0,
+            "size_end": 210.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 150.0,
+            "speed_max": 120.0,
+            "speed_min": 120.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.snow_boarder_powder_fan"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              125.04241719908,
+              272.763114494309
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.glints",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 8.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.6,
+            "rotation_max_degrees": 45.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 30.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 90.0,
+            "speed_max": 350.0,
+            "speed_min": 150.0,
+            "spread_degrees": 160.0,
+            "sprite_asset_ref": "fx.snow_boarder_ice_glint"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "offset": [
+              0.0,
+              170.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    }
+  },
+  "preset_id": "talent.snow_boarder",
+  "runtime_inputs": [],
+  "schema_version": 1.0
+}

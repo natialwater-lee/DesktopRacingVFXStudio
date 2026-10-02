@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 63078,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wind_racer_flow_a",
+      "package_path": "assets/talent_wind_racer_flow_a.png",
+      "sha256": "f8bde62eab5051a7acee559cd15de24415c4a144f0692f136a74a88bed3d8ce3"
+    },
+    {
+      "byte_size": 65103,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wind_racer_flow_b",
+      "package_path": "assets/talent_wind_racer_flow_b.png",
+      "sha256": "e20bea4a70b3c236845205db5f04509da21521dd47429fbeccd02c88da9f05b4"
+    },
+    {
+      "byte_size": 21406,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wind_racer_tail",
+      "package_path": "assets/talent_wind_racer_tail.png",
+      "sha256": "4409493f5855c428dbebae4b54de83c86b674ad98c0c74c8e9c69b79be46244a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 63078,
+      "path": "assets/talent_wind_racer_flow_a.png",
+      "sha256": "f8bde62eab5051a7acee559cd15de24415c4a144f0692f136a74a88bed3d8ce3"
+    },
+    {
+      "byte_size": 65103,
+      "path": "assets/talent_wind_racer_flow_b.png",
+      "sha256": "e20bea4a70b3c236845205db5f04509da21521dd47429fbeccd02c88da9f05b4"
+    },
+    {
+      "byte_size": 21406,
+      "path": "assets/talent_wind_racer_tail.png",
+      "sha256": "4409493f5855c428dbebae4b54de83c86b674ad98c0c74c8e9c69b79be46244a"
+    },
+    {
+      "byte_size": 8829,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "f514d81f1bccf78b4d79016770c710ce0a701e09b60c562c81657142ca79d47f"
+    },
+    {
+      "byte_size": 8371,
+      "path": "source/talent.wind_racer.vfx.json",
+      "sha256": "b42a26bfd39230307ea7e0cecf87b34be70b0c519ec2fd455bb0540f8f82854b"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.wind_racer",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Wind Racer",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.wind_racer",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 5,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 8829,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "f514d81f1bccf78b4d79016770c710ce0a701e09b60c562c81657142ca79d47f",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 8371,
+    "path": "source/talent.wind_racer.vfx.json",
+    "sha256": "b42a26bfd39230307ea7e0cecf87b34be70b0c519ec2fd455bb0540f8f82854b"
+  }
+}

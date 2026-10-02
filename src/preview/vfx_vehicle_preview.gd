@@ -9,6 +9,11 @@ const VfxPreviewAssetRegistryModel := preload("res://src/preview/rendering/vfx_p
 const VfxPreviewAssetResolverModel := preload("res://src/preview/rendering/vfx_preview_asset_resolver.gd")
 const VfxPreviewRenderRuntimeModel := preload("res://src/preview/rendering/vfx_preview_render_runtime.gd")
 const VfxPreviewPlaybackControllerModel := preload("res://src/preview/rendering/vfx_preview_playback_controller.gd")
+const BOOST_RISE_SECONDS := 0.08
+const BOOST_FALL_SECONDS := 0.3
+const DEFENSE_IMPACT_DECAY_SECONDS := 0.5
+# Preview-only starting radius (≈ Shockwave 80 world px at the default game scale); the Game supplies the real value.
+const PREVIEW_EFFECT_RADIUS_SOURCE_PX := 840.0
 const VfxPreviewCanvasRenderHostModel := preload("res://src/preview/rendering/vfx_preview_canvas_render_host.gd")
 const VfxPerformancePolicyModel := preload("res://src/performance/vfx_performance_policy.gd")
 const VfxPreviewLodFilterModel := preload("res://src/performance/vfx_preview_lod_filter.gd")
@@ -33,6 +38,8 @@ var _preview_phase := ""
 var _preview_lod_level := "HIGH"
 var _runtime_input_state: RefCounted
 var _runtime_input_values_by_name: Dictionary = {}
+var _boost_ramp_target := -1.0
+var _defense_impact_decaying := false
 
 
 func _ready() -> void:
@@ -207,6 +214,8 @@ func _process(delta: float) -> void:
 		_present_render_packets()
 	elif _playback == null:
 		_apply_motion_at_time(float(_shared_state.motion_time()) + delta)
+	_advance_boost_ramp(delta)
+	_advance_defense_impact(delta)
 	_layout_screen_ui_hosts()
 
 
@@ -449,6 +458,21 @@ func _configure_controls() -> void:
 	var turn_rate_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/TurnRateSlider") as HSlider
 	if turn_rate_slider != null and not turn_rate_slider.value_changed.is_connected(_on_runtime_turn_rate_changed):
 		turn_rate_slider.value_changed.connect(_on_runtime_turn_rate_changed)
+	var boost_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/BoostActiveSlider") as HSlider
+	if boost_slider != null and not boost_slider.value_changed.is_connected(_on_runtime_boost_changed):
+		boost_slider.value_changed.connect(_on_runtime_boost_changed)
+	var boost_toggle := get_node_or_null("PreviewControls/RuntimeInputsRow/BoostActiveToggle") as CheckButton
+	if boost_toggle != null and not boost_toggle.toggled.is_connected(_on_runtime_boost_toggled):
+		boost_toggle.toggled.connect(_on_runtime_boost_toggled)
+	var defense_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/DefenseImpactSlider") as HSlider
+	if defense_slider != null and not defense_slider.value_changed.is_connected(_on_runtime_defense_impact_changed):
+		defense_slider.value_changed.connect(_on_runtime_defense_impact_changed)
+	var defense_hit := get_node_or_null("PreviewControls/RuntimeInputsRow/DefenseImpactHit") as Button
+	if defense_hit != null and not defense_hit.pressed.is_connected(_on_runtime_defense_hit):
+		defense_hit.pressed.connect(_on_runtime_defense_hit)
+	var radius_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/EffectRadiusSlider") as HSlider
+	if radius_slider != null and not radius_slider.value_changed.is_connected(_on_runtime_effect_radius_changed):
+		radius_slider.value_changed.connect(_on_runtime_effect_radius_changed)
 	_rebuild_track_scales()
 	_rebuild_profile_select()
 	_rebuild_anchor_controls()
@@ -512,6 +536,62 @@ func _on_runtime_turn_rate_changed(value: float) -> void:
 	set_runtime_input_value("turn_rate_normalized", value)
 
 
+func _on_runtime_boost_changed(value: float) -> void:
+	_boost_ramp_target = -1.0
+	set_runtime_input_value("boost_active", value)
+
+
+func _on_runtime_boost_toggled(enabled: bool) -> void:
+	_boost_ramp_target = 1.0 if enabled else 0.0
+
+
+func _on_runtime_effect_radius_changed(value: float) -> void:
+	set_runtime_input_value("effect_radius", value)
+
+
+func _on_runtime_defense_impact_changed(value: float) -> void:
+	_defense_impact_decaying = false
+	set_runtime_input_value("defense_impact", value)
+
+
+# Mirrors the Game: a valid defense sets defense_impact to 1, then it decays linearly to 0 over 0.5 s.
+func _on_runtime_defense_hit() -> void:
+	if set_runtime_input_value("defense_impact", 1.0):
+		_defense_impact_decaying = true
+		_sync_runtime_slider("DefenseImpactSlider", 1.0)
+
+
+func _advance_defense_impact(delta: float) -> void:
+	if not _defense_impact_decaying or not _runtime_input_values_by_name.has("defense_impact"):
+		return
+	var next := maxf(float(_runtime_input_values_by_name["defense_impact"]) - delta / DEFENSE_IMPACT_DECAY_SECONDS, 0.0)
+	set_runtime_input_value("defense_impact", next)
+	_sync_runtime_slider("DefenseImpactSlider", next)
+	if next <= 0.0:
+		_defense_impact_decaying = false
+
+
+func _sync_runtime_slider(slider_name: String, value: float) -> void:
+	var slider := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % slider_name) as HSlider
+	if slider != null:
+		slider.set_value_no_signal(value)
+
+
+# Mirrors the Game smoothing of boost_active (linear rise 0.08 s, fall 0.3 s).
+func _advance_boost_ramp(delta: float) -> void:
+	if _boost_ramp_target < 0.0 or not _runtime_input_values_by_name.has("boost_active"):
+		return
+	var current := float(_runtime_input_values_by_name["boost_active"])
+	if is_equal_approx(current, _boost_ramp_target):
+		return
+	var step := delta / (BOOST_RISE_SECONDS if _boost_ramp_target > current else BOOST_FALL_SECONDS)
+	var next := move_toward(current, _boost_ramp_target, step)
+	if set_runtime_input_value("boost_active", next):
+		var slider := get_node_or_null("PreviewControls/RuntimeInputsRow/BoostActiveSlider") as HSlider
+		if slider != null:
+			slider.set_value_no_signal(next)
+
+
 func _configure_runtime_input_state() -> void:
 	if _active_render_plan == null:
 		_runtime_input_state = null
@@ -523,6 +603,8 @@ func _configure_runtime_input_state() -> void:
 	_runtime_input_state = VfxPreviewRuntimeInputStateModel.new(program)
 	for slot in program.runtime_input_count():
 		var input_name: String = program.runtime_input_name(slot)
+		if input_name == "effect_radius" and not _runtime_input_values_by_name.has(input_name):
+			_runtime_input_values_by_name[input_name] = PREVIEW_EFFECT_RADIUS_SOURCE_PX
 		if _runtime_input_values_by_name.has(input_name):
 			_runtime_input_state.set_slot(slot, clampf(float(_runtime_input_values_by_name[input_name]), program.runtime_input_minimum(slot), program.runtime_input_maximum(slot)))
 		_runtime_input_values_by_name[input_name] = _runtime_input_state.value_at(slot)
@@ -534,7 +616,7 @@ func _update_runtime_input_controls() -> void:
 	var visible: bool = row != null and program != null and program.binding_count() > 0 and _runtime_input_state != null
 	if row != null:
 		row.visible = visible
-	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"], ["turn_rate_normalized", "TurnRateLabel", "TurnRateSlider"]]:
+	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"], ["turn_rate_normalized", "TurnRateLabel", "TurnRateSlider"], ["boost_active", "BoostActiveLabel", "BoostActiveSlider"], ["defense_impact", "DefenseImpactLabel", "DefenseImpactSlider"], ["effect_radius", "EffectRadiusLabel", "EffectRadiusSlider"]]:
 		var input_name := str(configuration[0])
 		var slot: int = program.runtime_input_slot(input_name) if visible else -1
 		var label := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % str(configuration[1])) as Control

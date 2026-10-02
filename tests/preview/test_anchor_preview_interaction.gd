@@ -51,6 +51,8 @@ static func _test_multi_anchor_and_game_readability_policy(tests: TestAssert) ->
 	state.set_track_scale(1.0)
 	state.set_profile_data(_formula_profile_data())
 	state.set_layer_context(VfxPreviewLayerContextModel.new("loop.tires", ["TIRE_FL", "TIRE_FR", "TIRE_RL", "TIRE_RR"], "VEHICLE_LOCAL", Vector2(3, -2), "UNDER_VEHICLE"))
+	tests.expect_true(not state.show_anchors(), "Anchor overlay starts hidden by default")
+	state.set_show_anchors(true)
 	canvas.set_interactive(true)
 	canvas.set_view_zoom(2.0)
 	canvas.set_shared_state(state)

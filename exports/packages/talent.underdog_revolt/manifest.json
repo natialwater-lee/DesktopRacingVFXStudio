@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 1082,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_spark",
+      "package_path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 74575,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.underdog_revolt_ember_burst",
+      "package_path": "assets/talent_underdog_revolt_ember_burst.png",
+      "sha256": "870153dc0fcbadca09535ae38be6475151504e7951a681b06cd3fb27125f45de"
+    },
+    {
+      "byte_size": 34892,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.underdog_revolt_flame_streak",
+      "package_path": "assets/talent_underdog_revolt_flame_streak.png",
+      "sha256": "18d54258963d0f545938caf0cb12bd14665999770bdffaadc524e79b202b2bda"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 1082,
+      "path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 74575,
+      "path": "assets/talent_underdog_revolt_ember_burst.png",
+      "sha256": "870153dc0fcbadca09535ae38be6475151504e7951a681b06cd3fb27125f45de"
+    },
+    {
+      "byte_size": 34892,
+      "path": "assets/talent_underdog_revolt_flame_streak.png",
+      "sha256": "18d54258963d0f545938caf0cb12bd14665999770bdffaadc524e79b202b2bda"
+    },
+    {
+      "byte_size": 10499,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "55da706d41e1b7b1e93d4bbbaa6786eb8725270e79cb4b1d237c215c76b572ed"
+    },
+    {
+      "byte_size": 10002,
+      "path": "source/talent.underdog_revolt.vfx.json",
+      "sha256": "846544da3a7e44f6a8a69bc7d2542c7ae52abd6e6d0f7bbaf46d3ccb55aa2a30"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.underdog_revolt",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Underdog Revolt",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.underdog_revolt",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 5,
+      "DETAIL": 1,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 10499,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "55da706d41e1b7b1e93d4bbbaa6786eb8725270e79cb4b1d237c215c76b572ed",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 10002,
+    "path": "source/talent.underdog_revolt.vfx.json",
+    "sha256": "846544da3a7e44f6a8a69bc7d2542c7ae52abd6e6d0f7bbaf46d3ccb55aa2a30"
+  }
+}

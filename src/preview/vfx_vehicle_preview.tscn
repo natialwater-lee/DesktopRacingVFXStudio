@@ -42,7 +42,6 @@ tooltip_text = "Preview Motion"
 [node name="ShowAnchors" type="CheckBox" parent="PreviewControls/DisplayRow"]
 layout_mode = 2
 text = "Anchors"
-button_pressed = true
 
 [node name="ProfileEditRow" type="HBoxContainer" parent="PreviewControls"]
 layout_mode = 2
@@ -119,6 +118,49 @@ max_value = 1.0
 step = 0.01
 tick_count = 3
 ticks_on_borders = true
+
+[node name="BoostActiveLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Boost"
+
+[node name="BoostActiveSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="BoostActiveToggle" type="CheckButton" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+tooltip_text = "Ramp boost_active like the Game (rise 0.08 s, fall 0.3 s)"
+
+[node name="DefenseImpactLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Defense"
+
+[node name="DefenseImpactSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="DefenseImpactHit" type="Button" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+tooltip_text = "Simulate a valid defense: defense_impact 1 then 0 over 0.5 s like the Game"
+text = "Hit"
+
+[node name="EffectRadiusLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Radius"
+
+[node name="EffectRadiusSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+tooltip_text = "effect_radius in vehicle source px (Game converts its world radius)"
+min_value = 0.0
+max_value = 1600.0
+step = 10.0
 
 [node name="PlaybackRow" type="HBoxContainer" parent="PreviewControls"]
 layout_mode = 2

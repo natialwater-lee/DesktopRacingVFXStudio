@@ -1,0 +1,261 @@
+{
+  "category": "RACE_TALENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Shockwave",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.3,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.ripple",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.75,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              0.55,
+              0.75,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 0.8,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.2,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 330.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 120.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.shockwave_ring"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.7,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.wave",
+          "importance": "CORE",
+          "modulations": [
+            {
+              "id": "start.wave.radius_x",
+              "mapping": {
+                "input_max": 231.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "effect_radius",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.wave.radius_y",
+              "mapping": {
+                "input_max": 231.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "effect_radius",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.wave.expand_x",
+              "mapping": {
+                "input_max": 0.93,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wave.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.wave.expand_y",
+              "mapping": {
+                "input_max": 0.93,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wave.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.wave.fade",
+              "mapping": {
+                "input_max": 0.93,
+                "input_min": 0.0,
+                "output_max": 0.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wave.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.shockwave_ring"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.core_flash",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              0.7,
+              0.85,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.5,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 200.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 60.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.shockwave_ring"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    }
+  },
+  "preset_id": "talent.shockwave",
+  "runtime_inputs": [
+    "effect_radius"
+  ],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 1.3333,
+      "id": "wave.intro",
+      "type": "LINEAR_PHASE"
+    }
+  ],
+  "schema_version": 1.0
+}

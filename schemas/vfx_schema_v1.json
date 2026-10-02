@@ -744,6 +744,18 @@
     "surface_type": {
       "$ref": "#/$defs/logical_id",
       "default": "surface.default"
+    },
+    "boost_active": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
+    },
+    "defense_impact": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
     }
   },
   "x_vfx_rules": [

@@ -1,0 +1,422 @@
+{
+  "category": "RACE_TALENT",
+  "default_space_mode": "VEHICLE_LOCAL",
+  "display_name": "Furious Overtake",
+  "lifecycle": {
+    "mode": "START_LOOP_END"
+  },
+  "phases": {
+    "end": {
+      "duration_seconds": 0.3,
+      "layers": []
+    },
+    "loop": {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.aura_a",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.45,
+              0.4,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.4,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.0,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 405.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 380.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.furious_overtake_aura_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.aura_b",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.45,
+              0.4,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.15,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 1.2,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 405.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 380.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.furious_overtake_aura_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.rear_beam",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.45,
+              0.4,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 270.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 240.0,
+            "speed_max": 40.0,
+            "speed_min": 40.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.furious_overtake_rear_beam"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              0.0,
+              405.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.sparks",
+          "importance": "DETAIL",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.75,
+              0.65,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 10.0,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.75,
+            "max_particles": 8.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 30.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 80.0,
+            "speed_max": 550.0,
+            "speed_min": 300.0,
+            "spread_degrees": 110.0,
+            "sprite_asset_ref": "fx.furious_overtake_spark"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "offset": [
+              0.0,
+              210.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    },
+    "start": {
+      "duration_seconds": 0.4,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.rage_flash",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              0.45,
+              0.4,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.55,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 330.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 280.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.furious_overtake_rear_beam"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1.0,
+          "transform": {
+            "offset": [
+              0.0,
+              434.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.crack_burst",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              0.45,
+              0.4,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 405.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 300.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.furious_overtake_aura_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0.0,
+          "transform": {
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.spark_burst",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 8.0,
+            "color_rgba": [
+              1.0,
+              0.75,
+              0.65,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.8,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 30.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 80.0,
+            "speed_max": 650.0,
+            "speed_min": 350.0,
+            "spread_degrees": 300.0,
+            "sprite_asset_ref": "fx.furious_overtake_spark"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2.0,
+          "transform": {
+            "offset": [
+              0.0,
+              210.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ]
+    }
+  },
+  "preset_id": "talent.furious_overtake",
+  "runtime_inputs": [],
+  "schema_version": 1.0
+}
