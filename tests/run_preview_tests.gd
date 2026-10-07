@@ -25,6 +25,7 @@ const HeadlightAuthoringTests := preload("res://tests/preview/test_headlight_aut
 const SuperBoosterAuthoringTests := preload("res://tests/preview/test_super_booster_authoring.gd")
 const SuperBoosterDualAuthoringTests := preload("res://tests/preview/test_super_booster_dual_authoring.gd")
 const RotorLiftDownwashAuthoringTests := preload("res://tests/preview/test_rotor_lift_downwash_authoring.gd")
+const SpecialEquipmentPreviewTests := preload("res://tests/preview/test_special_equipment_preview.gd")
 const RuntimeModulationProgramTests := preload("res://tests/preview/test_runtime_modulation_program.gd")
 const SoloRunAuthoringTests := preload("res://tests/preview/test_solo_run_authoring.gd")
 
@@ -60,6 +61,7 @@ func _run() -> void:
 	SuperBoosterAuthoringTests.run(tests)
 	SuperBoosterDualAuthoringTests.run(tests)
 	RotorLiftDownwashAuthoringTests.run(tests)
+	SpecialEquipmentPreviewTests.run(tests)
 	RuntimeModulationProgramTests.run(tests)
 	preload("res://tests/preview/test_photosynthesis_authoring.gd").run(tests)
 	preload("res://tests/preview/test_rain_surfer_authoring.gd").run(tests)

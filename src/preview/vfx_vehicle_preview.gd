@@ -18,6 +18,7 @@ const VfxPreviewCanvasRenderHostModel := preload("res://src/preview/rendering/vf
 const VfxPerformancePolicyModel := preload("res://src/performance/vfx_performance_policy.gd")
 const VfxPreviewLodFilterModel := preload("res://src/performance/vfx_preview_lod_filter.gd")
 const VfxPreviewRuntimeInputStateModel := preload("res://src/preview/runtime_modulation/vfx_preview_runtime_input_state.gd")
+const VfxPreviewEquipmentCatalogModel := preload("res://src/preview/equipment/vfx_preview_equipment_catalog.gd")
 
 var _shared_state: RefCounted = VfxPreviewSharedStateModel.new()
 var _profile_session: RefCounted
@@ -40,6 +41,10 @@ var _runtime_input_state: RefCounted
 var _runtime_input_values_by_name: Dictionary = {}
 var _boost_ramp_target := -1.0
 var _defense_impact_decaying := false
+var _equipment_catalog: RefCounted
+var _equipment_enabled := true
+var _equipment_mark_id := "mk1"
+var _equipment_retract_elapsed := -1.0
 
 
 func _ready() -> void:
@@ -47,6 +52,7 @@ func _ready() -> void:
 	_configure_controls()
 	_configure_render_hosts()
 	_ensure_authoring_lod_ui()
+	_ensure_equipment_ui()
 	_update_preview_status_label()
 	_rebuild_render_runtime()
 
@@ -216,6 +222,7 @@ func _process(delta: float) -> void:
 		_apply_motion_at_time(float(_shared_state.motion_time()) + delta)
 	_advance_boost_ramp(delta)
 	_advance_defense_impact(delta)
+	_update_equipment_visual(delta)
 	_layout_screen_ui_hosts()
 
 
@@ -282,6 +289,7 @@ func _layout_screen_ui_hosts() -> void:
 func _rebuild_render_runtime() -> void:
 	if not is_node_ready():
 		return
+	_refresh_equipment_ui()
 	_clear_render_hosts()
 	_render_runtime = null
 	_playback = null
@@ -832,3 +840,86 @@ func _request_edit_scroll_center() -> void:
 
 func _game_canvas() -> Control:
 	return get_node_or_null("PreviewSurface/GameSizeInset/GameInsetContents/GameCanvas") as Control
+
+
+func _ensure_equipment_ui() -> void:
+	var controls := get_node_or_null("PreviewControls") as VBoxContainer
+	if controls == null or controls.get_node_or_null("EquipmentRow") != null:
+		return
+	var row := HBoxContainer.new()
+	row.name = "EquipmentRow"
+	controls.add_child(row)
+	var toggle := CheckBox.new()
+	toggle.name = "ShowEquipment"
+	toggle.text = "SPECIAL EQUIPMENT"
+	toggle.button_pressed = _equipment_enabled
+	toggle.toggled.connect(func(enabled: bool) -> void: _equipment_enabled = enabled)
+	row.add_child(toggle)
+	var mark_select := OptionButton.new()
+	mark_select.name = "EquipmentMarkSelect"
+	mark_select.item_selected.connect(func(index: int) -> void: _equipment_mark_id = mark_select.get_item_text(index))
+	row.add_child(mark_select)
+	var status := Label.new()
+	status.name = "EquipmentStatus"
+	row.add_child(status)
+	_refresh_equipment_ui()
+
+
+func _equipment_type() -> String:
+	if _active_render_plan == null:
+		return ""
+	if _equipment_catalog == null:
+		_equipment_catalog = VfxPreviewEquipmentCatalogModel.new()
+	return _equipment_catalog.equipment_type_for_preset(_active_render_plan.preset_id())
+
+
+func _equipment_matches_profile(equipment_type: String) -> bool:
+	var category := str(_equipment_catalog.entry(equipment_type).get("vehicle_category", ""))
+	return category.is_empty() or str(_shared_state.profile_data().get("profile_id", "")) == category
+
+
+func _refresh_equipment_ui() -> void:
+	var row := get_node_or_null("PreviewControls/EquipmentRow") as HBoxContainer
+	if row == null:
+		return
+	var equipment_type := _equipment_type()
+	row.visible = not equipment_type.is_empty()
+	if equipment_type.is_empty():
+		return
+	var mark_select := row.get_node("EquipmentMarkSelect") as OptionButton
+	var marks: Array[String] = _equipment_catalog.marks(equipment_type)
+	mark_select.clear()
+	for mark_id in marks:
+		mark_select.add_item(mark_id)
+	if not marks.has(_equipment_mark_id) and not marks.is_empty():
+		_equipment_mark_id = marks[0]
+	mark_select.select(marks.find(_equipment_mark_id))
+	var status := row.get_node("EquipmentStatus") as Label
+	status.text = equipment_type if _equipment_matches_profile(equipment_type) else "%s: %s only" % [equipment_type, str(_equipment_catalog.entry(equipment_type).get("vehicle_category", ""))]
+
+
+# Game: VFX START begins when the equipment turns ACTIVE; VFX END runs with RETRACT,
+# which keeps playing after the VFX itself has drained.
+func _update_equipment_visual(delta: float) -> void:
+	var texture: Texture2D = null
+	var equipment_type := _equipment_type()
+	if _equipment_enabled and not equipment_type.is_empty() and _playback != null and _equipment_matches_profile(equipment_type):
+		var phase: String = _playback.active_phase_name()
+		var state: String = _playback.state_name()
+		if (phase == "start" or phase == "loop") and state != "DRAINING" and state != "TERMINATED":
+			_equipment_retract_elapsed = -1.0
+			texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_ACTIVE, _playback.simulation_time())
+		elif state != "IDLE":
+			if _equipment_retract_elapsed < 0.0:
+				_equipment_retract_elapsed = 0.0
+			elif state != "PAUSED":
+				_equipment_retract_elapsed += delta
+			texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_RETRACT, _equipment_retract_elapsed)
+	for canvas in [_edit_canvas(), _game_canvas()]:
+		if canvas == null or not canvas.has_method("set_equipment_visual"):
+			continue
+		if texture == null:
+			canvas.set_equipment_visual(null, Vector2.ZERO, 1.0, false)
+			continue
+		var placement: Dictionary = _equipment_catalog.placement(equipment_type, Vector2(canvas.reference_size()), Vector2(texture.get_size()))
+		canvas.set_equipment_visual(texture, placement["anchor_position"], float(placement["equipment_scale"]), placement["visual_layer"] == "overlay")

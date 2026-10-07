@@ -83,6 +83,16 @@ func render_plane_host(render_plane: String, effective_space: String) -> Node2D:
 	return null
 
 
+func reference_size() -> Vector2i:
+	return _reference_size
+
+
+func set_equipment_visual(texture: Texture2D, equipment_position: Vector2, equipment_scale: float, over_vehicle: bool) -> void:
+	var vehicle_art: Node = _plane_hosts.get("vehicle_art")
+	if vehicle_art != null and vehicle_art.has_method("set_equipment"):
+		vehicle_art.set_equipment(texture, equipment_position, equipment_scale, over_vehicle)
+
+
 func project_anchor_position(anchor_name: String, additional_offset: Vector2 = Vector2.ZERO) -> Variant:
 	return _project_anchor(anchor_name, additional_offset)
 
