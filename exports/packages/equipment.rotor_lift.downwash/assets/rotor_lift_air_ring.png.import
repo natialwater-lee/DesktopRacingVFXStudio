@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bs7amqbw6r53g"
-path="res://.godot/imported/rotor_lift_downwash_core.png-9ca9d1aaf7256ae5c09f03e8ca947c85.ctex"
+uid="uid://ccbro0rurkliv"
+path="res://.godot/imported/rotor_lift_air_ring.png-875a9cc0eacd4be6443c9a02bce8a959.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/equipment.rotor_lift.downwash/assets/rotor_lift_downwash_core.png"
-dest_files=["res://.godot/imported/rotor_lift_downwash_core.png-9ca9d1aaf7256ae5c09f03e8ca947c85.ctex"]
+source_file="res://exports/packages/equipment.rotor_lift.downwash/assets/rotor_lift_air_ring.png"
+dest_files=["res://.godot/imported/rotor_lift_air_ring.png-875a9cc0eacd4be6443c9a02bce8a959.ctex"]
 
 [params]
 

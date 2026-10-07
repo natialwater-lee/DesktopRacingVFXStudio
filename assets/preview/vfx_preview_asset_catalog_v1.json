@@ -15,6 +15,14 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/super_booster_spark_blue.png"
     },
+    "fx.rotor_lift_air_ring": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rotor_lift_air_ring.png"
+    },
+    "fx.rotor_lift_mist_puff": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/rotor_lift_mist_puff.png"
+    },
     "fx.rotor_lift_downwash_core": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/rotor_lift_downwash_core.png"

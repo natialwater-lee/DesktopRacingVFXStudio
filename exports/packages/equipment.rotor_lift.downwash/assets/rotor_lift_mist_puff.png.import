@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dad82b7whf5c6"
-path="res://.godot/imported/rotor_lift_downwash_soft.png-f7842deff9d8be67733213605a47eeaf.ctex"
+uid="uid://bdx3nd73jarjm"
+path="res://.godot/imported/rotor_lift_mist_puff.png-26a852fad59641b824f63b417444f056.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/equipment.rotor_lift.downwash/assets/rotor_lift_downwash_soft.png"
-dest_files=["res://.godot/imported/rotor_lift_downwash_soft.png-f7842deff9d8be67733213605a47eeaf.ctex"]
+source_file="res://exports/packages/equipment.rotor_lift.downwash/assets/rotor_lift_mist_puff.png"
+dest_files=["res://.godot/imported/rotor_lift_mist_puff.png-26a852fad59641b824f63b417444f056.ctex"]
 
 [params]
 

@@ -21,6 +21,18 @@
       "source_path": "res://assets/vfx/super_booster_spark_blue.png",
       "package_file_name": "super_booster_spark_blue.png"
     },
+    "fx.rotor_lift_air_ring": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rotor_lift_air_ring.png",
+      "package_file_name": "rotor_lift_air_ring.png"
+    },
+    "fx.rotor_lift_mist_puff": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/rotor_lift_mist_puff.png",
+      "package_file_name": "rotor_lift_mist_puff.png"
+    },
     "fx.rotor_lift_downwash_core": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

@@ -1,52 +1,40 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 384808,
+      "byte_size": 139704,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.rotor_lift_downwash_core",
-      "package_path": "assets/rotor_lift_downwash_core.png",
-      "sha256": "74b1d14458d162c34ad3d6015a146bef45c33ec337dae33fb8178e1b78c3f3b8"
+      "logical_id": "fx.rotor_lift_air_ring",
+      "package_path": "assets/rotor_lift_air_ring.png",
+      "sha256": "cd182d5e2357b96357068b6640caa3bb2c81fbfac79694e9b7f5c964c080c791"
     },
     {
-      "byte_size": 386988,
+      "byte_size": 11436,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.rotor_lift_downwash_soft",
-      "package_path": "assets/rotor_lift_downwash_soft.png",
-      "sha256": "c419e7c9c50732214c114a3df9e250609ad7d0feb2d69335d0d51295d7804f49"
-    },
-    {
-      "byte_size": 29904,
-      "kind": "TEXTURE_PNG",
-      "logical_id": "fx.rotor_lift_turbulence_particle",
-      "package_path": "assets/rotor_lift_turbulence_particle.png",
-      "sha256": "99665f44888229022dbb8994808f991db291e8abbeb47474df4a69b65f567f5c"
+      "logical_id": "fx.rotor_lift_mist_puff",
+      "package_path": "assets/rotor_lift_mist_puff.png",
+      "sha256": "6172cc404ac5567cf67e1f58ce8d8753fd1e5d7ca56858dc228edd0cd7d65fac"
     }
   ],
   "files": [
     {
-      "byte_size": 384808,
-      "path": "assets/rotor_lift_downwash_core.png",
-      "sha256": "74b1d14458d162c34ad3d6015a146bef45c33ec337dae33fb8178e1b78c3f3b8"
+      "byte_size": 139704,
+      "path": "assets/rotor_lift_air_ring.png",
+      "sha256": "cd182d5e2357b96357068b6640caa3bb2c81fbfac79694e9b7f5c964c080c791"
     },
     {
-      "byte_size": 386988,
-      "path": "assets/rotor_lift_downwash_soft.png",
-      "sha256": "c419e7c9c50732214c114a3df9e250609ad7d0feb2d69335d0d51295d7804f49"
+      "byte_size": 11436,
+      "path": "assets/rotor_lift_mist_puff.png",
+      "sha256": "6172cc404ac5567cf67e1f58ce8d8753fd1e5d7ca56858dc228edd0cd7d65fac"
     },
     {
-      "byte_size": 29904,
-      "path": "assets/rotor_lift_turbulence_particle.png",
-      "sha256": "99665f44888229022dbb8994808f991db291e8abbeb47474df4a69b65f567f5c"
-    },
-    {
-      "byte_size": 24772,
+      "byte_size": 16632,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "2f067ee8639f41d64dd7e0316f5e37339d4ca560b31d86cc71ed97e644cf6133"
+      "sha256": "58947b57596f9a85d808a6ab10f86bce77d9057ac7c4bb927efedbe052eb1bd8"
     },
     {
-      "byte_size": 23963,
+      "byte_size": 16057,
       "path": "source/equipment.rotor_lift.downwash.vfx.json",
-      "sha256": "d4ccf4adac7e2d1bdda6caf706696ed8185ab41fe26f1fe7e9040ce9617ee9d4"
+      "sha256": "2a670091558af4da73a3598b5425dd99f064c3914fc876388aee082e0febf848"
     }
   ],
   "package_format_version": 1,
@@ -61,9 +49,9 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 6,
-      "DETAIL": 6,
-      "EXTRA": 2
+      "CORE": 4,
+      "DETAIL": 0,
+      "EXTRA": 4
     },
     "required_vehicle_anchors": [
       "CENTER"
@@ -71,14 +59,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 24772,
+    "byte_size": 16632,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "2f067ee8639f41d64dd7e0316f5e37339d4ca560b31d86cc71ed97e644cf6133",
+    "sha256": "58947b57596f9a85d808a6ab10f86bce77d9057ac7c4bb927efedbe052eb1bd8",
     "version": 2
   },
   "source": {
-    "byte_size": 23963,
+    "byte_size": 16057,
     "path": "source/equipment.rotor_lift.downwash.vfx.json",
-    "sha256": "d4ccf4adac7e2d1bdda6caf706696ed8185ab41fe26f1fe7e9040ce9617ee9d4"
+    "sha256": "2a670091558af4da73a3598b5425dd99f064c3914fc876388aee082e0febf848"
   }
 }

@@ -13,19 +13,20 @@ const VfxExportCompilerModel := preload("res://src/export/vfx_export_compiler.gd
 
 static func run(tests: TestAssert) -> void:
 	_test_assets_are_exportable(tests)
-	_test_rotating_preset_compiles_to_v2_with_exact_dependencies(tests)
+	_test_preset_compiles_to_v2_with_exact_dependencies(tests)
 
 
 static func _test_assets_are_exportable(tests: TestAssert) -> void:
 	var registry := VfxExportAssetRegistryModel.new()
 	var loaded := registry.load()
-	var core := registry.resolve_exportable("fx.rotor_lift_downwash_core") if loaded.success else VfxResult.failure(loaded.issues)
-	var soft := registry.resolve_exportable("fx.rotor_lift_downwash_soft") if loaded.success else VfxResult.failure(loaded.issues)
-	var particle := registry.resolve_exportable("fx.rotor_lift_turbulence_particle") if loaded.success else VfxResult.failure(loaded.issues)
-	tests.expect_true(loaded.success and core.success and soft.success and particle.success and core.value.get("source_path") == "res://assets/vfx/rotor_lift_downwash_core.png" and soft.value.get("source_path") == "res://assets/vfx/rotor_lift_downwash_soft.png" and particle.value.get("source_path") == "res://assets/vfx/rotor_lift_turbulence_particle.png" and core.value.get("package_file_name") == "rotor_lift_downwash_core.png" and soft.value.get("package_file_name") == "rotor_lift_downwash_soft.png" and particle.value.get("package_file_name") == "rotor_lift_turbulence_particle.png", "Rotor Lift registers its three user-supplied PNGs as explicit portable export dependencies")
+	var matches := loaded.success
+	for name in ["air_ring", "mist_puff"]:
+		var resolved: VfxResult = registry.resolve_exportable("fx.rotor_lift_%s" % name) if loaded.success else VfxResult.failure(loaded.issues)
+		matches = matches and resolved.success and resolved.value.get("source_path") == "res://assets/vfx/rotor_lift_%s.png" % name and resolved.value.get("package_file_name") == "rotor_lift_%s.png" % name
+	tests.expect_true(matches, "Rotor Lift registers its two R5 PNGs (air ring, mist puff) as explicit portable export dependencies")
 
 
-static func _test_rotating_preset_compiles_to_v2_with_exact_dependencies(tests: TestAssert) -> void:
+static func _test_preset_compiles_to_v2_with_exact_dependencies(tests: TestAssert) -> void:
 	var document := VfxPresetPipelineModel.new().load_and_validate("res://presets/examples/equipment.rotor_lift.downwash.vfx.json")
 	var compiler := _compiler()
 	var first: VfxResult = compiler.value.compile(document.value) if document.success and compiler.success else VfxResult.failure([])
@@ -34,16 +35,10 @@ static func _test_rotating_preset_compiles_to_v2_with_exact_dependencies(tests: 
 	var manifest: Dictionary = first.value.manifest_data() if first.success else {}
 	var dependencies: Array = manifest.get("asset_dependencies", []) if manifest.get("asset_dependencies", []) is Array else []
 	var ids := dependencies.map(func(dependency: Dictionary) -> String: return str(dependency.get("logical_id", "")))
-	var expected_sources: Array = [
-		{"id": "rotor.core.phase", "type": "LINEAR_PHASE", "frequency_hz": 2.4},
-		{"id": "rotor.soft.phase", "type": "LINEAR_PHASE", "frequency_hz": 1.35},
-		{"id": "rotor.left_soft.pressure", "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": 1.1, "phase_degrees": 0.0},
-		{"id": "rotor.right_soft.pressure", "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": 1.1, "phase_degrees": 90.0}
-	]
-	var loop_layers := _phase_layers(runtime, "loop") if runtime is Dictionary else []
-	var loop_ids := loop_layers.map(func(layer: Dictionary) -> String: return str(layer.get("id", "")))
-	var core_is_persistent := loop_ids.has("loop.left_core_spin") and loop_ids.has("loop.right_core_spin") and not loop_ids.has("loop.left_core_pressure_sheet") and not loop_ids.has("loop.right_core_pressure_sheet")
-	tests.expect_true(first.success and second.success and first.value.runtime_text() == second.value.runtime_text() and runtime is Dictionary and runtime.get("runtime_definition_version") == 2 and manifest.get("package_format_version") == 1 and manifest.get("runtime_definition", {}).get("version") == 2 and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json" and ids == ["fx.rotor_lift_downwash_core", "fx.rotor_lift_downwash_soft", "fx.rotor_lift_turbulence_particle"] and not JSON.stringify(runtime).contains("res://") and runtime.get("runtime_inputs") == [] and runtime.get("runtime_modulation_sources") == expected_sources and core_is_persistent and not JSON.stringify(runtime).contains("vfx_runtime_definition_v1"), "Rotor Lift R3.1 deterministically compiles to Runtime Definition v2 with faster reversed LINEAR_PHASE and portable phase-shifted SINE sources, persistent Core sprites, Package Format v1, and only its three PNG dependencies")
+	var sources: Array = runtime.get("runtime_modulation_sources", []) if runtime is Dictionary else []
+	var source_ids := sources.map(func(source: Dictionary) -> String: return str(source.get("id", "")) if source.get("type") == "LINEAR_PHASE" and not source.has("phase_degrees") else "")
+	var loop_ids := (_phase_layers(runtime, "loop") if runtime is Dictionary else []).map(func(layer: Dictionary) -> String: return str(layer.get("id", "")))
+	tests.expect_true(first.success and second.success and first.value.runtime_text() == second.value.runtime_text() and runtime is Dictionary and runtime.get("runtime_definition_version") == 2 and manifest.get("package_format_version") == 1 and manifest.get("runtime_definition", {}).get("version") == 2 and manifest.get("runtime_definition", {}).get("path") == "runtime/vfx_runtime_definition_v2.json" and ids == ["fx.rotor_lift_air_ring", "fx.rotor_lift_mist_puff"] and not JSON.stringify(runtime).contains("res://") and runtime.get("runtime_inputs") == [] and source_ids == ["rotor.burst.phase"] and loop_ids.has("loop.left_rings") and loop_ids.has("loop.right_mist") and not JSON.stringify(runtime).contains("vfx_runtime_definition_v1"), "Rotor Lift R5 deterministically compiles to Runtime Definition v2 with Game-portable LINEAR_PHASE sources (no phase offset), Package Format v1, and only its two R5 PNG dependencies")
 
 
 static func _phase_layers(runtime: Dictionary, phase_name: String) -> Array:

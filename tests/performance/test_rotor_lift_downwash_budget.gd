@@ -18,7 +18,7 @@ static func run(tests: TestAssert) -> void:
 	var policy_result: VfxResult = policy_script.new().load(_registry()) if policy_script != null else VfxResult.failure([])
 	var matches: bool = plan_result.success and policy_result.success and filter_script != null and analyzer_script != null and projection_script != null and scenario_script != null
 	var scenario = scenario_script.new("20x1_rotor_lift", 20, 1, "VEHICLE_STRESS", "STEADY_LOOP") if scenario_script != null else null
-	var expected := {"HIGH": [6, 4, 6, 120, 80, 120], "MEDIUM": [4, 4, 0, 80, 80, 0], "LOW": [2, 2, 0, 40, 40, 0]}
+	var expected := {"HIGH": [4, 0, 30, 80, 0, 600], "MEDIUM": [2, 0, 8, 40, 0, 160], "LOW": [2, 0, 8, 40, 0, 160]}
 	for level in expected:
 		var filtered: VfxResult = filter_script.new().filter(plan_result.value, level, policy_result.value) if matches else VfxResult.failure([])
 		var budget: VfxResult = analyzer_script.new(_registry()).analyze(filtered.value, {"anchors": {"CENTER": [0.0, 0.0]}}, "STEADY_LOOP") if filtered.success else VfxResult.failure([])
@@ -26,7 +26,7 @@ static func run(tests: TestAssert) -> void:
 		var projection: Variant = projection_script.new().project([workload], scenario) if workload != null and scenario != null else null
 		var values: Array = expected[level]
 		matches = matches and workload != null and projection != null and workload.expanded_instance_count() == values[0] and workload.persistent_textured_sprite_instance_count() == values[1] and workload.continuous_particle_capacity() == values[2] and projection.expanded_instance_count() == values[3] and projection.persistent_textured_sprite_instance_count() == values[4] and projection.continuous_particle_capacity() == values[5]
-	tests.expect_true(matches, "Rotor Lift R3 keeps four persistent rotating sprites and two EXTRA turbulence emitters at HIGH with a six-particle cap, while MEDIUM and LOW remove EXTRA without changing the Core/Soft sprite contract")
+	tests.expect_true(matches, "Rotor Lift R10 runs two CORE ring emitters (4 rings each) and two EXTRA mist emitters (11 each) at HIGH; MEDIUM and LOW keep only the ring emitters")
 
 
 static func _registry() -> RefCounted:
