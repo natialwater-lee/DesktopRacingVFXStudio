@@ -1,28 +1,64 @@
 {
   "asset_dependencies": [
     {
+      "byte_size": 12706,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_flow_a",
+      "package_path": "assets/speed_wind_flow_a.png",
+      "sha256": "46544a2034022847647af4e2252e23c46c651b49a8f41c4b27d4117a8fb1e07a"
+    },
+    {
+      "byte_size": 15262,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_flow_b",
+      "package_path": "assets/speed_wind_flow_b.png",
+      "sha256": "99b40ef34410c2383b5b3ba26ea23af6e3cf2ae999fd6c8f75d205ec9d2bc224"
+    },
+    {
       "byte_size": 5731,
       "kind": "TEXTURE_PNG",
       "logical_id": "fx.speed_wind_streak",
       "package_path": "assets/speed_wind_streak.png",
       "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    },
+    {
+      "byte_size": 4828,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_streak_b",
+      "package_path": "assets/speed_wind_streak_b.png",
+      "sha256": "927b322b15ac6b9a07a43e76f8a07c0ade4f0ae0f1530c484f48ceea8170a4ed"
     }
   ],
   "files": [
+    {
+      "byte_size": 12706,
+      "path": "assets/speed_wind_flow_a.png",
+      "sha256": "46544a2034022847647af4e2252e23c46c651b49a8f41c4b27d4117a8fb1e07a"
+    },
+    {
+      "byte_size": 15262,
+      "path": "assets/speed_wind_flow_b.png",
+      "sha256": "99b40ef34410c2383b5b3ba26ea23af6e3cf2ae999fd6c8f75d205ec9d2bc224"
+    },
     {
       "byte_size": 5731,
       "path": "assets/speed_wind_streak.png",
       "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
     },
     {
-      "byte_size": 12696,
-      "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "9cc0a827baefe7d9af209d70b0a8bbf1b7c88dc2ef3faa8031855098ccf6e78a"
+      "byte_size": 4828,
+      "path": "assets/speed_wind_streak_b.png",
+      "sha256": "927b322b15ac6b9a07a43e76f8a07c0ade4f0ae0f1530c484f48ceea8170a4ed"
     },
     {
-      "byte_size": 12160,
+      "byte_size": 35020,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "a4018c5ef4050922ca131033e8883b6019b0ce71ae608f3a516d16b68d3bd842"
+    },
+    {
+      "byte_size": 32860,
       "path": "source/driving.high_speed_wind.vfx.json",
-      "sha256": "8775eaf61eccb0cb264188a34674e6f0cc07fb71fcb319f17bd193840ea74d23"
+      "sha256": "701c12bce9c11015940441f429530ee9fc78c4fcac9075c510ea57d1a9d6fc19"
     }
   ],
   "package_format_version": 1,
@@ -38,23 +74,26 @@
   "requirements": {
     "importance_summary": {
       "CORE": 3,
-      "DETAIL": 3,
-      "EXTRA": 1
+      "DETAIL": 5,
+      "EXTRA": 3
     },
     "required_vehicle_anchors": [
       "CENTER"
     ],
-    "runtime_inputs": []
+    "runtime_inputs": [
+      "speed_normalized",
+      "boost_active"
+    ]
   },
   "runtime_definition": {
-    "byte_size": 12696,
-    "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "9cc0a827baefe7d9af209d70b0a8bbf1b7c88dc2ef3faa8031855098ccf6e78a",
-    "version": 1
+    "byte_size": 35020,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "a4018c5ef4050922ca131033e8883b6019b0ce71ae608f3a516d16b68d3bd842",
+    "version": 2
   },
   "source": {
-    "byte_size": 12160,
+    "byte_size": 32860,
     "path": "source/driving.high_speed_wind.vfx.json",
-    "sha256": "8775eaf61eccb0cb264188a34674e6f0cc07fb71fcb319f17bd193840ea74d23"
+    "sha256": "701c12bce9c11015940441f429530ee9fc78c4fcac9075c510ea57d1a9d6fc19"
   }
 }

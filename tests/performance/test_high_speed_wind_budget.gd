@@ -13,7 +13,7 @@ static func run(tests: TestAssert) -> void:
 
 
 static func _test_high_speed_wind_lod_keeps_one_core_airflow_layer(tests: TestAssert) -> void:
-	var expected := {"HIGH": [3, 8], "MEDIUM": [2, 7], "LOW": [1, 4]}
+	var expected := {"HIGH": [7, 8], "MEDIUM": [4, 7], "LOW": [1, 4]}
 	var policy_result := _policy_result()
 	var plan := _wind_plan()
 	if not policy_result.success or plan == null:
@@ -28,11 +28,11 @@ static func _test_high_speed_wind_lod_keeps_one_core_airflow_layer(tests: TestAs
 		var workload = budget_result.value.active_workload() if budget_result.success else null
 		var values: Array = expected[lod_level]
 		matches = matches and workload != null and workload.expanded_instance_count() == values[0] and workload.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "High-Speed Wind keeps Main/Fine/Long at HIGH, Main/Fine at MEDIUM, and only the four-cap Main airflow layer at LOW")
+	tests.expect_true(matches, "High-Speed Wind keeps three streak layers plus four flank sprites at HIGH, Main/Fine plus the two DETAIL flank sprites at MEDIUM, and only the four-cap Main airflow layer at LOW; the flank sprites add no continuous particle capacity")
 
 
 static func _test_twenty_high_speed_cars_stay_within_the_lightweight_sprite_target(tests: TestAssert) -> void:
-	var expected := {"HIGH": [60, 160], "MEDIUM": [40, 140], "LOW": [20, 80]}
+	var expected := {"HIGH": [140, 160], "MEDIUM": [80, 140], "LOW": [20, 80]}
 	var policy_result := _policy_result()
 	var plan := _wind_plan()
 	if not policy_result.success or plan == null:
@@ -51,7 +51,7 @@ static func _test_twenty_high_speed_cars_stay_within_the_lightweight_sprite_targ
 		var projection = projection_script.new().project([workload], scenario) if projection_script != null and workload != null else null
 		var values: Array = expected[lod_level]
 		matches = matches and projection != null and projection.expanded_instance_count() == values[0] and projection.continuous_particle_capacity() == values[1]
-	tests.expect_true(matches, "Twenty High-Speed Wind instances project to 60/40/20 Layers and 160/140/80 continuous sprites at HIGH/MEDIUM/LOW")
+	tests.expect_true(matches, "Twenty High-Speed Wind instances project to 140/80/20 Layers and 160/140/80 continuous sprites at HIGH/MEDIUM/LOW")
 
 
 static func _wind_plan() -> RefCounted:

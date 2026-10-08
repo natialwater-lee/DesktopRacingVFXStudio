@@ -112,7 +112,7 @@
             "speed_max": 540.0,
             "speed_min": 430.0,
             "spread_degrees": 8.0,
-            "sprite_asset_ref": "fx.speed_wind_streak"
+            "sprite_asset_ref": "fx.speed_wind_streak_b"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -238,7 +238,7 @@
             "speed_max": 580.0,
             "speed_min": 460.0,
             "spread_degrees": 8.0,
-            "sprite_asset_ref": "fx.speed_wind_streak"
+            "sprite_asset_ref": "fx.speed_wind_streak_b"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -315,6 +315,650 @@
             ]
           },
           "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.flank_l1",
+          "importance": "DETAIL",
+          "modulations": [
+            {
+              "id": "loop.flank_l1.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 240.0,
+                "output_min": -240.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_l1.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "loop.flank_l1.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 14.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_l1.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.flank_l1.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flank_l1.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l1.speed_alpha",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.0,
+                "output_min": 0.1,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l1.speed_cutoff",
+              "mapping": {
+                "input_max": 0.7,
+                "input_min": 0.62,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l1.boost_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l1.speed_length",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.15,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.flank_l1.boost_length",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.66,
+            "texture_asset_ref": "fx.speed_wind_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -122.0,
+              90.0
+            ],
+            "rotation_degrees": -2.0,
+            "scale": [
+              0.8,
+              1.1
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.flank_r1",
+          "importance": "DETAIL",
+          "modulations": [
+            {
+              "id": "loop.flank_r1.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 240.0,
+                "output_min": -240.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_r1.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "loop.flank_r1.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -14.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_r1.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.flank_r1.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flank_r1.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r1.speed_alpha",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.0,
+                "output_min": 0.1,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r1.speed_cutoff",
+              "mapping": {
+                "input_max": 0.7,
+                "input_min": 0.62,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r1.boost_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r1.speed_length",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.15,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.flank_r1.boost_length",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.66,
+            "texture_asset_ref": "fx.speed_wind_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              122.0,
+              90.0
+            ],
+            "rotation_degrees": 2.0,
+            "scale": [
+              0.8,
+              1.1
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.flank_l2",
+          "importance": "EXTRA",
+          "modulations": [
+            {
+              "id": "loop.flank_l2.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 240.0,
+                "output_min": -240.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_l2.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "loop.flank_l2.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 14.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_l2.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.flank_l2.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flank_l2.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l2.speed_alpha",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.0,
+                "output_min": 0.1,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l2.speed_cutoff",
+              "mapping": {
+                "input_max": 0.7,
+                "input_min": 0.62,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l2.boost_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_l2.speed_length",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.15,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.flank_l2.boost_length",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.speed_wind_flow_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -136.0,
+              70.0
+            ],
+            "rotation_degrees": -2.0,
+            "scale": [
+              0.8,
+              1.1
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.flank_r2",
+          "importance": "EXTRA",
+          "modulations": [
+            {
+              "id": "loop.flank_r2.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 240.0,
+                "output_min": -240.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_r2.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "loop.flank_r2.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -14.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "flank_r2.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.flank_r2.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "flank_r2.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r2.speed_alpha",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.0,
+                "output_min": 0.1,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r2.speed_cutoff",
+              "mapping": {
+                "input_max": 0.7,
+                "input_min": 0.62,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r2.boost_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.flank_r2.speed_length",
+              "mapping": {
+                "input_max": 0.96,
+                "input_min": 0.7,
+                "output_max": 1.15,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.flank_r2.boost_length",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "boost_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.speed_wind_flow_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 6.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              136.0,
+              70.0
+            ],
+            "rotation_degrees": 2.0,
+            "scale": [
+              0.8,
+              1.1
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
         }
       ]
     },
@@ -424,7 +1068,7 @@
             "speed_max": 580.0,
             "speed_min": 460.0,
             "spread_degrees": 8.0,
-            "sprite_asset_ref": "fx.speed_wind_streak"
+            "sprite_asset_ref": "fx.speed_wind_streak_b"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -445,6 +1089,59 @@
     }
   },
   "preset_id": "driving.high_speed_wind",
-  "runtime_inputs": [],
+  "runtime_inputs": [
+    "speed_normalized",
+    "boost_active"
+  ],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 1.6,
+      "id": "flank_l1.travel",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.6,
+      "id": "flank_l1.fade",
+      "phase_degrees": -90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.75,
+      "id": "flank_r1.travel",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.75,
+      "id": "flank_r1.fade",
+      "phase_degrees": -90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.95,
+      "id": "flank_l2.travel",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.95,
+      "id": "flank_l2.fade",
+      "phase_degrees": -90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 2.15,
+      "id": "flank_r2.travel",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 2.15,
+      "id": "flank_r2.fade",
+      "phase_degrees": -90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    }
+  ],
   "schema_version": 1.0
 }

@@ -19,16 +19,16 @@ static func run(tests: TestAssert) -> void:
 static func _test_wind_texture_is_allow_listed_for_production_export(tests: TestAssert) -> void:
 	var registry := VfxExportAssetRegistryModel.new()
 	var loaded: VfxResult = registry.load()
-	var asset: VfxResult = registry.resolve_exportable("fx.speed_wind_streak") if loaded.success else VfxResult.failure(loaded.issues)
-	tests.expect_true(
-		loaded.success
-		and asset.success
-		and asset.value.get("export_policy") == "EXPORTABLE"
-		and asset.value.get("kind") == "TEXTURE_PNG"
-		and asset.value.get("source_path") == "res://assets/vfx/speed_wind_streak.png"
-		and asset.value.get("package_file_name") == "speed_wind_streak.png",
-		"High-Speed Wind texture is explicitly allow-listed as an exportable production PNG"
-	)
+	var all_exportable := loaded.success
+	for texture in ["speed_wind_streak", "speed_wind_streak_b", "speed_wind_flow_a", "speed_wind_flow_b"]:
+		var asset: VfxResult = registry.resolve_exportable("fx." + texture) if loaded.success else VfxResult.failure(loaded.issues)
+		all_exportable = all_exportable \
+			and asset.success \
+			and asset.value.get("export_policy") == "EXPORTABLE" \
+			and asset.value.get("kind") == "TEXTURE_PNG" \
+			and asset.value.get("source_path") == "res://assets/vfx/%s.png" % texture \
+			and asset.value.get("package_file_name") == "%s.png" % texture
+	tests.expect_true(all_exportable, "High-Speed Wind rear streak, streak variant, and both flank flow textures are explicitly allow-listed as exportable production PNGs")
 
 
 static func _test_high_speed_wind_compiles_without_invoking_package_writer(tests: TestAssert) -> void:
@@ -39,13 +39,22 @@ static func _test_high_speed_wind_compiles_without_invoking_package_writer(tests
 		return
 	var compiled: VfxResult = compiler_result.value.compile(document_result.value)
 	var dependencies: Array = compiled.value.manifest_data().get("asset_dependencies", []) if compiled.success else []
+	var package_paths_by_id: Dictionary = {}
+	var all_png := true
+	for dependency in dependencies:
+		package_paths_by_id[str(dependency.get("logical_id", ""))] = str(dependency.get("package_path", ""))
+		all_png = all_png and dependency.get("kind") == "TEXTURE_PNG"
 	tests.expect_true(
 		compiled.success
-		and dependencies.size() == 1
-		and dependencies[0].get("logical_id") == "fx.speed_wind_streak"
-		and dependencies[0].get("kind") == "TEXTURE_PNG"
-		and dependencies[0].get("package_path") == "assets/speed_wind_streak.png",
-		"High-Speed Wind compile-only output derives one safe wind-streak PNG dependency without calling the Package writer"
+		and dependencies.size() == 4
+		and all_png
+		and package_paths_by_id == {
+			"fx.speed_wind_streak": "assets/speed_wind_streak.png",
+			"fx.speed_wind_streak_b": "assets/speed_wind_streak_b.png",
+			"fx.speed_wind_flow_a": "assets/speed_wind_flow_a.png",
+			"fx.speed_wind_flow_b": "assets/speed_wind_flow_b.png"
+		},
+		"High-Speed Wind compile-only output derives the four safe wind PNG dependencies (rear streak, streak variant, two flank flows) without calling the Package writer"
 	)
 
 

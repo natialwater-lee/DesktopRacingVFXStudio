@@ -93,6 +93,24 @@
       "source_path": "res://assets/vfx/speed_wind_streak.png",
       "package_file_name": "speed_wind_streak.png"
     },
+    "fx.speed_wind_streak_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/speed_wind_streak_b.png",
+      "package_file_name": "speed_wind_streak_b.png"
+    },
+    "fx.speed_wind_flow_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/speed_wind_flow_a.png",
+      "package_file_name": "speed_wind_flow_a.png"
+    },
+    "fx.speed_wind_flow_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/speed_wind_flow_b.png",
+      "package_file_name": "speed_wind_flow_b.png"
+    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
