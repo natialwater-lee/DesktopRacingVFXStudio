@@ -28,7 +28,7 @@ Focused source-driven Game comparison at equal time/seed/scale (geometry, shader
 
 - Preset: `C:/GodotProjects/DesktopRacingVFXStudio/presets/examples/talent.solo_run.static_ribbon.vfx.json`
 - Package: `C:/GodotProjects/DesktopRacingVFXStudio/exports/packages/talent.solo_run.static_ribbon/`
-- Run: `C:/Tools/Godot/Godot_v4.7.1-stable_win64_console.exe --path C:/GodotProjects/DesktopRacingVFXStudio res://src/editor/main/vfx_editor_main.tscn`. Select **Solo Run Static Ribbon**, LOOP, disable Auto, Play. Auto retains normal start/loop/end demonstration.
+- Run: `C:/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe --path C:/GodotProjects/DesktopRacingVFXStudio res://src/editor/main/vfx_editor_main.tscn`. Select **Solo Run Static Ribbon**, LOOP, disable Auto, Play. Auto retains normal start/loop/end demonstration.
 - Game references: `src/preview/curve_flow/vfx_curve_flow_static_geometry.gd`, `vfx_curve_flow_static_host.gd`, `vfx_curve_flow_static.gdshader`, existing `vfx_curve_flow_evaluator.gd`; explicit gate `src/export/vfx_runtime_definition_reader.gd`.
 - Game must opt into profile2/capability, route to static renderer, consume final half widths without WIDTH_FACTOR=1.5, resolve both existing PNG assets, and explicitly select the new package for Solo Run. Keep F1/P3.2 compatibility. SETUP geometry preparation, real GPU draw warmup, readiness gate and ownership/cleanup remain Game work; Studio has no dependency on that fixture or Game service.
 

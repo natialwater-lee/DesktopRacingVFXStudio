@@ -2,7 +2,7 @@
 
 ## Purpose and scope
 
-DesktopRacingVFXStudio is an independent Godot 4.7.1 stable project for authoring 2D VFX used by Desktop Idle Racing. It is not a generic VFX package, a Node Graph editor, a 3D tool, or a gameplay-decision system.
+DesktopRacingVFXStudio is an independent Godot 4.7.2 stable project for authoring 2D VFX used by Desktop Idle Racing. It is not a generic VFX package, a Node Graph editor, a 3D tool, or a gameplay-decision system.
 
 The Studio owns how an effect looks. The game owns when an effect is created, which vehicle or world position receives it, gameplay targeting, and the lifetime of a START_LOOP_END loop.
 
@@ -298,11 +298,11 @@ Structured `VfxIssue` diagnostics distinguish file I/O, JSON parse, Schema confi
 
 `tests/run_contract_tests.gd` executes the small dependency-free contract suite. It covers JSON Variants, Schema configuration, Schema subset validation, non-mutating normalization, semantic rules, Pipeline composition, valid examples, focused invalid fixtures, and deterministic normalized serialization.
 
-Use a Godot 4.7.1 stable console executable for short checks:
+Use a Godot 4.7.2 stable console executable for short checks:
 
 ```powershell
-& '<godot-4.7.1-console.exe>' --headless --path '<DesktopRacingVFXStudio>' --script res://tests/run_contract_tests.gd
-& '<godot-4.7.1-console.exe>' --headless --path '<DesktopRacingVFXStudio>' --editor --quit
+& '<godot-4.7.2-console.exe>' --headless --path '<DesktopRacingVFXStudio>' --script res://tests/run_contract_tests.gd
+& '<godot-4.7.2-console.exe>' --headless --path '<DesktopRacingVFXStudio>' --editor --quit
 ```
 
 The approved examples are `presets/examples/talent.zero_zone.vfx.json` and `presets/examples/finish.confetti_world.vfx.json`. They demonstrate contract data only; they are not renderer output or exported game resources.
