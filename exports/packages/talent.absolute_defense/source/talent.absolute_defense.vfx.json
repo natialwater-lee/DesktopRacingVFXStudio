@@ -41,21 +41,21 @@
             "lifetime_seconds": 0.45,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 208.0,
+            "size_end": 224.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 208.0,
+            "size_start": 224.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.absolute_defense_side_wall_a"
+            "sprite_asset_ref": "fx.absolute_defense_curtain_l_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
           "transform": {
             "offset": [
-              -150.0,
-              0.0
+              -170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -97,21 +97,21 @@
             "lifetime_seconds": 0.45,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 208.0,
+            "size_end": 224.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 208.0,
+            "size_start": 224.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.absolute_defense_side_wall_a"
+            "sprite_asset_ref": "fx.absolute_defense_curtain_r_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
           "transform": {
             "offset": [
-              150.0,
-              0.0
+              170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -153,21 +153,21 @@
             "lifetime_seconds": 0.45,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 192.0,
+            "size_end": 269.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 192.0,
+            "size_start": 269.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.absolute_defense_rear_shield"
+            "sprite_asset_ref": "fx.absolute_defense_rear_front"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 2.0,
           "transform": {
             "offset": [
               0.0,
-              248.0
+              242.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -205,27 +205,75 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_l_a.impact_glow",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_l_a.impact_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.wall_l_a.hum",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": -10.0,
+                "output_min": 10.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "shield.hum",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
             }
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_side_wall_a"
+            "texture_asset_ref": "fx.absolute_defense_curtain_l_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
           "transform": {
             "modulation_pivot_local": [
-              0.0,
-              0.0
+              40.0,
+              -140.0
             ],
             "offset": [
-              -150.0,
-              0.0
+              -170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -254,27 +302,75 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_l_b.impact_glow",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_l_b.impact_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.wall_l_b.hum",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": -10.0,
+                "output_min": 10.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "shield.hum",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
             }
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_side_wall_b"
+            "texture_asset_ref": "fx.absolute_defense_curtain_l_b"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
           "transform": {
             "modulation_pivot_local": [
-              0.0,
-              0.0
+              40.0,
+              -140.0
             ],
             "offset": [
-              -150.0,
-              0.0
+              -170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -303,27 +399,75 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_r_a.impact_glow",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_r_a.impact_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.wall_r_a.hum",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 10.0,
+                "output_min": -10.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "shield.hum",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
             }
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_side_wall_a"
+            "texture_asset_ref": "fx.absolute_defense_curtain_r_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
           "transform": {
             "modulation_pivot_local": [
-              0.0,
-              0.0
+              -40.0,
+              -140.0
             ],
             "offset": [
-              150.0,
-              0.0
+              170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -352,27 +496,75 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_r_b.impact_glow",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.wall_r_b.impact_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "defense_impact",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.wall_r_b.hum",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 10.0,
+                "output_min": -10.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "shield.hum",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
             }
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_side_wall_b"
+            "texture_asset_ref": "fx.absolute_defense_curtain_r_b"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
           "transform": {
             "modulation_pivot_local": [
-              0.0,
-              0.0
+              -40.0,
+              -140.0
             ],
             "offset": [
-              150.0,
-              0.0
+              170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -423,7 +615,7 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": 0.0,
-                "output_max": 1.3,
+                "output_max": 1.25,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
@@ -439,7 +631,7 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": 0.0,
-                "output_max": 1.65,
+                "output_max": 1.6,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
@@ -449,11 +641,27 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.shield.hum",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 10.0,
+                "output_min": -10.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "shield.hum",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
             }
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_rear_shield"
+            "texture_asset_ref": "fx.absolute_defense_rear_front"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 2.0,
@@ -464,12 +672,12 @@
             ],
             "offset": [
               0.0,
-              248.0
+              242.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.2,
-              1.2
+              1.05,
+              1.05
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -539,7 +747,7 @@
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_side_wall_a"
+            "texture_asset_ref": "fx.absolute_defense_curtain_l_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -549,13 +757,13 @@
               0.0
             ],
             "offset": [
-              -150.0,
-              0.0
+              -170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -620,7 +828,7 @@
           ],
           "parameters": {
             "opacity": 0.75,
-            "texture_asset_ref": "fx.absolute_defense_side_wall_a"
+            "texture_asset_ref": "fx.absolute_defense_curtain_r_a"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -630,13 +838,13 @@
               0.0
             ],
             "offset": [
-              150.0,
-              0.0
+              170.0,
+              20.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -673,21 +881,21 @@
             "lifetime_seconds": 0.7,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 228.0,
+            "size_end": 317.42,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 192.0,
+            "size_start": 269.0,
             "speed_max": 0.0,
             "speed_min": 0.0,
             "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.absolute_defense_rear_shield"
+            "sprite_asset_ref": "fx.absolute_defense_rear_front"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 2.0,
           "transform": {
             "offset": [
               0.0,
-              248.0
+              242.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -723,6 +931,13 @@
       "frequency_hz": 1.9,
       "id": "wall.intro",
       "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.4,
+      "id": "shield.hum",
+      "phase_degrees": 108.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
     }
   ],
   "schema_version": 1.0

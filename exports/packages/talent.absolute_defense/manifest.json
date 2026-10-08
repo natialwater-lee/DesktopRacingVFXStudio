@@ -1,52 +1,76 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 32051,
+      "byte_size": 66055,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.absolute_defense_rear_shield",
-      "package_path": "assets/talent_absolute_defense_rear_shield.png",
-      "sha256": "a02f493660854176cbe0c0e7aa51be58c361dfc20d9299edf2d5e28683196fae"
+      "logical_id": "fx.absolute_defense_curtain_l_a",
+      "package_path": "assets/talent_absolute_defense_side_curtain_l_a.png",
+      "sha256": "64e10e6953e38f4944d3822feff5ea7871e46e16e44a4926573f1a95cfb1d2a5"
     },
     {
-      "byte_size": 30003,
+      "byte_size": 62474,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.absolute_defense_side_wall_a",
-      "package_path": "assets/talent_absolute_defense_side_wall_a.png",
-      "sha256": "b86dfb7be4d8b005f24198c584214200906c07b07bb0be73f4c93c8a9409223c"
+      "logical_id": "fx.absolute_defense_curtain_l_b",
+      "package_path": "assets/talent_absolute_defense_side_curtain_l_b.png",
+      "sha256": "a606b6e1b81176eb30d571e0a8a03768338bfef179fb825e2c69cc6724e68b19"
     },
     {
-      "byte_size": 30246,
+      "byte_size": 63933,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.absolute_defense_side_wall_b",
-      "package_path": "assets/talent_absolute_defense_side_wall_b.png",
-      "sha256": "13ee7002bc0743774ce20d0be133a7d80deccda5615372d58eb306ba044a4fe7"
+      "logical_id": "fx.absolute_defense_curtain_r_a",
+      "package_path": "assets/talent_absolute_defense_side_curtain_r_a.png",
+      "sha256": "924a47c24df1cde9d64aa35bad0d4443ccfeb725dc8f7a4f6ad6db5129a45599"
+    },
+    {
+      "byte_size": 60619,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.absolute_defense_curtain_r_b",
+      "package_path": "assets/talent_absolute_defense_side_curtain_r_b.png",
+      "sha256": "1b40ee8997883a1b8a87f3ca0d455176a5c13091c2cbecda4dfc825c835f82be"
+    },
+    {
+      "byte_size": 69110,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.absolute_defense_rear_front",
+      "package_path": "assets/talent_absolute_defense_rear_front.png",
+      "sha256": "48c59a4067980ca2285c17fee16b60485cd2a3fadbf50edf7199eb2f863c949b"
     }
   ],
   "files": [
     {
-      "byte_size": 32051,
-      "path": "assets/talent_absolute_defense_rear_shield.png",
-      "sha256": "a02f493660854176cbe0c0e7aa51be58c361dfc20d9299edf2d5e28683196fae"
+      "byte_size": 69110,
+      "path": "assets/talent_absolute_defense_rear_front.png",
+      "sha256": "48c59a4067980ca2285c17fee16b60485cd2a3fadbf50edf7199eb2f863c949b"
     },
     {
-      "byte_size": 30003,
-      "path": "assets/talent_absolute_defense_side_wall_a.png",
-      "sha256": "b86dfb7be4d8b005f24198c584214200906c07b07bb0be73f4c93c8a9409223c"
+      "byte_size": 66055,
+      "path": "assets/talent_absolute_defense_side_curtain_l_a.png",
+      "sha256": "64e10e6953e38f4944d3822feff5ea7871e46e16e44a4926573f1a95cfb1d2a5"
     },
     {
-      "byte_size": 30246,
-      "path": "assets/talent_absolute_defense_side_wall_b.png",
-      "sha256": "13ee7002bc0743774ce20d0be133a7d80deccda5615372d58eb306ba044a4fe7"
+      "byte_size": 62474,
+      "path": "assets/talent_absolute_defense_side_curtain_l_b.png",
+      "sha256": "a606b6e1b81176eb30d571e0a8a03768338bfef179fb825e2c69cc6724e68b19"
     },
     {
-      "byte_size": 21574,
+      "byte_size": 63933,
+      "path": "assets/talent_absolute_defense_side_curtain_r_a.png",
+      "sha256": "924a47c24df1cde9d64aa35bad0d4443ccfeb725dc8f7a4f6ad6db5129a45599"
+    },
+    {
+      "byte_size": 60619,
+      "path": "assets/talent_absolute_defense_side_curtain_r_b.png",
+      "sha256": "1b40ee8997883a1b8a87f3ca0d455176a5c13091c2cbecda4dfc825c835f82be"
+    },
+    {
+      "byte_size": 28327,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "615e1024d1aa29dbdb556b692af60927e84e96adeeb23c6f6f2d5ed2fd397212"
+      "sha256": "f73a9225b8e70f26d6f6977e493f07eeea61fc3b320dbbf5c790422e6e5ebebd"
     },
     {
-      "byte_size": 19895,
+      "byte_size": 26648,
       "path": "source/talent.absolute_defense.vfx.json",
-      "sha256": "9c00b46a329188888e68e12cac815e58ac62089c3793f40a1848c652f31d05b2"
+      "sha256": "8b04b9c9664a071fb9a05d3c3c0c9a7cfd02962375b8f16aac4034dd09a1553e"
     }
   ],
   "package_format_version": 1,
@@ -73,14 +97,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 21574,
+    "byte_size": 28327,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "615e1024d1aa29dbdb556b692af60927e84e96adeeb23c6f6f2d5ed2fd397212",
+    "sha256": "f73a9225b8e70f26d6f6977e493f07eeea61fc3b320dbbf5c790422e6e5ebebd",
     "version": 2
   },
   "source": {
-    "byte_size": 19895,
+    "byte_size": 26648,
     "path": "source/talent.absolute_defense.vfx.json",
-    "sha256": "9c00b46a329188888e68e12cac815e58ac62089c3793f40a1848c652f31d05b2"
+    "sha256": "8b04b9c9664a071fb9a05d3c3c0c9a7cfd02962375b8f16aac4034dd09a1553e"
   }
 }

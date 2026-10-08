@@ -183,17 +183,25 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_engineer_nozzle_ring.png"
     },
-    "fx.absolute_defense_side_wall_a": {
+    "fx.absolute_defense_curtain_l_a": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_absolute_defense_side_wall_a.png"
+      "texture_path": "res://assets/vfx/talent_absolute_defense_side_curtain_l_a.png"
     },
-    "fx.absolute_defense_side_wall_b": {
+    "fx.absolute_defense_curtain_l_b": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_absolute_defense_side_wall_b.png"
+      "texture_path": "res://assets/vfx/talent_absolute_defense_side_curtain_l_b.png"
     },
-    "fx.absolute_defense_rear_shield": {
+    "fx.absolute_defense_curtain_r_a": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_absolute_defense_rear_shield.png"
+      "texture_path": "res://assets/vfx/talent_absolute_defense_side_curtain_r_a.png"
+    },
+    "fx.absolute_defense_curtain_r_b": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_absolute_defense_side_curtain_r_b.png"
+    },
+    "fx.absolute_defense_rear_front": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_absolute_defense_rear_front.png"
     },
     "fx.shockwave_ring": {
       "source": "TEXTURE",

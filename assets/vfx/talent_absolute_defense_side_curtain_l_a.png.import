@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://unh0sic38d07"
-path="res://.godot/imported/talent_absolute_defense_rear_shield.png-91f1134ebaaf8820d1c3219f2fc4eb82.ctex"
+uid="uid://bifh8661864fs"
+path="res://.godot/imported/talent_absolute_defense_side_curtain_l_a.png-19ec3b0da255924fd4eec4783199ece1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/talent.absolute_defense/assets/talent_absolute_defense_rear_shield.png"
-dest_files=["res://.godot/imported/talent_absolute_defense_rear_shield.png-91f1134ebaaf8820d1c3219f2fc4eb82.ctex"]
+source_file="res://assets/vfx/talent_absolute_defense_side_curtain_l_a.png"
+dest_files=["res://.godot/imported/talent_absolute_defense_side_curtain_l_a.png-19ec3b0da255924fd4eec4783199ece1.ctex"]
 
 [params]
 

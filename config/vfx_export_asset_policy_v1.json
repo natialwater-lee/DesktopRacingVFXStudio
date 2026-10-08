@@ -273,23 +273,35 @@
       "source_path": "res://assets/vfx/talent_engineer_nozzle_ring.png",
       "package_file_name": "talent_engineer_nozzle_ring.png"
     },
-    "fx.absolute_defense_side_wall_a": {
+    "fx.absolute_defense_curtain_l_a": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_absolute_defense_side_wall_a.png",
-      "package_file_name": "talent_absolute_defense_side_wall_a.png"
+      "source_path": "res://assets/vfx/talent_absolute_defense_side_curtain_l_a.png",
+      "package_file_name": "talent_absolute_defense_side_curtain_l_a.png"
     },
-    "fx.absolute_defense_side_wall_b": {
+    "fx.absolute_defense_curtain_l_b": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_absolute_defense_side_wall_b.png",
-      "package_file_name": "talent_absolute_defense_side_wall_b.png"
+      "source_path": "res://assets/vfx/talent_absolute_defense_side_curtain_l_b.png",
+      "package_file_name": "talent_absolute_defense_side_curtain_l_b.png"
     },
-    "fx.absolute_defense_rear_shield": {
+    "fx.absolute_defense_curtain_r_a": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_absolute_defense_rear_shield.png",
-      "package_file_name": "talent_absolute_defense_rear_shield.png"
+      "source_path": "res://assets/vfx/talent_absolute_defense_side_curtain_r_a.png",
+      "package_file_name": "talent_absolute_defense_side_curtain_r_a.png"
+    },
+    "fx.absolute_defense_curtain_r_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_absolute_defense_side_curtain_r_b.png",
+      "package_file_name": "talent_absolute_defense_side_curtain_r_b.png"
+    },
+    "fx.absolute_defense_rear_front": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_absolute_defense_rear_front.png",
+      "package_file_name": "talent_absolute_defense_rear_front.png"
     },
     "fx.shockwave_ring": {
       "export_policy": "EXPORTABLE",

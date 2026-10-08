@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://11tpnmn3w6us"
-path="res://.godot/imported/talent_absolute_defense_side_wall_b.png-327629c8766fb9bcdf7e3b5c7a8c8194.ctex"
+uid="uid://5040j4qbb6xh"
+path="res://.godot/imported/talent_absolute_defense_side_curtain_r_a.png-d6851ab195942502a839b928c7510d91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/talent.absolute_defense/assets/talent_absolute_defense_side_wall_b.png"
-dest_files=["res://.godot/imported/talent_absolute_defense_side_wall_b.png-327629c8766fb9bcdf7e3b5c7a8c8194.ctex"]
+source_file="res://assets/vfx/talent_absolute_defense_side_curtain_r_a.png"
+dest_files=["res://.godot/imported/talent_absolute_defense_side_curtain_r_a.png-d6851ab195942502a839b928c7510d91.ctex"]
 
 [params]
 
