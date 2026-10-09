@@ -51,17 +51,17 @@
       "source_path": "res://assets/vfx/rotor_lift_turbulence_particle.png",
       "package_file_name": "rotor_lift_turbulence_particle.png"
     },
-    "fx.booster_flame_core": {
+    "fx.booster_jet": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/booster_flame_core.png",
-      "package_file_name": "booster_flame_core.png"
+      "source_path": "res://assets/vfx/booster_jet.png",
+      "package_file_name": "booster_jet.png"
     },
-    "fx.booster_flame_tail": {
+    "fx.booster_nozzle_flare": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/booster_flame_tail.png",
-      "package_file_name": "booster_flame_tail.png"
+      "source_path": "res://assets/vfx/booster_nozzle_flare.png",
+      "package_file_name": "booster_nozzle_flare.png"
     },
     "fx.super_booster_flame_core": {
       "export_policy": "EXPORTABLE",

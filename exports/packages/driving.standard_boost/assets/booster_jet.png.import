@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boelxjm23leov"
-path="res://.godot/imported/booster_flame_tail.png-973a95aac5a36a6bde69674eec174e5f.ctex"
+uid="uid://rnjvsj2jik3l"
+path="res://.godot/imported/booster_jet.png-75ebb25c9ad6baf73c3597025b115246.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/vfx/booster_flame_tail.png"
-dest_files=["res://.godot/imported/booster_flame_tail.png-973a95aac5a36a6bde69674eec174e5f.ctex"]
+source_file="res://exports/packages/driving.standard_boost/assets/booster_jet.png"
+dest_files=["res://.godot/imported/booster_jet.png-75ebb25c9ad6baf73c3597025b115246.ctex"]
 
 [params]
 

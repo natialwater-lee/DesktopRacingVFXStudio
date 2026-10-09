@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj066mfgiyraq"
-path="res://.godot/imported/booster_flame_core.png-b927b7c247a4afd29fe7ee47eb37b71b.ctex"
+uid="uid://cus0djiyqt0uo"
+path="res://.godot/imported/booster_nozzle_flare.png-bd4a3e2edbedf636928cc58a32473ed6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/driving.standard_boost/assets/booster_flame_core.png"
-dest_files=["res://.godot/imported/booster_flame_core.png-b927b7c247a4afd29fe7ee47eb37b71b.ctex"]
+source_file="res://assets/vfx/booster_nozzle_flare.png"
+dest_files=["res://.godot/imported/booster_nozzle_flare.png-bd4a3e2edbedf636928cc58a32473ed6.ctex"]
 
 [params]
 

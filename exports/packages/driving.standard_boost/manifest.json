@@ -1,40 +1,40 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 8525,
+      "byte_size": 29066,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.booster_flame_core",
-      "package_path": "assets/booster_flame_core.png",
-      "sha256": "b2a73700d71c1b52eab11bf5ac8a14af9d3f97bc394a7ca79ef6c4d3b58f5242"
+      "logical_id": "fx.booster_jet",
+      "package_path": "assets/booster_jet.png",
+      "sha256": "72265fbfe9e9e5d988640799fc331e7807148c2ab88a07d30f0a2df9aded2909"
     },
     {
-      "byte_size": 4777,
+      "byte_size": 19831,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.booster_flame_tail",
-      "package_path": "assets/booster_flame_tail.png",
-      "sha256": "bfd986fa87b4f663a49cfb85f1b78776bb3687c7a274686d89108af7e96ffa57"
+      "logical_id": "fx.booster_nozzle_flare",
+      "package_path": "assets/booster_nozzle_flare.png",
+      "sha256": "aecce41c7b177010702550d6a77f04dbcf43d44de64c254c695f81f621a39667"
     }
   ],
   "files": [
     {
-      "byte_size": 8525,
-      "path": "assets/booster_flame_core.png",
-      "sha256": "b2a73700d71c1b52eab11bf5ac8a14af9d3f97bc394a7ca79ef6c4d3b58f5242"
+      "byte_size": 29066,
+      "path": "assets/booster_jet.png",
+      "sha256": "72265fbfe9e9e5d988640799fc331e7807148c2ab88a07d30f0a2df9aded2909"
     },
     {
-      "byte_size": 4777,
-      "path": "assets/booster_flame_tail.png",
-      "sha256": "bfd986fa87b4f663a49cfb85f1b78776bb3687c7a274686d89108af7e96ffa57"
+      "byte_size": 19831,
+      "path": "assets/booster_nozzle_flare.png",
+      "sha256": "aecce41c7b177010702550d6a77f04dbcf43d44de64c254c695f81f621a39667"
     },
     {
-      "byte_size": 26849,
-      "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "ad1732c8cd571c99f41546f94ac9de5a6445f5b3c468abc1bcdf2c35883d28b2"
+      "byte_size": 54997,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "4ec7cfe2f9fa931a5652d3eb52d1a4c0edd1dbc2aeb0e75c72232f43a5df0255"
     },
     {
-      "byte_size": 25844,
+      "byte_size": 51872,
       "path": "source/driving.standard_boost.vfx.json",
-      "sha256": "30fcb5c43ff1d7e4138b3619a1ad392c001b789b1c783c73a7f0435f43fc0491"
+      "sha256": "2fd06ad760f4ca5b8a2cc7aef8365399a804b6722ff9852ac97eb996db9eec2e"
     }
   ],
   "package_format_version": 1,
@@ -50,8 +50,8 @@
   "requirements": {
     "importance_summary": {
       "CORE": 12,
-      "DETAIL": 2,
-      "EXTRA": 2
+      "DETAIL": 6,
+      "EXTRA": 6
     },
     "required_vehicle_anchors": [
       "CENTER"
@@ -61,14 +61,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 26849,
-    "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "ad1732c8cd571c99f41546f94ac9de5a6445f5b3c468abc1bcdf2c35883d28b2",
-    "version": 1
+    "byte_size": 54997,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "4ec7cfe2f9fa931a5652d3eb52d1a4c0edd1dbc2aeb0e75c72232f43a5df0255",
+    "version": 2
   },
   "source": {
-    "byte_size": 25844,
+    "byte_size": 51872,
     "path": "source/driving.standard_boost.vfx.json",
-    "sha256": "30fcb5c43ff1d7e4138b3619a1ad392c001b789b1c783c73a7f0435f43fc0491"
+    "sha256": "2fd06ad760f4ca5b8a2cc7aef8365399a804b6722ff9852ac97eb996db9eec2e"
   }
 }

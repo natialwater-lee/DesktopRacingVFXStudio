@@ -35,13 +35,13 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/rotor_lift_turbulence_particle.png"
     },
-    "fx.booster_flame_core": {
+    "fx.booster_jet": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/booster_flame_core.png"
+      "texture_path": "res://assets/vfx/booster_jet.png"
     },
-    "fx.booster_flame_tail": {
+    "fx.booster_nozzle_flare": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/booster_flame_tail.png"
+      "texture_path": "res://assets/vfx/booster_nozzle_flare.png"
     },
     "fx.super_booster_flame_core": {
       "source": "TEXTURE",
