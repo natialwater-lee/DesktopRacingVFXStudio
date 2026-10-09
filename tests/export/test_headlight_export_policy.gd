@@ -95,7 +95,8 @@ static func _test_headlight_runtime_v2_preserves_final_readability_authoring(tes
 	var compiled: VfxResult = compiler_result.value.compile(document_result.value)
 	var runtime: Variant = JSON.parse_string(compiled.value.runtime_text()) if compiled.success else null
 	var matches := compiled.success and runtime is Dictionary
-	for phase_value in document_result.value.normalized_data.get("phases", {}).values():
+	for phase_name in document_result.value.normalized_data.get("phases", {}):
+		var phase_value: Variant = document_result.value.normalized_data.get("phases", {}).get(phase_name)
 		if not phase_value is Dictionary:
 			matches = false
 			continue
@@ -107,14 +108,14 @@ static func _test_headlight_runtime_v2_preserves_final_readability_authoring(tes
 			var runtime_layer := _runtime_layer_named(runtime, str(source_layer.get("id", "")))
 			var is_soft := str(source_layer.get("id", "")).contains("soft")
 			var transform: Dictionary = runtime_layer.get("transform", {}) if runtime_layer.get("transform", {}) is Dictionary else {}
-			var expected_offset := Vector2(-60.328448, -378.698210) if str(source_layer.get("id", "")).contains("left") and is_soft else Vector2(63.117793, -378.454174)
-			if not is_soft:
-				expected_offset = Vector2(-55.638927, -317.925671) if str(source_layer.get("id", "")).contains("left") else Vector2(57.183029, -317.790579)
-			matches = matches and _vector_matches(transform.get("scale", []), Vector2(2.8, 4.15) if is_soft else Vector2(1.55, 1.6)) \
-				and _vector_matches(transform.get("offset", []), expected_offset) \
+			var source_transform: Dictionary = source_layer.get("transform", {})
+			# Headlights v2 beams are uniform-scale ADDITIVE sprites (soft 2.4, core 2.0); the compiler must carry the authored offset untouched.
+			matches = matches and _vector_matches(transform.get("scale", []), Vector2(2.4, 2.4) if is_soft else Vector2(2.0, 2.0)) \
+				and _vector_matches(transform.get("offset", []), Vector2(float(source_transform.get("offset", [0, 0])[0]), float(source_transform.get("offset", [0, 0])[1]))) \
+				and runtime_layer.get("blend_mode") == ("ALPHA" if is_soft else "ADDITIVE") \
 				and _longitudinal_mapping_matches(runtime_layer.get("modulations", [])) \
-				and _scale_y_clamp_matches(runtime_layer.get("modulation_clamps", []), is_soft)
-	tests.expect_true(matches, "Runtime Definition v2 preserves longer Soft geometry, rebaselined bilateral offsets, stronger longitudinal Scale Y response, and non-contacting safety clamps without changing Core baseline geometry")
+				and _scale_y_clamp_matches(runtime_layer.get("modulation_clamps", []), is_soft, phase_name == "start")
+	tests.expect_true(matches, "Runtime Definition v2 preserves the Headlights v2 uniform ADDITIVE beam geometry, authored bilateral offsets, longitudinal Scale Y response, and non-contacting safety clamps (START allows its ignition dip)")
 
 
 static func _longitudinal_mapping_matches(modulations_value: Variant) -> bool:
@@ -134,14 +135,15 @@ static func _longitudinal_mapping_matches(modulations_value: Variant) -> bool:
 	return false
 
 
-static func _scale_y_clamp_matches(clamps_value: Variant, is_soft: bool) -> bool:
+static func _scale_y_clamp_matches(clamps_value: Variant, is_soft: bool, is_start: bool) -> bool:
 	if not clamps_value is Array or clamps_value.size() != 1 or not clamps_value[0] is Dictionary:
 		return false
 	var clamp: Dictionary = clamps_value[0]
-	var expected := Vector2(3.697, 4.842) if is_soft else Vector2(1.425, 1.867)
+	var base := 2.4 if is_soft else 2.0
+	var expected := Vector2(base * (0.62 if is_start else 0.89), base * 1.17)
 	return clamp.get("target") == "TRANSFORM_SCALE_Y" \
-		and is_equal_approx(float(clamp.get("min_effective", INF)), expected.x) \
-		and is_equal_approx(float(clamp.get("max_effective", INF)), expected.y)
+		and absf(float(clamp.get("min_effective", INF)) - expected.x) <= 0.001 \
+		and absf(float(clamp.get("max_effective", INF)) - expected.y) <= 0.001
 
 
 static func _vector_matches(value: Variant, expected: Vector2) -> bool:

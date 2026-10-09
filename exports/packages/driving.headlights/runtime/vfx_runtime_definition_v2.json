@@ -21,8 +21,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.842,
-              "min_effective": 3.697,
+              "max_effective": 2.808,
+              "min_effective": 1.488,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -106,10 +106,58 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left.soft.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left.soft.ignite.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left.soft.ignite.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.72,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "parameters": {
-            "opacity": 0.078571,
+            "opacity": 0.9,
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -118,16 +166,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              49.0
+              112.0
             ],
             "offset": [
-              -60.328448,
-              -378.69821
+              -61.5534400939941,
+              -444.228942871094
             ],
-            "rotation_degrees": 355.0,
+            "rotation_degrees": 356.0,
             "scale": [
-              2.8,
-              4.15
+              2.4,
+              2.4
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -142,8 +190,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.842,
-              "min_effective": 3.697,
+              "max_effective": 2.808,
+              "min_effective": 1.488,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -227,10 +275,58 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right.soft.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right.soft.ignite.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right.soft.ignite.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.72,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "parameters": {
-            "opacity": 0.078571,
+            "opacity": 0.9,
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -239,16 +335,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              49.0
+              112.0
             ],
             "offset": [
-              63.117793,
-              -378.454174
+              63.9476165771484,
+              -444.0615234375
             ],
-            "rotation_degrees": 5.0,
+            "rotation_degrees": 4.0,
             "scale": [
-              2.8,
-              4.15
+              2.4,
+              2.4
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -263,8 +359,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.867,
-              "min_effective": 1.425,
+              "max_effective": 2.34,
+              "min_effective": 1.24,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -332,10 +428,74 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.left.core.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left.core.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left.core.ignite.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left.core.ignite.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.72,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "parameters": {
-            "opacity": 0.276,
+            "opacity": 0.4,
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -344,16 +504,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              89.0
+              120.0
             ],
             "offset": [
-              -55.638927,
-              -317.925671
+              -55.5620002746582,
+              -415.723419189453
             ],
-            "rotation_degrees": 355.0,
+            "rotation_degrees": 357.0,
             "scale": [
-              1.55,
-              1.6
+              2.0,
+              2.0
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -368,8 +528,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.867,
-              "min_effective": 1.425,
+              "max_effective": 2.34,
+              "min_effective": 1.24,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -437,10 +597,74 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.right.core.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right.core.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right.core.ignite.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right.core.ignite.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.72,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ignite",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "parameters": {
-            "opacity": 0.276,
+            "opacity": 0.4,
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -449,16 +673,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              89.0
+              120.0
             ],
             "offset": [
-              57.183029,
-              -317.790579
+              57.5592575073242,
+              -415.618743896484
             ],
-            "rotation_degrees": 5.0,
+            "rotation_degrees": 3.0,
             "scale": [
-              1.55,
-              1.6
+              2.0,
+              2.0
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -478,8 +702,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.842,
-              "min_effective": 3.697,
+              "max_effective": 2.808,
+              "min_effective": 2.136,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -563,10 +787,26 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.left.soft.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.11,
+            "opacity": 0.9,
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -575,16 +815,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              49.0
+              112.0
             ],
             "offset": [
-              -60.328448,
-              -378.69821
+              -61.5534400939941,
+              -444.228942871094
             ],
-            "rotation_degrees": 355.0,
+            "rotation_degrees": 356.0,
             "scale": [
-              2.8,
-              4.15
+              2.4,
+              2.4
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -599,8 +839,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.842,
-              "min_effective": 3.697,
+              "max_effective": 2.808,
+              "min_effective": 2.136,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -684,10 +924,26 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.right.soft.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.11,
+            "opacity": 0.9,
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -696,16 +952,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              49.0
+              112.0
             ],
             "offset": [
-              63.117793,
-              -378.454174
+              63.9476165771484,
+              -444.0615234375
             ],
-            "rotation_degrees": 5.0,
+            "rotation_degrees": 4.0,
             "scale": [
-              2.8,
-              4.15
+              2.4,
+              2.4
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -720,8 +976,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.867,
-              "min_effective": 1.425,
+              "max_effective": 2.34,
+              "min_effective": 1.78,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -789,10 +1045,42 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.left.core.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.left.core.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.36,
+            "opacity": 0.4,
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -801,16 +1089,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              89.0
+              120.0
             ],
             "offset": [
-              -55.638927,
-              -317.925671
+              -55.5620002746582,
+              -415.723419189453
             ],
-            "rotation_degrees": 355.0,
+            "rotation_degrees": 357.0,
             "scale": [
-              1.55,
-              1.6
+              2.0,
+              2.0
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -825,8 +1113,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.867,
-              "min_effective": 1.425,
+              "max_effective": 2.34,
+              "min_effective": 1.78,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -894,10 +1182,42 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.right.core.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.right.core.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.36,
+            "opacity": 0.4,
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -906,16 +1226,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              89.0
+              120.0
             ],
             "offset": [
-              57.183029,
-              -317.790579
+              57.5592575073242,
+              -415.618743896484
             ],
-            "rotation_degrees": 5.0,
+            "rotation_degrees": 3.0,
             "scale": [
-              1.55,
-              1.6
+              2.0,
+              2.0
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -936,8 +1256,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.842,
-              "min_effective": 3.697,
+              "max_effective": 2.808,
+              "min_effective": 2.136,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1021,10 +1341,26 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "end.left.soft.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.066786,
+            "opacity": 0.45,
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -1033,16 +1369,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              49.0
+              112.0
             ],
             "offset": [
-              -60.328448,
-              -378.69821
+              -61.5534400939941,
+              -444.228942871094
             ],
-            "rotation_degrees": 355.0,
+            "rotation_degrees": 356.0,
             "scale": [
-              2.8,
-              4.15
+              2.4,
+              2.4
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1057,8 +1393,8 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 4.842,
-              "min_effective": 3.697,
+              "max_effective": 2.808,
+              "min_effective": 2.136,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1142,10 +1478,26 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "end.right.soft.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.066786,
+            "opacity": 0.45,
             "texture_asset_ref": "fx.headlight_beam_soft"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -1154,16 +1506,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              49.0
+              112.0
             ],
             "offset": [
-              63.117793,
-              -378.454174
+              63.9476165771484,
+              -444.0615234375
             ],
-            "rotation_degrees": 5.0,
+            "rotation_degrees": 4.0,
             "scale": [
-              2.8,
-              4.15
+              2.4,
+              2.4
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1178,8 +1530,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.867,
-              "min_effective": 1.425,
+              "max_effective": 2.34,
+              "min_effective": 1.78,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1247,10 +1599,42 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.left.core.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "end.left.core.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.252,
+            "opacity": 0.2,
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -1259,16 +1643,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              89.0
+              120.0
             ],
             "offset": [
-              -55.638927,
-              -317.925671
+              -55.5620002746582,
+              -415.723419189453
             ],
-            "rotation_degrees": 355.0,
+            "rotation_degrees": 357.0,
             "scale": [
-              1.55,
-              1.6
+              2.0,
+              2.0
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1283,8 +1667,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 1.867,
-              "min_effective": 1.425,
+              "max_effective": 2.34,
+              "min_effective": 1.78,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
@@ -1352,10 +1736,42 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.right.core.speed.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.05,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "end.right.core.load.opacity",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.94,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "longitudinal_load",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.252,
+            "opacity": 0.2,
             "texture_asset_ref": "fx.headlight_beam_core"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -1364,16 +1780,16 @@
           "transform": {
             "modulation_pivot_local": [
               -0.5,
-              89.0
+              120.0
             ],
             "offset": [
-              57.183029,
-              -317.790579
+              57.5592575073242,
+              -415.618743896484
             ],
-            "rotation_degrees": 5.0,
+            "rotation_degrees": 3.0,
             "scale": [
-              1.55,
-              1.6
+              2.0,
+              2.0
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1416,6 +1832,11 @@
       "phase_degrees": 0.0,
       "type": "OSCILLATOR",
       "wave": "SINE"
+    },
+    {
+      "frequency_hz": 5.55555555555556,
+      "id": "start.ignite",
+      "type": "LINEAR_PHASE"
     }
   ]
 }

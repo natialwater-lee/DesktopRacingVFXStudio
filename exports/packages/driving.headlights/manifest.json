@@ -1,40 +1,40 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 43452,
+      "byte_size": 13549,
       "kind": "TEXTURE_PNG",
       "logical_id": "fx.headlight_beam_core",
       "package_path": "assets/headlight_beam_core.png",
-      "sha256": "4b87252746fcee971a1ba53467526b373875649cca22420f8abf0368a03861d4"
+      "sha256": "53d29aded24ab061bd191cf35175d7b2250c6adf0a97a92f5984211d9f3fc7c4"
     },
     {
-      "byte_size": 43797,
+      "byte_size": 22554,
       "kind": "TEXTURE_PNG",
       "logical_id": "fx.headlight_beam_soft",
       "package_path": "assets/headlight_beam_soft.png",
-      "sha256": "5af4793ef2ed626a0aa77c3dbcfc5429b13373f190b04adcccc1b12e26ac556b"
+      "sha256": "9216113b1f8b98aca462acaa69dd32644b9da6b10d5a68fc8da7c1e0a1a344ef"
     }
   ],
   "files": [
     {
-      "byte_size": 43452,
+      "byte_size": 13549,
       "path": "assets/headlight_beam_core.png",
-      "sha256": "4b87252746fcee971a1ba53467526b373875649cca22420f8abf0368a03861d4"
+      "sha256": "53d29aded24ab061bd191cf35175d7b2250c6adf0a97a92f5984211d9f3fc7c4"
     },
     {
-      "byte_size": 43797,
+      "byte_size": 22554,
       "path": "assets/headlight_beam_soft.png",
-      "sha256": "5af4793ef2ed626a0aa77c3dbcfc5429b13373f190b04adcccc1b12e26ac556b"
+      "sha256": "9216113b1f8b98aca462acaa69dd32644b9da6b10d5a68fc8da7c1e0a1a344ef"
     },
     {
-      "byte_size": 41657,
+      "byte_size": 55463,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "694dd58e7e740d3ab6c0080f4dd2bd7f5dbbcf48e9068db4c0cde772a7a062aa"
+      "sha256": "bf2efbe21e0e0c13d5c28c37294bea775c7886afa3dc4317a10db8327b0f45cf"
     },
     {
-      "byte_size": 40689,
+      "byte_size": 54495,
       "path": "source/driving.headlights.vfx.json",
-      "sha256": "1baeedef504b4f6a50ced2ed34ead56bb7d155fe8252368082622933f6f126ee"
+      "sha256": "b47ade02fa6a93b4f56c244ed5ef180976b756aed00a9b5c5e94bc77ebebaf0b"
     }
   ],
   "package_format_version": 1,
@@ -62,14 +62,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 41657,
+    "byte_size": 55463,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "694dd58e7e740d3ab6c0080f4dd2bd7f5dbbcf48e9068db4c0cde772a7a062aa",
+    "sha256": "bf2efbe21e0e0c13d5c28c37294bea775c7886afa3dc4317a10db8327b0f45cf",
     "version": 2
   },
   "source": {
-    "byte_size": 40689,
+    "byte_size": 54495,
     "path": "source/driving.headlights.vfx.json",
-    "sha256": "1baeedef504b4f6a50ced2ed34ead56bb7d155fe8252368082622933f6f126ee"
+    "sha256": "b47ade02fa6a93b4f56c244ed5ef180976b756aed00a9b5c5e94bc77ebebaf0b"
   }
 }

@@ -1,0 +1,64 @@
+# 헤드라이트(Headlights) v2 설계
+
+2026-10-09. 사용자 요청: 기존 헤드라이트를 더 리얼하고 품질 높게 개선하고, 아트 리소스 변경도 가능하다.
+대상: `driving.headlights` (ID, 논리 에셋 ID `fx.headlight_beam_core/soft`, 레이어 ID 모두 유지). 밤 경기 전용(`night_headlights_enabled`).
+상태 (2026-10-09): **사용자 승인 완료(영상 2개 검토 후 §6 반영본으로 확정), 커밋됨.** Game 브랜치 `claude/headlights-v2` (3d5171d4, v0.2-35.30.53), Studio 같은 이름의 브랜치. master 병합·push는 아직 하지 않음. §3의 값은 첫 시안 기록이며 최종 값(soft ALPHA 0.9, core ADDITIVE 0.40)은 §6과 preset 파일이 기준.
+
+## 1. 측정 결과 (Game 20대, 야간 뉴욕·서울·산타, 맑음, 고정 60fps 캡처)
+
+| # | 관찰 | 근거 |
+| --- | --- | --- |
+| 1 | **게임 크기에서 빔이 거의 보이지 않는다.** 차 앞에 옅은 회색 안개가 있을 뿐 빛으로 읽히지 않는다. | 기존 core 불투명도 0.36, soft 0.11(ALPHA). 어두운 노면 위에서도 잔광 수준이고 밝은 구간(교량·직선)에서는 사라진다. 캡처: 기존 `hl_newyork_b_*`. |
+| 2 | 형태가 안개 같다. 램프 뿌리의 핫스팟이 없고 가장자리 컷오프가 없다. | 기존 텍스처 128×192 core / 128×128 soft, 둘 다 매끈한 부채꼴. |
+| 3 | 색이 주황빛 기가 돌아 헤드램프(백색~약한 청백색)로 읽히지 않는다. | `headlight_beam_core.png` 피크 RGB. |
+| 4 | 동작은 있으나 거의 보이지 않는다. | speed/load Scale Y와 1 Hz 흔들림만 있었다. |
+
+사용자가 실제로 보는 차는 약 24×49px이라 램프 위치가 차종마다 다르다(포뮬러는 램프가 없다). 그래서 차체 위에 램프 글로우를 붙이지 않고, 차 앞코 바로 앞의 근거리 핫스팟을 빔 텍스처 안에 넣었다.
+
+## 2. 방향 (이번 시안)
+
+1. **빛으로 읽히는 두 겹.** 좁고 밝은 로우빔 코어(웜 화이트, 앞코 바로 앞에 핫스팟)와 넓고 옅은 노면 스필(쿨 화이트). 둘 다 ADDITIVE로 겹쳐 노면이 실제로 밝아지게 한다.
+2. **아트 교체.** 두 PNG를 같은 파일명·같은 논리 ID로 교체한다(다른 테스트·Game 쪽 참조 유지).
+   - `headlight_beam_core.png` 160×256: 램프 뿌리는 텍스처 아래쪽(y 248), 빔은 위로. 반각 약 11°, 가장자리가 부드러운 어깨, 핫스팟은 뿌리에서 약 50텍셀(=source px 100, 차 앞코 바로 앞), 이후 역거리형 감쇠. 색: 중심 웜 화이트 (0.98, 0.96, 0.88) → 가장자리·먼 쪽은 약한 청백. 미세한 세로 결 노이즈로 균일한 플라스틱 느낌을 줄였다.
+   - `headlight_beam_soft.png` 256×240: 반각 약 32°의 넓은 스필. 노면 풀(pool) 형태로 뿌리에서 약 40~90텍셀에서 가장 밝고 멀어지며 사라진다. 색은 청백.
+   - 투명부 RGB는 가장자리 색으로 채워 ADDITIVE에서 어두운 테두리가 없다. 레벨 ±0.5 디더로 띠 현상을 막았다.
+   - 두 텍스처는 `tools/headlight_texture_generator.gd`가 생성한다(GPT 아트 불필요: 빛의 기하·감쇠는 수식이 더 정확하다). 값을 바꾸면 이 스크립트를 수정해 다시 생성한다.
+3. **동작을 더 현실적으로.** 기존 speed/load Scale Y(차가 가속하면 노즈가 들려 빔이 길어지고, 제동하면 짧아진다)와 1 Hz 흔들림을 유지하고 다음을 더했다.
+   - 제동 시 밝아지고 가속 시 약간 어두워지는 불투명도(`longitudinal_load` −1…1 → ×1.12…0.94), 속도 불투명도 ×1.0…1.05(core에도 적용).
+   - START 0.18초 점등: 불투명도 ×0.15→1.0, 빔 길이 ×0.72→1.0(효과 로컬 시간 `start.ignite`, LINEAR_PHASE 5.556 Hz).
+4. **위치·구조 유지.** 램프 뿌리 (±44, −176) source px, 레이어 4개(좌우 soft·core), `UNDER_VEHICLE`, `VEHICLE_LOCAL`, Runtime v2, 입력 `speed_normalized`·`longitudinal_load` 모두 그대로다. 파티클·새 입력·Game 코드 변경은 없다.
+
+## 3. 최종 시안 값 (preset 파일이 기준)
+
+| 레이어 | 텍스처 | 블렌드 | 중요도 | scale | 회전(좌/우) | LOOP 불투명도 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `*_soft_beam` | `fx.headlight_beam_soft` 256×240 | ADDITIVE (이전 ALPHA) | DETAIL | 2.4 × 2.4 | 356° / 4° | 0.62 (이전 0.11) |
+| `*_core_beam` | `fx.headlight_beam_core` 160×256 | ADDITIVE | CORE | 2.0 × 2.0 | 357° / 3° | 0.52 (이전 0.36) |
+
+- offset은 텍스처 뿌리 픽셀이 램프점 (∓44, −176)에 오도록 계산한 값이다(좌 soft (−61.55, −444.23), 우 soft (63.95, −444.06), 좌 core (−55.56, −415.72), 우 core (57.56, −415.62)). `modulation_pivot_local`은 뿌리(soft (−0.5, 112), core (−0.5, 120))라 길이 변화에도 뿌리가 램프에 고정된다.
+- Scale Y 안전 클램프: LOOP·END는 기준×0.89~1.17, START는 점등 길이 램프 때문에 기준×0.62~1.17.
+- START 불투명도는 LOOP와 같고(램프 변조가 곱해짐), END는 같은 형상의 LOOP 불투명도 × 0.5(soft 0.31, core 0.26).
+- 게임 크기(배율 0.095)에서 보이는 범위(알파 ≥ 0.08): core 폭 약 17px × 길이 약 41px, soft 폭 약 25px × 길이 약 30px.
+- LOD: HIGH·MEDIUM 레이어 4개, LOW core 2개. 파티클 용량 0. 레이어 수는 이전과 같다(텍스처만 커짐: soft 128² → 256×240).
+
+### 시도하고 바꾼 것
+
+- 첫 시안(core 반각 7°, 좁은 어깨, 불투명도 0.7/0.9): 어두운 노면 합성에서는 자연스러웠지만 실제 밝은 노면(회색 약 0.4)에서는 흰 덩어리·뾰족한 삼각형 두 개로 과노출됐다. 어깨를 넓히고(반각 11°, 폭 17 + 0.19d) 핫스팟을 낮추고(0.34 → 0.20) 불투명도를 0.40/0.55로 낮추자 부드러운 광풀이 되었으나 구별이 약해 0.52/0.62로 올렸다.
+
+## 4. 호환·테스트·정리
+
+- Runtime v2, package ID·카탈로그·논리 에셋 ID·레이어 ID 변경 없음. 파일명 동일(PNG만 교체, 크기가 달라짐).
+- Studio: `tests/preview/test_headlight_authoring.gd`(자산 크기·가장자리 투명·핫스팟 위치·색, 램프 뿌리 정렬, 변조 세트, START 점등, 클램프, LOD 바인딩 수), `tests/performance/test_headlight_budget.gd`(바인딩 80/80/40), `tests/export/test_headlight_export_policy.gd`를 새 구성에 맞게 고쳤다.
+- Game: `tests/vfx/HeadlightVfxIntegrationTest.gd`(ADDITIVE·scale·불투명도·offset·바인딩 24), `tests/vfx/VfxTexturedSpriteRuntimeTest.gd`(pivot·scale·START 점등 범위·클램프)를 새 값으로 고쳤다.
+- `.import`: Studio export가 `exports/packages/.../*.png.import`를 다시 만들어야 한다(`--import`). Game은 자체 `.import`를 유지한다(경로가 달라 복사 금지).
+
+## 5. 검증 (2026-10-09)
+
+- 실행함: Studio preview 475, performance 61, export_contract 70 모두 실패 0. Game `VfxTexturedSpriteRuntimeTest`·`VfxPackageIngestionTest` 통과. `HeadlightVfxIntegrationTest`는 기존 실패 2건(고속 바람 v2가 가짜 차량에서 시작하지 못해 효과 수가 1 적음, 이 작업과 무관)만 남는다. 야간 뉴욕·서울·산타 실제 경기 캡처로 이전/이후 비교.
+- 실행하지 못함: Studio 앱 화면에서의 시안 확인과 사용자의 게임 내 시각 승인, 부하 A/B(레이어 수는 같고 텍스처만 커짐), 비·눈 야간과 다른 효과(고속 바람·절대 방어·Night Vision)와 겹침, Game 빌드 export 확인, `tests/vfx` 전체와 Studio contract/export/editor 전체.
+
+## 6. 사용자 영상 검토 반영 (2026-10-09, 영상 2개)
+
+- **겹침 과노출:** 차량이 뭉치면 ADDITIVE 빔이 합산돼 노면이 흰색으로 날아갔다. soft 스필을 **ALPHA**로 바꾸고(텍스처 RGB를 0.80으로 낮춰 겹쳐도 그 색 이상으로 밝아지지 않는 상한을 둠, 불투명도 0.9), core 불투명도를 0.52 → 0.40으로 낮췄다. 같은 시점의 뭉침 캡처에서 노면이 회색으로 유지되고 차체가 보인다.
+- **빔 끝 직선 단절:** core 텍스처의 끝 페이드가 빔 축 방향 거리만 써서 폭 전체가 같은 위치에서 잘렸다. 실제 라이트는 거리에 따라 연속으로 줄고 끝이 직선으로 끊기지 않는다(로우빔 컷오프는 정면에서 보는 수평선이지 탑뷰 끝선이 아니다). 타원 거리(`sqrt(d² + (2.4x)²)`)로 페이드를 바꿔 끝이 둥글게 사라진다.
+- 테스트: soft ALPHA·불투명도 0.9/0.40·core 길이 범위로 갱신. Studio preview 475 / export_contract 70, Game `VfxTexturedSpriteRuntimeTest` 통과.
