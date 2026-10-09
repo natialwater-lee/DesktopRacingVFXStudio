@@ -19,35 +19,19 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 2.808,
-              "min_effective": 2.136,
+              "max_effective": 3.0,
+              "min_effective": 1.8,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "end.left.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.left.soft.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -58,28 +42,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "end.left.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.left.soft.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -90,28 +58,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "end.left.soft.speed.opacity",
+              "id": "end.left.soft.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.left.soft.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "end.left.soft.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -155,35 +139,19 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 2.808,
-              "min_effective": 2.136,
+              "max_effective": 3.0,
+              "min_effective": 1.8,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "end.right.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.right.soft.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -194,28 +162,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "end.right.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.right.soft.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -226,28 +178,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "end.right.soft.speed.opacity",
+              "id": "end.right.soft.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.right.soft.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "end.right.soft.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -291,35 +259,19 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 2.34,
-              "min_effective": 1.78,
+              "max_effective": 2.5,
+              "min_effective": 1.5,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "end.left.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.left.core.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -330,28 +282,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "end.left.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.left.core.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -362,28 +298,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "end.left.core.speed.opacity",
+              "id": "end.left.core.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.left.core.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "end.left.core.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -427,35 +379,19 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 2.34,
-              "min_effective": 1.78,
+              "max_effective": 2.5,
+              "min_effective": 1.5,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "end.right.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.right.core.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -466,28 +402,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "end.right.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "end.right.core.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -498,28 +418,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "end.right.core.speed.opacity",
+              "id": "end.right.core.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "end.right.core.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "end.right.core.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -567,35 +503,19 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 2.808,
-              "min_effective": 2.136,
+              "max_effective": 3.0,
+              "min_effective": 1.8,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "loop.left.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.left.soft.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -606,28 +526,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "loop.left.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.left.soft.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -638,28 +542,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "loop.left.soft.speed.opacity",
+              "id": "loop.left.soft.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.left.soft.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "loop.left.soft.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -703,35 +623,19 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 2.808,
-              "min_effective": 2.136,
+              "max_effective": 3.0,
+              "min_effective": 1.8,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "loop.right.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.right.soft.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -742,28 +646,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "loop.right.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.right.soft.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -774,28 +662,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "loop.right.soft.speed.opacity",
+              "id": "loop.right.soft.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.right.soft.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "loop.right.soft.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -839,35 +743,19 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 2.34,
-              "min_effective": 1.78,
+              "max_effective": 2.5,
+              "min_effective": 1.5,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "loop.left.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.left.core.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -878,28 +766,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "loop.left.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.left.core.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -910,28 +782,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "loop.left.core.speed.opacity",
+              "id": "loop.left.core.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.left.core.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "loop.left.core.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -975,35 +863,19 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 2.34,
-              "min_effective": 1.78,
+              "max_effective": 2.5,
+              "min_effective": 1.5,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "loop.right.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.right.core.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1014,28 +886,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "loop.right.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "loop.right.core.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1046,28 +902,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "loop.right.core.speed.opacity",
+              "id": "loop.right.core.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "loop.right.core.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "loop.right.core.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1116,35 +988,19 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 2.808,
-              "min_effective": 1.488,
+              "max_effective": 3.0,
+              "min_effective": 1.2,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "start.left.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.left.soft.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1155,28 +1011,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "start.left.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.left.soft.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1187,28 +1027,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "start.left.soft.speed.opacity",
+              "id": "start.left.soft.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.left.soft.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "start.left.soft.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1284,35 +1140,19 @@
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 2.808,
-              "min_effective": 1.488,
+              "max_effective": 3.0,
+              "min_effective": 1.2,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "start.right.soft.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.right.soft.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1323,28 +1163,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "start.right.soft.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.right.soft.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1355,28 +1179,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "start.right.soft.speed.opacity",
+              "id": "start.right.soft.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.right.soft.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "start.right.soft.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1452,35 +1292,19 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 2.34,
-              "min_effective": 1.24,
+              "max_effective": 2.5,
+              "min_effective": 1.0,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "start.left.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.left.core.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1491,28 +1315,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "start.left.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.left.core.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1523,28 +1331,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "start.left.core.speed.opacity",
+              "id": "start.left.core.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.left.core.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "start.left.core.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1620,35 +1444,19 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 2.34,
-              "min_effective": 1.24,
+              "max_effective": 2.5,
+              "min_effective": 1.0,
               "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "modulations": [
             {
-              "id": "start.right.core.speed.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.right.core.load.scale",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 1.1,
-                "output_min": 0.9,
+                "output_max": 1.15,
+                "output_min": 0.85,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1659,28 +1467,12 @@
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "start.right.core.road.scale",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.01,
-                "output_min": 0.99,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "road.motion",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
               "id": "start.right.core.road.rotation",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.2,
-                "output_min": -0.2,
+                "output_max": 2.5,
+                "output_min": -2.5,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1691,28 +1483,44 @@
               "target": "TRANSFORM_ROTATION_DEGREES"
             },
             {
-              "id": "start.right.core.speed.opacity",
+              "id": "start.right.core.jitter.rotation",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.05,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": -1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.right.core.jitter.scale",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "input": "speed_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "road.jitter",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "TRANSFORM_SCALE_Y"
             },
             {
               "id": "start.right.core.load.opacity",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 0.94,
-                "output_min": 1.12,
+                "output_max": 0.9,
+                "output_min": 1.1,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -1783,14 +1591,20 @@
   },
   "preset_id": "driving.headlights",
   "runtime_inputs": [
-    "speed_normalized",
     "longitudinal_load"
   ],
   "runtime_modulation_sources": [
     {
-      "frequency_hz": 1.0,
+      "frequency_hz": 0.8,
       "id": "road.motion",
       "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 3.7,
+      "id": "road.jitter",
+      "phase_degrees": 90.0,
       "type": "OSCILLATOR",
       "wave": "SINE"
     },

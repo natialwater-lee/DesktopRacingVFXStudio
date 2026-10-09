@@ -66,7 +66,7 @@ static func _test_headlight_assets_and_static_phase_contract(tests: TestAssert) 
 		and core_image != null and soft_image != null \
 		and core_image.get_size() == CORE_SIZE and soft_image.get_size() == SOFT_SIZE \
 		and data.get("preset_id") == "driving.headlights" and data.get("category") == "UTILITY" \
-		and data.get("lifecycle", {}).get("mode") == "START_LOOP_END" and data.get("default_space_mode") == "VEHICLE_LOCAL" and data.get("runtime_inputs") == ["speed_normalized", "longitudinal_load"] \
+		and data.get("lifecycle", {}).get("mode") == "START_LOOP_END" and data.get("default_space_mode") == "VEHICLE_LOCAL" and data.get("runtime_inputs") == ["longitudinal_load"] \
 		and phase_shapes_match and loop_contract_matches and lifecycle_matches,
 		"Headlight v2 registers the 160x256 core and 256x240 soft RGBA textures in exactly four persistent beams per phase (ADDITIVE core, ALPHA spill) with stable LOOP IDs and no particle authoring"
 	)
@@ -123,10 +123,11 @@ static func _test_headlight_runtime_modulation_authoring(tests: TestAssert) -> v
 		return
 	var data: Dictionary = document_result.value.normalized_data
 	var sources: Array = data.get("runtime_modulation_sources", [])
-	var source_matches: bool = sources.size() == 2 \
-		and sources[0] == {"id": "road.motion", "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": 1.0, "phase_degrees": 0.0} \
-		and sources[1].get("id") == "start.ignite" and sources[1].get("type") == "LINEAR_PHASE" \
-		and absf(float(sources[1].get("frequency_hz", 0.0)) - 1.0 / START_SECONDS) <= 0.0001
+	var source_matches: bool = sources.size() == 3 \
+		and sources[0] == {"id": "road.motion", "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": 0.8, "phase_degrees": 0.0} \
+		and sources[1] == {"id": "road.jitter", "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": 3.7, "phase_degrees": 90.0} \
+		and sources[2].get("id") == "start.ignite" and sources[2].get("type") == "LINEAR_PHASE" \
+		and absf(float(sources[2].get("frequency_hz", 0.0)) - 1.0 / START_SECONDS) <= 0.0001
 	var all_layers_match := true
 	for phase_name in ["start", "loop", "end"]:
 		for layer in data.get("phases", {}).get(phase_name, {}).get("layers", []):
@@ -142,7 +143,7 @@ static func _test_headlight_runtime_modulation_authoring(tests: TestAssert) -> v
 				and _scale_y_clamp_matches(layer.get("modulation_clamps", []), is_soft, phase_name == "start")
 	tests.expect_true(
 		source_matches and all_layers_match,
-		"All twelve Headlight beam Layers declare the shared 1Hz road source, root pivots, speed/load Scale Y, road rotation, speed/load opacity, START-only ignition ramps, and non-contacting Scale Y safety clamps"
+		"All twelve Headlight beam Layers declare the road sway and jitter sources, root pivots, load Scale Y, sway and jitter rotation, jitter Scale Y, load opacity, START-only ignition ramps, and non-contacting Scale Y safety clamps"
 	)
 
 
@@ -157,17 +158,17 @@ static func _test_headlight_runtime_modulation_preview_behavior(tests: TestAsser
 	var normal_sweep_clamp_hits := 0
 	var dynamic_matches := true
 	for phase_name in ["start", "loop", "end"]:
-		for speed in [0.0, 0.25, 0.5, 0.75, 1.0]:
+		for speed in [0.0]:
 			for load_value in [-1.0, -0.5, 0.0, 0.5, 1.0]:
 				for preview_time in [0.0, 0.05, 0.25, 0.75]:
-					var sampled_road := sin(TAU * preview_time)
+					var sampled_jitter := sin(TAU * 3.7 * preview_time + deg_to_rad(90.0))
 					var ignite := fposmod(preview_time / START_SECONDS, 1.0) if phase_name == "start" else 1.0
 					var runtime := _runtime_for(plan_result.value, speed, load_value, preview_time, phase_name)
 					if runtime == null:
 						dynamic_matches = false
 						continue
-					var expected_factor: float = (1.0 + 0.05 * speed) * lerpf(0.90, 1.10, (load_value + 1.0) * 0.5) * lerpf(0.99, 1.01, (sampled_road + 1.0) * 0.5) * (lerpf(0.72, 1.0, ignite) if phase_name == "start" else 1.0)
-					var expected_opacity_factor: float = (1.0 + 0.05 * speed) * lerpf(1.12, 0.94, (load_value + 1.0) * 0.5) * (lerpf(0.15, 1.0, ignite) if phase_name == "start" else 1.0)
+					var expected_factor: float = lerpf(0.85, 1.15, (load_value + 1.0) * 0.5) * lerpf(0.97, 1.03, (sampled_jitter + 1.0) * 0.5) * (lerpf(0.72, 1.0, ignite) if phase_name == "start" else 1.0)
+					var expected_opacity_factor: float = lerpf(1.10, 0.90, (load_value + 1.0) * 0.5) * (lerpf(0.15, 1.0, ignite) if phase_name == "start" else 1.0)
 					for packet_value in runtime.draw_packets():
 						if not packet_value is Dictionary:
 							dynamic_matches = false
@@ -194,15 +195,15 @@ static func _test_headlight_runtime_modulation_preview_behavior(tests: TestAsser
 	for lod_level in ["HIGH", "MEDIUM", "LOW"]:
 		var filtered: VfxResult = VfxPreviewLodFilterModel.new().filter(plan_result.value, lod_level, policy_result.value)
 		var runtime := _runtime_for(filtered.value, 1.0, 0.0, 0.25) if filtered.success else null
-		var expected_bindings := 12 if lod_level == "LOW" else 24
+		var expected_bindings := 10 if lod_level == "LOW" else 20
 		var expected_renderers := 2 if lod_level == "LOW" else 4
 		lod_matches = lod_matches and runtime != null \
 			and runtime.active_renderer_count() == expected_renderers \
 			and runtime.active_runtime_modulation_binding_count() == expected_bindings \
-			and runtime.modulation_sample_count_last_tick() == 1
+			and runtime.modulation_sample_count_last_tick() == 2
 	tests.expect_true(
 		dynamic_matches and root_error_max <= 0.001 and normal_sweep_clamp_hits == 0 and lod_matches,
-		"Headlight speed/load/road/ignition mappings preserve all bilateral lamp roots within 0.001 source px across every phase, keep normal-sweep Scale Y values off the safety rails, sample the shared road oscillator once per tick in LOOP, and prune Soft bindings at LOW LOD"
+		"Headlight load/sway/jitter/ignition mappings preserve all bilateral lamp roots within 0.001 source px across every phase, keep normal-sweep Scale Y values off the safety rails, sample the sway and jitter oscillators once per tick in LOOP, and prune Soft bindings at LOW LOD"
 	)
 
 
@@ -210,12 +211,11 @@ static func _modulation_set_matches(bindings_value: Variant, is_start: bool) -> 
 	if not bindings_value is Array:
 		return false
 	var expected: Array[Dictionary] = [
-		_expected_mapping("TRANSFORM_SCALE_Y", "RUNTIME_INPUT", "speed_normalized", 0.0, 1.0, 1.0, 1.05),
-		_expected_mapping("TRANSFORM_SCALE_Y", "RUNTIME_INPUT", "longitudinal_load", -1.0, 1.0, 0.90, 1.10),
-		_expected_mapping("TRANSFORM_SCALE_Y", "PRESET_SOURCE", "road.motion", -1.0, 1.0, 0.99, 1.01),
-		_expected_mapping("TRANSFORM_ROTATION_DEGREES", "PRESET_SOURCE", "road.motion", -1.0, 1.0, -0.2, 0.2),
-		_expected_mapping("VISUAL_OPACITY_MULTIPLIER", "RUNTIME_INPUT", "speed_normalized", 0.0, 1.0, 1.0, 1.05),
-		_expected_mapping("VISUAL_OPACITY_MULTIPLIER", "RUNTIME_INPUT", "longitudinal_load", -1.0, 1.0, 1.12, 0.94)
+		_expected_mapping("TRANSFORM_SCALE_Y", "RUNTIME_INPUT", "longitudinal_load", -1.0, 1.0, 0.85, 1.15),
+		_expected_mapping("TRANSFORM_ROTATION_DEGREES", "PRESET_SOURCE", "road.motion", -1.0, 1.0, -2.5, 2.5),
+		_expected_mapping("TRANSFORM_ROTATION_DEGREES", "PRESET_SOURCE", "road.jitter", -1.0, 1.0, -1.0, 1.0),
+		_expected_mapping("TRANSFORM_SCALE_Y", "PRESET_SOURCE", "road.jitter", -1.0, 1.0, 0.97, 1.03),
+		_expected_mapping("VISUAL_OPACITY_MULTIPLIER", "RUNTIME_INPUT", "longitudinal_load", -1.0, 1.0, 1.10, 0.90)
 	]
 	if is_start:
 		expected.append(_expected_mapping("VISUAL_OPACITY_MULTIPLIER", "PRESET_SOURCE", "start.ignite", 0.0, 1.0, 0.15, 1.0))
@@ -271,10 +271,10 @@ static func _scale_y_clamp_matches(clamps_value: Variant, is_soft: bool, is_star
 		and absf(float(clamp.get("max_effective", INF)) - expected_bounds.y) <= 0.001
 
 
-# START may dip lower than LOOP/END because the ignition ramp starts the beam at 72% length.
+# START may dip lower than LOOP/END because the ignition ramp starts the beam at 72% length (times the brake shortening).
 static func _scale_y_clamp_bounds(is_soft: bool, is_start: bool) -> Vector2:
 	var base := SOFT_SCALE if is_soft else CORE_SCALE
-	return Vector2(base * (0.62 if is_start else 0.89), base * 1.17)
+	return Vector2(base * (0.50 if is_start else 0.75), base * 1.25)
 
 
 static func _phase_base_opacity(phase_name: String, is_soft: bool) -> float:
@@ -287,7 +287,6 @@ static func _runtime_for(plan: RefCounted, speed: float, load_value: float, prev
 		return null
 	var runtime := VfxPreviewRenderRuntimeModel.new(plan, {"anchors": {"CENTER": [0.0, 0.0]}}, _registry(), VfxPreviewRendererFactoryModel.new(), VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new()))
 	var inputs := VfxPreviewRuntimeInputStateModel.new(plan.runtime_modulation_program())
-	inputs.set_named_value(plan.runtime_modulation_program(), "speed_normalized", speed)
 	inputs.set_named_value(plan.runtime_modulation_program(), "longitudinal_load", load_value)
 	runtime.set_runtime_input_state(inputs)
 	runtime.activate_phase(phase_name, {"preview_time": preview_time})

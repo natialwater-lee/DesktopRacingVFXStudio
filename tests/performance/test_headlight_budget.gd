@@ -13,7 +13,7 @@ static func run(tests: TestAssert) -> void:
 
 
 static func _test_headlights_keep_core_pair_at_low_lod_without_particle_capacity(tests: TestAssert) -> void:
-	var expected := {"HIGH": [4, 4, 0, 80], "MEDIUM": [4, 4, 0, 80], "LOW": [2, 2, 0, 40]}
+	var expected := {"HIGH": [4, 4, 0, 68], "MEDIUM": [4, 4, 0, 68], "LOW": [2, 2, 0, 34]}
 	var expected_loop_layer_ids := {
 		"HIGH": ["loop.left_soft_beam", "loop.right_soft_beam", "loop.left_core_beam", "loop.right_core_beam"],
 		"MEDIUM": ["loop.left_soft_beam", "loop.right_soft_beam", "loop.left_core_beam", "loop.right_core_beam"],

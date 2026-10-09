@@ -52,7 +52,7 @@ static func _test_headlight_runtime_v2_preserves_portable_modulation_semantics(t
 	var runtime: Variant = JSON.parse_string(first.value.runtime_text()) if first.success else null
 	var manifest: Dictionary = first.value.manifest_data() if first.success else {}
 	var source: Dictionary = document_result.value.normalized_data
-	var expected_inputs := ["speed_normalized", "longitudinal_load"]
+	var expected_inputs := ["longitudinal_load"]
 	tests.expect_true(
 		first.success and second.success and first.value.runtime_text() == second.value.runtime_text() and first.value.manifest_text() == second.value.manifest_text(),
 		"Runtime Definition v2 and its Manifest are byte-deterministic for the same saved modulated Headlight source"
@@ -130,8 +130,8 @@ static func _longitudinal_mapping_matches(modulations_value: Variant) -> bool:
 		if modulation.get("target") == "TRANSFORM_SCALE_Y" and source.get("type") == "RUNTIME_INPUT" and source.get("input") == "longitudinal_load":
 			return is_equal_approx(float(mapping.get("input_min", INF)), -1.0) \
 				and is_equal_approx(float(mapping.get("input_max", INF)), 1.0) \
-				and is_equal_approx(float(mapping.get("output_min", INF)), 0.90) \
-				and is_equal_approx(float(mapping.get("output_max", INF)), 1.10)
+				and is_equal_approx(float(mapping.get("output_min", INF)), 0.85) \
+				and is_equal_approx(float(mapping.get("output_max", INF)), 1.15)
 	return false
 
 
@@ -140,7 +140,7 @@ static func _scale_y_clamp_matches(clamps_value: Variant, is_soft: bool, is_star
 		return false
 	var clamp: Dictionary = clamps_value[0]
 	var base := 2.4 if is_soft else 2.0
-	var expected := Vector2(base * (0.62 if is_start else 0.89), base * 1.17)
+	var expected := Vector2(base * (0.50 if is_start else 0.75), base * 1.25)
 	return clamp.get("target") == "TRANSFORM_SCALE_Y" \
 		and absf(float(clamp.get("min_effective", INF)) - expected.x) <= 0.001 \
 		and absf(float(clamp.get("max_effective", INF)) - expected.y) <= 0.001
