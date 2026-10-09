@@ -898,8 +898,9 @@ func _refresh_equipment_ui() -> void:
 	status.text = equipment_type if _equipment_matches_profile(equipment_type) else "%s: %s only" % [equipment_type, str(_equipment_catalog.entry(equipment_type).get("vehicle_category", ""))]
 
 
-# Game: VFX START begins when the equipment turns ACTIVE; VFX END runs with RETRACT,
-# which keeps playing after the VFX itself has drained.
+# Game: VFX START begins when the equipment turns ACTIVE (Super Booster: when it starts
+# DEPLOYING, so its charge-up runs during deploy and the burst lands on ACTIVE); VFX END
+# runs with RETRACT, which keeps playing after the VFX itself has drained.
 func _update_equipment_visual(delta: float) -> void:
 	var texture: Texture2D = null
 	var equipment_type := _equipment_type()
@@ -908,7 +909,13 @@ func _update_equipment_visual(delta: float) -> void:
 		var state: String = _playback.state_name()
 		if (phase == "start" or phase == "loop") and state != "DRAINING" and state != "TERMINATED":
 			_equipment_retract_elapsed = -1.0
-			texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_ACTIVE, _playback.simulation_time())
+			if phase == "start" and _equipment_catalog.vfx_starts_at_deploy(equipment_type):
+				texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_DEPLOY, _playback.simulation_time())
+			else:
+				var active_elapsed: float = _playback.simulation_time()
+				if _equipment_catalog.vfx_starts_at_deploy(equipment_type):
+					active_elapsed -= float(_equipment_catalog.entry(equipment_type).get("deploy_duration_seconds", 0.5))
+				texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_ACTIVE, active_elapsed)
 		elif state != "IDLE":
 			if _equipment_retract_elapsed < 0.0:
 				_equipment_retract_elapsed = 0.0

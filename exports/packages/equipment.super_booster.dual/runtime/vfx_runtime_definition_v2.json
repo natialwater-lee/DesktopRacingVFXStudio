@@ -9,7 +9,7 @@
   },
   "phases": [
     {
-      "duration_seconds": 0.12,
+      "duration_seconds": 0.5,
       "layers": [
         {
           "anchors": [
@@ -17,125 +17,162 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.left_core_ignition",
+          "id": "start.left_flare",
           "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 102.0904551776,
-              "min_effective": -102.0904551776,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
+          "modulation_clamps": [],
           "modulations": [
             {
-              "id": "start.left_core.turn.bend",
+              "id": "start.left_flare.sx1",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 102.0904551776,
-                "output_min": -102.0904551776,
+                "input_max": 0.0175,
+                "input_min": 0.0,
+                "output_max": 0.9,
+                "output_min": 0.15,
                 "type": "LINEAR_RANGE"
               },
-              "operation": "ADD",
+              "operation": "MULTIPLY",
               "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_BEND_OFFSET_X"
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.left_flare.sy1",
+              "mapping": {
+                "input_max": 0.0175,
+                "input_min": 0.0,
+                "output_max": 0.9,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.left_flare.sx2",
+              "mapping": {
+                "input_max": 0.0225,
+                "input_min": 0.0175,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.left_flare.sy2",
+              "mapping": {
+                "input_max": 0.0225,
+                "input_min": 0.0175,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.left_flare.sx3",
+              "mapping": {
+                "input_max": 0.025,
+                "input_min": 0.0225,
+                "output_max": 3.14,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.left_flare.sy3",
+              "mapping": {
+                "input_max": 0.025,
+                "input_min": 0.0225,
+                "output_max": 3.14,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.left_flare.o1",
+              "mapping": {
+                "input_max": 0.0175,
+                "input_min": 0.0,
+                "output_max": 0.8,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left_flare.o2",
+              "mapping": {
+                "input_max": 0.0225,
+                "input_min": 0.0175,
+                "output_max": 1.25,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.92,
-            "texture_asset_ref": "fx.super_booster_flame_core"
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.super_booster_flare"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1,
+          "sort_order": 3,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
               0.0,
-              -181.0
+              0.0
             ],
             "offset": [
               -60.0,
-              214.66
+              59.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.286,
-              0.86
+              0.899999976158142,
+              0.899999976158142
             ]
           },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 365.0,
-            "start_ratio": 0.333333333
-          }
-        },
-        {
-          "anchors": [
-            "REAR_CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "start.left_soft_ignition",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 178.518500932,
-              "min_effective": -178.518500932,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "start.left_soft.turn.bend",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 178.518500932,
-                "output_min": -178.518500932,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.42,
-            "texture_asset_ref": "fx.super_booster_flame_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              -183.0
-            ],
-            "offset": [
-              -59.678461538,
-              251.15
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              0.643076923,
-              1.05
-            ]
-          },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 375.0,
-            "start_ratio": 0.333333333
-          }
+          "type": "TEXTURED_SPRITE"
         },
         {
           "anchors": [
@@ -143,36 +180,241 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.right_core_ignition",
+          "id": "start.right_flare",
           "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 102.0904551776,
-              "min_effective": -102.0904551776,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
+          "modulation_clamps": [],
           "modulations": [
             {
-              "id": "start.right_core.turn.bend",
+              "id": "start.right_flare.sx1",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 102.0904551776,
-                "output_min": -102.0904551776,
+                "input_max": 0.02,
+                "input_min": 0.005,
+                "output_max": 0.9,
+                "output_min": 0.15,
                 "type": "LINEAR_RANGE"
               },
-              "operation": "ADD",
+              "operation": "MULTIPLY",
               "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_BEND_OFFSET_X"
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.right_flare.sy1",
+              "mapping": {
+                "input_max": 0.02,
+                "input_min": 0.005,
+                "output_max": 0.9,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.right_flare.sx2",
+              "mapping": {
+                "input_max": 0.0225,
+                "input_min": 0.02,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.right_flare.sy2",
+              "mapping": {
+                "input_max": 0.0225,
+                "input_min": 0.02,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.right_flare.sx3",
+              "mapping": {
+                "input_max": 0.025,
+                "input_min": 0.0225,
+                "output_max": 3.14,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.right_flare.sy3",
+              "mapping": {
+                "input_max": 0.025,
+                "input_min": 0.0225,
+                "output_max": 3.14,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.right_flare.o1",
+              "mapping": {
+                "input_max": 0.02,
+                "input_min": 0.005,
+                "output_max": 0.8,
+                "output_min": 0.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right_flare.o2",
+              "mapping": {
+                "input_max": 0.0225,
+                "input_min": 0.02,
+                "output_max": 1.25,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.92,
-            "texture_asset_ref": "fx.super_booster_flame_core"
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.super_booster_flare"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              60.0,
+              59.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.899999976158142,
+              0.899999976158142
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.left_ring",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.left_ring.sx",
+              "mapping": {
+                "input_max": 0.016,
+                "input_min": 0.0,
+                "output_max": 0.2,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.left_ring.sy",
+              "mapping": {
+                "input_max": 0.016,
+                "input_min": 0.0,
+                "output_max": 0.2,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.left_ring.o_in",
+              "mapping": {
+                "input_max": 0.003,
+                "input_min": 0.0,
+                "output_max": 0.9,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.left_ring.o_out",
+              "mapping": {
+                "input_max": 0.016,
+                "input_min": 0.013,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.super_booster_charge_ring"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -180,88 +422,320 @@
           "transform": {
             "modulation_pivot_local": [
               0.0,
-              -181.0
+              0.0
             ],
             "offset": [
-              60.0,
-              214.66
+              -60.0,
+              59.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.286,
-              0.86
+              0.800000011920929,
+              0.800000011920929
             ]
           },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 365.0,
-            "start_ratio": 0.333333333
-          }
+          "type": "TEXTURED_SPRITE"
         },
         {
           "anchors": [
             "REAR_CENTER"
           ],
-          "blend_mode": "ALPHA",
+          "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.right_soft_ignition",
+          "id": "start.right_ring",
           "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 178.518500932,
-              "min_effective": -178.518500932,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
+          "modulation_clamps": [],
           "modulations": [
             {
-              "id": "start.right_soft.turn.bend",
+              "id": "start.right_ring.sx",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 178.518500932,
-                "output_min": -178.518500932,
+                "input_max": 0.021,
+                "input_min": 0.005,
+                "output_max": 0.2,
+                "output_min": 1.6,
                 "type": "LINEAR_RANGE"
               },
-              "operation": "ADD",
+              "operation": "MULTIPLY",
               "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
               },
-              "target": "VISUAL_BEND_OFFSET_X"
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.right_ring.sy",
+              "mapping": {
+                "input_max": 0.021,
+                "input_min": 0.005,
+                "output_max": 0.2,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.right_ring.o_in",
+              "mapping": {
+                "input_max": 0.008,
+                "input_min": 0.005,
+                "output_max": 0.9,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.right_ring.o_out",
+              "mapping": {
+                "input_max": 0.021,
+                "input_min": 0.018,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.42,
-            "texture_asset_ref": "fx.super_booster_flame_soft"
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.super_booster_charge_ring"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
+          "sort_order": 1,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
-              -0.5,
-              -183.0
+              0.0,
+              0.0
             ],
             "offset": [
-              60.321538462,
-              251.15
+              60.0,
+              59.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.643076923,
-              1.05
+              0.800000011920929,
+              0.800000011920929
             ]
           },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 375.0,
-            "start_ratio": 0.333333333
-          }
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.bridge_a",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.bridge_a.on",
+              "mapping": {
+                "input_max": 0.0165,
+                "input_min": 0.015,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.bridge_a.flicker",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.25,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "bridge.flicker",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.9,
+            "texture_asset_ref": "fx.super_booster_bolt"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              67.0
+            ],
+            "rotation_degrees": -45.0,
+            "scale": [
+              0.75,
+              0.75
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.bridge_b",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.bridge_b.on",
+              "mapping": {
+                "input_max": 0.0165,
+                "input_min": 0.015,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.bridge_b.flicker",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 0.25,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "bridge.flicker",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.9,
+            "texture_asset_ref": "fx.super_booster_bolt"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              67.0
+            ],
+            "rotation_degrees": 135.0,
+            "scale": [
+              0.75,
+              0.75
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.inhale_bolts",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.3,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 44.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                200.0,
+                40.0
+              ]
+            },
+            "lifetime_seconds": 0.2,
+            "max_particles": 11.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 14.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 26.0,
+            "speed_max": 680.0,
+            "speed_min": 520.0,
+            "spread_degrees": 14.0,
+            "sprite_asset_ref": "fx.super_booster_bolt"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              189.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
         }
       ],
       "name": "start"
@@ -274,202 +748,119 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.left_core_flame",
-          "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 0.3366,
-              "min_effective": 0.3234,
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "max_effective": 1.197,
-              "min_effective": 1.083,
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "max_effective": 102.0904551776,
-              "min_effective": -102.0904551776,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.left_core.pulse.scale_x",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.02,
-                "output_min": 0.98,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.left_core.pulse.scale_y",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.05,
-                "output_min": 0.95,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.left_core.pulse.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.03,
-                "output_min": 0.97,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "loop.left_core.turn.bend",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 102.0904551776,
-                "output_min": -102.0904551776,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.86,
-            "texture_asset_ref": "fx.super_booster_flame_core"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              -181.0
-            ],
-            "offset": [
-              -60.0,
-              265.34
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              0.33,
-              1.14
-            ]
-          },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 365.0,
-            "start_ratio": 0.333333333
-          }
-        },
-        {
-          "anchors": [
-            "REAR_CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.left_soft_flame",
+          "id": "l.loop.envelope",
           "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 0.7828,
-              "min_effective": 0.7372,
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "max_effective": 1.431,
-              "min_effective": 1.269,
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "max_effective": 178.518500932,
-              "min_effective": -178.518500932,
+              "max_effective": 90.0,
+              "min_effective": -90.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
             {
-              "id": "loop.left_soft.pulse.scale_x",
+              "id": "l.env.over_len",
               "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.03,
-                "output_min": 0.97,
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.6,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.left_soft.pulse.scale_y",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
+                "source_id": "time.clock",
                 "type": "PRESET_SOURCE"
               },
               "target": "TRANSFORM_SCALE_Y"
             },
             {
-              "id": "loop.left_soft.pulse.opacity",
+              "id": "l.env.over_w",
               "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.04,
-                "output_min": 0.96,
+                "input_max": 0.04,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.35,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
               "source": {
-                "source_id": "flame.pulse",
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.env.grow_len",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.25,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.env.grow_w",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.env.grow_o",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.4,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
-              "id": "loop.left_soft.turn.bend",
+              "id": "l.env.alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.08,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "osc.env",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "l.loop.envelope.turn",
               "mapping": {
                 "input_max": 0.2,
                 "input_min": -0.2,
-                "output_max": 178.518500932,
-                "output_min": -178.518500932,
+                "output_max": 90.0,
+                "output_min": -90.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -481,32 +872,32 @@
             }
           ],
           "parameters": {
-            "opacity": 0.55,
-            "texture_asset_ref": "fx.super_booster_flame_soft"
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.super_booster_envelope"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
-              -0.5,
-              -183.0
+              0.0,
+              -306.0
             ],
             "offset": [
-              -59.62,
-              306.05
+              -60.0,
+              395.600006103516
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.76,
-              1.35
+              1.45000004768372,
+              1.10000002384186
             ]
           },
           "type": "TEXTURED_SPRITE",
           "visual_bend": {
             "axis": "LOCAL_Y_POSITIVE",
             "curve": "QUADRATIC",
-            "span_source_px": 375.0,
+            "span_source_px": 530.0,
             "start_ratio": 0.333333333
           }
         },
@@ -516,7 +907,976 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.left_energy_spark_accent",
+          "id": "l.loop.jet",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 55.0,
+              "min_effective": -55.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "l.jet.over_len",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.jet.over_w",
+              "mapping": {
+                "input_max": 0.04,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.35,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.jet.grow_len",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.25,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.jet.grow_w",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.jet.grow_o",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.4,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "l.jet.len_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.025,
+                "output_min": 0.975,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "osc.len_a",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.jet.len_b",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.02,
+                "output_min": 0.98,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "osc.len_b",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.jet.w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "osc.len_b",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.jet.alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.07,
+                "output_min": 0.93,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "osc.alpha",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "l.loop.jet.turn",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 55.0,
+                "output_min": -55.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.95,
+            "texture_asset_ref": "fx.super_booster_jet_twin"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -274.0
+            ],
+            "offset": [
+              -60.0,
+              360.399993896484
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.39999997615814,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 530.0,
+            "start_ratio": 0.333333333
+          }
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.loop.envelope",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 90.0,
+              "min_effective": -90.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "r.env.over_len",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.env.over_w",
+              "mapping": {
+                "input_max": 0.04,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.35,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.env.grow_len",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.25,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.env.grow_w",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.env.grow_o",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.4,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "r.env.alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.08,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "r.env",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "r.loop.envelope.turn",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 90.0,
+                "output_min": -90.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.super_booster_envelope"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -306.0
+            ],
+            "offset": [
+              60.0,
+              395.600006103516
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.45000004768372,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 530.0,
+            "start_ratio": 0.333333333
+          }
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.loop.jet",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 55.0,
+              "min_effective": -55.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "r.jet.over_len",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.jet.over_w",
+              "mapping": {
+                "input_max": 0.04,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 1.35,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.jet.grow_len",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.25,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.jet.grow_w",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.jet.grow_o",
+              "mapping": {
+                "input_max": 0.028,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 0.4,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "r.jet.len_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.025,
+                "output_min": 0.975,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "r.len_a",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.jet.len_b",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.02,
+                "output_min": 0.98,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "r.len_b",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.jet.w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.03,
+                "output_min": 0.97,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "r.len_b",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.jet.alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.07,
+                "output_min": 0.93,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "r.alpha",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "r.loop.jet.turn",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 55.0,
+                "output_min": -55.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.95,
+            "texture_asset_ref": "fx.super_booster_jet_twin"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -274.0
+            ],
+            "offset": [
+              60.0,
+              360.399993896484
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.39999997615814,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 530.0,
+            "start_ratio": 0.333333333
+          }
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "l.loop.nozzle_glow",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "l.loop.nozzle_glow.flash_sx",
+              "mapping": {
+                "input_max": 0.0375,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 2.33333333333333,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.loop.nozzle_glow.flash_sy",
+              "mapping": {
+                "input_max": 0.0375,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 2.33333333333333,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.loop.nozzle_glow.flash_o",
+              "mapping": {
+                "input_max": 0.0375,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 2.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "l.loop.nozzle_glow.alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "osc.glow",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.5,
+            "texture_asset_ref": "fx.super_booster_flare"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -60.0,
+              65.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.600000023841858,
+              0.600000023841858
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.loop.nozzle_glow",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "r.loop.nozzle_glow.flash_sx",
+              "mapping": {
+                "input_max": 0.0375,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 2.33333333333333,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.loop.nozzle_glow.flash_sy",
+              "mapping": {
+                "input_max": 0.0375,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 2.33333333333333,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.loop.nozzle_glow.flash_o",
+              "mapping": {
+                "input_max": 0.0375,
+                "input_min": 0.025,
+                "output_max": 1.0,
+                "output_min": 2.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "r.loop.nozzle_glow.alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "r.glow",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.5,
+            "texture_asset_ref": "fx.super_booster_flare"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              60.0,
+              65.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.600000023841858,
+              0.600000023841858
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "burst.shock_arc_a",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "burst.shock_arc_a.sx",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 3.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "burst.shock_arc_a.sy",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 3.0,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "burst.shock_arc_a.move",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 340.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "burst.shock_arc_a.fade",
+              "mapping": {
+                "input_max": 0.045,
+                "input_min": 0.025,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.super_booster_shock_arc"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              83.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.25,
+              1.25
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "burst.shock_arc_b",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "burst.shock_arc_b.sx",
+              "mapping": {
+                "input_max": 0.0495,
+                "input_min": 0.0295,
+                "output_max": 2.5,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "burst.shock_arc_b.sy",
+              "mapping": {
+                "input_max": 0.0495,
+                "input_min": 0.0295,
+                "output_max": 2.5,
+                "output_min": 0.5,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "burst.shock_arc_b.move",
+              "mapping": {
+                "input_max": 0.0495,
+                "input_min": 0.0295,
+                "output_max": 300.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "burst.shock_arc_b.fade",
+              "mapping": {
+                "input_max": 0.0495,
+                "input_min": 0.0295,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "time.clock",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.8,
+            "texture_asset_ref": "fx.super_booster_shock_arc"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              83.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "l.burst.bolt_spray",
           "importance": "EXTRA",
           "modulation_clamps": [],
           "modulations": [],
@@ -526,9 +1886,10 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.85,
+            "alpha_start": 1.0,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 10.0,
             "color_rgba": [
               1.0,
               1.0,
@@ -536,30 +1897,24 @@
               1.0
             ],
             "direction_degrees": 180.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 20.0,
+            "emission_mode": "BURST",
             "emitter": {
-              "shape": "BOX",
-              "size": [
-                190.0,
-                180.0
-              ]
+              "shape": "POINT"
             },
-            "lifetime_seconds": 0.16,
-            "max_particles": 6.0,
+            "lifetime_seconds": 0.3,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 19.6,
-            "size_multiplier_max": 1.15,
-            "size_multiplier_min": 0.75,
-            "size_start": 28.0,
-            "speed_max": 700.0,
-            "speed_min": 500.0,
-            "spread_degrees": 60.0,
-            "sprite_asset_ref": "fx.super_booster_spark_blue"
+            "size_end": 21.6,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 36.0,
+            "speed_max": 900.0,
+            "speed_min": 450.0,
+            "spread_degrees": 80.0,
+            "sprite_asset_ref": "fx.super_booster_bolt"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2,
+          "sort_order": 5,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
@@ -568,7 +1923,7 @@
             ],
             "offset": [
               -60.0,
-              319.0
+              69.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -584,249 +1939,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.right_core_flame",
-          "importance": "CORE",
-          "modulation_clamps": [
-            {
-              "max_effective": 0.3366,
-              "min_effective": 0.3234,
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "max_effective": 1.197,
-              "min_effective": 1.083,
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "max_effective": 102.0904551776,
-              "min_effective": -102.0904551776,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.right_core.pulse.scale_x",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.02,
-                "output_min": 0.98,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.right_core.pulse.scale_y",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.05,
-                "output_min": 0.95,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right_core.pulse.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.03,
-                "output_min": 0.97,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "loop.right_core.turn.bend",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 102.0904551776,
-                "output_min": -102.0904551776,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.86,
-            "texture_asset_ref": "fx.super_booster_flame_core"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              -181.0
-            ],
-            "offset": [
-              60.0,
-              265.34
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              0.33,
-              1.14
-            ]
-          },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 365.0,
-            "start_ratio": 0.333333333
-          }
-        },
-        {
-          "anchors": [
-            "REAR_CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.right_soft_flame",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 0.7828,
-              "min_effective": 0.7372,
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "max_effective": 1.431,
-              "min_effective": 1.269,
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "max_effective": 178.518500932,
-              "min_effective": -178.518500932,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "loop.right_soft.pulse.scale_x",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.03,
-                "output_min": 0.97,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.right_soft.pulse.scale_y",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.06,
-                "output_min": 0.94,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "loop.right_soft.pulse.opacity",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.04,
-                "output_min": 0.96,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "flame.pulse",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "loop.right_soft.turn.bend",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 178.518500932,
-                "output_min": -178.518500932,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.55,
-            "texture_asset_ref": "fx.super_booster_flame_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              -183.0
-            ],
-            "offset": [
-              60.38,
-              306.05
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              0.76,
-              1.35
-            ]
-          },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 375.0,
-            "start_ratio": 0.333333333
-          }
-        },
-        {
-          "anchors": [
-            "REAR_CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "loop.right_energy_spark_accent",
+          "id": "r.burst.bolt_spray",
           "importance": "EXTRA",
           "modulation_clamps": [],
           "modulations": [],
@@ -836,7 +1949,367 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.85,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 10.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.3,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 21.6,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 36.0,
+            "speed_max": 900.0,
+            "speed_min": 450.0,
+            "spread_degrees": 80.0,
+            "sprite_asset_ref": "fx.super_booster_bolt"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              60.0,
+              69.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "l.loop.pulse",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "l.loop.pulse.sx",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.l",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "l.loop.pulse.sy",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.l",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "l.loop.pulse.move",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 180.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "pulse.l",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "l.loop.pulse.o_in",
+              "mapping": {
+                "input_max": 0.15,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.l",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "l.loop.pulse.o_out",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.35,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.l",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.super_booster_shock_arc"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -60.0,
+              89.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.5,
+              0.5
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.loop.pulse",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "r.loop.pulse.sx",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.r",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "r.loop.pulse.sy",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.r",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "r.loop.pulse.move",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 180.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "pulse.r",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "r.loop.pulse.o_in",
+              "mapping": {
+                "input_max": 0.15,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.r",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "r.loop.pulse.o_out",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.35,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "pulse.r",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.super_booster_shock_arc"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              60.0,
+              89.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.5,
+              0.5
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.bridge",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.bridge.in",
+              "mapping": {
+                "input_max": 0.04,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "bridge.loop",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.bridge.out",
+              "mapping": {
+                "input_max": 0.12,
+                "input_min": 0.05,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "bridge.loop",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.8,
+            "texture_asset_ref": "fx.super_booster_bolt"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              169.0
+            ],
+            "rotation_degrees": -45.0,
+            "scale": [
+              0.75,
+              0.75
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.sparks",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
@@ -847,29 +2320,29 @@
             ],
             "direction_degrees": 180.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 20.0,
+            "emission_rate_per_second": 16.0,
             "emitter": {
               "shape": "BOX",
               "size": [
-                190.0,
-                180.0
+                200.0,
+                340.0
               ]
             },
-            "lifetime_seconds": 0.16,
+            "lifetime_seconds": 0.22,
             "max_particles": 6.0,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 19.6,
-            "size_multiplier_max": 1.15,
-            "size_multiplier_min": 0.75,
-            "size_start": 28.0,
-            "speed_max": 700.0,
-            "speed_min": 500.0,
-            "spread_degrees": 60.0,
-            "sprite_asset_ref": "fx.super_booster_spark_blue"
+            "size_end": 15.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 30.0,
+            "speed_max": 600.0,
+            "speed_min": 350.0,
+            "spread_degrees": 30.0,
+            "sprite_asset_ref": "fx.super_booster_bolt"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2,
+          "sort_order": 5,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
@@ -877,8 +2350,8 @@
               0.0
             ],
             "offset": [
-              60.0,
-              319.0
+              0.0,
+              259.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -892,7 +2365,7 @@
       "name": "loop"
     },
     {
-      "duration_seconds": 0.14,
+      "duration_seconds": 0.35,
       "layers": [
         {
           "anchors": [
@@ -900,23 +2373,23 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.left_core_fade",
+          "id": "l.end.jet",
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 102.0904551776,
-              "min_effective": -102.0904551776,
+              "max_effective": 55.0,
+              "min_effective": -55.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
             {
-              "id": "end.left_core.turn.bend",
+              "id": "l.end.jet.turn",
               "mapping": {
                 "input_max": 0.2,
                 "input_min": -0.2,
-                "output_max": 102.0904551776,
-                "output_min": -102.0904551776,
+                "output_max": 55.0,
+                "output_min": -55.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -928,8 +2401,37 @@
             }
           ],
           "parameters": {
-            "opacity": 0.42,
-            "texture_asset_ref": "fx.super_booster_flame_core"
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.35,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 126.72,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 316.8,
+            "speed_max": 543.085714285714,
+            "speed_min": 543.085714285714,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_jet_twin"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -937,86 +2439,23 @@
           "transform": {
             "modulation_pivot_local": [
               0.0,
-              -181.0
+              -274.0
             ],
             "offset": [
               -60.0,
-              189.32
+              375.799987792969
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.242,
-              0.72
+              1.27272727272727,
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE",
+          "type": "PARTICLE",
           "visual_bend": {
             "axis": "LOCAL_Y_POSITIVE",
             "curve": "QUADRATIC",
-            "span_source_px": 365.0,
-            "start_ratio": 0.333333333
-          }
-        },
-        {
-          "anchors": [
-            "REAR_CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.left_soft_fade",
-          "importance": "DETAIL",
-          "modulation_clamps": [
-            {
-              "max_effective": 178.518500932,
-              "min_effective": -178.518500932,
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "modulations": [
-            {
-              "id": "end.left_soft.turn.bend",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 178.518500932,
-                "output_min": -178.518500932,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "turn_rate_normalized",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_BEND_OFFSET_X"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.18,
-            "texture_asset_ref": "fx.super_booster_flame_soft"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              -0.5,
-              -183.0
-            ],
-            "offset": [
-              -59.722307692,
-              227.36
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              0.555384615,
-              0.92
-            ]
-          },
-          "type": "TEXTURED_SPRITE",
-          "visual_bend": {
-            "axis": "LOCAL_Y_POSITIVE",
-            "curve": "QUADRATIC",
-            "span_source_px": 375.0,
+            "span_source_px": 530.0,
             "start_ratio": 0.333333333
           }
         },
@@ -1026,23 +2465,23 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.right_core_fade",
-          "importance": "CORE",
+          "id": "l.end.envelope",
+          "importance": "DETAIL",
           "modulation_clamps": [
             {
-              "max_effective": 102.0904551776,
-              "min_effective": -102.0904551776,
+              "max_effective": 90.0,
+              "min_effective": -90.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
             {
-              "id": "end.right_core.turn.bend",
+              "id": "l.end.envelope.turn",
               "mapping": {
                 "input_max": 0.2,
                 "input_min": -0.2,
-                "output_max": 102.0904551776,
-                "output_min": -102.0904551776,
+                "output_max": 90.0,
+                "output_min": -90.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1054,32 +2493,61 @@
             }
           ],
           "parameters": {
-            "opacity": 0.42,
-            "texture_asset_ref": "fx.super_booster_flame_core"
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.35,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 140.8,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 352.0,
+            "speed_max": 603.428571428571,
+            "speed_min": 603.428571428571,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_envelope"
           },
           "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1,
+          "sort_order": 0,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
               0.0,
-              -181.0
+              -306.0
             ],
             "offset": [
-              60.0,
-              189.32
+              -60.0,
+              411.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.242,
-              0.72
+              1.31818181818182,
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE",
+          "type": "PARTICLE",
           "visual_bend": {
             "axis": "LOCAL_Y_POSITIVE",
             "curve": "QUADRATIC",
-            "span_source_px": 365.0,
+            "span_source_px": 530.0,
             "start_ratio": 0.333333333
           }
         },
@@ -1087,25 +2555,88 @@
           "anchors": [
             "REAR_CENTER"
           ],
-          "blend_mode": "ALPHA",
+          "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.right_soft_fade",
+          "id": "l.end.flare",
           "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.35,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 33.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 66.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_flare"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -60.0,
+              65.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.end.jet",
+          "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 178.518500932,
-              "min_effective": -178.518500932,
+              "max_effective": 55.0,
+              "min_effective": -55.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "modulations": [
             {
-              "id": "end.right_soft.turn.bend",
+              "id": "r.end.jet.turn",
               "mapping": {
                 "input_max": 0.2,
                 "input_min": -0.2,
-                "output_max": 178.518500932,
-                "output_min": -178.518500932,
+                "output_max": 55.0,
+                "output_min": -55.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1117,34 +2648,344 @@
             }
           ],
           "parameters": {
-            "opacity": 0.18,
-            "texture_asset_ref": "fx.super_booster_flame_soft"
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.95,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.35,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 126.72,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 316.8,
+            "speed_max": 543.085714285714,
+            "speed_min": 543.085714285714,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_jet_twin"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -274.0
+            ],
+            "offset": [
+              60.0,
+              375.799987792969
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.27272727272727,
+              1.0
+            ]
+          },
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 530.0,
+            "start_ratio": 0.333333333
+          }
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.end.envelope",
+          "importance": "DETAIL",
+          "modulation_clamps": [
+            {
+              "max_effective": 90.0,
+              "min_effective": -90.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "r.end.envelope.turn",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 90.0,
+                "output_min": -90.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.35,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 140.8,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 352.0,
+            "speed_max": 603.428571428571,
+            "speed_min": 603.428571428571,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_envelope"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0,
           "space_mode": "VEHICLE_LOCAL",
           "transform": {
             "modulation_pivot_local": [
-              -0.5,
-              -183.0
+              0.0,
+              -306.0
             ],
             "offset": [
-              60.277692308,
-              227.36
+              60.0,
+              411.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.555384615,
-              0.92
+              1.31818181818182,
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE",
+          "type": "PARTICLE",
           "visual_bend": {
             "axis": "LOCAL_Y_POSITIVE",
             "curve": "QUADRATIC",
-            "span_source_px": 375.0,
+            "span_source_px": 530.0,
             "start_ratio": 0.333333333
           }
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "r.end.flare",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.35,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 33.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 66.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_flare"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              60.0,
+              65.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.sparks",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 6.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.3,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 14.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 26.0,
+            "speed_max": 450.0,
+            "speed_min": 200.0,
+            "spread_degrees": 60.0,
+            "sprite_asset_ref": "fx.super_booster_bolt"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              69.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "REAR_CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.arc",
+          "importance": "EXTRA",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.3,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 130.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 90.0,
+            "speed_max": 400.0,
+            "speed_min": 400.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.super_booster_shock_arc"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              89.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
         }
       ],
       "name": "end"
@@ -1172,11 +3013,101 @@
   ],
   "runtime_modulation_sources": [
     {
-      "frequency_hz": 7.0,
-      "id": "flame.pulse",
+      "frequency_hz": 0.05,
+      "id": "time.clock",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 12.7,
+      "id": "osc.len_a",
       "phase_degrees": 0.0,
       "type": "OSCILLATOR",
       "wave": "SINE"
+    },
+    {
+      "frequency_hz": 8.9,
+      "id": "osc.len_b",
+      "phase_degrees": 90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 10.3,
+      "id": "osc.alpha",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 6.1,
+      "id": "osc.env",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 15.3,
+      "id": "osc.glow",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 12.7,
+      "id": "r.len_a",
+      "phase_degrees": 180.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 8.9,
+      "id": "r.len_b",
+      "phase_degrees": 270.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 10.3,
+      "id": "r.alpha",
+      "phase_degrees": 180.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 6.1,
+      "id": "r.env",
+      "phase_degrees": 180.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 15.3,
+      "id": "r.glow",
+      "phase_degrees": 180.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 31.0,
+      "id": "bridge.flicker",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 2.3,
+      "id": "pulse.l",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 2.0,
+      "id": "pulse.r",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 0.9,
+      "id": "bridge.loop",
+      "type": "LINEAR_PHASE"
     }
   ]
 }

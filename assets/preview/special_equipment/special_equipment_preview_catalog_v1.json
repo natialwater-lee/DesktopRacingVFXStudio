@@ -15,6 +15,20 @@
       "retract_duration_seconds": 0.5,
       "marks": ["mk1", "mk2", "mk3", "mk4"],
       "asset_root": "res://assets/preview/special_equipment/rotor_lift"
+    },
+    "super_booster": {
+      "preset_id_prefix": "equipment.super_booster",
+      "vehicle_category": "hyper",
+      "visual_layer": "overlay",
+      "normalized_position": [0.5, 0.67],
+      "equipment_scale": 1.0,
+      "runtime_visual": {"scale": 0.7, "offset_ratio_x": 0.0, "offset_ratio_y": 0.1},
+      "active_frame_rate": 24.0,
+      "deploy_duration_seconds": 0.5,
+      "retract_duration_seconds": 0.5,
+      "vfx_starts_at": "deploy",
+      "marks": ["mk1", "mk2", "mk3", "mk4"],
+      "asset_root": "res://assets/preview/special_equipment/super_booster"
     }
   }
 }

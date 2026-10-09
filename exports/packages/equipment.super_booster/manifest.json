@@ -1,52 +1,88 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 72382,
+      "byte_size": 12462,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.super_booster_flame_core",
-      "package_path": "assets/super_booster_flame_core.png",
-      "sha256": "9422eae7361e68e00cf45bd9b9e5460d1e999e0e40fc7774792a34055bc03643"
+      "logical_id": "fx.super_booster_bolt",
+      "package_path": "assets/super_booster_bolt.png",
+      "sha256": "b1ada778b615d50ba07e49a5bf8e6b2d6ddbde3aa4c9383b9260a39d1f37df5c"
     },
     {
-      "byte_size": 127285,
+      "byte_size": 78516,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.super_booster_flame_soft",
-      "package_path": "assets/super_booster_flame_soft.png",
-      "sha256": "af6f0fd9bc081b57853cf021df908ac9054815613bf1ee3027d4bfadd566655a"
+      "logical_id": "fx.super_booster_charge_ring",
+      "package_path": "assets/super_booster_charge_ring.png",
+      "sha256": "e0774beb5b374c3024b94992c688fb50a1f6e451664135e7fadbb474f7b789f6"
     },
     {
-      "byte_size": 27613,
+      "byte_size": 80494,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.super_booster_spark_blue",
-      "package_path": "assets/super_booster_spark_blue.png",
-      "sha256": "a524fe0576fd69285edac8e4cde585a6b6626b5ce97a7fe71b0e8e8aeb0e456e"
+      "logical_id": "fx.super_booster_envelope",
+      "package_path": "assets/super_booster_envelope.png",
+      "sha256": "e24843996ceaf06e357c42bdac0bc79f3040f3c4e7f42c6650df87d3fd7c4399"
+    },
+    {
+      "byte_size": 64861,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_flare",
+      "package_path": "assets/super_booster_flare.png",
+      "sha256": "ea17037f28899fcad3304decd65fe3b1776e28e78077614915c0fce9e7bfc618"
+    },
+    {
+      "byte_size": 72721,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_jet_single",
+      "package_path": "assets/super_booster_jet_single.png",
+      "sha256": "27b5d5e2a64845b6674a5ceec12f51da8da744f614432d4d91c029c9cba33d44"
+    },
+    {
+      "byte_size": 22614,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_shock_arc",
+      "package_path": "assets/super_booster_shock_arc.png",
+      "sha256": "e3b234fa62a80c823f1c6318fcfd94cd442ebff18477ed2c0329902bcebae5dd"
     }
   ],
   "files": [
     {
-      "byte_size": 72382,
-      "path": "assets/super_booster_flame_core.png",
-      "sha256": "9422eae7361e68e00cf45bd9b9e5460d1e999e0e40fc7774792a34055bc03643"
+      "byte_size": 12462,
+      "path": "assets/super_booster_bolt.png",
+      "sha256": "b1ada778b615d50ba07e49a5bf8e6b2d6ddbde3aa4c9383b9260a39d1f37df5c"
     },
     {
-      "byte_size": 127285,
-      "path": "assets/super_booster_flame_soft.png",
-      "sha256": "af6f0fd9bc081b57853cf021df908ac9054815613bf1ee3027d4bfadd566655a"
+      "byte_size": 78516,
+      "path": "assets/super_booster_charge_ring.png",
+      "sha256": "e0774beb5b374c3024b94992c688fb50a1f6e451664135e7fadbb474f7b789f6"
     },
     {
-      "byte_size": 27613,
-      "path": "assets/super_booster_spark_blue.png",
-      "sha256": "a524fe0576fd69285edac8e4cde585a6b6626b5ce97a7fe71b0e8e8aeb0e456e"
+      "byte_size": 80494,
+      "path": "assets/super_booster_envelope.png",
+      "sha256": "e24843996ceaf06e357c42bdac0bc79f3040f3c4e7f42c6650df87d3fd7c4399"
     },
     {
-      "byte_size": 17470,
+      "byte_size": 64861,
+      "path": "assets/super_booster_flare.png",
+      "sha256": "ea17037f28899fcad3304decd65fe3b1776e28e78077614915c0fce9e7bfc618"
+    },
+    {
+      "byte_size": 72721,
+      "path": "assets/super_booster_jet_single.png",
+      "sha256": "27b5d5e2a64845b6674a5ceec12f51da8da744f614432d4d91c029c9cba33d44"
+    },
+    {
+      "byte_size": 22614,
+      "path": "assets/super_booster_shock_arc.png",
+      "sha256": "e3b234fa62a80c823f1c6318fcfd94cd442ebff18477ed2c0329902bcebae5dd"
+    },
+    {
+      "byte_size": 55587,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "3a87d596884bb20e69094e24e447b87b81de14c81e4e7f855a8de18260e3a502"
+      "sha256": "44aa833247d51dc4b6af4b76e83212034acb9034d3a936727747256eba9d6de6"
     },
     {
-      "byte_size": 16810,
+      "byte_size": 52546,
       "path": "source/equipment.super_booster.vfx.json",
-      "sha256": "137a25f2793f068fae1c91a03eb668a938628e6fed9e3618b169537ab4b551ba"
+      "sha256": "4972b5351616a6b18910026961e37085a1eec9e1d36057c9fe09c4c85cceabcf"
     }
   ],
   "package_format_version": 1,
@@ -62,8 +98,8 @@
   "requirements": {
     "importance_summary": {
       "CORE": 3,
-      "DETAIL": 3,
-      "EXTRA": 1
+      "DETAIL": 8,
+      "EXTRA": 7
     },
     "required_vehicle_anchors": [
       "REAR_CENTER"
@@ -73,14 +109,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 17470,
+    "byte_size": 55587,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "3a87d596884bb20e69094e24e447b87b81de14c81e4e7f855a8de18260e3a502",
+    "sha256": "44aa833247d51dc4b6af4b76e83212034acb9034d3a936727747256eba9d6de6",
     "version": 2
   },
   "source": {
-    "byte_size": 16810,
+    "byte_size": 52546,
     "path": "source/equipment.super_booster.vfx.json",
-    "sha256": "137a25f2793f068fae1c91a03eb668a938628e6fed9e3618b169537ab4b551ba"
+    "sha256": "4972b5351616a6b18910026961e37085a1eec9e1d36057c9fe09c4c85cceabcf"
   }
 }

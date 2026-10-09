@@ -15,12 +15,6 @@
       "source_path": "res://assets/vfx/energy_spark.png",
       "package_file_name": "energy_spark.png"
     },
-    "fx.super_booster_spark_blue": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/super_booster_spark_blue.png",
-      "package_file_name": "super_booster_spark_blue.png"
-    },
     "fx.rotor_lift_air_ring": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
@@ -63,17 +57,53 @@
       "source_path": "res://assets/vfx/booster_nozzle_flare.png",
       "package_file_name": "booster_nozzle_flare.png"
     },
-    "fx.super_booster_flame_core": {
+    "fx.super_booster_jet_single": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/fx.super_booster_flame_core.png",
-      "package_file_name": "super_booster_flame_core.png"
+      "source_path": "res://assets/vfx/super_booster_jet_single.png",
+      "package_file_name": "super_booster_jet_single.png"
     },
-    "fx.super_booster_flame_soft": {
+    "fx.super_booster_jet_twin": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/fx.super_booster_flame_soft.png",
-      "package_file_name": "super_booster_flame_soft.png"
+      "source_path": "res://assets/vfx/super_booster_jet_twin.png",
+      "package_file_name": "super_booster_jet_twin.png"
+    },
+    "fx.super_booster_envelope": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_envelope.png",
+      "package_file_name": "super_booster_envelope.png"
+    },
+    "fx.super_booster_flare": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_flare.png",
+      "package_file_name": "super_booster_flare.png"
+    },
+    "fx.super_booster_charge_ring": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_charge_ring.png",
+      "package_file_name": "super_booster_charge_ring.png"
+    },
+    "fx.super_booster_shock_arc": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_shock_arc.png",
+      "package_file_name": "super_booster_shock_arc.png"
+    },
+    "fx.super_booster_bolt": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_bolt.png",
+      "package_file_name": "super_booster_bolt.png"
+    },
+    "fx.super_booster_core_gold": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/super_booster_core_gold.png",
+      "package_file_name": "super_booster_core_gold.png"
     },
     "fx.headlight_beam_core": {
       "export_policy": "EXPORTABLE",

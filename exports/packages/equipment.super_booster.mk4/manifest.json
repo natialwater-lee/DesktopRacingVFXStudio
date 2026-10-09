@@ -1,0 +1,134 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 12462,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_bolt",
+      "package_path": "assets/super_booster_bolt.png",
+      "sha256": "b1ada778b615d50ba07e49a5bf8e6b2d6ddbde3aa4c9383b9260a39d1f37df5c"
+    },
+    {
+      "byte_size": 78516,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_charge_ring",
+      "package_path": "assets/super_booster_charge_ring.png",
+      "sha256": "e0774beb5b374c3024b94992c688fb50a1f6e451664135e7fadbb474f7b789f6"
+    },
+    {
+      "byte_size": 25765,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_core_gold",
+      "package_path": "assets/super_booster_core_gold.png",
+      "sha256": "1a66d67ad35309504cc0c519085d6883d6a5f381f27716db27e19c15787f049a"
+    },
+    {
+      "byte_size": 80494,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_envelope",
+      "package_path": "assets/super_booster_envelope.png",
+      "sha256": "e24843996ceaf06e357c42bdac0bc79f3040f3c4e7f42c6650df87d3fd7c4399"
+    },
+    {
+      "byte_size": 64861,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_flare",
+      "package_path": "assets/super_booster_flare.png",
+      "sha256": "ea17037f28899fcad3304decd65fe3b1776e28e78077614915c0fce9e7bfc618"
+    },
+    {
+      "byte_size": 42901,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_jet_twin",
+      "package_path": "assets/super_booster_jet_twin.png",
+      "sha256": "bd57103db405b22261449c22349cc831385e0546aa064a669181a897b20c101d"
+    },
+    {
+      "byte_size": 22614,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.super_booster_shock_arc",
+      "package_path": "assets/super_booster_shock_arc.png",
+      "sha256": "e3b234fa62a80c823f1c6318fcfd94cd442ebff18477ed2c0329902bcebae5dd"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 12462,
+      "path": "assets/super_booster_bolt.png",
+      "sha256": "b1ada778b615d50ba07e49a5bf8e6b2d6ddbde3aa4c9383b9260a39d1f37df5c"
+    },
+    {
+      "byte_size": 78516,
+      "path": "assets/super_booster_charge_ring.png",
+      "sha256": "e0774beb5b374c3024b94992c688fb50a1f6e451664135e7fadbb474f7b789f6"
+    },
+    {
+      "byte_size": 25765,
+      "path": "assets/super_booster_core_gold.png",
+      "sha256": "1a66d67ad35309504cc0c519085d6883d6a5f381f27716db27e19c15787f049a"
+    },
+    {
+      "byte_size": 80494,
+      "path": "assets/super_booster_envelope.png",
+      "sha256": "e24843996ceaf06e357c42bdac0bc79f3040f3c4e7f42c6650df87d3fd7c4399"
+    },
+    {
+      "byte_size": 64861,
+      "path": "assets/super_booster_flare.png",
+      "sha256": "ea17037f28899fcad3304decd65fe3b1776e28e78077614915c0fce9e7bfc618"
+    },
+    {
+      "byte_size": 42901,
+      "path": "assets/super_booster_jet_twin.png",
+      "sha256": "bd57103db405b22261449c22349cc831385e0546aa064a669181a897b20c101d"
+    },
+    {
+      "byte_size": 22614,
+      "path": "assets/super_booster_shock_arc.png",
+      "sha256": "e3b234fa62a80c823f1c6318fcfd94cd442ebff18477ed2c0329902bcebae5dd"
+    },
+    {
+      "byte_size": 110750,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "1e0f1edd5c6f63a00b322a1aa11c8a4a015fdb2502f36cfc530cf42177073482"
+    },
+    {
+      "byte_size": 105845,
+      "path": "source/equipment.super_booster.mk4.vfx.json",
+      "sha256": "c9942afcc52a05af978e3975bdc81e41485bb7caff17a7f5dfc6aaa38d62189a"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "equipment.super_booster.mk4",
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Super Booster Mk.IV",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.super_booster.mk4",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 10,
+      "DETAIL": 14,
+      "EXTRA": 11
+    },
+    "required_vehicle_anchors": [
+      "REAR_CENTER"
+    ],
+    "runtime_inputs": [
+      "turn_rate_normalized"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 110750,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "1e0f1edd5c6f63a00b322a1aa11c8a4a015fdb2502f36cfc530cf42177073482",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 105845,
+    "path": "source/equipment.super_booster.mk4.vfx.json",
+    "sha256": "c9942afcc52a05af978e3975bdc81e41485bb7caff17a7f5dfc6aaa38d62189a"
+  }
+}

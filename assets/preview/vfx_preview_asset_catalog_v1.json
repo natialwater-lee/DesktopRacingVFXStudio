@@ -11,10 +11,6 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_spark.png"
     },
-    "fx.super_booster_spark_blue": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/super_booster_spark_blue.png"
-    },
     "fx.rotor_lift_air_ring": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/rotor_lift_air_ring.png"
@@ -43,13 +39,37 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/booster_nozzle_flare.png"
     },
-    "fx.super_booster_flame_core": {
+    "fx.super_booster_jet_single": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/fx.super_booster_flame_core.png"
+      "texture_path": "res://assets/vfx/super_booster_jet_single.png"
     },
-    "fx.super_booster_flame_soft": {
+    "fx.super_booster_jet_twin": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/fx.super_booster_flame_soft.png"
+      "texture_path": "res://assets/vfx/super_booster_jet_twin.png"
+    },
+    "fx.super_booster_envelope": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_envelope.png"
+    },
+    "fx.super_booster_flare": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_flare.png"
+    },
+    "fx.super_booster_charge_ring": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_charge_ring.png"
+    },
+    "fx.super_booster_shock_arc": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_shock_arc.png"
+    },
+    "fx.super_booster_bolt": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_bolt.png"
+    },
+    "fx.super_booster_core_gold": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/super_booster_core_gold.png"
     },
     "fx.headlight_beam_core": {
       "source": "TEXTURE",

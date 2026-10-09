@@ -56,6 +56,11 @@ func _compose_state(state: RefCounted) -> void:
 	for binding in state.bindings():
 		var sampled_input: float = _input_state.value_at(binding.source_slot()) if binding.source_kind() == VfxRuntimeModulationBindingSpecModel.SOURCE_RUNTIME_INPUT else _source_values[binding.source_slot()]
 		var ratio: float = (sampled_input - binding.input_min()) / (binding.input_max() - binding.input_min())
+		# Game parity: LINEAR_RANGE holds its end values outside the input range; only the
+		# effect_radius runtime input stays proportional beyond its reference (Shockwave).
+		var unbounded_radius: bool = binding.source_kind() == VfxRuntimeModulationBindingSpecModel.SOURCE_RUNTIME_INPUT and binding.source_id() == "effect_radius"
+		if not unbounded_radius:
+			ratio = clampf(ratio, 0.0, 1.0)
 		var contribution: float = lerpf(binding.output_min(), binding.output_max(), ratio)
 		var current: float = state.effective_value(binding.target_slot())
 		state.set_effective_value(binding.target_slot(), current + contribution if binding.operation_slot() == 0 else current * contribution)

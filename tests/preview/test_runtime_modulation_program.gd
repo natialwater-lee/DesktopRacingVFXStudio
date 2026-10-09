@@ -228,7 +228,8 @@ static func _test_visual_bend_evaluator_and_straight_preview_fallback(tests: Tes
 		input_state.set_named_value(program, "turn_rate_normalized", turn_value)
 		evaluator.refresh(0.0, [state])
 		values_by_turn[turn_value] = state.effective_value(bend_slot)
-	tests.expect_true(is_equal_approx(float(values_by_turn[-1.0]), -18.0) and is_equal_approx(float(values_by_turn[0.0]), 0.0) and is_equal_approx(float(values_by_turn[1.0]), 18.0), "generic LINEAR_RANGE evaluates VISUAL_BEND_OFFSET_X and applies its configured target clamp exactly once")
+	# Game parity: LINEAR_RANGE holds its end values outside the input range (+-0.5 -> +-9), well inside the +-18 target clamp.
+	tests.expect_true(is_equal_approx(float(values_by_turn[-1.0]), -9.0) and is_equal_approx(float(values_by_turn[0.0]), 0.0) and is_equal_approx(float(values_by_turn[1.0]), 9.0), "generic LINEAR_RANGE evaluates VISUAL_BEND_OFFSET_X, holds its end values beyond the input range like the Game evaluator, and keeps the configured target clamp as a separate bound")
 
 	var runtime := VfxPreviewRenderRuntimeModel.new(plan, {"anchors": {"CENTER": [0.0, 0.0]}}, _registry(), VfxPreviewRendererFactoryModel.new(), VfxPreviewAssetResolverModel.new(VfxPreviewAssetRegistryModel.new()))
 	runtime.set_runtime_input_state(input_state)

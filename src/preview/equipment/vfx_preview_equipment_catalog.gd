@@ -90,7 +90,12 @@ func placement(equipment_type: String, vehicle_texture_size: Vector2, equipment_
 	}
 
 
-# equipment_phase is PHASE_ACTIVE or PHASE_RETRACT; elapsed is seconds within it.
+# True when the Game starts the VFX with the equipment DEPLOYING instead of ACTIVE (Super Booster charge-up).
+func vfx_starts_at_deploy(equipment_type: String) -> bool:
+	return str(entry(equipment_type).get("vfx_starts_at", "")) == "deploy"
+
+
+# equipment_phase is PHASE_DEPLOY, PHASE_ACTIVE or PHASE_RETRACT; elapsed is seconds within it.
 func resolve_frame(equipment_type: String, mark_id: String, equipment_phase: String, elapsed_seconds: float) -> Texture2D:
 	var data := entry(equipment_type)
 	if equipment_phase == PHASE_RETRACT:
@@ -100,6 +105,13 @@ func resolve_frame(equipment_type: String, mark_id: String, equipment_phase: Str
 			return null
 		var progress := clampf(elapsed_seconds / duration, 0.0, 0.999999)
 		return retract_frames[clampi(int(floor(progress * retract_frames.size())), 0, retract_frames.size() - 1)]
+	if equipment_phase == PHASE_DEPLOY:
+		var deploy_frames := frames(equipment_type, mark_id, PHASE_DEPLOY)
+		if deploy_frames.is_empty():
+			return null
+		var deploy_duration := maxf(float(data.get("deploy_duration_seconds", 0.5)), 0.001)
+		var deploy_progress := clampf(elapsed_seconds / deploy_duration, 0.0, 0.999999)
+		return deploy_frames[clampi(int(floor(deploy_progress * deploy_frames.size())), 0, deploy_frames.size() - 1)]
 	if equipment_phase != PHASE_ACTIVE:
 		return null
 	var active_frames := frames(equipment_type, mark_id, PHASE_ACTIVE)

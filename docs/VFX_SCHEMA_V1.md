@@ -242,6 +242,8 @@ composition. `VISUAL_OPACITY_MULTIPLIER` must be finite and non-negative, has no
 authoring upper bound, and only the final `TEXTURED_SPRITE` alpha application
 clamps its rendered result to `[0, 1]`.
 
+Preview and Game evaluate `LINEAR_RANGE` identically: the interpolation ratio is clamped to `[0, 1]`, so the output holds its end values outside the input range (only the `effect_radius` runtime input stays proportional beyond its reference, for Shockwave). One-shot, time-windowed ramps rely on this.
+
 `LINEAR_PHASE` is a generic authored source with this strict shape:
 
 ```json
