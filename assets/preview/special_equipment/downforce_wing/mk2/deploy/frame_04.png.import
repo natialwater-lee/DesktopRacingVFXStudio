@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf4pg0pki063e"
-path="res://.godot/imported/speed_wind_streak.png-971b01cfa13209be85d4ec586dcf06e0.ctex"
+uid="uid://csp42o6sbjewb"
+path="res://.godot/imported/frame_04.png-81b5f88085fac4e7f1d2a4bb9d375554.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://exports/packages/equipment.downforce_wing.wind_streak/assets/speed_wind_streak.png"
-dest_files=["res://.godot/imported/speed_wind_streak.png-971b01cfa13209be85d4ec586dcf06e0.ctex"]
+source_file="res://assets/preview/special_equipment/downforce_wing/mk2/deploy/frame_04.png"
+dest_files=["res://.godot/imported/frame_04.png-81b5f88085fac4e7f1d2a4bb9d375554.ctex"]
 
 [params]
 

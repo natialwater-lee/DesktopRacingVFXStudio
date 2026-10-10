@@ -3,6 +3,19 @@
   "source": "DesktopIdleRacing data/special_equipment/special_equipment_defs.json + scripts/services/SpecialEquipmentService.gd::resolve_visual_placement (copied 2026-10-08)",
   "reference_texture_width": 512.0,
   "equipment": {
+    "downforce_wing": {
+      "preset_id_prefix": "equipment.downforce_wing.",
+      "vehicle_category": "gt",
+      "visual_layer": "underlay",
+      "normalized_position": [0.5, 0.5],
+      "equipment_scale": 1.0,
+      "runtime_visual": {"scale": 1.25, "offset_ratio_x": 0.0, "offset_ratio_y": 0.0},
+      "active_frame_rate": 24.0,
+      "deploy_duration_seconds": 0.5,
+      "retract_duration_seconds": 0.5,
+      "marks": ["mk1", "mk2", "mk3", "mk4"],
+      "asset_root": "res://assets/preview/special_equipment/downforce_wing"
+    },
     "rotor_lift": {
       "preset_id_prefix": "equipment.rotor_lift.",
       "vehicle_category": "formula",

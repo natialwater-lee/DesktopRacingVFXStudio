@@ -141,6 +141,18 @@
       "source_path": "res://assets/vfx/speed_wind_flow_b.png",
       "package_file_name": "speed_wind_flow_b.png"
     },
+    "fx.downforce_tip_streak_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/downforce_tip_streak_a.png",
+      "package_file_name": "downforce_tip_streak_a.png"
+    },
+    "fx.downforce_tip_streak_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/downforce_tip_streak_b.png",
+      "package_file_name": "downforce_tip_streak_b.png"
+    },
     "fx.zero_zone_flow_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

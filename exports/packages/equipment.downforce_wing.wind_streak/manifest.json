@@ -1,28 +1,52 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 5731,
+      "byte_size": 19847,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.speed_wind_streak",
-      "package_path": "assets/speed_wind_streak.png",
-      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+      "logical_id": "fx.downforce_tip_streak_a",
+      "package_path": "assets/downforce_tip_streak_a.png",
+      "sha256": "15d18f9b5f9c49b1d2bd5aaee69b78e335a160eff1a8d38782b115f90a094092"
+    },
+    {
+      "byte_size": 17046,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.downforce_tip_streak_b",
+      "package_path": "assets/downforce_tip_streak_b.png",
+      "sha256": "8e0bf28a7418d80b1940793f22cd0e41e049794eb082de0888a2d8cfd9a4e183"
+    },
+    {
+      "byte_size": 12706,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_flow_a",
+      "package_path": "assets/speed_wind_flow_a.png",
+      "sha256": "46544a2034022847647af4e2252e23c46c651b49a8f41c4b27d4117a8fb1e07a"
     }
   ],
   "files": [
     {
-      "byte_size": 5731,
-      "path": "assets/speed_wind_streak.png",
-      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+      "byte_size": 19847,
+      "path": "assets/downforce_tip_streak_a.png",
+      "sha256": "15d18f9b5f9c49b1d2bd5aaee69b78e335a160eff1a8d38782b115f90a094092"
     },
     {
-      "byte_size": 11067,
-      "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "81f1ce886e0204d0757068e23983d9432f2eedf0b54b55a9c361f9e310d93252"
+      "byte_size": 17046,
+      "path": "assets/downforce_tip_streak_b.png",
+      "sha256": "8e0bf28a7418d80b1940793f22cd0e41e049794eb082de0888a2d8cfd9a4e183"
     },
     {
-      "byte_size": 10570,
+      "byte_size": 12706,
+      "path": "assets/speed_wind_flow_a.png",
+      "sha256": "46544a2034022847647af4e2252e23c46c651b49a8f41c4b27d4117a8fb1e07a"
+    },
+    {
+      "byte_size": 62451,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "e0c49233be7c25a3fec741e51f40f9b3de175267e9d79ba13381d6f2bf75988f"
+    },
+    {
+      "byte_size": 60673,
       "path": "source/equipment.downforce_wing.wind_streak.vfx.json",
-      "sha256": "39e0b266ddee306dccafff3eeb5873a51646f18fd1675f2cbe3f9a58283ebc49"
+      "sha256": "c01800243874f22b1cccbde40452ea8b9d4f225f6d68e892bf38888a9b269889"
     }
   ],
   "package_format_version": 1,
@@ -37,24 +61,27 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 4,
-      "DETAIL": 2,
+      "CORE": 6,
+      "DETAIL": 8,
       "EXTRA": 0
     },
     "required_vehicle_anchors": [
       "CENTER"
     ],
-    "runtime_inputs": []
+    "runtime_inputs": [
+      "turn_rate_normalized",
+      "speed_normalized"
+    ]
   },
   "runtime_definition": {
-    "byte_size": 11067,
-    "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "81f1ce886e0204d0757068e23983d9432f2eedf0b54b55a9c361f9e310d93252",
-    "version": 1
+    "byte_size": 62451,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "e0c49233be7c25a3fec741e51f40f9b3de175267e9d79ba13381d6f2bf75988f",
+    "version": 2
   },
   "source": {
-    "byte_size": 10570,
+    "byte_size": 60673,
     "path": "source/equipment.downforce_wing.wind_streak.vfx.json",
-    "sha256": "39e0b266ddee306dccafff3eeb5873a51646f18fd1675f2cbe3f9a58283ebc49"
+    "sha256": "c01800243874f22b1cccbde40452ea8b9d4f225f6d68e892bf38888a9b269889"
   }
 }

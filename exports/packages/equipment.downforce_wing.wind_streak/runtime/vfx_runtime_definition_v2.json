@@ -1,0 +1,2097 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.16,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.tip_a_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.tip_a_l.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_a_l.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_a_l.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_a_l.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "start.tip_a_l.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_a_l.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_a_l.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.12,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_a_l.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.tip_a_l.ramp",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ramp",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.8,
+            "texture_asset_ref": "fx.downforce_tip_streak_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              -293.0,
+              202.0
+            ],
+            "rotation_degrees": -2.0,
+            "scale": [
+              1.5,
+              1.0
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.tip_b_l",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.tip_b_l.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_b_l.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_b_l.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_b_l.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "start.tip_b_l.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_b_l.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_b_l.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.12,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_b_l.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.tip_b_l.ramp",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ramp",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.6,
+            "texture_asset_ref": "fx.downforce_tip_streak_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              -232.0,
+              244.0
+            ],
+            "rotation_degrees": -1.0,
+            "scale": [
+              1.5,
+              0.800000011920929
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.sheet_1_l",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.sheet_1_l.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 220.0,
+                "output_min": -220.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_l.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "start.sheet_1_l.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 30.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_l.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "start.sheet_1_l.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "sheet_1_l.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.sheet_1_l.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.sheet_1_l.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.sheet_1_l.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.12,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.sheet_1_l.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -14.0,
+                "output_min": 14.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.62,
+            "texture_asset_ref": "fx.speed_wind_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -165.0,
+              120.0
+            ],
+            "rotation_degrees": -3.0,
+            "scale": [
+              1.12000000476837,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.tip_a_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.tip_a_r.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_a_r.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_a_r.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_a_r.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "start.tip_a_r.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_a_r.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.85,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_a_r.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.92,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_a_r.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.tip_a_r.ramp",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ramp",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.8,
+            "texture_asset_ref": "fx.downforce_tip_streak_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              293.0,
+              202.0
+            ],
+            "rotation_degrees": 2.0,
+            "scale": [
+              1.5,
+              1.0
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.tip_b_r",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.tip_b_r.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_b_r.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_b_r.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_b_r.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "start.tip_b_r.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_b_r.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.85,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tip_b_r.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.92,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tip_b_r.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            },
+            {
+              "id": "start.tip_b_r.ramp",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "start.ramp",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.6,
+            "texture_asset_ref": "fx.downforce_tip_streak_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              232.0,
+              244.0
+            ],
+            "rotation_degrees": 1.0,
+            "scale": [
+              1.5,
+              0.800000011920929
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.sheet_1_r",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.sheet_1_r.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 220.0,
+                "output_min": -220.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_r.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "start.sheet_1_r.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -30.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_r.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "start.sheet_1_r.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "sheet_1_r.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.sheet_1_r.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.sheet_1_r.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.85,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.sheet_1_r.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.92,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.sheet_1_r.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -14.0,
+                "output_min": 14.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.62,
+            "texture_asset_ref": "fx.speed_wind_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              165.0,
+              120.0
+            ],
+            "rotation_degrees": 3.0,
+            "scale": [
+              1.12000000476837,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.tip_a_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.tip_a_l.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_a_l.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_a_l.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_a_l.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.tip_a_l.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_a_l.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_a_l.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.12,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_a_l.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.8,
+            "texture_asset_ref": "fx.downforce_tip_streak_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              -293.0,
+              202.0
+            ],
+            "rotation_degrees": -2.0,
+            "scale": [
+              1.5,
+              1.0
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.tip_b_l",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.tip_b_l.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_b_l.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_l.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_b_l.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_b_l.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.tip_b_l.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_b_l.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_b_l.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.12,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_b_l.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.6,
+            "texture_asset_ref": "fx.downforce_tip_streak_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              -232.0,
+              244.0
+            ],
+            "rotation_degrees": -1.0,
+            "scale": [
+              1.5,
+              0.800000011920929
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.sheet_1_l",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.sheet_1_l.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 220.0,
+                "output_min": -220.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_l.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "loop.sheet_1_l.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 30.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_l.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.sheet_1_l.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "sheet_1_l.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.sheet_1_l.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.sheet_1_l.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.15,
+                "output_min": 0.85,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.sheet_1_l.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 1.12,
+                "output_min": 0.92,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.sheet_1_l.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -14.0,
+                "output_min": 14.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.62,
+            "texture_asset_ref": "fx.speed_wind_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -165.0,
+              120.0
+            ],
+            "rotation_degrees": -3.0,
+            "scale": [
+              1.12000000476837,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.tip_a_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.tip_a_r.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_a_r.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_a_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_a_r.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_a_r.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.tip_a_r.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_a_r.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.85,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_a_r.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.92,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_a_r.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.8,
+            "texture_asset_ref": "fx.downforce_tip_streak_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              293.0,
+              202.0
+            ],
+            "rotation_degrees": 2.0,
+            "scale": [
+              1.5,
+              1.0
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.tip_b_r",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.tip_b_r.flick_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_b_r.flick_len",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 1.12,
+                "output_min": 0.88,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "tip_b_r.flick",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_b_r.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 6.0,
+                "output_min": -6.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "tip_b_r.sway",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.tip_b_r.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_b_r.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.85,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tip_b_r.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.92,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tip_b_r.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -22.0,
+                "output_min": 22.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.6,
+            "texture_asset_ref": "fx.downforce_tip_streak_b"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -192.0
+            ],
+            "offset": [
+              232.0,
+              244.0
+            ],
+            "rotation_degrees": 1.0,
+            "scale": [
+              1.5,
+              0.800000011920929
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.sheet_1_r",
+          "importance": "DETAIL",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.sheet_1_r.travel_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 220.0,
+                "output_min": -220.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_r.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            },
+            {
+              "id": "loop.sheet_1_r.travel_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -30.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "sheet_1_r.travel",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "loop.sheet_1_r.fade",
+              "mapping": {
+                "input_max": 0.35,
+                "input_min": -0.75,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "sheet_1_r.fade",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.sheet_1_r.speed_alpha",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "speed_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.sheet_1_r.turn_alpha",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.85,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.sheet_1_r.turn_length",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": 0.92,
+                "output_min": 1.12,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.sheet_1_r.turn_swing",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": -0.2,
+                "output_max": -14.0,
+                "output_min": 14.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.62,
+            "texture_asset_ref": "fx.speed_wind_flow_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 5,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              165.0,
+              120.0
+            ],
+            "rotation_degrees": 3.0,
+            "scale": [
+              1.12000000476837,
+              1.10000002384186
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.16,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.tip_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 160.0,
+            "size_multiplier_max": 1.12,
+            "size_multiplier_min": 0.85,
+            "size_start": 192.0,
+            "speed_max": 280.0,
+            "speed_min": 240.0,
+            "spread_degrees": 2.0,
+            "sprite_asset_ref": "fx.downforce_tip_streak_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -300.0,
+              60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.9,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.tip_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              0.75,
+              0.9,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 160.0,
+            "size_multiplier_max": 1.12,
+            "size_multiplier_min": 0.85,
+            "size_start": 192.0,
+            "speed_max": 280.0,
+            "speed_min": 240.0,
+            "spread_degrees": 2.0,
+            "sprite_asset_ref": "fx.downforce_tip_streak_a"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              300.0,
+              60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.9,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Downforce Wing Wind Streak",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.downforce_wing.wind_streak"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 2,
+  "runtime_inputs": [
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": -1.0,
+      "name": "turn_rate_normalized",
+      "value_type": "number"
+    },
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "name": "speed_normalized",
+      "value_type": "number"
+    }
+  ],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 6.25,
+      "id": "start.ramp",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 2.3,
+      "id": "tip_a_l.flick",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.3,
+      "id": "tip_a_l.sway",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 3.1,
+      "id": "tip_b_l.flick",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.7,
+      "id": "tip_b_l.sway",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.7,
+      "id": "sheet_1_l.travel",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.7,
+      "id": "sheet_1_l.fade",
+      "phase_degrees": -90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 2.6,
+      "id": "tip_a_r.flick",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.5,
+      "id": "tip_a_r.sway",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 3.4,
+      "id": "tip_b_r.flick",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.9,
+      "id": "tip_b_r.sway",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.85,
+      "id": "sheet_1_r.travel",
+      "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.85,
+      "id": "sheet_1_r.fade",
+      "phase_degrees": -90.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    }
+  ]
+}

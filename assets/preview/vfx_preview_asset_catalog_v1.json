@@ -95,6 +95,14 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/speed_wind_flow_b.png"
     },
+    "fx.downforce_tip_streak_a": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/downforce_tip_streak_a.png"
+    },
+    "fx.downforce_tip_streak_b": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/downforce_tip_streak_b.png"
+    },
     "fx.zero_zone_flow_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/zero_zone_flow_streak.png"
