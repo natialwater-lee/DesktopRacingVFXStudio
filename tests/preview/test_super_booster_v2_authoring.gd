@@ -12,11 +12,11 @@ const EvaluatorModel := preload("res://src/preview/runtime_modulation/vfx_previe
 const VfxPreviewEquipmentCatalogModel := preload("res://src/preview/equipment/vfx_preview_equipment_catalog.gd")
 
 const REAR_CENTER_Y := 220.0
-const NOZZLE_ROOT_Y := 279.0
+# Nozzle roots follow the Game flame sockets (see tools/super_booster_preset_generator.gd): REAR_CENTER + root_y.
 const PRESETS := {
-	"equipment.super_booster": {"xs": [0.0], "jet": "fx.super_booster_jet_single", "gold": false},
-	"equipment.super_booster.dual": {"xs": [-60.0, 60.0], "jet": "fx.super_booster_jet_twin", "gold": false},
-	"equipment.super_booster.mk4": {"xs": [-60.0, 60.0], "jet": "fx.super_booster_jet_twin", "gold": true}
+	"equipment.super_booster": {"root_y": 83.1, "xs": [0.0], "jet": "fx.super_booster_jet_single", "gold": false},
+	"equipment.super_booster.dual": {"root_y": 74.67, "xs": [-74.66, 72.88], "jet": "fx.super_booster_jet_twin", "gold": false},
+	"equipment.super_booster.mk4": {"root_y": 86.67, "xs": [-72.0, 70.22], "jet": "fx.super_booster_jet_twin", "gold": true}
 }
 const TEXTURE_SIZES := {
 	"fx.super_booster_jet_single": Vector2i(256, 640),
@@ -131,11 +131,11 @@ static func _test_bend_roots_and_turn_contract(tests: TestAssert, preset_id: Str
 		else:
 			# a particle spawns at the jet centre: root = centre - half length (size_start)
 			root_y = REAR_CENTER_Y + float(transform["offset"][1]) - float(layer["parameters"]["size_start"])
-		root_error = maxf(root_error, absf(root_y - NOZZLE_ROOT_Y))
+		root_error = maxf(root_error, absf(root_y - (REAR_CENTER_Y + float(config["root_y"]))))
 		if not xs_seen.has(x):
 			xs_seen.append(x)
 	xs_seen.sort()
-	tests.expect_true(matches and root_error <= 0.001 and xs_seen == config["xs"], "%s keeps every flame body on its nozzle root and bends it with one saturated +-0.20 turn-rate binding per layer (root error %.6f)" % [preset_id, root_error])
+	tests.expect_true(matches and root_error <= 0.001 and _xs_match(xs_seen, config["xs"]), "%s keeps every flame body on its nozzle root and bends it with one saturated +-0.20 turn-rate binding per layer (root error %.6f)" % [preset_id, root_error])
 
 
 static func _evaluator_for(preset_id: String) -> Dictionary:
@@ -235,3 +235,12 @@ static func _test_equipment_deploy_preview(tests: TestAssert) -> void:
 		and catalog.resolve_frame("super_booster", "mk3", "deploy", 0.49) == deploy[deploy.size() - 1],
 		"Studio preview knows the Super Booster hardware (Mk.I-IV, hyper) and starts its VFX with the deploy frames"
 	)
+
+
+static func _xs_match(seen: Array, expected: Array) -> bool:
+	if seen.size() != expected.size():
+		return false
+	for index in range(seen.size()):
+		if absf(float(seen[index]) - float(expected[index])) > 0.001:
+			return false
+	return true

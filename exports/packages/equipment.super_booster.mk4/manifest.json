@@ -87,14 +87,14 @@
       "sha256": "e3b234fa62a80c823f1c6318fcfd94cd442ebff18477ed2c0329902bcebae5dd"
     },
     {
-      "byte_size": 110750,
+      "byte_size": 111167,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "1e0f1edd5c6f63a00b322a1aa11c8a4a015fdb2502f36cfc530cf42177073482"
+      "sha256": "753f64475d9d7359123d21a300547ba9389608b2b7fcbda3edaba086fdf01a08"
     },
     {
-      "byte_size": 105845,
+      "byte_size": 106262,
       "path": "source/equipment.super_booster.mk4.vfx.json",
-      "sha256": "c9942afcc52a05af978e3975bdc81e41485bb7caff17a7f5dfc6aaa38d62189a"
+      "sha256": "0f006faa7a0e0ff78d377acb7cb33f384ddbb9387281e6c3cfe8d573ffec261c"
     }
   ],
   "package_format_version": 1,
@@ -121,14 +121,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 110750,
+    "byte_size": 111167,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "1e0f1edd5c6f63a00b322a1aa11c8a4a015fdb2502f36cfc530cf42177073482",
+    "sha256": "753f64475d9d7359123d21a300547ba9389608b2b7fcbda3edaba086fdf01a08",
     "version": 2
   },
   "source": {
-    "byte_size": 105845,
+    "byte_size": 106262,
     "path": "source/equipment.super_booster.mk4.vfx.json",
-    "sha256": "c9942afcc52a05af978e3975bdc81e41485bb7caff17a7f5dfc6aaa38d62189a"
+    "sha256": "0f006faa7a0e0ff78d377acb7cb33f384ddbb9387281e6c3cfe8d573ffec261c"
   }
 }
