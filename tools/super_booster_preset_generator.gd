@@ -4,7 +4,11 @@ extends SceneTree
 # Output: presets/examples/equipment.super_booster{,.dual,.mk4}.vfx.json
 
 const OUT_DIR := "res://presets/examples/"
-const ROOT_Y := 59.0 # nozzle root relative to REAR_CENTER (anchor y 220 -> root 279)
+# Nozzle root relative to REAR_CENTER (source-local y 220). Set per kind in _build from the Game flame
+# sockets: y = 138.24 (equipment anchor) + (socket_y - 0.5) * 256 * 1.736 (0.868 scale x 512/256).
+var _root_y := 59.0
+var _lx := -60.0
+var _rx := 60.0
 const CLOCK_HZ := 0.05
 
 var _sources: Array = []
@@ -164,13 +168,14 @@ class Jet:
 	var span := 596.0
 	var sx := 1.0
 	var sy := 1.0
+	var root_y := 59.0
 	var bend := 75.0
 
 	func pivot_y() -> float:
 		return root_texel - tex_h * 0.5
 
 	func offset_y() -> float:
-		return 59.0 - pivot_y() * sy
+		return root_y - pivot_y() * sy
 
 
 
@@ -183,6 +188,7 @@ func _jet(tex: String, h: float, root: float, span: float, sx: float, sy: float,
 	j.sx = sx
 	j.sy = sy
 	j.bend = bend
+	j.root_y = _root_y
 	return j
 
 
@@ -200,7 +206,7 @@ func _charge_flare(id: String, x: float, t_shift: float, base: float, peak: floa
 	m.append(_mt(id + ".sy3", "TRANSFORM_SCALE_Y", 0.45, 0.5, 1.0, peak / 0.5))
 	m.append(_mt(id + ".o1", "VISUAL_OPACITY_MULTIPLIER", t0, 0.35 + t_shift * 0.5, 0.15, 0.8))
 	m.append(_mt(id + ".o2", "VISUAL_OPACITY_MULTIPLIER", 0.35 + t_shift * 0.5, 0.45, 1.0, 1.25))
-	return _sprite(id, "fx.super_booster_flare", "ADDITIVE", "CORE", 1.0, Vector2(x, ROOT_Y), Vector2(size_mult, size_mult), m, 3.0)
+	return _sprite(id, "fx.super_booster_flare", "ADDITIVE", "CORE", 1.0, Vector2(x, _root_y), Vector2(size_mult, size_mult), m, 3.0)
 
 
 func _charge_ring(id: String, x: float, t0: float, t1: float, base: float, from_mult: float, to_mult: float, imp: String = "DETAIL") -> Dictionary:
@@ -209,7 +215,7 @@ func _charge_ring(id: String, x: float, t0: float, t1: float, base: float, from_
 	m.append(_mt(id + ".sy", "TRANSFORM_SCALE_Y", t0, t1, from_mult, to_mult))
 	m.append(_mt(id + ".o_in", "VISUAL_OPACITY_MULTIPLIER", t0, t0 + 0.06, 0.0, 0.9))
 	m.append(_mt(id + ".o_out", "VISUAL_OPACITY_MULTIPLIER", t1 - 0.06, t1, 1.0, 0.0))
-	return _sprite(id, "fx.super_booster_charge_ring", "ADDITIVE", imp, 1.0, Vector2(x, ROOT_Y), Vector2(base, base), m, 1.0)
+	return _sprite(id, "fx.super_booster_charge_ring", "ADDITIVE", imp, 1.0, Vector2(x, _root_y), Vector2(base, base), m, 1.0)
 
 
 # one-shot shock arc starting at LOOP begin (t=0.5)
@@ -221,7 +227,7 @@ func _shock_arc(id: String, x: float, delay: float, dur: float, base: Vector2, s
 	m.append(_mt(id + ".sy", "TRANSFORM_SCALE_Y", t0, t1, s0, s1))
 	m.append(_mt(id + ".move", "TRANSFORM_OFFSET_Y", t0, t1, 0.0, travel))
 	m.append(_mt(id + ".fade", "VISUAL_OPACITY_MULTIPLIER", t0, t1, 1.0, 0.0))
-	return _sprite(id, "fx.super_booster_shock_arc", "ADDITIVE", "DETAIL", peak_opacity, Vector2(x, ROOT_Y + 24.0), base, m, 4.0)
+	return _sprite(id, "fx.super_booster_shock_arc", "ADDITIVE", "DETAIL", peak_opacity, Vector2(x, _root_y + 24.0), base, m, 4.0)
 
 
 # repeating thrust pulse running down the near flame; hz via its own LINEAR_PHASE source
@@ -232,14 +238,14 @@ func _pulse(id: String, source_id: String, x: float, base: Vector2, travel: floa
 	m.append(_m(id + ".move", source_id, "TRANSFORM_OFFSET_Y", 0.0, 1.0, 0.0, travel))
 	m.append(_m(id + ".o_in", source_id, "VISUAL_OPACITY_MULTIPLIER", 0.0, 0.15, 0.0, 1.0))
 	m.append(_m(id + ".o_out", source_id, "VISUAL_OPACITY_MULTIPLIER", 0.35, 1.0, 1.0, 0.0))
-	return _sprite(id, "fx.super_booster_shock_arc", "ADDITIVE", imp, opacity, Vector2(x, ROOT_Y + 30.0), base, m, 4.5)
+	return _sprite(id, "fx.super_booster_shock_arc", "ADDITIVE", imp, opacity, Vector2(x, _root_y + 30.0), base, m, 4.5)
 
 
 func _loop_body(prefix: String, x: float, jet: Jet, env_sx: float, env_sy: float, env_bend: float, env_opacity: float, jet_opacity: float, over_len: float, over_w: float, osc_set: Array, env_span: float) -> Array:
 	# returns [envelope, jet]
 	var layers: Array = []
 	var env_pivot := Vector2(0.0, 14.0 - 320.0)
-	var env_off := ROOT_Y - env_pivot.y * env_sy
+	var env_off := _root_y - env_pivot.y * env_sy
 	var em: Array = []
 	em.append(_mt(prefix + "env.over_len", "TRANSFORM_SCALE_Y", 0.5, 0.9, over_len, 1.0))
 	em.append(_mt(prefix + "env.over_w", "TRANSFORM_SCALE_X", 0.5, 0.8, over_w, 1.0))
@@ -269,11 +275,11 @@ func _nozzle_glow(id: String, x: float, glow_scale: float, flash_scale: float, o
 	m.append(_mt(id + ".flash_sy", "TRANSFORM_SCALE_Y", 0.5, 0.75, mult, 1.0))
 	m.append(_mt(id + ".flash_o", "VISUAL_OPACITY_MULTIPLIER", 0.5, 0.75, 2.0, 1.0))
 	m.append(_m(id + ".alpha", osc, "VISUAL_OPACITY_MULTIPLIER", -1.0, 1.0, 0.88, 1.12))
-	return _sprite(id, "fx.super_booster_flare", "ADDITIVE", "DETAIL", 0.5, Vector2(x, ROOT_Y + 6.0), Vector2(glow_scale, glow_scale), m, 3.0)
+	return _sprite(id, "fx.super_booster_flare", "ADDITIVE", "DETAIL", 0.5, Vector2(x, _root_y + 6.0), Vector2(glow_scale, glow_scale), m, 3.0)
 
 
 func _bolt_spray(id: String, x: float, count: float, spread: float, speed_min: float, speed_max: float, size: float) -> Dictionary:
-	return _particle(id, "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(x, ROOT_Y + 10.0), {
+	return _particle(id, "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(x, _root_y + 10.0), {
 		"mode": "BURST", "count": count, "dir": 180.0, "spread": spread, "speed_min": speed_min, "speed_max": speed_max,
 		"life": 0.3, "size_start": size, "size_end": size * 0.6, "alpha_start": 1.0, "alpha_end": 0.0
 	}, 5.0)
@@ -283,7 +289,7 @@ func _end_group(prefix: String, x: float, jet: Jet, env_sx: float, env_sy: float
 	var layers: Array = []
 	var jh := jet.tex_h * jet.sy
 	var jet_speed := 0.3 * jh / life
-	var jet_cy := ROOT_Y + jh * 0.5
+	var jet_cy := _root_y + jh * 0.5
 	layers.append(_particle(prefix + "end.jet", jet.tex, "ADDITIVE", "CORE", Vector2(x, jet_cy), {
 		"mode": "BURST", "count": 1.0, "dir": 0.0, "speed_min": jet_speed, "speed_max": jet_speed,
 		"life": life, "size_start": jh * 0.5, "size_end": jh * 0.5 * 0.4, "alpha_start": jet_opacity, "alpha_end": 0.0,
@@ -291,12 +297,12 @@ func _end_group(prefix: String, x: float, jet: Jet, env_sx: float, env_sy: float
 	}, 1.0, {"sx": jet.sx / jet.sy, "bend": jet.bend, "pivot": Vector2(0.0, jet.pivot_y()), "span": jet.span}))
 	var eh := 640.0 * env_sy
 	var env_speed := 0.3 * eh / life
-	layers.append(_particle(prefix + "end.envelope", "fx.super_booster_envelope", "ADDITIVE", "DETAIL", Vector2(x, ROOT_Y + eh * 0.5), {
+	layers.append(_particle(prefix + "end.envelope", "fx.super_booster_envelope", "ADDITIVE", "DETAIL", Vector2(x, _root_y + eh * 0.5), {
 		"mode": "BURST", "count": 1.0, "dir": 0.0, "speed_min": env_speed, "speed_max": env_speed,
 		"life": life, "size_start": eh * 0.5, "size_end": eh * 0.5 * 0.4, "alpha_start": env_opacity, "alpha_end": 0.0,
 		"rot_min": 0.0, "rot_max": 0.0
 	}, 0.0, {"sx": env_sx / env_sy, "bend": env_bend, "pivot": Vector2(0.0, 14.0 - 320.0), "span": env_span}))
-	layers.append(_particle(prefix + "end.flare", "fx.super_booster_flare", "ADDITIVE", "DETAIL", Vector2(x, ROOT_Y + 6.0), {
+	layers.append(_particle(prefix + "end.flare", "fx.super_booster_flare", "ADDITIVE", "DETAIL", Vector2(x, _root_y + 6.0), {
 		"mode": "BURST", "count": 1.0, "dir": 180.0, "speed_min": 0.0, "speed_max": 0.0,
 		"life": life, "size_start": glow_size, "size_end": glow_size * 0.5, "alpha_start": 0.5, "alpha_end": 0.0,
 		"rot_min": 0.0, "rot_max": 0.0
@@ -311,6 +317,17 @@ func _build(kind: String) -> Dictionary:
 	_src_lp("time.clock", CLOCK_HZ)
 	var dual := kind != "single"
 	var mk4 := kind == "mk4"
+	match kind:
+		"single":
+			_root_y = 83.1 # Mk.I (0.875) and Mk.II (0.867) share this preset: mean of 84.9 and 81.3
+		"dual":
+			_root_y = 74.67
+			_lx = -74.66
+			_rx = 72.88
+		"mk4":
+			_root_y = 86.67
+			_lx = -72.0
+			_rx = 70.22
 	if not dual:
 		return _build_single()
 	return _build_dual(mk4)
@@ -329,7 +346,7 @@ func _build_single() -> Dictionary:
 	start.append(_charge_flare("start.charge_flare", 0.0, 0.0, 0.5, 1.72, 1.0))
 	start.append(_charge_ring("start.charge_ring_a", 0.0, 0.0, 0.30, 1.0, 1.3, 0.25))
 	start.append(_charge_ring("start.charge_ring_b", 0.0, 0.15, 0.45, 1.0, 1.3, 0.25))
-	start.append(_particle("start.inhale_bolts", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, ROOT_Y + 140.0), {
+	start.append(_particle("start.inhale_bolts", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, _root_y + 140.0), {
 		"mode": "CONTINUOUS", "rate": 40.0, "max": 10.0, "dir": 0.0, "spread": 12.0, "speed_min": 560.0, "speed_max": 700.0,
 		"life": 0.2, "size_start": 28.0, "size_end": 16.0, "alpha_start": 0.9, "alpha_end": 0.3, "emitter": {"shape": "BOX", "size": [110.0, 40.0]}
 	}, 5.0))
@@ -340,14 +357,14 @@ func _build_single() -> Dictionary:
 	loop.append(_bolt_spray("burst.bolt_spray", 0.0, 14.0, 70.0, 500.0, 950.0, 40.0))
 	loop.append(_pulse("loop.pulse_a", "pulse.a", 0.0, Vector2(0.6, 0.6), 190.0, 0.6))
 	loop.append(_pulse("loop.pulse_b", "pulse.b", 0.0, Vector2(0.52, 0.52), 180.0, 0.5))
-	loop.append(_particle("loop.sparks", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, ROOT_Y + 220.0), {
+	loop.append(_particle("loop.sparks", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, _root_y + 220.0), {
 		"mode": "CONTINUOUS", "rate": 14.0, "max": 5.0, "dir": 180.0, "spread": 25.0, "speed_min": 350.0, "speed_max": 600.0,
 		"life": 0.22, "size_start": 32.0, "size_end": 16.0, "alpha_start": 0.9, "alpha_end": 0.0, "emitter": {"shape": "BOX", "size": [90.0, 360.0]}
 	}, 5.0))
 	var life := 0.35
 	var end: Array = _end_group("", 0.0, jet, 1.8, 1.2, 110.0, 600.0, 0.95, 0.85, 80.0, life)
 	end.append(_bolt_spray_end("end.sparks", 0.0))
-	end.append(_particle("end.arc", "fx.super_booster_shock_arc", "ADDITIVE", "EXTRA", Vector2(0.0, ROOT_Y + 30.0), {
+	end.append(_particle("end.arc", "fx.super_booster_shock_arc", "ADDITIVE", "EXTRA", Vector2(0.0, _root_y + 30.0), {
 		"mode": "BURST", "count": 1.0, "dir": 180.0, "speed_min": 400.0, "speed_max": 400.0, "life": 0.3, "size_start": 64.0, "size_end": 96.0,
 		"alpha_start": 0.5, "alpha_end": 0.0, "rot_min": 0.0, "rot_max": 0.0
 	}, 4.0))
@@ -355,7 +372,7 @@ func _build_single() -> Dictionary:
 
 
 func _bolt_spray_end(id: String, x: float) -> Dictionary:
-	return _particle(id, "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(x, ROOT_Y + 10.0), {
+	return _particle(id, "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(x, _root_y + 10.0), {
 		"mode": "BURST", "count": 6.0, "dir": 180.0, "spread": 60.0, "speed_min": 200.0, "speed_max": 450.0,
 		"life": 0.3, "size_start": 26.0, "size_end": 14.0, "alpha_start": 0.9, "alpha_end": 0.0
 	}, 5.0)
@@ -380,8 +397,8 @@ func _build_dual(mk4: bool) -> Dictionary:
 	var jet := _jet("fx.super_booster_jet_twin", 576.0, 14.0, 530.0, 1.4 * k, 1.1 * k, 55.0)
 	var env_sx := 1.45 * k
 	var env_sy := 1.1 * k
-	var lx := -60.0
-	var rx := 60.0
+	var lx := _lx
+	var rx := _rx
 	var start: Array = []
 	start.append(_charge_flare("start.left_flare", lx, 0.0, 0.5, 1.57, 0.9))
 	start.append(_charge_flare("start.right_flare", rx, 0.1, 0.5, 1.57, 0.9))
@@ -394,8 +411,8 @@ func _build_dual(mk4: bool) -> Dictionary:
 		var bm: Array = []
 		bm.append(_mt(variant[0] + ".on", "VISUAL_OPACITY_MULTIPLIER", 0.3, 0.33, 0.0, 1.0))
 		bm.append(_m(variant[0] + ".flicker", "bridge.flicker" if variant[0].ends_with("a") else "bridge.flicker", "VISUAL_OPACITY_MULTIPLIER", -1.0, 1.0, 0.25 if variant[0].ends_with("a") else 1.0, 1.0 if variant[0].ends_with("a") else 0.25))
-		start.append(_sprite(variant[0], "fx.super_booster_bolt", "ADDITIVE", "EXTRA", 0.9, Vector2(0.0, ROOT_Y + 8.0), Vector2(0.75, 0.75), bm, 5.0, {"rot": variant[1]}))
-	start.append(_particle("start.inhale_bolts", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, ROOT_Y + 130.0), {
+		start.append(_sprite(variant[0], "fx.super_booster_bolt", "ADDITIVE", "EXTRA", 0.9, Vector2(0.0, _root_y + 8.0), Vector2(0.75, 0.75), bm, 5.0, {"rot": variant[1]}))
+	start.append(_particle("start.inhale_bolts", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, _root_y + 130.0), {
 		"mode": "CONTINUOUS", "rate": 44.0, "max": 11.0, "dir": 0.0, "spread": 14.0, "speed_min": 520.0, "speed_max": 680.0,
 		"life": 0.2, "size_start": 26.0, "size_end": 14.0, "alpha_start": 0.9, "alpha_end": 0.3, "emitter": {"shape": "BOX", "size": [200.0, 40.0]}
 	}, 5.0))
@@ -426,8 +443,8 @@ func _build_dual(mk4: bool) -> Dictionary:
 	var lm: Array = []
 	lm.append(_m("loop.bridge.in", "bridge.loop", "VISUAL_OPACITY_MULTIPLIER", 0.0, 0.04, 0.0, 1.0))
 	lm.append(_m("loop.bridge.out", "bridge.loop", "VISUAL_OPACITY_MULTIPLIER", 0.05, 0.12, 1.0, 0.0))
-	loop.append(_sprite("loop.bridge", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", 0.8, Vector2(0.0, ROOT_Y + 110.0), Vector2(0.75, 0.75), lm, 5.0, {"rot": -45.0}))
-	loop.append(_particle("loop.sparks", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, ROOT_Y + 200.0), {
+	loop.append(_sprite("loop.bridge", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", 0.8, Vector2(0.0, _root_y + 110.0), Vector2(0.75, 0.75), lm, 5.0, {"rot": -45.0}))
+	loop.append(_particle("loop.sparks", "fx.super_booster_bolt", "ADDITIVE", "EXTRA", Vector2(0.0, _root_y + 200.0), {
 		"mode": "CONTINUOUS", "rate": 16.0, "max": 6.0, "dir": 180.0, "spread": 30.0, "speed_min": 350.0, "speed_max": 600.0,
 		"life": 0.22, "size_start": 30.0, "size_end": 15.0, "alpha_start": 0.9, "alpha_end": 0.0, "emitter": {"shape": "BOX", "size": [200.0, 340.0]}
 	}, 5.0))
@@ -439,7 +456,7 @@ func _build_dual(mk4: bool) -> Dictionary:
 		bm2.append(_m("loop.big_pulse.move", "pulse.big", "TRANSFORM_OFFSET_Y", 0.0, 1.0, 0.0, 190.0))
 		bm2.append(_m("loop.big_pulse.in", "pulse.big", "VISUAL_OPACITY_MULTIPLIER", 0.0, 0.12, 0.0, 1.0))
 		bm2.append(_m("loop.big_pulse.out", "pulse.big", "VISUAL_OPACITY_MULTIPLIER", 0.3, 1.0, 1.0, 0.0))
-		loop.append(_sprite("loop.big_pulse", "fx.super_booster_shock_arc", "ADDITIVE", "DETAIL", 0.6, Vector2(0.0, ROOT_Y + 30.0), Vector2(0.9, 0.9), bm2, 4.6))
+		loop.append(_sprite("loop.big_pulse", "fx.super_booster_shock_arc", "ADDITIVE", "DETAIL", 0.6, Vector2(0.0, _root_y + 30.0), Vector2(0.9, 0.9), bm2, 4.6))
 	var life := 0.35
 	var end: Array = []
 	end.append_array(_end_group("l.", lx, jet, env_sx, env_sy, 90.0, 530.0, 0.95, 0.85, 66.0, life))
@@ -448,13 +465,13 @@ func _build_dual(mk4: bool) -> Dictionary:
 		var gold_jet2 := _jet("fx.super_booster_core_gold", 576.0, 14.0, 530.0, 1.4 * k, 1.1 * k, 45.0)
 		var gh := gold_jet2.tex_h * gold_jet2.sy
 		for gx in [["l.", lx], ["r.", rx]]:
-			end.append(_particle(gx[0] + "end.gold_core", gold_jet2.tex, "ADDITIVE", "CORE", Vector2(gx[1], ROOT_Y + gh * 0.5), {
+			end.append(_particle(gx[0] + "end.gold_core", gold_jet2.tex, "ADDITIVE", "CORE", Vector2(gx[1], _root_y + gh * 0.5), {
 				"mode": "BURST", "count": 1.0, "dir": 0.0, "speed_min": 0.3 * gh / life, "speed_max": 0.3 * gh / life,
 				"life": life, "size_start": gh * 0.5, "size_end": gh * 0.5 * 0.4, "alpha_start": 0.85, "alpha_end": 0.0,
 				"rot_min": 0.0, "rot_max": 0.0
 			}, 2.0, {"sx": gold_jet2.sx / gold_jet2.sy, "bend": gold_jet2.bend, "pivot": Vector2(0.0, gold_jet2.pivot_y()), "span": gold_jet2.span}))
 	end.append(_bolt_spray_end("end.sparks", 0.0))
-	end.append(_particle("end.arc", "fx.super_booster_shock_arc", "ADDITIVE", "EXTRA", Vector2(0.0, ROOT_Y + 30.0), {
+	end.append(_particle("end.arc", "fx.super_booster_shock_arc", "ADDITIVE", "EXTRA", Vector2(0.0, _root_y + 30.0), {
 		"mode": "BURST", "count": 1.0, "dir": 180.0, "speed_min": 400.0, "speed_max": 400.0, "life": 0.3, "size_start": 90.0, "size_end": 130.0,
 		"alpha_start": 0.5, "alpha_end": 0.0, "rot_min": 0.0, "rot_max": 0.0
 	}, 4.0))

@@ -84,7 +84,7 @@
             ],
             "offset": [
               0.0,
-              443.0
+              467.100006103516
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -175,7 +175,7 @@
             ],
             "offset": [
               0.0,
-              443.0
+              467.100006103516
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -237,7 +237,7 @@
           "transform": {
             "offset": [
               0.0,
-              65.0
+              89.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -293,7 +293,7 @@
           "transform": {
             "offset": [
               0.0,
-              69.0
+              93.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -349,7 +349,7 @@
           "transform": {
             "offset": [
               0.0,
-              89.0
+              113.099998474121
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -505,7 +505,7 @@
             ],
             "offset": [
               0.0,
-              426.200012207031
+              450.299987792969
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -711,7 +711,7 @@
             ],
             "offset": [
               0.0,
-              426.200012207031
+              450.299987792969
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -810,7 +810,7 @@
           "transform": {
             "offset": [
               0.0,
-              65.0
+              89.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -903,7 +903,7 @@
           "transform": {
             "offset": [
               0.0,
-              83.0
+              107.099998474121
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -996,7 +996,7 @@
           "transform": {
             "offset": [
               0.0,
-              83.0
+              107.099998474121
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1052,7 +1052,7 @@
           "transform": {
             "offset": [
               0.0,
-              69.0
+              93.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1161,7 +1161,7 @@
           "transform": {
             "offset": [
               0.0,
-              89.0
+              113.099998474121
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1270,7 +1270,7 @@
           "transform": {
             "offset": [
               0.0,
-              89.0
+              113.099998474121
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1331,7 +1331,7 @@
           "transform": {
             "offset": [
               0.0,
-              279.0
+              303.100006103516
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1493,7 +1493,7 @@
           "transform": {
             "offset": [
               0.0,
-              59.0
+              83.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1586,7 +1586,7 @@
           "transform": {
             "offset": [
               0.0,
-              59.0
+              83.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1679,7 +1679,7 @@
           "transform": {
             "offset": [
               0.0,
-              59.0
+              83.0999984741211
             ],
             "rotation_degrees": 0.0,
             "scale": [
@@ -1740,7 +1740,7 @@
           "transform": {
             "offset": [
               0.0,
-              199.0
+              223.100006103516
             ],
             "rotation_degrees": 0.0,
             "scale": [
