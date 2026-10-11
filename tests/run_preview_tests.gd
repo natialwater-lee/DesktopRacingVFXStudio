@@ -60,6 +60,7 @@ func _run() -> void:
 	SuperBoosterV2AuthoringTests.run(tests)
 	RotorLiftDownwashAuthoringTests.run(tests)
 	SpecialEquipmentPreviewTests.run(tests)
+	preload("res://tests/preview/test_equipment_deploy_preroll.gd").run(tests)
 	RuntimeModulationProgramTests.run(tests)
 	preload("res://tests/preview/test_photosynthesis_authoring.gd").run(tests)
 	preload("res://tests/preview/test_rain_surfer_authoring.gd").run(tests)
