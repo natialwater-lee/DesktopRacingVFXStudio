@@ -53,12 +53,12 @@
     {
       "byte_size": 15332,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "c479de8ce320117fc159e64341b8cf1a608b3193844af6355622e87db2ea9ef3"
+      "sha256": "6cc336b623dec736ee19ff0738f9a78f9fa34ae84b7253f32a275ab929d9e3e5"
     },
     {
       "byte_size": 14718,
       "path": "source/talent.pit_stop_ace.vfx.json",
-      "sha256": "36e9506b80121abda6e5df4ff6b1ec7a6d42586578572935ecf7df591d31ffb3"
+      "sha256": "f863c49c7009b8776758852239b05e984d76ed82ae3cc7c54ecbfb8b74b54daa"
     }
   ],
   "package_format_version": 1,
@@ -85,12 +85,12 @@
   "runtime_definition": {
     "byte_size": 15332,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "c479de8ce320117fc159e64341b8cf1a608b3193844af6355622e87db2ea9ef3",
+    "sha256": "6cc336b623dec736ee19ff0738f9a78f9fa34ae84b7253f32a275ab929d9e3e5",
     "version": 1
   },
   "source": {
     "byte_size": 14718,
     "path": "source/talent.pit_stop_ace.vfx.json",
-    "sha256": "36e9506b80121abda6e5df4ff6b1ec7a6d42586578572935ecf7df591d31ffb3"
+    "sha256": "f863c49c7009b8776758852239b05e984d76ed82ae3cc7c54ecbfb8b74b54daa"
   }
 }

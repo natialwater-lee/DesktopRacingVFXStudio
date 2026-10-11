@@ -18,7 +18,7 @@ static func run(t: TestAssert) -> void:
 	var layers: Array = loaded.value.normalized_data.phases.loop.layers
 	t.expect_true(layers.size()==8 and layers.all(func(l): return l.type=="CURVE_FLOW" and l.parameters.profile_version==2),"Eight static F2 lanes")
 	for i in layers.size():
-		t.expect_true(layers[i].parameters.half_width==[45.0,17.1,13.5,45.0,17.1,13.5,18.0,18.0][i],"Approved final width")
+		t.expect_true(layers[i].parameters.half_width==[56.25,21.375,16.875,56.25,21.375,16.875,22.5,22.5][i],"Approved final width")
 	var plan = preload("res://src/preview/rendering/vfx_preview_render_plan_builder.gd").new(Support._registry()).build(loaded.value.normalized_data).value
 	var runtime = Support._runtime(plan)
 	runtime.activate_phase("loop",{}); runtime.advance(1.5,{})

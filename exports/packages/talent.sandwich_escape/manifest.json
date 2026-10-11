@@ -39,14 +39,14 @@
       "sha256": "d4bd35a224b8665777537fdef6e90d079519d77dd28b7c707751970798e2f9fb"
     },
     {
-      "byte_size": 10564,
+      "byte_size": 10565,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "b333bb18359c9c8a32d0cc9d368ce9f354960fc89e55e77d40fb046c68ac4a49"
+      "sha256": "6131f1e400609484e6224ab940ccc1fde6a9297235d06220c67a52c3d67c5a76"
     },
     {
-      "byte_size": 10067,
+      "byte_size": 10068,
       "path": "source/talent.sandwich_escape.vfx.json",
-      "sha256": "21b7ba2d9a1e3ad966faac2e5a1a7b694fa2b13412f44af9cdd5d99a277b5dcd"
+      "sha256": "22b840a60cd5ab55583eb751dd9937aae896c9468dc67fc9c42fa7f5636d1b75"
     }
   ],
   "package_format_version": 1,
@@ -71,14 +71,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 10564,
+    "byte_size": 10565,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "b333bb18359c9c8a32d0cc9d368ce9f354960fc89e55e77d40fb046c68ac4a49",
+    "sha256": "6131f1e400609484e6224ab940ccc1fde6a9297235d06220c67a52c3d67c5a76",
     "version": 1
   },
   "source": {
-    "byte_size": 10067,
+    "byte_size": 10068,
     "path": "source/talent.sandwich_escape.vfx.json",
-    "sha256": "21b7ba2d9a1e3ad966faac2e5a1a7b694fa2b13412f44af9cdd5d99a277b5dcd"
+    "sha256": "22b840a60cd5ab55583eb751dd9937aae896c9468dc67fc9c42fa7f5636d1b75"
   }
 }

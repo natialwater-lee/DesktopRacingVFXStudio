@@ -53,12 +53,12 @@
     {
       "byte_size": 12226,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "f86c699071896825c4eb692802e1dcb40b5e87fdf85b0a6f705a688e6b84f7b5"
+      "sha256": "5c00c535c1ae37fb562c37d360ecfe50f3ce42123ab0cc91df7eec6ffcb244a8"
     },
     {
       "byte_size": 10760,
       "path": "source/talent.energy_conversion.vfx.json",
-      "sha256": "2600b6b36f47ba570b64212f92513819047fdaf4b0aaf10fa19cc6df8b44732a"
+      "sha256": "d307bf1b750bb62b67644c84119cc99b883091868f3999c982d501be18b56b3b"
     }
   ],
   "package_format_version": 1,
@@ -87,12 +87,12 @@
   "runtime_definition": {
     "byte_size": 12226,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "f86c699071896825c4eb692802e1dcb40b5e87fdf85b0a6f705a688e6b84f7b5",
+    "sha256": "5c00c535c1ae37fb562c37d360ecfe50f3ce42123ab0cc91df7eec6ffcb244a8",
     "version": 2
   },
   "source": {
     "byte_size": 10760,
     "path": "source/talent.energy_conversion.vfx.json",
-    "sha256": "2600b6b36f47ba570b64212f92513819047fdaf4b0aaf10fa19cc6df8b44732a"
+    "sha256": "d307bf1b750bb62b67644c84119cc99b883091868f3999c982d501be18b56b3b"
   }
 }

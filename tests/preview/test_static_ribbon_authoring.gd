@@ -9,7 +9,7 @@ func run() -> void:
 		var old: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/compatibility/curve_flow_f1.vfx.json"))
 		var actual: Dictionary = result.value.raw_data.duplicate(true)
 		for i in 8:
-			t.expect_true(actual.phases.loop.layers[i].parameters.half_width == [45.0,17.1,13.5,45.0,17.1,13.5,18.0,18.0][i], "Final width lane " + str(i))
+			t.expect_true(actual.phases.loop.layers[i].parameters.half_width == [56.25,21.375,16.875,56.25,21.375,16.875,22.5,22.5][i], "Final width lane " + str(i))
 			actual.phases.loop.layers[i].parameters.half_width = old.phases.loop.layers[i].parameters.half_width
 			actual.phases.loop.layers[i].parameters.profile_version = old.phases.loop.layers[i].parameters.profile_version
 		actual.preset_id = old.preset_id; actual.display_name = old.display_name; actual.category = old.category

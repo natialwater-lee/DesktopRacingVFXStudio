@@ -17,12 +17,12 @@
     {
       "byte_size": 7408,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "a52f49e7e25dba30677789c4639313baacadb71a213d32f3a1e9847b6ce4bb61"
+      "sha256": "5a7192d90d78617bca6c95b39ec5f0e9402381bdef564cb103e55fef9189f4d0"
     },
     {
       "byte_size": 6911,
       "path": "source/talent.night_vision.vfx.json",
-      "sha256": "e17dad38f38dad24fb223c2b31d15d8df5535a27886df8b5b37bcef30368b784"
+      "sha256": "dbeff1c1bffb964680a4dacb789337a2127a3e20f60facf7f64f0f3c0028a3df"
     }
   ],
   "package_format_version": 1,
@@ -49,12 +49,12 @@
   "runtime_definition": {
     "byte_size": 7408,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "a52f49e7e25dba30677789c4639313baacadb71a213d32f3a1e9847b6ce4bb61",
+    "sha256": "5a7192d90d78617bca6c95b39ec5f0e9402381bdef564cb103e55fef9189f4d0",
     "version": 1
   },
   "source": {
     "byte_size": 6911,
     "path": "source/talent.night_vision.vfx.json",
-    "sha256": "e17dad38f38dad24fb223c2b31d15d8df5535a27886df8b5b37bcef30368b784"
+    "sha256": "dbeff1c1bffb964680a4dacb789337a2127a3e20f60facf7f64f0f3c0028a3df"
   }
 }
