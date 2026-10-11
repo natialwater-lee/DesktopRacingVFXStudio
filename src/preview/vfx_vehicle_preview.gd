@@ -45,6 +45,10 @@ var _equipment_catalog: RefCounted
 var _equipment_enabled := true
 var _equipment_mark_id := "mk1"
 var _equipment_retract_elapsed := -1.0
+# Seconds into the deploy pre-roll that runs before VFX START; -1 when not deploying.
+var _equipment_deploy_elapsed := -1.0
+var _equipment_deploy_generation := -1
+var _equipment_deploy_playback: RefCounted
 
 
 func _ready() -> void:
@@ -214,7 +218,9 @@ func set_layer_context(layer_context: RefCounted) -> void:
 func _process(delta: float) -> void:
 	if _shared_state == null:
 		return
-	if _playback != null and _playback.is_advancing():
+	if _advance_equipment_deploy_preroll(delta):
+		pass
+	elif _playback != null and _playback.is_advancing():
 		_playback.advance(delta, _frame_context())
 		_apply_motion_at_time(_playback.simulation_time())
 		_present_render_packets()
@@ -898,6 +904,50 @@ func _refresh_equipment_ui() -> void:
 	status.text = equipment_type if _equipment_matches_profile(equipment_type) else "%s: %s only" % [equipment_type, str(_equipment_catalog.entry(equipment_type).get("vehicle_category", ""))]
 
 
+# Game: equipment DEPLOYING plays the deploy frames for deploy_duration_seconds before
+# VFX START, which begins when the equipment turns ACTIVE. Each auto playback run of an
+# equipment preset therefore holds the VFX while the deploy frames play, then restarts
+# it at ACTIVE. Super Booster starts its VFX with DEPLOYING, so it has no pre-roll.
+# Returns true while the pre-roll holds the VFX playback.
+func _advance_equipment_deploy_preroll(delta: float) -> bool:
+	if _playback == null:
+		_equipment_deploy_elapsed = -1.0
+		return false
+	if _playback != _equipment_deploy_playback or _playback.generation() != _equipment_deploy_generation:
+		_equipment_deploy_playback = _playback
+		_equipment_deploy_generation = _playback.generation()
+		_equipment_deploy_elapsed = 0.0 if _equipment_deploy_preroll_applies() else -1.0
+		if _equipment_deploy_elapsed >= 0.0:
+			_render_runtime.clear()
+			_present_render_packets()
+		return _equipment_deploy_elapsed >= 0.0
+	if _equipment_deploy_elapsed < 0.0:
+		return false
+	if _playback.state_name() == "PAUSED" and _equipment_deploy_preroll_applies():
+		return true
+	_equipment_deploy_elapsed += delta
+	var deploy_duration := float(_equipment_catalog.entry(_equipment_type()).get("deploy_duration_seconds", 0.5))
+	if _equipment_deploy_elapsed < deploy_duration and _equipment_deploy_preroll_applies():
+		return true
+	_equipment_deploy_elapsed = -1.0
+	_playback.restart(_frame_context())
+	_equipment_deploy_generation = _playback.generation()
+	_present_render_packets()
+	return true
+
+
+func _equipment_deploy_preroll_applies() -> bool:
+	var equipment_type := _equipment_type()
+	return _equipment_enabled \
+		and not equipment_type.is_empty() \
+		and _playback != null \
+		and _auto_playback_enabled() \
+		and _playback.active_phase_name() in ["start", "loop"] \
+		and _equipment_matches_profile(equipment_type) \
+		and not _equipment_catalog.vfx_starts_at_deploy(equipment_type) \
+		and not _equipment_catalog.frames(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_DEPLOY).is_empty()
+
+
 # Game: VFX START begins when the equipment turns ACTIVE (Super Booster: when it starts
 # DEPLOYING, so its charge-up runs during deploy and the burst lands on ACTIVE); VFX END
 # runs with RETRACT, which keeps playing after the VFX itself has drained.
@@ -907,7 +957,10 @@ func _update_equipment_visual(delta: float) -> void:
 	if _equipment_enabled and not equipment_type.is_empty() and _playback != null and _equipment_matches_profile(equipment_type):
 		var phase: String = _playback.active_phase_name()
 		var state: String = _playback.state_name()
-		if (phase == "start" or phase == "loop") and state != "DRAINING" and state != "TERMINATED":
+		if _equipment_deploy_elapsed >= 0.0:
+			_equipment_retract_elapsed = -1.0
+			texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_DEPLOY, _equipment_deploy_elapsed)
+		elif (phase == "start" or phase == "loop") and state != "DRAINING" and state != "TERMINATED":
 			_equipment_retract_elapsed = -1.0
 			if phase == "start" and _equipment_catalog.vfx_starts_at_deploy(equipment_type):
 				texture = _equipment_catalog.resolve_frame(equipment_type, _equipment_mark_id, VfxPreviewEquipmentCatalogModel.PHASE_DEPLOY, _playback.simulation_time())
