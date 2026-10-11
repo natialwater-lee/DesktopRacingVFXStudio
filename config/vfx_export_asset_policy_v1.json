@@ -369,17 +369,11 @@
       "source_path": "res://assets/vfx/talent_shockwave_ring.png",
       "package_file_name": "talent_shockwave_ring.png"
     },
-    "fx.shockwave_impact_arc_a": {
+    "fx.shockwave_impact_frag": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_shockwave_impact_arc_a.png",
-      "package_file_name": "talent_shockwave_impact_arc_a.png"
-    },
-    "fx.shockwave_impact_arc_b": {
-      "export_policy": "EXPORTABLE",
-      "kind": "TEXTURE_PNG",
-      "source_path": "res://assets/vfx/talent_shockwave_impact_arc_b.png",
-      "package_file_name": "talent_shockwave_impact_arc_b.png"
+      "source_path": "res://assets/vfx/talent_shockwave_impact_frag.png",
+      "package_file_name": "talent_shockwave_impact_frag.png"
     },
     "fx.pit_stop_ace_wheel_ring": {
       "export_policy": "EXPORTABLE",

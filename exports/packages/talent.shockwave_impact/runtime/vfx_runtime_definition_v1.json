@@ -22,7 +22,7 @@
           "parameters": {
             "acceleration": [
               0.0,
-              0.0
+              500.0
             ],
             "alpha_end": 0.0,
             "alpha_start": 1.0,
@@ -31,8 +31,8 @@
             "burst_count": 8.0,
             "color_rgba": [
               1.0,
-              0.7,
               0.3,
+              0.75,
               1.0
             ],
             "direction_degrees": 0.0,
@@ -74,7 +74,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.hit_arc",
+          "id": "start.hit_frag",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -85,10 +85,10 @@
             "alpha_start": 1.0,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
-            "burst_count": 1.0,
+            "burst_count": 6.0,
             "color_rgba": [
-              1.0,
-              1.0,
+              0.85,
+              0.35,
               1.0,
               1.0
             ],
@@ -97,17 +97,17 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 1.7,
-            "rotation_max_degrees": 0.0,
+            "lifetime_seconds": 0.7,
+            "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 349.44,
+            "size_end": 180.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 309.12,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
-            "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.shockwave_impact_arc_a"
+            "size_start": 260.0,
+            "speed_max": 220.0,
+            "speed_min": 120.0,
+            "spread_degrees": 360.0,
+            "sprite_asset_ref": "fx.shockwave_impact_frag"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -136,7 +136,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.arc_a",
+          "id": "loop.frag",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -144,91 +144,37 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.9,
+            "alpha_start": 1.0,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
-              1.0,
-              1.0,
+              0.85,
+              0.35,
               1.0,
               1.0
             ],
             "direction_degrees": 0.0,
             "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 0.8,
+            "emission_rate_per_second": 3.6,
             "emitter": {
-              "shape": "POINT"
+              "shape": "BOX",
+              "size": [
+                190.0,
+                320.0
+              ]
             },
-            "lifetime_seconds": 1.6,
-            "max_particles": 2.0,
-            "rotation_max_degrees": 0.0,
+            "lifetime_seconds": 0.42,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 349.44,
+            "size_end": 170.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 336.0,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
-            "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.shockwave_impact_arc_a"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "offset": [
-              0.0,
-              0.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "loop.arc_b",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.9,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "color_rgba": [
-              1.0,
-              1.0,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 0.0,
-            "emission_mode": "CONTINUOUS",
-            "emission_rate_per_second": 0.65,
-            "emitter": {
-              "shape": "POINT"
-            },
-            "lifetime_seconds": 1.9,
-            "max_particles": 2.0,
-            "rotation_max_degrees": 0.0,
-            "rotation_min_degrees": 0.0,
-            "size_end": 349.44,
-            "size_multiplier_max": 1.0,
-            "size_multiplier_min": 1.0,
-            "size_start": 336.0,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
-            "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.shockwave_impact_arc_b"
+            "size_start": 250.0,
+            "speed_max": 60.0,
+            "speed_min": 20.0,
+            "spread_degrees": 360.0,
+            "sprite_asset_ref": "fx.shockwave_impact_frag"
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -257,7 +203,7 @@
           "parameters": {
             "acceleration": [
               0.0,
-              0.0
+              520.0
             ],
             "alpha_end": 0.0,
             "alpha_start": 1.0,
@@ -265,8 +211,8 @@
             "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
-              0.85,
-              0.5,
+              0.3,
+              0.75,
               1.0
             ],
             "direction_degrees": 0.0,
@@ -287,8 +233,8 @@
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
             "size_start": 130.0,
-            "speed_max": 220.0,
-            "speed_min": 90.0,
+            "speed_max": 160.0,
+            "speed_min": 60.0,
             "spread_degrees": 360.0,
             "sprite_asset_ref": "fx.furious_overtake_spark"
           },
@@ -299,6 +245,126 @@
             "offset": [
               0.0,
               0.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.slip_sparks",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 1.0,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.45,
+              0.85,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                170.0,
+                20.0
+              ]
+            },
+            "lifetime_seconds": 0.3,
+            "max_particles": 3.0,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 26.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 100.0,
+            "speed_max": 340.0,
+            "speed_min": 200.0,
+            "spread_degrees": 30.0,
+            "sprite_asset_ref": "fx.furious_overtake_spark"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              160.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.down_chevron",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.25,
+              0.5,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 1.4,
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.85,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 180.0,
+            "rotation_min_degrees": 180.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 130.0,
+            "speed_max": 110.0,
+            "speed_min": 110.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.sandwich_escape_chevron"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "offset": [
+              0.0,
+              175.0
             ],
             "rotation_degrees": 0.0,
             "scale": [

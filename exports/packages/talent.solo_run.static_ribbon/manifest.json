@@ -27,14 +27,14 @@
       "sha256": "fb65ed8e39452e78d677fa1875b9bda8669f9dbdcea28706a0903da3d8dae7ca"
     },
     {
-      "byte_size": 15449,
+      "byte_size": 15460,
       "path": "runtime/vfx_runtime_definition_v3.json",
-      "sha256": "1dbde2a0ba4cb2489706e1fa16fe2c763dcf041b8224280a14f31a76bfec4a68"
+      "sha256": "3ce69a385b5de428f2dab2bdd8703f25a3ca19187f9e260713cb66e3c05123a7"
     },
     {
-      "byte_size": 14358,
+      "byte_size": 14369,
       "path": "source/talent.solo_run.static_ribbon.vfx.json",
-      "sha256": "f6701808d2ffd0f8908963df6e35fb639c5bbe80e0af15106db245d48bd30b9f"
+      "sha256": "5476ed36ed7acfd9b18dd32f7ee7d558cb76b2fb016b39c448b0db204030ac7e"
     }
   ],
   "package_format_version": 1,
@@ -59,14 +59,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 15449,
+    "byte_size": 15460,
     "path": "runtime/vfx_runtime_definition_v3.json",
-    "sha256": "1dbde2a0ba4cb2489706e1fa16fe2c763dcf041b8224280a14f31a76bfec4a68",
+    "sha256": "3ce69a385b5de428f2dab2bdd8703f25a3ca19187f9e260713cb66e3c05123a7",
     "version": 3
   },
   "source": {
-    "byte_size": 14358,
+    "byte_size": 14369,
     "path": "source/talent.solo_run.static_ribbon.vfx.json",
-    "sha256": "f6701808d2ffd0f8908963df6e35fb639c5bbe80e0af15106db245d48bd30b9f"
+    "sha256": "5476ed36ed7acfd9b18dd32f7ee7d558cb76b2fb016b39c448b0db204030ac7e"
   }
 }

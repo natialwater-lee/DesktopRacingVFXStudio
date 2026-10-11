@@ -6,7 +6,7 @@
 
 New ID `talent.solo_run.static_ribbon`. Final approval retires unused P3.2/F1 user artifacts and prototypes; minimum compatibility fixtures and common implementations remain. Runtime Definition **3**, Package Format **1**, layer `profile_version: 2`, required capability **CURVE_FLOW_STATIC_RIBBON_F2**. Existing F1 retains profile 1 and CURVE_FLOW_F1. Reader must opt into F2 explicitly and reject profile/capability mismatch, unknown capabilities and downgrade. No v4 is needed: the v3 layer table carries the profile and required capabilities.
 
-All eight F paths, seed 0 (no RNG), cadence, cap, length, speed, brightness, texture/UV data, colors, fade and lifecycle remain unchanged. Only profile and final half_width change: main **45**, auxiliary **17.1 / 13.5**, top **18** source px. Full widths **90 / 34.2 / 27 / 36**. Game MUST remove WIDTH_FACTOR=1.5 for this package; final widths are already authored. Vehicle scale applies once. Coordinates remain CENTER, forward -Y, 256x512 vehicle source pixels.
+All eight F paths, seed 0 (no RNG), cadence, cap, length, speed, brightness, texture/UV data, colors, fade and lifecycle remain unchanged. Only profile and final half_width change: main **45**, auxiliary **17.1 / 13.5**, top **18** source px. Full widths **90 / 34.2 / 27 / 36**. Game MUST remove WIDTH_FACTOR=1.5 for this package; final widths are already authored. Vehicle scale applies once. Coordinates remain CENTER, forward -Y, 256x512 vehicle source pixels. **2026-10-11 사용자 조정**: loop half_width ×1.25 (main 56.25, auxiliary 21.375 / 16.875, top 22.5), length ×1.25 (side 587.5/412.5/300, top 425/481.25); curves·speed·cadence 불변.
 
 ## Immutable geometry and per-instance state
 
