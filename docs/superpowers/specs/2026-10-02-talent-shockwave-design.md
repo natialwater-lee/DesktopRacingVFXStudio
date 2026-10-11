@@ -81,3 +81,12 @@ START 0.7 / 0.4s, END 0.3s(빈). impact LOOP 스프라이트 최대 6/대.
 - Codex 적용(Game `docs/SHOCKWAVE_GAME_HANDOFF.md`): 반경 START 전 공급, 대상당 impact 1개 공유, legacy 3경로 억제. Codex 지적 — Game은 일반 LINEAR_RANGE binding을 clamp하고 반경 scale만 외삽(`wave.intro` 마지막 표본 Studio ≈1.003 vs Game 1, 반경 80 기준 ≈0.24px 차, 수용).
 - Claude 부하(측정 스크립트에 `_race_cars.assign(_cars)` 추가 + 직접 발동 시도, 20대 뉴욕, 2회): 발동 없음 7.03·6.96ms / draw 216·219 → **발동 6대 + 맞은 차 15·16대** 7.10·7.20ms / draw 282·286, 발동 순간 17.9·17.8ms(발동 6 + impact 15~16 시작이 한 프레임, 최악 조건). 판단: 부하 문제 없음.
 - 사용자 경기 녹화: 맞은 차들의 주황 번개 타원이 전체 화면 크기에서도 보임.
+
+## 개정 2026-10-11 — impact를 디버프 문법으로 교체
+
+사용자 지적: `talent.shockwave_impact`가 닫힌 흰·금색 번개 고리와 따뜻한 스파크라 안정성 저하(마이너스)가 아니라 버프처럼 보인다.
+
+- 닫힌 아크 고리(`arc_a/b`)를 제거하고, 아크 한 조각을 잘라 만든 `fx.shockwave_impact_frag`(96×208) 파편이 차체 주변에서 불규칙하게 튀게 했다. 보라(0.85,0.35,1.0) 틴트.
+- 스파크는 마젠타 틴트에 가속도 +Y(차 뒤쪽)로 떨어지게 했다. 뒷바퀴 쪽 `loop.slip_sparks`(미끄러지는 스파크)와 뒤로 가라앉는 적자색 `loop.down_chevron`(기존 `fx.sandwich_escape_chevron` 180° 회전)을 추가했다.
+- LOOP 최대 스프라이트 12(4+3+3+2), 이전 7. 대상당 1개 공유 구조와 START/END 구성은 그대로다.
+- 후속 후보(미적용): GPT 아트로 전용 파편·하향 쉐브론 교체, 차체 어둡게 하는 ALPHA 레이어.

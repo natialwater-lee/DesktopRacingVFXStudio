@@ -247,13 +247,9 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_shockwave_ring.png"
     },
-    "fx.shockwave_impact_arc_a": {
+    "fx.shockwave_impact_frag": {
       "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_shockwave_impact_arc_a.png"
-    },
-    "fx.shockwave_impact_arc_b": {
-      "source": "TEXTURE",
-      "texture_path": "res://assets/vfx/talent_shockwave_impact_arc_b.png"
+      "texture_path": "res://assets/vfx/talent_shockwave_impact_frag.png"
     },
     "fx.pit_stop_ace_wheel_ring": {
       "source": "TEXTURE",

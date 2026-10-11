@@ -8,8 +8,7 @@ const SOURCE_PATH = "res://presets/examples/talent.shockwave.vfx.json"
 const IMPACT_PATH = "res://presets/examples/talent.shockwave_impact.vfx.json"
 const ASSETS := {
 	"fx.shockwave_ring": Vector2i(512, 512),
-	"fx.shockwave_impact_arc_a": Vector2i(192, 320),
-	"fx.shockwave_impact_arc_b": Vector2i(192, 320),
+	"fx.shockwave_impact_frag": Vector2i(96, 208),
 }
 # Bright core radius of the ring texture (texels); the wave scale is effect_radius / this.
 const RING_REFERENCE_RADIUS := 231.0
@@ -35,7 +34,7 @@ static func _check_assets(t: TestAssert) -> void:
 		var texture: Texture2D = resolved.value.get("texture") as Texture2D if resolved.success else null
 		ok = ok and resolved.success and not resolved.value.get("is_fallback", true) \
 			and texture != null and Vector2i(texture.get_size()) == ASSETS[asset_id]
-	t.expect_true(ok, "Shockwave resolves its ring and impact lightning textures without fallback")
+	t.expect_true(ok, "Shockwave resolves its ring and impact fragment textures without fallback")
 
 
 static func _check_source(t: TestAssert, d: Dictionary) -> void:
@@ -71,17 +70,17 @@ static func _check_impact(t: TestAssert, d: Dictionary) -> void:
 	var sparks: Dictionary = loop.get("loop.body_sparks", {})
 	var emitter: Dictionary = sparks.get("parameters", {}).get("emitter", {})
 	var start_duration := float(phases.get("start", {}).get("duration_seconds", 0.0))
-	var first_arc := start_duration + 1.0 / float(loop.get("loop.arc_a", {}).get("parameters", {}).get("emission_rate_per_second", 0.001))
+	var first_arc := start_duration + 1.0 / float(loop.get("loop.frag", {}).get("parameters", {}).get("emission_rate_per_second", 0.001))
 	var sprite_budget := 0
 	for layer in loop.values():
 		sprite_budget += int(layer.get("parameters", {}).get("max_particles", 0))
 	t.expect_true(
 		d.get("preset_id") == "talent.shockwave_impact" and d.get("runtime_inputs", []).is_empty() \
 		and sparks.get("render_plane") == "OVER_VEHICLE" and emitter.get("shape") == "BOX" \
-		and float(start.get("start.hit_arc", {}).get("parameters", {}).get("lifetime_seconds", 0.0)) >= first_arc \
-		and sprite_budget <= 7 \
+		and float(start.get("start.hit_frag", {}).get("parameters", {}).get("lifetime_seconds", 0.0)) >= first_arc \
+		and sprite_budget <= 12 \
 		and loop.values().all(func(layer: Dictionary) -> bool: return layer.get("parameters", {}).get("emission_mode") == "CONTINUOUS"),
-		"Shockwave impact wraps the hit car in slow lightning with sparks crackling over the body, light enough for many targets"
+		"Shockwave impact shows debuff-coloured broken lightning fragments with falling sparks, rear slip sparks and a sinking chevron, light enough for many targets"
 	)
 
 
@@ -96,7 +95,7 @@ static func _check_export_plans(t: TestAssert) -> void:
 		source_plan.success and impact_plan.success \
 		and source_manifest.get("requirements", {}).get("runtime_inputs", []) == ["effect_radius"] \
 		and int(source_manifest.get("runtime_definition", {}).get("version", 0)) == 2 \
-		and impact_ids == ["fx.furious_overtake_spark", "fx.shockwave_impact_arc_a", "fx.shockwave_impact_arc_b"],
+		and impact_ids == ["fx.furious_overtake_spark", "fx.sandwich_escape_chevron", "fx.shockwave_impact_frag"],
 		"Shockwave compiles to a Runtime v2 source package with effect_radius and an impact package with its lightning and spark textures"
 	)
 

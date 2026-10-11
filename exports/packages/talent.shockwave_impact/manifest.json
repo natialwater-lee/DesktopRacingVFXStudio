@@ -8,18 +8,18 @@
       "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
     },
     {
-      "byte_size": 58454,
+      "byte_size": 14007,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.shockwave_impact_arc_a",
-      "package_path": "assets/talent_shockwave_impact_arc_a.png",
-      "sha256": "50e466f227c6cae0d86c40fd8c07ef87eeb1aa2e910d631a46f51b3ee49984aa"
+      "logical_id": "fx.sandwich_escape_chevron",
+      "package_path": "assets/talent_sandwich_escape_chevron.png",
+      "sha256": "7aee0a45d33507756c5d733d4fb7af30b813d75c57874656d86cec40b4a3c28d"
     },
     {
-      "byte_size": 61809,
+      "byte_size": 17173,
       "kind": "TEXTURE_PNG",
-      "logical_id": "fx.shockwave_impact_arc_b",
-      "package_path": "assets/talent_shockwave_impact_arc_b.png",
-      "sha256": "9464035d7a107956059af071fe2b2934d2476e6ae6340a6917ef155f8ad4f2b4"
+      "logical_id": "fx.shockwave_impact_frag",
+      "package_path": "assets/talent_shockwave_impact_frag.png",
+      "sha256": "d8cf2b1611d899a5e2fa78a8a0ff95624f2d96d8399ea28bc1c5029a5d4544b6"
     }
   ],
   "files": [
@@ -29,24 +29,24 @@
       "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
     },
     {
-      "byte_size": 58454,
-      "path": "assets/talent_shockwave_impact_arc_a.png",
-      "sha256": "50e466f227c6cae0d86c40fd8c07ef87eeb1aa2e910d631a46f51b3ee49984aa"
+      "byte_size": 14007,
+      "path": "assets/talent_sandwich_escape_chevron.png",
+      "sha256": "7aee0a45d33507756c5d733d4fb7af30b813d75c57874656d86cec40b4a3c28d"
     },
     {
-      "byte_size": 61809,
-      "path": "assets/talent_shockwave_impact_arc_b.png",
-      "sha256": "9464035d7a107956059af071fe2b2934d2476e6ae6340a6917ef155f8ad4f2b4"
+      "byte_size": 17173,
+      "path": "assets/talent_shockwave_impact_frag.png",
+      "sha256": "d8cf2b1611d899a5e2fa78a8a0ff95624f2d96d8399ea28bc1c5029a5d4544b6"
     },
     {
-      "byte_size": 8930,
+      "byte_size": 10793,
       "path": "runtime/vfx_runtime_definition_v1.json",
-      "sha256": "dc5960db41fff2f5bd9c03a25eb7b5f695227079fab455f5bae7842dcfe75ff6"
+      "sha256": "96164273275cb1c0b84435e8cd2c45b1f940bb90a4c5d3c5a72c6ebcb7ce2733"
     },
     {
-      "byte_size": 8472,
+      "byte_size": 10296,
       "path": "source/talent.shockwave_impact.vfx.json",
-      "sha256": "a3bb7af91a120034738c5c3b2a2136e7c660f57a1e0264f50fb2550b3f4bd54a"
+      "sha256": "42446a5f046e355b07c0ce4f552438cfadb1a70bbb4fd9e364487c83b2d06ae0"
     }
   ],
   "package_format_version": 1,
@@ -61,7 +61,7 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 5,
+      "CORE": 6,
       "DETAIL": 0,
       "EXTRA": 0
     },
@@ -71,14 +71,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 8930,
+    "byte_size": 10793,
     "path": "runtime/vfx_runtime_definition_v1.json",
-    "sha256": "dc5960db41fff2f5bd9c03a25eb7b5f695227079fab455f5bae7842dcfe75ff6",
+    "sha256": "96164273275cb1c0b84435e8cd2c45b1f940bb90a4c5d3c5a72c6ebcb7ce2733",
     "version": 1
   },
   "source": {
-    "byte_size": 8472,
+    "byte_size": 10296,
     "path": "source/talent.shockwave_impact.vfx.json",
-    "sha256": "a3bb7af91a120034738c5c3b2a2136e7c660f57a1e0264f50fb2550b3f4bd54a"
+    "sha256": "42446a5f046e355b07c0ce4f552438cfadb1a70bbb4fd9e364487c83b2d06ae0"
   }
 }
