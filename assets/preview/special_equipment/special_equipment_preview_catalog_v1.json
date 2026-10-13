@@ -16,6 +16,19 @@
       "marks": ["mk1", "mk2", "mk3", "mk4"],
       "asset_root": "res://assets/preview/special_equipment/downforce_wing"
     },
+    "forcefield_tire": {
+      "preset_id_prefix": "equipment.tire_barrier.",
+      "vehicle_category": "sports",
+      "visual_layer": "underlay",
+      "normalized_position": [0.5, 0.5],
+      "equipment_scale": 1.0,
+      "runtime_visual": {"scale": 1.0, "offset_ratio_x": 0.0, "offset_ratio_y": 0.0},
+      "active_frame_rate": 24.0,
+      "deploy_duration_seconds": 0.5,
+      "retract_duration_seconds": 0.5,
+      "marks": ["mk1", "mk2", "mk3", "mk4"],
+      "asset_root": "res://assets/preview/special_equipment/forcefield_tire"
+    },
     "rotor_lift": {
       "preset_id_prefix": "equipment.rotor_lift.",
       "vehicle_category": "formula",

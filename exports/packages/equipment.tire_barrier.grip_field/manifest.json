@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 26891,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.energy_spark",
+      "package_path": "assets/energy_spark.png",
+      "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
+    },
+    {
+      "byte_size": 5731,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.speed_wind_streak",
+      "package_path": "assets/speed_wind_streak.png",
+      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    },
+    {
+      "byte_size": 19297,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.tire_barrier_grip_ring",
+      "package_path": "assets/tire_barrier_grip_ring.png",
+      "sha256": "1e5653b9dcb53b7e5b9e9672bc1dc4877b31cb1957580b984ab56cfacfdb4dbd"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 26891,
+      "path": "assets/energy_spark.png",
+      "sha256": "0bf0cada29f0a8fc760482b286a7ec217f975cac2a0cb6bf84aefb577f91a4f4"
+    },
+    {
+      "byte_size": 5731,
+      "path": "assets/speed_wind_streak.png",
+      "sha256": "4b031398dbc71453008d4a733ef7d7aaed4380795966a12b528b44a0a5b33f5a"
+    },
+    {
+      "byte_size": 19297,
+      "path": "assets/tire_barrier_grip_ring.png",
+      "sha256": "1e5653b9dcb53b7e5b9e9672bc1dc4877b31cb1957580b984ab56cfacfdb4dbd"
+    },
+    {
+      "byte_size": 25307,
+      "path": "runtime/vfx_runtime_definition_v1.json",
+      "sha256": "51b6d9f011f7949a9b111149b0a0f7e19525e03409cb77343fa2dede6f789305"
+    },
+    {
+      "byte_size": 26835,
+      "path": "source/equipment.tire_barrier.grip_field.vfx.json",
+      "sha256": "bf035f3efa3b96d611dc74f8974d13814aa942a9f8772ce3c838523cf343d150"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "equipment.tire_barrier.grip_field",
+  "preset": {
+    "category": "SPECIAL_EQUIPMENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Tire Barrier Grip Field",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "equipment.tire_barrier.grip_field",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 9,
+      "DETAIL": 2,
+      "EXTRA": 4
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 25307,
+    "path": "runtime/vfx_runtime_definition_v1.json",
+    "sha256": "51b6d9f011f7949a9b111149b0a0f7e19525e03409cb77343fa2dede6f789305",
+    "version": 1
+  },
+  "source": {
+    "byte_size": 26835,
+    "path": "source/equipment.tire_barrier.grip_field.vfx.json",
+    "sha256": "bf035f3efa3b96d611dc74f8974d13814aa942a9f8772ce3c838523cf343d150"
+  }
+}

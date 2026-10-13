@@ -3,6 +3,10 @@
   "assets": {
     "fx.solo_run_flow_strand_v1": {"source": "TEXTURE", "import_as_resource": true, "texture_path": "res://assets/vfx/solo_run_flow_strand_v1.png"},
     "fx.curve_flow_filaments_v1": {"source": "TEXTURE", "import_as_resource": true, "texture_path": "res://assets/vfx/curve_flow_filaments_v1.png"},
+    "fx.tire_barrier_grip_ring": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/tire_barrier_grip_ring.png"
+    },
     "fx.energy_shard": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/energy_shard.png"
