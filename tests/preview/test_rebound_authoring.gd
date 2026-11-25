@@ -28,7 +28,7 @@ static func run(t: TestAssert) -> void:
 	t.expect_true(
 		d.get("preset_id") == "talent.rebound" and d.get("category") == "RACE_TALENT" \
 		and d.get("lifecycle", {}).get("mode") == "START_LOOP_END" and d.get("runtime_inputs", []).is_empty() \
-		and start.size() == 12 and loop.size() == 14 and end.size() == 6,
+		and start.size() == 8 and loop.size() == 10 and end.size() == 6,
 		"Rebound runs START / length-agnostic LOOP / END without runtime inputs"
 	)
 	var ok := true

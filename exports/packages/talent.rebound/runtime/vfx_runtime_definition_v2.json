@@ -131,73 +131,6 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.rail_halo_l",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "start.rail_halo_l.grow",
-              "mapping": {
-                "input_max": 0.4,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.02,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "start.rail_halo_l.fade",
-              "mapping": {
-                "input_max": 0.15,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.3,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.22,
-            "texture_asset_ref": "fx.rebound_grip_rail"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              250.0
-            ],
-            "offset": [
-              -140.0,
-              40.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              10.0,
-              1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
           "id": "start.rail_l",
           "importance": "CORE",
           "modulation_clamps": [],
@@ -255,73 +188,6 @@
             "scale": [
               4.5,
               1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "start.rim_halo_l",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "start.rim_halo_l.flash_x",
-              "mapping": {
-                "input_max": 0.35,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 1.5,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.rim_halo_l.flash_y",
-              "mapping": {
-                "input_max": 0.35,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 1.5,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.35,
-            "texture_asset_ref": "fx.rebound_rim_glow"
-          },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              -84.0,
-              160.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              2.1,
-              1.6
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -513,73 +379,6 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.rail_halo_r",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "start.rail_halo_r.grow",
-              "mapping": {
-                "input_max": 0.4,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.02,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            },
-            {
-              "id": "start.rail_halo_r.fade",
-              "mapping": {
-                "input_max": 0.15,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.3,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.22,
-            "texture_asset_ref": "fx.rebound_grip_rail"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              250.0
-            ],
-            "offset": [
-              140.0,
-              40.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              10.0,
-              1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
           "id": "start.rail_r",
           "importance": "CORE",
           "modulation_clamps": [],
@@ -637,73 +436,6 @@
             "scale": [
               4.5,
               1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "start.rim_halo_r",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "start.rim_halo_r.flash_x",
-              "mapping": {
-                "input_max": 0.35,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 1.5,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.rim_halo_r.flash_y",
-              "mapping": {
-                "input_max": 0.35,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 1.5,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_Y"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.35,
-            "texture_asset_ref": "fx.rebound_rim_glow"
-          },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              84.0,
-              160.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              2.1,
-              1.6
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -901,57 +633,6 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.rail_halo_l",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "loop.rail_halo_l.breath",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.0,
-                "output_min": 0.75,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.breath",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.22,
-            "texture_asset_ref": "fx.rebound_grip_rail"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              250.0
-            ],
-            "offset": [
-              -140.0,
-              40.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              10.0,
-              1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
           "id": "loop.rail_l",
           "importance": "CORE",
           "modulation_clamps": [],
@@ -993,57 +674,6 @@
             "scale": [
               4.5,
               1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "loop.rim_halo_l",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "loop.rim_halo_l.breath",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.0,
-                "output_min": 0.6,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.breath",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.35,
-            "texture_asset_ref": "fx.rebound_rim_glow"
-          },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              -84.0,
-              160.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              2.1,
-              1.6
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -1303,57 +933,6 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.rail_halo_r",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "loop.rail_halo_r.breath",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.0,
-                "output_min": 0.75,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.breath",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.22,
-            "texture_asset_ref": "fx.rebound_grip_rail"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 2,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              250.0
-            ],
-            "offset": [
-              140.0,
-              40.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              10.0,
-              1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
           "id": "loop.rail_r",
           "importance": "CORE",
           "modulation_clamps": [],
@@ -1395,57 +974,6 @@
             "scale": [
               4.5,
               1.45
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "loop.rim_halo_r",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "loop.rim_halo_r.breath",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": 1.0,
-                "output_min": 0.6,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "rebound.breath",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.35,
-            "texture_asset_ref": "fx.rebound_rim_glow"
-          },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 1,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              84.0,
-              160.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              2.1,
-              1.6
             ]
           },
           "type": "TEXTURED_SPRITE"

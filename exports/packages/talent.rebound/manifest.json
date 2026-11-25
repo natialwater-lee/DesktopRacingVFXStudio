@@ -39,14 +39,14 @@
       "sha256": "87fb183f0816bc3abd3671a08a8cd3e0a37355456a77754a73e5ab9dabd998bd"
     },
     {
-      "byte_size": 55263,
+      "byte_size": 42087,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "2373a48a2f0137144692d4c7976fe4d4fc30b02e9002c34ccffc9ac42d517bf6"
+      "sha256": "e9c8826b398024cdd0a027af58f151bb0b7ca00d5e9d69c89e31266651542afa"
     },
     {
-      "byte_size": 51422,
+      "byte_size": 38838,
       "path": "source/talent.rebound.vfx.json",
-      "sha256": "fb096fa68fcb9e5c26574d28c549fcfdf5c398f737d603da0a208e447a776499"
+      "sha256": "6cd5eb3b2bae941c221f87ceb90145cf65244e8c87b9a00032ad092d3ebd05e9"
     }
   ],
   "package_format_version": 1,
@@ -61,7 +61,7 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 32,
+      "CORE": 24,
       "DETAIL": 0,
       "EXTRA": 0
     },
@@ -71,14 +71,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 55263,
+    "byte_size": 42087,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "2373a48a2f0137144692d4c7976fe4d4fc30b02e9002c34ccffc9ac42d517bf6",
+    "sha256": "e9c8826b398024cdd0a027af58f151bb0b7ca00d5e9d69c89e31266651542afa",
     "version": 2
   },
   "source": {
-    "byte_size": 51422,
+    "byte_size": 38838,
     "path": "source/talent.rebound.vfx.json",
-    "sha256": "fb096fa68fcb9e5c26574d28c549fcfdf5c398f737d603da0a208e447a776499"
+    "sha256": "6cd5eb3b2bae941c221f87ceb90145cf65244e8c87b9a00032ad092d3ebd05e9"
   }
 }

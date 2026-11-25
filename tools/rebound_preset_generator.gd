@@ -8,9 +8,7 @@ const RAIL := Vector2(140.0, 40.0)
 const RAIL_PIVOT := [0.0, 250.0]
 const RAIL_LEN := 1.45
 const RAIL_CORE := [4.5, 0.8]        # [scale X, opacity]
-const RAIL_HALO := [10.0, 0.22]
 const RIM_CORE := [[1.8, 1.35], 1.0]  # [scale, opacity]
-const RIM_HALO := [[2.1, 1.6], 0.35]
 const GLOW := [1.9, 0.5]             # contact glow pool under the rear wheel [uniform scale, opacity]
 const PULSE := [4.5, 0.45, 0.9]       # light pulse running along the rail [scale X, scale Y, opacity]
 const PULSE_TRAVEL := 360.0
@@ -44,9 +42,7 @@ func _init() -> void:
 		# --- layers present in START (with intro ramps) and LOOP (with breath)
 		var defs := [
 			["glow", "fx.rebound_contact_mist", wheel, [GLOW[0], GLOW[0]], [0.0, 0.0], "UNDER_VEHICLE", 1.0, GLOW[1], "fade_in", [0.75, 1.0]],
-			["rail_halo", "fx.rebound_grip_rail", rail, [RAIL_HALO[0], RAIL_LEN], RAIL_PIVOT, "UNDER_VEHICLE", 2.0, RAIL_HALO[1], "grow", [0.75, 1.0]],
 			["rail", "fx.rebound_grip_rail", rail, [RAIL_CORE[0], RAIL_LEN], RAIL_PIVOT, "UNDER_VEHICLE", 3.0, RAIL_CORE[1], "grow", [0.8, 1.0]],
-			["rim_halo", "fx.rebound_rim_glow", wheel, RIM_HALO[0], [0.0, 0.0], "OVER_VEHICLE", 1.0, RIM_HALO[1], "flash", [0.6, 1.0]],
 			["rim", "fx.rebound_rim_glow", wheel, RIM_CORE[0], [0.0, 0.0], "OVER_VEHICLE", 2.0, RIM_CORE[1], "flash", [0.75, 1.0]],
 		]
 		for d in defs:
