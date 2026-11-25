@@ -12,6 +12,10 @@ const VfxPreviewPlaybackControllerModel := preload("res://src/preview/rendering/
 const BOOST_RISE_SECONDS := 0.08
 const BOOST_FALL_SECONDS := 0.3
 const DEFENSE_IMPACT_DECAY_SECONDS := 0.5
+# drift_active Game smoothing (Drift Master): linear rise 0.05 s, fall 0.4 s. The Drift button holds 1 for a typical 0.5 s drift.
+const DRIFT_RISE_SECONDS := 0.05
+const DRIFT_FALL_SECONDS := 0.4
+const PREVIEW_DRIFT_HOLD_SECONDS := 0.5
 # Preview-only starting radius (≈ Shockwave 80 world px at the default game scale); the Game supplies the real value.
 const PREVIEW_EFFECT_RADIUS_SOURCE_PX := 840.0
 const VfxPreviewCanvasRenderHostModel := preload("res://src/preview/rendering/vfx_preview_canvas_render_host.gd")
@@ -41,6 +45,8 @@ var _runtime_input_state: RefCounted
 var _runtime_input_values_by_name: Dictionary = {}
 var _boost_ramp_target := -1.0
 var _defense_impact_decaying := false
+# Seconds left in a simulated drift (Drift button); < 0 when idle, 0 while falling.
+var _drift_hold_left := -1.0
 var _equipment_catalog: RefCounted
 var _equipment_enabled := true
 var _equipment_mark_id := "mk1"
@@ -230,6 +236,7 @@ func _process(delta: float) -> void:
 	_advance_boost_ramp(delta)
 	_advance_defense_impact(delta)
 	_advance_link(delta)
+	_advance_drift_ramp(delta)
 	_update_equipment_visual(delta)
 	_layout_screen_ui_hosts()
 
@@ -633,6 +640,12 @@ func _configure_controls() -> void:
 	var defense_hit := get_node_or_null("PreviewControls/RuntimeInputsRow/DefenseImpactHit") as Button
 	if defense_hit != null and not defense_hit.pressed.is_connected(_on_runtime_defense_hit):
 		defense_hit.pressed.connect(_on_runtime_defense_hit)
+	var drift_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/DriftActiveSlider") as HSlider
+	if drift_slider != null and not drift_slider.value_changed.is_connected(_on_runtime_drift_changed):
+		drift_slider.value_changed.connect(_on_runtime_drift_changed)
+	var drift_button := get_node_or_null("PreviewControls/RuntimeInputsRow/DriftActivePulse") as Button
+	if drift_button != null and not drift_button.pressed.is_connected(_on_runtime_drift_pulse):
+		drift_button.pressed.connect(_on_runtime_drift_pulse)
 	var radius_slider := get_node_or_null("PreviewControls/RuntimeInputsRow/EffectRadiusSlider") as HSlider
 	if radius_slider != null and not radius_slider.value_changed.is_connected(_on_runtime_effect_radius_changed):
 		radius_slider.value_changed.connect(_on_runtime_effect_radius_changed)
@@ -734,6 +747,30 @@ func _advance_defense_impact(delta: float) -> void:
 		_defense_impact_decaying = false
 
 
+func _on_runtime_drift_changed(value: float) -> void:
+	_drift_hold_left = -1.0
+	set_runtime_input_value("drift_active", value)
+
+
+func _on_runtime_drift_pulse() -> void:
+	if _runtime_input_values_by_name.has("drift_active"):
+		_drift_hold_left = PREVIEW_DRIFT_HOLD_SECONDS
+
+
+# Mirrors the Game smoothing of drift_active: rise to 1 in 0.05 s, hold for the drift, fall to 0 in 0.4 s.
+func _advance_drift_ramp(delta: float) -> void:
+	if _drift_hold_left < 0.0 or not _runtime_input_values_by_name.has("drift_active"):
+		return
+	var current := float(_runtime_input_values_by_name["drift_active"])
+	var target := 1.0 if _drift_hold_left > 0.0 else 0.0
+	_drift_hold_left = maxf(_drift_hold_left - delta, 0.0)
+	var next := move_toward(current, target, delta / (DRIFT_RISE_SECONDS if target > current else DRIFT_FALL_SECONDS))
+	if set_runtime_input_value("drift_active", next):
+		_sync_runtime_slider("DriftActiveSlider", next)
+	if target == 0.0 and next <= 0.0:
+		_drift_hold_left = -1.0
+
+
 func _sync_runtime_slider(slider_name: String, value: float) -> void:
 	var slider := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % slider_name) as HSlider
 	if slider != null:
@@ -779,7 +816,7 @@ func _update_runtime_input_controls() -> void:
 	var visible: bool = row != null and program != null and program.binding_count() > 0 and _runtime_input_state != null
 	if row != null:
 		row.visible = visible
-	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"], ["turn_rate_normalized", "TurnRateLabel", "TurnRateSlider"], ["boost_active", "BoostActiveLabel", "BoostActiveSlider"], ["defense_impact", "DefenseImpactLabel", "DefenseImpactSlider"], ["effect_radius", "EffectRadiusLabel", "EffectRadiusSlider"]]:
+	for configuration in [["speed_normalized", "SpeedNormalizedLabel", "SpeedNormalizedSlider"], ["longitudinal_load", "LongitudinalLoadLabel", "LongitudinalLoadSlider"], ["turn_rate_normalized", "TurnRateLabel", "TurnRateSlider"], ["boost_active", "BoostActiveLabel", "BoostActiveSlider"], ["defense_impact", "DefenseImpactLabel", "DefenseImpactSlider"], ["drift_active", "DriftActiveLabel", "DriftActiveSlider"], ["effect_radius", "EffectRadiusLabel", "EffectRadiusSlider"]]:
 		var input_name := str(configuration[0])
 		var slot: int = program.runtime_input_slot(input_name) if visible else -1
 		var label := get_node_or_null("PreviewControls/RuntimeInputsRow/%s" % str(configuration[1])) as Control

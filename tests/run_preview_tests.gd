@@ -76,6 +76,7 @@ func _run() -> void:
 	preload("res://tests/preview/test_underdog_revolt_authoring.gd").run(tests)
 	preload("res://tests/preview/test_rebound_authoring.gd").run(tests)
 	preload("res://tests/preview/test_chain_bind_authoring.gd").run(tests)
+	preload("res://tests/preview/test_drift_master_authoring.gd").run(tests)
 	SoloRunAuthoringTests.run(tests)
 	print("PREVIEW_TEST_ASSERTIONS=%d FAILURES=%d" % [tests.assertion_count(), tests.failure_count()])
 	quit(1 if tests.failure_count() > 0 else 0)

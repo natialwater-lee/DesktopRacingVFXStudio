@@ -465,6 +465,24 @@
       "source_path": "res://assets/vfx/talent_chain_bind_snap_flash.png",
       "package_file_name": "talent_chain_bind_snap_flash.png"
     },
+    "fx.drift_master_neon_tail": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_drift_master_neon_tail.png",
+      "package_file_name": "talent_drift_master_neon_tail.png"
+    },
+    "fx.drift_master_tail_haze": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_drift_master_tail_haze.png",
+      "package_file_name": "talent_drift_master_tail_haze.png"
+    },
+    "fx.drift_master_drift_smoke": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_drift_master_drift_smoke.png",
+      "package_file_name": "talent_drift_master_drift_smoke.png"
+    },
     "fx.underdog_revolt_flame_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

@@ -814,6 +814,12 @@
       "minimum": 0.0,
       "maximum": 1.0,
       "default": 0.0
+    },
+    "drift_active": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
     }
   },
   "x_vfx_rules": [

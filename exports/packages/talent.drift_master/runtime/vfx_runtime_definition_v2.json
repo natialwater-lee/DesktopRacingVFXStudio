@@ -1,0 +1,2234 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.6,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.flash",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.flash.in",
+              "mapping": {
+                "input_max": 0.25,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.flash.out",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.25,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.7,
+            "texture_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              120.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              3.2,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.smoke_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 3.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 215.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.6,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 190.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 70.0,
+            "speed_max": 160.0,
+            "speed_min": 60.0,
+            "spread_degrees": 70.0,
+            "sprite_asset_ref": "fx.drift_master_drift_smoke"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -95.0,
+              225.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.haze_l",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 75.0,
+              "min_effective": -75.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.haze_l.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_l.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_l.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.haze_l.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.haze_l.drift",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.haze_l.grow",
+              "mapping": {
+                "input_max": 0.583333333333333,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.02,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_l.settle",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.583333333333333,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_l.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.haze_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              -95.0,
+              613.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.0,
+              1.7
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.tail_l",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.tail_l.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_l.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_l.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tail_l.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tail_l.drift_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tail_l.drift_l",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.35,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_l.drift_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.tail_l.grow",
+              "mapping": {
+                "input_max": 0.583333333333333,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.02,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_l.settle",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.583333333333333,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_l.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.tail_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.drift_master_neon_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              -95.0,
+              589.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.1,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.smoke_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 3.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 145.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.6,
+            "rotation_max_degrees": 360.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 190.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 70.0,
+            "speed_max": 160.0,
+            "speed_min": 60.0,
+            "spread_degrees": 70.0,
+            "sprite_asset_ref": "fx.drift_master_drift_smoke"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              95.0,
+              225.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.haze_r",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 75.0,
+              "min_effective": -75.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.haze_r.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_r.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_r.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.haze_r.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.haze_r.drift",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.haze_r.grow",
+              "mapping": {
+                "input_max": 0.583333333333333,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.02,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_r.settle",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.583333333333333,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.haze_r.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.haze_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              95.0,
+              613.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.0,
+              1.7
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.tail_r",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.tail_r.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_r.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_r.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tail_r.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tail_r.drift_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.tail_r.drift_l",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.35,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_r.drift_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.tail_r.grow",
+              "mapping": {
+                "input_max": 0.583333333333333,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.02,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_r.settle",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.583333333333333,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "drift.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.tail_r.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.tail_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.drift_master_neon_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              95.0,
+              589.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.1,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        }
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.haze_l",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 75.0,
+              "min_effective": -75.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.haze_l.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.haze_l.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.haze_l.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.haze_l.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.haze_l.drift",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.haze_l.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.haze_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              -95.0,
+              613.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.0,
+              1.7
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.tail_l",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.tail_l.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tail_l.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tail_l.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tail_l.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tail_l.drift_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tail_l.drift_l",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.35,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tail_l.drift_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.tail_l.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.tail_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.drift_master_neon_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              -95.0,
+              589.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.1,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.smoke_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.smoke_l.drift",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.smoke_l.grow_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.smoke_l.grow_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.smoke_l.outward",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -45.0,
+                "output_min": 45.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.drift_master_drift_smoke"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -110.0,
+              340.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.7,
+              1.7
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.haze_r",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 75.0,
+              "min_effective": -75.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.haze_r.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.haze_r.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.haze_r.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.haze_r.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.haze_r.drift",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.8,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.haze_r.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.haze_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              95.0,
+              613.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.0,
+              1.7
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.tail_r",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.tail_r.corner_l_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tail_r.corner_l_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.15,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tail_r.corner_a_r",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tail_r.corner_a_l",
+              "mapping": {
+                "input_max": 0.0,
+                "input_min": -0.1,
+                "output_max": 1.0,
+                "output_min": 1.2,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tail_r.drift_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.5,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.tail_r.drift_l",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.35,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.tail_r.drift_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.tail_r.bend",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.tail_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.drift_master_neon_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              -240.0
+            ],
+            "offset": [
+              95.0,
+              589.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              2.1,
+              1.6
+            ]
+          },
+          "type": "TEXTURED_SPRITE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 420.0,
+            "start_ratio": 0.1
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.smoke_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.smoke_r.drift",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.smoke_r.grow_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.smoke_r.grow_y",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.2,
+                "output_min": 0.8,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "drift_active",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "loop.smoke_r.outward",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -45.0,
+                "output_min": 45.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.drift_master_drift_smoke"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              110.0,
+              340.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.7,
+              1.7
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.4,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.haze_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 435.2,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 435.2,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -95.0,
+              613.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.tail_l",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.765,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 409.6,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 409.6,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.drift_master_neon_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              -95.0,
+              589.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.haze_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.9,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 435.2,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 435.2,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.drift_master_tail_haze"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 3,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              95.0,
+              613.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.tail_r",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.765,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 409.6,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 409.6,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.drift_master_neon_tail"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 4,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              95.0,
+              589.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Drift Master",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.drift_master"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 2,
+  "runtime_inputs": [
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": -1.0,
+      "name": "turn_rate_normalized",
+      "value_type": "number"
+    },
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "name": "drift_active",
+      "value_type": "number"
+    }
+  ],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 1.66666666666667,
+      "id": "drift.intro",
+      "type": "LINEAR_PHASE"
+    }
+  ]
+}
