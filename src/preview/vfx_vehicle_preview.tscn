@@ -150,6 +150,22 @@ layout_mode = 2
 tooltip_text = "Simulate a valid defense: defense_impact 1 then 0 over 0.5 s like the Game"
 text = "Hit"
 
+[node name="DriftActiveLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Drift"
+
+[node name="DriftActiveSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="DriftActivePulse" type="Button" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+tooltip_text = "Simulate one drift: drift_active rises in 0.05 s, holds 0.5 s, falls in 0.4 s like the Game"
+text = "Drift"
+
 [node name="EffectRadiusLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
 layout_mode = 2
 text = "Radius"

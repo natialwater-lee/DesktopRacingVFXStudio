@@ -1,6 +1,6 @@
 # 드리프트 마스터(Drift Master) 경기용 VFX 연출 제안 — ①단계
 
-- 작성: 2026-11-25 (이펙트툴 세션). 상태: **① 합의 완료 (지훈 11-25)**. GPT 아트 도착 후 ②로 이어간다.
+- 작성: 2026-11-25 (이펙트툴 세션). 상태: **② Studio 시안 승인·package 생성 완료 (지훈 11-26)** — ③ 게임 연결 대기. 최종 구성은 8절.
 - 재능 id: `drift_master` (게임 기능 master 병합, PR 313 `da0c7985`). 예정 preset/package ID: `talent.drift_master`.
 - 기준 자료:
   - 게임 `Claude outputs/신규재능_기획_v1.md` 3장(개발 중 정한 것·측정 포함)
@@ -149,3 +149,46 @@
   - GPT 아트가 오면 ② Studio 시안을 만든다(`drift_active` 스키마·preview 포함).
   - 그 뒤 package를 만든다.
   - ③ 게임 연결은 별도 세션에서 하고, `drift_active` 공급도 함께 만든다.
+
+## 8. ② Studio 시안 — 최종 (지훈 승인 2026-11-26)
+
+아트 3장 검수 통과: 크기(256×512 / 256×512 / 256×256), 알파 최대(0.95 / 0.5 / 0.75), 투명부 RGB, 좌우 투명 여백 모두 요청대로다. 꼬리 빛은 x 97~158, 헤이즈 빛은 x 80~176이다. v1 시안을 승인받았다.
+
+- 생성기: `tools/drift_master_preset_generator.gd` → `presets/examples/talent.drift_master.vfx.json`. 값은 생성기에서 고친다.
+- 테스트: `tests/preview/test_drift_master_authoring.gd`.
+- package: `exports/packages/talent.drift_master/`. Runtime Definition v2이고, 입력은 `turn_rate_normalized`와 `drift_active`다.
+- Studio 계약 변경:
+  - 스키마 `x_vfx_runtime_inputs.drift_active`(0~1, 기본 0)를 추가했다.
+  - 문서 `VFX_SCHEMA_V1.md`, `VFX_STUDIO_ARCHITECTURE.md`를 고쳤다.
+  - preview에 Drift 슬라이더와 Drift 버튼(0.05초 상승, 0.5초 유지, 0.4초 하강)을 넣었다.
+- 조정 이력: 처음에는 경기 크기에서 가는 선 4개로 보였다. 꼬리 폭을 ×1.6에서 ×2.1로 키우고, 헤이즈를 좁고 진하게(×2.0, opacity 1.0) 바꿔 가닥 사이를 채웠다. 지금은 경기 크기에서 폭 약 6px인 자홍 튜브 두 줄로 읽힌다.
+
+| 구간 | 레이어 (좌우 각각) |
+|---|---|
+| START 0.6초 | 차 밑 번쩍임 1개(헤이즈 텍스처 3.2×1.6, 0.15초에 켜졌다가 START 끝까지 꺼짐) / 분홍 연기 BURST 3개(ALPHA, 뒤 바깥 방향) / 헤이즈·꼬리가 0.35초 동안 길이 0.02→1.15로 그어지고 START 끝에 1.0으로 정착 |
+| LOOP | 헤이즈(2.0×1.7, 1.0) + 꼬리(2.1×1.6, 0.85) — 둘 다 visual_bend(머리 피벗, span 420 texel, start 0.1). turn ±0.2에서 끝이 ±130 source px 이동하고, 오른쪽 코너는 +x(안쪽)로 휜다. \|turn\|에 따라 길이 ×1.15, 밝기 ×1.2. drift_active에 따라 꼬리 밝기 ×1.5·길이 ×1.35·폭 ×1.2, 헤이즈 밝기 ×1.8 / 드리프트 연기(ALPHA, 1.7배, 0.85) — drift_active=0이면 보이지 않고, 크기 0.8→1.2. turn에 따라 바깥쪽으로 ±45 px |
+| END 0.4초 | 헤이즈·꼬리 PARTICLE 복사본 페이드. bend가 없어서 코너에서 끝나면 꼬리가 펴지면서 사라진다 |
+
+- 위치(source px):
+  - 꼬리 머리 (±95, +205): 뒷바퀴 (±84, +160) 바로 뒤, 조금 바깥쪽.
+  - 연기 (±110, +340).
+- 부하:
+  - LOOP: 차 1대당 스프라이트 6개(bend 4개). 지속 입자 0개.
+  - START: 스프라이트 5개 + 입자 6개.
+- 검증:
+  - preview 451 / 실패 0.
+  - editor 401 / 실패 4 (기존 기준 실패 4개와 같음, 라이브러리 18행 스모크 통과).
+
+### ③ 게임 연결 때 할 일
+1. **`drift_active` 공급**(계약 변경):
+   - `VfxEffectInstance._resolve_runtime_input_snapshot_slots`에 슬롯을 추가한다.
+   - 보간은 선형, 상승 0.05초 / 하강 0.4초로 한다. 효과 시작 때 0이고, 일시정지 중에는 값을 유지하며, 효과가 끝나면 갱신을 멈춘다.
+   - 원시 값은 `CarAgent.is_race_ability_drift_active()`다.
+   - `VfxService.validate_vehicle_runtime_inputs`에서 공급자가 없으면 거부한다.
+2. 재능 매핑 `drift_master` → `talent.drift_master`. `vfx_package_catalog.json`에 등록하고, 정의의 `visual_profile_id`·`vehicle_fx_id`를 채운다(리바운드와 같은 방식).
+3. 시각 확인:
+   - 코너에서 휨 방향(안쪽)과 크기를 본다. Studio preview는 bend를 그리지 않는다.
+   - 드리프트 기울기(최대 13°)를 따라가는지 본다.
+   - 타이어 자국과 겹친 모습을 본다.
+   - END에서 꼬리가 펴지는 것이 거슬리는지 본다.
+4. 부하: 8대 동시 발동에서 bend 셰이더 스프라이트가 그리기 묶음(배칭)을 끊는지, opacity 0인 연기 스프라이트의 비용이 얼마인지 측정한다.
