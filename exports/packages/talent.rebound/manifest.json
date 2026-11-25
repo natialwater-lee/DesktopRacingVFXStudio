@@ -1,0 +1,84 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 14154,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rebound_contact_mist",
+      "package_path": "assets/talent_rebound_contact_mist.png",
+      "sha256": "cbb8b9491102059c7b79ced86ddeb15156f4ff92dd05dee7f79040d66e283855"
+    },
+    {
+      "byte_size": 1530,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rebound_grip_rail",
+      "package_path": "assets/talent_rebound_grip_rail.png",
+      "sha256": "9f3d4af0ee08b329d419f5b978cda8e73304fab06ceecdbaa296b16fb0e4d3a0"
+    },
+    {
+      "byte_size": 5243,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.rebound_rim_glow",
+      "package_path": "assets/talent_rebound_rim_glow.png",
+      "sha256": "87fb183f0816bc3abd3671a08a8cd3e0a37355456a77754a73e5ab9dabd998bd"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 14154,
+      "path": "assets/talent_rebound_contact_mist.png",
+      "sha256": "cbb8b9491102059c7b79ced86ddeb15156f4ff92dd05dee7f79040d66e283855"
+    },
+    {
+      "byte_size": 1530,
+      "path": "assets/talent_rebound_grip_rail.png",
+      "sha256": "9f3d4af0ee08b329d419f5b978cda8e73304fab06ceecdbaa296b16fb0e4d3a0"
+    },
+    {
+      "byte_size": 5243,
+      "path": "assets/talent_rebound_rim_glow.png",
+      "sha256": "87fb183f0816bc3abd3671a08a8cd3e0a37355456a77754a73e5ab9dabd998bd"
+    },
+    {
+      "byte_size": 55263,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "2373a48a2f0137144692d4c7976fe4d4fc30b02e9002c34ccffc9ac42d517bf6"
+    },
+    {
+      "byte_size": 51422,
+      "path": "source/talent.rebound.vfx.json",
+      "sha256": "fb096fa68fcb9e5c26574d28c549fcfdf5c398f737d603da0a208e447a776499"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.rebound",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Rebound",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.rebound",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 32,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 55263,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "2373a48a2f0137144692d4c7976fe4d4fc30b02e9002c34ccffc9ac42d517bf6",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 51422,
+    "path": "source/talent.rebound.vfx.json",
+    "sha256": "fb096fa68fcb9e5c26574d28c549fcfdf5c398f737d603da0a208e447a776499"
+  }
+}

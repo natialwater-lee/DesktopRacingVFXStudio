@@ -1,6 +1,6 @@
 # 리바운드(Rebound) 경기용 VFX 연출 제안 — ①단계
 
-- 작성: 2026-11-25 (이펙트툴 세션). 상태: **확정 (지훈 11-25)** — GPT 아트 대기.
+- 작성: 2026-11-25 (이펙트툴 세션). 상태: **② Studio 시안 승인·package 생성 완료 (지훈 11-25)** — ③ 게임 연결 대기. 최종 구성은 8절.
 - 재능 id: `rebound` (게임 기능 개발 중, master 미병합). 예정 preset/package ID: `talent.rebound`.
 - 기준: 게임 `Claude outputs/신규재능_기획_v1.md` 2장, `docs/TALENT_VFX_GUIDELINES.md`, 컷인 `rebound.mp4`(4.0초, 854×480, 지훈 PC `J:\…\2. 리바운드 Rebound\영상제작\`).
 
@@ -87,3 +87,26 @@
 - 2026-11-25 지훈: **제안 그대로 확정**(뒷바퀴 캡슐형 림 빛 + 양옆 고정 가이드 레일 + 접지 안개, 아트 3장).
 - GPT 아트 요청서: `docs/handoffs/2026-11-25-rebound-gpt-art-request.md`.
 - 다음: GPT 아트 도착 → ② 이펙트툴 시안·package. ③ 게임 연결은 리바운드 게임 기능 master 병합 후.
+
+## 8. ② Studio 시안 — 최종 (지훈 승인 2026-11-25)
+
+아트 3장 검수 통과(크기·알파·투명부 RGB 요청대로). 시안 4회 수정 후 승인.
+
+- 생성기: `tools/rebound_preset_generator.gd` → `presets/examples/talent.rebound.vfx.json`. 테스트: `tests/preview/test_rebound_authoring.gd`.
+- package: `exports/packages/talent.rebound/` (Runtime Definition v2 — TEXTURED_SPRITE modulation 사용, runtime 입력 없음).
+- 수정 이력: v1(얇은 선 4개) → 지훈 "너무 얇고 입체감 없음" → v2 두께·층 추가 → 지훈 "타이어 마모 효과 강조, 뒷바퀴 뒤 에너지를 진하게·지속 중에도" → v3 → 지훈 "지속 에너지 조금 더 크게" → v4 승인.
+
+| 구간 | 레이어 (좌우 각각) |
+|---|---|
+| START 0.9초 | 뒷바퀴 뒤 진한 민트 안개 BURST 4 (뒤쪽 140°, 크기 90→230, 0.8초, 색 (0.4,1,0.78)) / 바닥 빛 웅덩이 페이드인 / 레일 번짐·레일 뒤→앞 그어짐 0.35초 / 림·림 번짐 ×1.5 번쩍임 → 0.3초에 정착 |
+| LOOP | 뒷바퀴 뒤 안개 CONTINUOUS 6/s·수명 0.65·최대 5·알파 0.65·크기 110→250 / 바닥 빛 웅덩이(안개 텍스처 ×1.9, 0.5) / 레일(×4.5, 0.8) + 레일 번짐(×10, 0.22) / 레일 위 흐르는 빛(0.9초 주기, 앞→뒤) / 림(1.8×1.35, OVER_VEHICLE) + 림 번짐(2.1×1.6, 0.35). 림·레일·웅덩이는 0.8 Hz로 같이 숨쉼 |
+| END 0.4초 | 웅덩이·레일·림 PARTICLE 복사본 페이드 (TEXTURED_SPRITE는 END에서 시간 램프 불가) |
+
+- 위치(source px): 림·웅덩이 (±84, +160), 안개 발생 (±84, +195), 레일 중심 (±140, +40)·길이 512×1.45.
+- 부하: LOOP 스프라이트 12 + 차당 파티클 최대 10.
+- 배운 점: PARTICLE `size`는 텍스처 긴 변의 **절반**(표시 긴 변 = 2×size). TEXTURED_SPRITE는 텍셀 1 = source px 1 × scale. `sort_order`는 정수만.
+
+### ③ 게임 연결 때 확인
+- 큰 미끄러짐 중 시각 오프셋·회전을 VEHICLE_LOCAL 효과가 따라가는지(레일이 차와 함께 기울어야 함).
+- 지속 안개는 차에 붙어 이동(월드 잔류 아님) — 주행 중 모습, 부하 측정(5~8대).
+- 레이서 교대·피트 진입 시 force_clear.

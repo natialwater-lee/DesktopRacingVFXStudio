@@ -399,6 +399,24 @@
       "source_path": "res://assets/vfx/talent_pit_stop_ace_launch_line.png",
       "package_file_name": "talent_pit_stop_ace_launch_line.png"
     },
+    "fx.rebound_rim_glow": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_rebound_rim_glow.png",
+      "package_file_name": "talent_rebound_rim_glow.png"
+    },
+    "fx.rebound_grip_rail": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_rebound_grip_rail.png",
+      "package_file_name": "talent_rebound_grip_rail.png"
+    },
+    "fx.rebound_contact_mist": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_rebound_contact_mist.png",
+      "package_file_name": "talent_rebound_contact_mist.png"
+    },
     "fx.underdog_revolt_flame_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
