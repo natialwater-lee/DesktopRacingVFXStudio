@@ -151,8 +151,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 65.0,
-              "min_effective": -65.0,
+              "max_effective": 75.0,
+              "min_effective": -75.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -160,7 +160,7 @@
             {
               "id": "start.haze_l.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -177,7 +177,7 @@
               "id": "start.haze_l.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -192,7 +192,7 @@
             {
               "id": "start.haze_l.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -209,7 +209,7 @@
               "id": "start.haze_l.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -272,10 +272,10 @@
             {
               "id": "start.haze_l.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 65.0,
-                "output_min": -65.0,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -284,6 +284,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.haze_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -326,8 +342,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 61.9047619047619,
-              "min_effective": -61.9047619047619,
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -335,7 +351,7 @@
             {
               "id": "start.tail_l.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -352,7 +368,7 @@
               "id": "start.tail_l.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -367,7 +383,7 @@
             {
               "id": "start.tail_l.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -384,7 +400,7 @@
               "id": "start.tail_l.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -479,10 +495,10 @@
             {
               "id": "start.tail_l.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 61.9047619047619,
-                "output_min": -61.9047619047619,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -491,6 +507,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.tail_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -596,8 +628,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 65.0,
-              "min_effective": -65.0,
+              "max_effective": 75.0,
+              "min_effective": -75.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -605,7 +637,7 @@
             {
               "id": "start.haze_r.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -622,7 +654,7 @@
               "id": "start.haze_r.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -637,7 +669,7 @@
             {
               "id": "start.haze_r.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -654,7 +686,7 @@
               "id": "start.haze_r.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -717,10 +749,10 @@
             {
               "id": "start.haze_r.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 65.0,
-                "output_min": -65.0,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -729,6 +761,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.haze_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -771,8 +819,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 61.9047619047619,
-              "min_effective": -61.9047619047619,
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -780,7 +828,7 @@
             {
               "id": "start.tail_r.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -797,7 +845,7 @@
               "id": "start.tail_r.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -812,7 +860,7 @@
             {
               "id": "start.tail_r.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -829,7 +877,7 @@
               "id": "start.tail_r.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -924,10 +972,10 @@
             {
               "id": "start.tail_r.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 61.9047619047619,
-                "output_min": -61.9047619047619,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -936,6 +984,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "start.tail_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -983,8 +1047,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 65.0,
-              "min_effective": -65.0,
+              "max_effective": 75.0,
+              "min_effective": -75.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -992,7 +1056,7 @@
             {
               "id": "loop.haze_l.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -1009,7 +1073,7 @@
               "id": "loop.haze_l.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -1024,7 +1088,7 @@
             {
               "id": "loop.haze_l.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -1041,7 +1105,7 @@
               "id": "loop.haze_l.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -1072,10 +1136,10 @@
             {
               "id": "loop.haze_l.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 65.0,
-                "output_min": -65.0,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1084,6 +1148,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.haze_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -1126,8 +1206,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 61.9047619047619,
-              "min_effective": -61.9047619047619,
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -1135,7 +1215,7 @@
             {
               "id": "loop.tail_l.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -1152,7 +1232,7 @@
               "id": "loop.tail_l.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -1167,7 +1247,7 @@
             {
               "id": "loop.tail_l.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -1184,7 +1264,7 @@
               "id": "loop.tail_l.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -1247,10 +1327,10 @@
             {
               "id": "loop.tail_l.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 61.9047619047619,
-                "output_min": -61.9047619047619,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1259,6 +1339,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.tail_l.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -1352,8 +1448,8 @@
             {
               "id": "loop.smoke_l.outward",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
+                "input_max": 0.1,
+                "input_min": -0.1,
                 "output_max": -45.0,
                 "output_min": 45.0,
                 "type": "LINEAR_RANGE"
@@ -1400,8 +1496,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 65.0,
-              "min_effective": -65.0,
+              "max_effective": 75.0,
+              "min_effective": -75.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -1409,7 +1505,7 @@
             {
               "id": "loop.haze_r.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -1426,7 +1522,7 @@
               "id": "loop.haze_r.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -1441,7 +1537,7 @@
             {
               "id": "loop.haze_r.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -1458,7 +1554,7 @@
               "id": "loop.haze_r.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -1489,10 +1585,10 @@
             {
               "id": "loop.haze_r.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 65.0,
-                "output_min": -65.0,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 75.0,
+                "output_min": -75.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1501,6 +1597,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.haze_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -1543,8 +1655,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 61.9047619047619,
-              "min_effective": -61.9047619047619,
+              "max_effective": 71.4285714285714,
+              "min_effective": -71.4285714285714,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -1552,7 +1664,7 @@
             {
               "id": "loop.tail_r.corner_l_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 1.0,
@@ -1569,7 +1681,7 @@
               "id": "loop.tail_r.corner_l_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.15,
                 "type": "LINEAR_RANGE"
@@ -1584,7 +1696,7 @@
             {
               "id": "loop.tail_r.corner_a_r",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.1,
                 "input_min": 0.0,
                 "output_max": 1.2,
                 "output_min": 1.0,
@@ -1601,7 +1713,7 @@
               "id": "loop.tail_r.corner_a_l",
               "mapping": {
                 "input_max": 0.0,
-                "input_min": -0.2,
+                "input_min": -0.1,
                 "output_max": 1.0,
                 "output_min": 1.2,
                 "type": "LINEAR_RANGE"
@@ -1664,10 +1776,10 @@
             {
               "id": "loop.tail_r.bend",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
-                "output_max": 61.9047619047619,
-                "output_min": -61.9047619047619,
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": 71.4285714285714,
+                "output_min": -71.4285714285714,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1676,6 +1788,22 @@
                 "type": "RUNTIME_INPUT"
               },
               "target": "VISUAL_BEND_OFFSET_X"
+            },
+            {
+              "id": "loop.tail_r.swing",
+              "mapping": {
+                "input_max": 0.1,
+                "input_min": -0.1,
+                "output_max": -12.0,
+                "output_min": 12.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "turn_rate_normalized",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_ROTATION_DEGREES"
             }
           ],
           "parameters": {
@@ -1769,8 +1897,8 @@
             {
               "id": "loop.smoke_r.outward",
               "mapping": {
-                "input_max": 0.2,
-                "input_min": -0.2,
+                "input_max": 0.1,
+                "input_min": -0.1,
                 "output_max": -45.0,
                 "output_min": 45.0,
                 "type": "LINEAR_RANGE"
