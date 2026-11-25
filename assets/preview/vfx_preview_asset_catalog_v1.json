@@ -267,6 +267,18 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_pit_stop_ace_launch_line.png"
     },
+    "fx.rebound_rim_glow": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rebound_rim_glow.png"
+    },
+    "fx.rebound_grip_rail": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rebound_grip_rail.png"
+    },
+    "fx.rebound_contact_mist": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_rebound_contact_mist.png"
+    },
     "fx.underdog_revolt_flame_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_underdog_revolt_flame_streak.png"
