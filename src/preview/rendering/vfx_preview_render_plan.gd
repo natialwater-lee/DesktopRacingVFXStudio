@@ -61,3 +61,15 @@ func phase_layer_count() -> int:
 
 func runtime_modulation_program() -> RefCounted:
 	return _runtime_modulation_program
+
+
+var _link_target: Dictionary = {}
+
+
+func set_link_target(value: Dictionary) -> void:
+	_link_target = value.duplicate(true)
+
+
+## Empty when the preset does not link to another vehicle.
+func link_target() -> Dictionary:
+	return _link_target.duplicate(true)

@@ -57,7 +57,7 @@ func build(normalized_data: Dictionary) -> VfxResult:
 			var anchors: Array = layer.get(anchors_field, []) if vehicle_spaces.has(effective_space) else []
 			var transform: Dictionary = layer.get("transform", {}) if layer.get("transform", {}) is Dictionary else {}
 			var parameters: Dictionary = layer.get("parameters", {}) if layer.get("parameters", {}) is Dictionary else {}
-			layer_specs.append(VfxPreviewLayerSpecModel.new(
+			var layer_spec: RefCounted = VfxPreviewLayerSpecModel.new(
 				str(layer.get("id", "")),
 				str(layer.get("type", "")),
 				str(layer.get("importance", "")),
@@ -70,12 +70,17 @@ func build(normalized_data: Dictionary) -> VfxResult:
 				bool(layer.get("enabled", true)),
 				int(layer.get("sort_order", 0)),
 				index
-			))
+			)
+			if layer.has("link_point_t"):
+				layer_spec.set_link_point_t(float(layer["link_point_t"]))
+			layer_specs.append(layer_spec)
 		phase_plans.append(VfxPreviewPhasePlanModel.new(phase_name, phase.get("duration_seconds"), layer_specs))
 	var modulation_result: VfxResult = VfxRuntimeModulationProgramBuilderModel.new(_registry).build(normalized_data)
 	if not modulation_result.success:
 		return VfxResult.failure(modulation_result.issues)
 	var plan := VfxPreviewRenderPlanModel.new(str(normalized_data.get("preset_id", "")), lifecycle_mode, phase_plans, _next_revision, modulation_result.value)
+	if normalized_data.get("link_target") is Dictionary:
+		plan.set_link_target(normalized_data["link_target"])
 	_next_revision += 1
 	return VfxResult.ok(plan)
 

@@ -17,6 +17,16 @@ var _authored_offset := Vector2.ZERO
 var _authored_scale := Vector2.ONE
 var _authored_rotation_degrees := 0.0
 var _modulation_pivot_local := Vector2.ZERO
+var _link_point_t := -1.0
+
+
+func set_link_point_t(value: float) -> void:
+	_link_point_t = value
+
+
+## -1 when the layer does not spawn on the link.
+func link_point_t() -> float:
+	return _link_point_t
 
 
 func _init(

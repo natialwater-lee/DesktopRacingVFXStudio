@@ -1,6 +1,6 @@
 # 체인 바인드(Chain Bind) 경기용 VFX 연출 제안 — ①단계
 
-- 작성: 2026-11-26 (이펙트툴 세션). 상태: **① 합의 완료 (지훈 11-26, "제안대로 확정")**. GPT 아트 도착 후 ②로 이어간다.
+- 작성: 2026-11-26 (이펙트툴 세션). 상태: **② Studio 시안 승인·package 생성 완료 (지훈 11-26, "이대로 진행")** — ③ 게임 연결 대기. ② 결과는 9절.
 - 재능 id: `chain_bind` (야센 전용, NPC도 사용). 게임 기능은 **미개발**(휠투휠 다음 차례).
 - 예정 preset/package ID:
   - `talent.chain_bind` — 묶은 차(재능 보유 차)에 붙는다. 사슬 + 내 쪽 고리.
@@ -204,3 +204,54 @@
   - 체인 바인드 게임 기능 세션(휠투휠 다음)이 6절 입력과 측정을 만든다.
   - GPT 아트가 오면 ②: LINK_STRIP 스키마·preview·export 구현, 시안, package 3개.
   - ③ 게임 연결은 기능이 master에 병합된 뒤. LINK_STRIP 렌더러·링크 대상 공급을 함께 만든다.
+
+## 9. ② Studio 시안 — 최종 (지훈 승인 2026-11-26, v1 그대로)
+
+GPT 아트 5장 검수 통과: 크기 모두 요청대로, 사슬 타일 위아래 이음 차이 0.000. 달아오른 면적은 사슬 29 %, 쇠고리 21 %, 족쇄 15 %다.
+
+- 아트 처리 `tools/chain_bind_art_prep.gd`:
+  - 사슬·열기 띠는 90° 돌려 길이 방향을 +X로 맞춘다(Line2D 규칙).
+  - 사슬·족쇄·쇠고리는 같은 픽셀에서 식은 강철(ALPHA)과 달아오름만(ADDITIVE)으로 나눈다.
+  - 결과 `assets/vfx/talent_chain_bind_*.png` 8장.
+- 새 기능: 계약 `docs/contracts/link_strip_v1.md`(LINK_STRIP, `link_target`, `link_point_t`, 입력 2개, v3 + `LINK_TARGET_V1`).
+- 생성기 `tools/chain_bind_preset_generator.gd` → `presets/examples/talent.chain_bind{,_shackle,_break}.vfx.json`. 테스트 `tests/preview/test_chain_bind_authoring.gd`.
+- package: `exports/packages/talent.chain_bind`(v3), `talent.chain_bind_shackle`(v2), `talent.chain_bind_break`(v3).
+- 수정 이력: 첫 캡처에서 쇠고리가 차에 비해 커서 0.8→0.6배. 실제 크기에서 사슬이 가늘고 달아오름이 약해 폭 140→190, 열기 띠 300→420, heat 0.75→0.85로 올린 뒤 승인.
+
+| 값 (source px, 화면 1px ≈ 12.4) | |
+|---|---|
+| 사슬 시작 | FRONT + (0, −5) 쇠고리 고리 중심 |
+| 사슬 끝 | 대상 REAR_CENTER + (0, 40) 족쇄 고리 눈 |
+| 사슬 폭 | 190(사슬 자체 약 9.5px). 열기 띠 420, 그림자 230·이동 (22, 34) |
+| 처짐 | 느슨할 때 55(약 4.4px), 비율 0.7→1.0에서 0으로 |
+| 쇠고리 / 족쇄 배율 | 0.6 / 0.64 |
+| START | 0.9초, 사슬 뻗음 0.12초, 0.3초부터 식으며 처짐이 생김 |
+| END | 0.4초, 사슬 감겨 들어옴 0.35초 |
+| 끊김 | 0.7초, 가운데 틈 0.3초 + 처짐 90, t=0.5 섬광·스파크 16, t=1 스파크 6 |
+
+| 거리 반응 (`link_distance_ratio`) | |
+|---|---|
+| 0.7 → 1.0 (느슨→팽팽) | heat·열기 띠 밝기 ×0.3~0.45 → ×1, 처짐 55 → 0 |
+| 1.0 → 1.5 (버팀) | heat ×1.3, 열기 띠 ×1.35, 사슬 폭 ×1.12 |
+| `link_lock_pulse` | heat ×1.35, 열기 띠 ×1.5, 폭 ×1.15, 쇠고리·족쇄 고리 눈 섬광 |
+
+부하(LOOP): 묶은 차는 LINK 4 + 스프라이트 3, 대상 차는 스프라이트 3이다. 8쌍이면 그리기 80개로 스펙 예상 56보다 많다(쇠고리 달아오름·잠김 섬광 추가). 줄여야 하면 그림자 사슬 → 쇠고리 달아오름 순으로 뺀다.
+
+테스트(1회, 2026-11-26):
+- preview 456/0, contract 204/0, export_writer 8/0, performance 63/0
+- editor 401/4(기존 기준 실패 4개)
+- export_contract 71/1(기존 Zero Zone golden 실패)
+- export 83/2 — 바꾸기 전 커밋 `ee9af0a`에서도 같은 2개로 실패한다(기존 실패).
+
+### ③ 게임 연결 때 할 일·확인
+- Game에 LINK_TARGET_V1 지원을 만든다.
+  - `vfx_link_strip_geometry.gd`를 그대로 옮긴 LINK_STRIP 렌더러(Line2D)를 둔다.
+  - 링크 대상 끝점을 매 틱 호스트 source px로 환산한다.
+  - `link_point_t`, 입력 2개 슬롯을 만들고 `link_lock_pulse`는 0.4초 감쇠·최소 1초 간격으로 다룬다.
+  - loader는 v3에서 이 capability를 수용한다.
+- 체인 바인드 기능 세션이 만든 입력(6절)을 연결한다. 족쇄는 충격파 impact 경로, 끊김은 `chain_broken` 때 본 package와 족쇄를 강제 정리한 뒤 break를 시작한다.
+- 실제 경기 확인:
+  - 사슬이 다른 차·자기 차와 겹칠 때 OVER/UNDER 순서(대상 차보다 위에 그려지는지)
+  - 짧은 사슬의 실제 길이 분포(기능 세션 측정)
+  - 8쌍 부하
+- Studio preview는 한 번에 preset 하나만 재생한다. 사슬 + 족쇄 동시 모습은 Game 캡처로 확인한다.

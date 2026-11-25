@@ -145,6 +145,10 @@ its numeric transform or alpha in place. A listed Runtime Input alone creates
 no implicit visual behavior, and Schema v1 still does not infer easing or
 arbitrary per-frame overrides.
 
+### LINK_STRIP
+
+`LINK_STRIP` (additive, 2026-11-26) draws a strip from its single Anchor (plus transform offset) on the host vehicle to the linked vehicle's point declared by the top-level `link_target` (`source_anchor`, `target_anchor`, optional `target_offset`). Parameters: `texture_asset_ref`, `texture_mode` (`TILE` | `STRETCH`; texture U runs along the strip), `width_source_px`, `opacity`, `color_rgba`, `start_inset_source_px`, `end_inset_source_px`, `sag_source_px`, `shift_source_px`, `segments`, and phase-local `reveal_seconds`, `retract_seconds`, `gap_seconds`, `gap_sag_source_px`. VEHICLE_LOCAL only. Modulation targets: `VISUAL_OPACITY_MULTIPLIER`, `TRANSFORM_SCALE_X` (width) and `LINK_SAG_OFFSET`. A `VEHICLE_LOCAL` PARTICLE may set top-level `link_point_t` (0..1) to spawn on the link. Any link use requires `link_target`, and an unused `link_target` is rejected. Full contract and geometry: [link_strip_v1.md](contracts/link_strip_v1.md).
+
 ### SHIELD
 
 `SHIELD` parameters are `radius`, `arc_degrees`, `thickness`, `opacity`, `scroll_speed`, optional `texture_asset_ref`, and `color_rgba`. `arc_degrees` is in the inclusive range 1 through 360; transform rotation places a panel around the vehicle.
@@ -169,6 +173,8 @@ The Schema extension `x_vfx_runtime_inputs` contains the only accepted names and
 | `surface_type` | logical identifier string, default `surface.default` |
 | `boost_active` | number, 0 through 1, default 0; the vehicle's normal booster state, smoothed by the Game (rise about 0.08 s, fall about 0.3 s) |
 | `defense_impact` | number, 0 through 1, default 0; set to 1 when the vehicle makes a valid defense, then decays linearly to 0 over 0.5 s (Game-owned) |
+| `link_distance_ratio` | number, 0 through 2, default 0; distance to the linked vehicle divided by the talent's bind distance (Chain Bind D), unsmoothed |
+| `link_lock_pulse` | number, 0 through 1, default 0; set to 1 when speed matching to the linked vehicle starts (at most once per second), then decays linearly to 0 over 0.4 s (Game-owned) |
 
 A Preset lists only inputs it requires. Phase 0 initially declared only the
 input names and value contracts. The additive Runtime Modulation v1 contract
