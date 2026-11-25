@@ -1,0 +1,87 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 43305,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.drift_master_drift_smoke",
+      "package_path": "assets/talent_drift_master_drift_smoke.png",
+      "sha256": "887dd176e2c3890307bb1dccb2bafd7998f0e1a70baedd802c9a483a11e3d070"
+    },
+    {
+      "byte_size": 39437,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.drift_master_neon_tail",
+      "package_path": "assets/talent_drift_master_neon_tail.png",
+      "sha256": "a830e282650ec7c97cde2dfa95f76bf0f1b64abe2d163ad6104c00dd85400fae"
+    },
+    {
+      "byte_size": 66458,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.drift_master_tail_haze",
+      "package_path": "assets/talent_drift_master_tail_haze.png",
+      "sha256": "7fb431f8a4df9b98cb430e24643664abe63c5db658991dae993e3f9a5130def6"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 43305,
+      "path": "assets/talent_drift_master_drift_smoke.png",
+      "sha256": "887dd176e2c3890307bb1dccb2bafd7998f0e1a70baedd802c9a483a11e3d070"
+    },
+    {
+      "byte_size": 39437,
+      "path": "assets/talent_drift_master_neon_tail.png",
+      "sha256": "a830e282650ec7c97cde2dfa95f76bf0f1b64abe2d163ad6104c00dd85400fae"
+    },
+    {
+      "byte_size": 66458,
+      "path": "assets/talent_drift_master_tail_haze.png",
+      "sha256": "7fb431f8a4df9b98cb430e24643664abe63c5db658991dae993e3f9a5130def6"
+    },
+    {
+      "byte_size": 62129,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "593388d50a7a64ff30b8efaeee02f7a76ae0222b9c933154824b4d09164ea5fd"
+    },
+    {
+      "byte_size": 59925,
+      "path": "source/talent.drift_master.vfx.json",
+      "sha256": "aefaec9444b97c5cedf1b97ec67406c743a4e03e93b84a8c2142cc79dba7b430"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.drift_master",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Drift Master",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.drift_master",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 17,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "turn_rate_normalized",
+      "drift_active"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 62129,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "593388d50a7a64ff30b8efaeee02f7a76ae0222b9c933154824b4d09164ea5fd",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 59925,
+    "path": "source/talent.drift_master.vfx.json",
+    "sha256": "aefaec9444b97c5cedf1b97ec67406c743a4e03e93b84a8c2142cc79dba7b430"
+  }
+}
