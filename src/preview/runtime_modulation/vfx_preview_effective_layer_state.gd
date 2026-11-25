@@ -12,6 +12,7 @@ var _rotation_slot := -1
 var _scale_x_slot := -1
 var _scale_y_slot := -1
 var _opacity_slot := -1
+var _link_sag_slot := -1
 var _bindings: Array = []
 var _clamps: Array = []
 
@@ -39,6 +40,7 @@ func reset_from(layer_spec: RefCounted) -> void:
 	_set_base(_scale_x_slot, scale.x)
 	_set_base(_scale_y_slot, scale.y)
 	_set_base(_opacity_slot, 1.0)
+	_set_base(_link_sag_slot, 0.0)
 	_effective_values = _base_values.duplicate()
 
 
@@ -87,6 +89,11 @@ func visual_opacity_multiplier() -> float:
 	return effective_value(_opacity_slot)
 
 
+## Source px added to a LINK_STRIP's authored sag (0 without a binding).
+func link_sag_offset() -> float:
+	return effective_value(_link_sag_slot)
+
+
 func modulation_pivot_local() -> Vector2:
 	return _pivot_local
 
@@ -113,6 +120,7 @@ func _configure_target_slots(program: RefCounted) -> void:
 			"TRANSFORM_SCALE_X": _scale_x_slot = slot
 			"TRANSFORM_SCALE_Y": _scale_y_slot = slot
 			"VISUAL_OPACITY_MULTIPLIER": _opacity_slot = slot
+			"LINK_SAG_OFFSET": _link_sag_slot = slot
 
 
 func _set_base(slot: int, value: float) -> void:

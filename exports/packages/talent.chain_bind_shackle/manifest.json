@@ -1,0 +1,99 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 73738,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_shackle",
+      "package_path": "assets/talent_chain_bind_shackle.png",
+      "sha256": "1b25061e3dc702ecec8f165476679aa3b035a0233b06ccf0343f000fafb54e41"
+    },
+    {
+      "byte_size": 44959,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_shackle_heat",
+      "package_path": "assets/talent_chain_bind_shackle_heat.png",
+      "sha256": "ead2539c1da5a3cc3ef22fb1459c00974ccd44679333edf8353ead54d5f5f056"
+    },
+    {
+      "byte_size": 58194,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_snap_flash",
+      "package_path": "assets/talent_chain_bind_snap_flash.png",
+      "sha256": "3ef2307d327910bab61631b70d7912979f173415a351f065184f6eaefe017e76"
+    },
+    {
+      "byte_size": 1082,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.furious_overtake_spark",
+      "package_path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 73738,
+      "path": "assets/talent_chain_bind_shackle.png",
+      "sha256": "1b25061e3dc702ecec8f165476679aa3b035a0233b06ccf0343f000fafb54e41"
+    },
+    {
+      "byte_size": 44959,
+      "path": "assets/talent_chain_bind_shackle_heat.png",
+      "sha256": "ead2539c1da5a3cc3ef22fb1459c00974ccd44679333edf8353ead54d5f5f056"
+    },
+    {
+      "byte_size": 58194,
+      "path": "assets/talent_chain_bind_snap_flash.png",
+      "sha256": "3ef2307d327910bab61631b70d7912979f173415a351f065184f6eaefe017e76"
+    },
+    {
+      "byte_size": 1082,
+      "path": "assets/talent_furious_overtake_spark.png",
+      "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
+    },
+    {
+      "byte_size": 19456,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "12563220653108047cf360bb9db209aaa76a31cc82c7b733064196b9c2e92e1b"
+    },
+    {
+      "byte_size": 17923,
+      "path": "source/talent.chain_bind_shackle.vfx.json",
+      "sha256": "32280b1e80a791e5dddf854dacfd18e1376fc89bb675d242a41252ac3e8e4a95"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.chain_bind_shackle",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Chain Bind Shackle",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.chain_bind_shackle",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 9,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "REAR_CENTER"
+    ],
+    "runtime_inputs": [
+      "link_distance_ratio",
+      "link_lock_pulse"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 19456,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "12563220653108047cf360bb9db209aaa76a31cc82c7b733064196b9c2e92e1b",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 17923,
+    "path": "source/talent.chain_bind_shackle.vfx.json",
+    "sha256": "32280b1e80a791e5dddf854dacfd18e1376fc89bb675d242a41252ac3e8e4a95"
+  }
+}

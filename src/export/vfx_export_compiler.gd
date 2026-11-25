@@ -5,6 +5,7 @@ const VfxPresetCodecModel := preload("res://src/model/vfx_preset_codec.gd")
 const VfxExportHasherModel := preload("res://src/export/vfx_export_hasher.gd")
 const VfxExportRequirementDeriverModel := preload("res://src/export/vfx_export_requirement_deriver.gd")
 const VfxExportPackagePlanModel := preload("res://src/export/vfx_export_package_plan.gd")
+const LINK_CAPABILITY := "LINK_TARGET_V1"
 
 var _registry: RefCounted
 var _asset_registry: RefCounted
@@ -56,18 +57,25 @@ func compile(document: VfxPresetDocument) -> VfxResult:
 			if layer.get("type") == "CURVE_FLOW":
 				var capability := "CURVE_FLOW_STATIC_RIBBON_F2" if layer.parameters.profile_version == 2 else "CURVE_FLOW_F1"
 				if not capability in curve_capabilities: curve_capabilities.append(capability)
+	# Linked VFX always uses the v2 body (LINK_STRIP needs modulation slots) behind the v3 capability gate.
+	var has_link := preload("res://src/model/vfx_link_contract.gd").uses_link(data)
+	if has_link:
+		is_modulated = true
+		curve_capabilities.append(LINK_CAPABILITY)
 	var runtime_definition_version := 2 if is_modulated else 1
 	var runtime_path := "runtime/vfx_runtime_definition_v2.json" if is_modulated else "runtime/vfx_runtime_definition_v1.json"
-	if has_curve_flow:
+	if has_curve_flow or has_link:
 		runtime_definition_version = 3
 		runtime_path = "runtime/vfx_runtime_definition_v3.json"
 	var runtime_data: VfxResult = _compile_runtime_definition_v2(data, requirements.value, coordinate_contract) if is_modulated else _compile_runtime_definition(data, requirements.value, coordinate_contract)
 	if not runtime_data.success:
 		return runtime_data
-	if has_curve_flow:
+	if has_curve_flow or has_link:
 		runtime_data.value["runtime_definition_version"] = 3
 		curve_capabilities.sort()
 		runtime_data.value["required_capabilities"] = curve_capabilities
+	if has_link:
+		runtime_data.value["link_target"] = (data["link_target"] as Dictionary).duplicate(true)
 	var runtime_text: VfxResult = _encode_json(runtime_data.value)
 	if not runtime_text.success:
 		return runtime_text
@@ -234,6 +242,8 @@ func _compile_runtime_definition_v2(data: Dictionary, requirements: Dictionary, 
 			}
 			if layer.get("visual_bend") is Dictionary:
 				compiled_layer["visual_bend"] = (layer["visual_bend"] as Dictionary).duplicate(true)
+			if layer.has("link_point_t"):
+				compiled_layer["link_point_t"] = float(layer["link_point_t"])
 			layers.append(compiled_layer)
 		var compiled_phase := {"name": phase_name, "layers": layers}
 		if phase.has("duration_seconds"):

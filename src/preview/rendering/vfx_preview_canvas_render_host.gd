@@ -25,11 +25,14 @@ func set_packets(packet_values: Array) -> void:
 	var trail_packets: Array[Dictionary] = []
 	var textured_shield_packets: Array[Dictionary] = []
 	var curve_packets: Array[Dictionary] = []
+	var link_packets: Array[Dictionary] = []
 	for packet_value in packet_values:
 		if not packet_value is Dictionary:
 			continue
 		var packet: Dictionary = packet_value.duplicate(true)
-		if packet.get("type") == "CURVE_FLOW":
+		if packet.get("type") == "LINK_STRIP":
+			link_packets.append(packet)
+		elif packet.get("type") == "CURVE_FLOW":
 			curve_packets.append(packet)
 		elif packet.get("type") == "TRAIL":
 			trail_packets.append(packet)
@@ -40,7 +43,39 @@ func set_packets(packet_values: Array) -> void:
 	_sync_trail_adapters(trail_packets)
 	_sync_textured_shield_adapters(textured_shield_packets)
 	_sync_curve_adapters(curve_packets)
+	_sync_link_adapters(link_packets)
 	queue_redraw()
+
+
+var _link_adapters: Dictionary = {}
+
+
+## LINK_STRIP: texture U runs along the strip, V across its width (TILE repeats at width x aspect).
+func _sync_link_adapters(packets: Array[Dictionary]) -> void:
+	var used := {}
+	for packet in packets:
+		var key := "%s:%d" % [str(packet.get("layer_id", "link")), int(packet.get("segment_index", 0))]
+		used[key] = true
+		var line := _link_adapters.get(key) as Line2D
+		if line == null:
+			line = Line2D.new()
+			line.name = "LinkAdapter_%s" % key.replace(".", "_").replace(":", "_")
+			line.use_parent_material = true
+			line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+			line.joint_mode = Line2D.LINE_JOINT_ROUND
+			add_child(line)
+			_link_adapters[key] = line
+		var asset: Dictionary = packet.get("asset", {}) if packet.get("asset", {}) is Dictionary else {}
+		line.texture = asset.get("texture") as Texture2D
+		line.texture_mode = Line2D.LINE_TEXTURE_STRETCH if packet.get("texture_mode") == "STRETCH" else Line2D.LINE_TEXTURE_TILE
+		line.points = packet.get("points", PackedVector2Array())
+		line.width = maxf(float(packet.get("width", 1.0)), 0.01)
+		line.default_color = _packet_color(packet)
+		line.visible = line.points.size() >= 2
+	for key in _link_adapters.keys():
+		if not used.has(key):
+			(_link_adapters[key] as Line2D).queue_free()
+			_link_adapters.erase(key)
 
 
 func clear_packets() -> void:

@@ -279,6 +279,38 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_rebound_contact_mist.png"
     },
+    "fx.chain_bind_chain_links": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_chain_links.png"
+    },
+    "fx.chain_bind_chain_links_heat": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_chain_links_heat.png"
+    },
+    "fx.chain_bind_heat_glow": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_heat_glow.png"
+    },
+    "fx.chain_bind_shackle": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_shackle.png"
+    },
+    "fx.chain_bind_shackle_heat": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_shackle_heat.png"
+    },
+    "fx.chain_bind_clamp": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_clamp.png"
+    },
+    "fx.chain_bind_clamp_heat": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_clamp_heat.png"
+    },
+    "fx.chain_bind_snap_flash": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_chain_bind_snap_flash.png"
+    },
     "fx.drift_master_neon_tail": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_drift_master_neon_tail.png"

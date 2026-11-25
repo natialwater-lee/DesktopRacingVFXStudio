@@ -30,9 +30,23 @@ func equipment_texture() -> Texture2D:
 	return _equipment_texture
 
 
+var _link_target_center: Variant = null
+const LINK_TARGET_TINT := Color(0.62, 0.72, 1.0, 1.0)
+
+
+## Second car (link target) drawn with the same art; null hides it. Source px from the host centre.
+func set_link_target_car(center: Variant) -> void:
+	if center == _link_target_center:
+		return
+	_link_target_center = center
+	queue_redraw()
+
+
 func _draw() -> void:
 	if not _equipment_over_vehicle:
 		_draw_equipment()
+	if _texture != null and _source_size != Vector2.ZERO and _link_target_center is Vector2:
+		draw_texture_rect(_texture, Rect2(_link_target_center - _source_size * 0.5, _source_size), false, LINK_TARGET_TINT)
 	if _texture != null and _source_size != Vector2.ZERO:
 		draw_texture_rect(_texture, Rect2(-_source_size * 0.5, _source_size), false)
 	if _equipment_over_vehicle:

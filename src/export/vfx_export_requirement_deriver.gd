@@ -48,6 +48,10 @@ func derive(document: VfxPresetDocument) -> VfxResult:
 				for anchor in layer.get(str(anchor_rule.get("anchors_field", "")), []):
 					enabled_anchor_set[str(anchor)] = true
 			_collect_layer_assets(layer, schema, parameters_rule, logical_assets)
+	# A link also needs its source anchor on this vehicle and its target anchor on the linked vehicle.
+	if data.get("link_target") is Dictionary:
+		enabled_anchor_set[str(data["link_target"].get("source_anchor", ""))] = true
+		enabled_anchor_set[str(data["link_target"].get("target_anchor", ""))] = true
 	var anchors: Array[String] = []
 	for anchor in anchor_order:
 		if enabled_anchor_set.has(str(anchor)):

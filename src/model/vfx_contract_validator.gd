@@ -26,6 +26,7 @@ func validate(value: Variant) -> VfxResult:
 		_apply_rule(value, rule, semantic_issues)
 	if semantic_issues.is_empty():
 		semantic_issues.append_array(preload("res://src/preview/curve_flow/vfx_curve_flow_contract.gd").validate_preset(value))
+		semantic_issues.append_array(preload("res://src/model/vfx_link_contract.gd").validate_preset(value))
 	return VfxResult.with_issues(value, semantic_issues)
 
 

@@ -1,0 +1,124 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 22534,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_chain_links",
+      "package_path": "assets/talent_chain_bind_chain_links.png",
+      "sha256": "e7ae3e7f2a87780d8d858c914a61ad8f1f140ec802ad7064a23937ee6f1ddcdf"
+    },
+    {
+      "byte_size": 14198,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_chain_links_heat",
+      "package_path": "assets/talent_chain_bind_chain_links_heat.png",
+      "sha256": "26b4a00153d2d93b75575e6574d819c914ae0c8000effd82185c4e9d7a60ffd7"
+    },
+    {
+      "byte_size": 56123,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_clamp",
+      "package_path": "assets/talent_chain_bind_clamp.png",
+      "sha256": "a1fd3537e82df5d76cd4b482ac8f66f26659055cdd5f1709a04155f97a76bb2c"
+    },
+    {
+      "byte_size": 19039,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_clamp_heat",
+      "package_path": "assets/talent_chain_bind_clamp_heat.png",
+      "sha256": "1fc8fb5f14a170f8dcea44da2cefec610203cd4039e4b42cd97675eb44b5d2d9"
+    },
+    {
+      "byte_size": 63315,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_heat_glow",
+      "package_path": "assets/talent_chain_bind_heat_glow.png",
+      "sha256": "f065245792cd7ba24257ecc60ea1e89099cafa98b6989bd4445baf187856da84"
+    },
+    {
+      "byte_size": 58194,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.chain_bind_snap_flash",
+      "package_path": "assets/talent_chain_bind_snap_flash.png",
+      "sha256": "3ef2307d327910bab61631b70d7912979f173415a351f065184f6eaefe017e76"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 22534,
+      "path": "assets/talent_chain_bind_chain_links.png",
+      "sha256": "e7ae3e7f2a87780d8d858c914a61ad8f1f140ec802ad7064a23937ee6f1ddcdf"
+    },
+    {
+      "byte_size": 14198,
+      "path": "assets/talent_chain_bind_chain_links_heat.png",
+      "sha256": "26b4a00153d2d93b75575e6574d819c914ae0c8000effd82185c4e9d7a60ffd7"
+    },
+    {
+      "byte_size": 56123,
+      "path": "assets/talent_chain_bind_clamp.png",
+      "sha256": "a1fd3537e82df5d76cd4b482ac8f66f26659055cdd5f1709a04155f97a76bb2c"
+    },
+    {
+      "byte_size": 19039,
+      "path": "assets/talent_chain_bind_clamp_heat.png",
+      "sha256": "1fc8fb5f14a170f8dcea44da2cefec610203cd4039e4b42cd97675eb44b5d2d9"
+    },
+    {
+      "byte_size": 63315,
+      "path": "assets/talent_chain_bind_heat_glow.png",
+      "sha256": "f065245792cd7ba24257ecc60ea1e89099cafa98b6989bd4445baf187856da84"
+    },
+    {
+      "byte_size": 58194,
+      "path": "assets/talent_chain_bind_snap_flash.png",
+      "sha256": "3ef2307d327910bab61631b70d7912979f173415a351f065184f6eaefe017e76"
+    },
+    {
+      "byte_size": 42022,
+      "path": "runtime/vfx_runtime_definition_v3.json",
+      "sha256": "5543a6bd2729469d61407d1cb054468b4fbc879e2f70b9ffae4da76386aad2db"
+    },
+    {
+      "byte_size": 34674,
+      "path": "source/talent.chain_bind.vfx.json",
+      "sha256": "80a3b6fe837cf3dd15f191b46f5f9e5df247962f7a98ccb3f8afd7062a909b20"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.chain_bind",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Chain Bind",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.chain_bind",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 18,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "FRONT",
+      "REAR_CENTER"
+    ],
+    "runtime_inputs": [
+      "link_distance_ratio",
+      "link_lock_pulse"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 42022,
+    "path": "runtime/vfx_runtime_definition_v3.json",
+    "sha256": "5543a6bd2729469d61407d1cb054468b4fbc879e2f70b9ffae4da76386aad2db",
+    "version": 3
+  },
+  "source": {
+    "byte_size": 34674,
+    "path": "source/talent.chain_bind.vfx.json",
+    "sha256": "80a3b6fe837cf3dd15f191b46f5f9e5df247962f7a98ccb3f8afd7062a909b20"
+  }
+}

@@ -19,6 +19,7 @@ func _init(registrations: Variant = null) -> void:
 		"RING": RingRendererModel,
 		"GLOW": GlowRendererModel,
 		"TEXTURED_SPRITE": TexturedSpriteRendererModel,
+		"LINK_STRIP": preload("res://src/preview/rendering/vfx_link_strip_layer_renderer.gd"),
 		"SHIELD": ShieldRendererModel
 	}
 

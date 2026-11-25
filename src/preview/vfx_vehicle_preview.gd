@@ -63,6 +63,7 @@ func _ready() -> void:
 	_configure_render_hosts()
 	_ensure_authoring_lod_ui()
 	_ensure_equipment_ui()
+	_ensure_link_ui()
 	_update_preview_status_label()
 	_rebuild_render_runtime()
 
@@ -234,6 +235,7 @@ func _process(delta: float) -> void:
 		_apply_motion_at_time(float(_shared_state.motion_time()) + delta)
 	_advance_boost_ramp(delta)
 	_advance_defense_impact(delta)
+	_advance_link(delta)
 	_advance_drift_ramp(delta)
 	_update_equipment_visual(delta)
 	_layout_screen_ui_hosts()
@@ -252,11 +254,157 @@ func _apply_motion_at_time(next_time: float) -> void:
 func _frame_context() -> Dictionary:
 	var scale_result: VfxResult = _shared_state.effective_game_scale()
 	var scale: Vector2 = scale_result.value if scale_result.success else Vector2.ONE
-	return {
+	var context := {
 		"vehicle_translation_source": _shared_state.vehicle_translation_source(),
 		"vehicle_rotation_degrees": _shared_state.vehicle_rotation_degrees(),
 		"effective_game_scale": scale
 	}
+	var link_point: Variant = _link_target_source()
+	if link_point is Vector2:
+		context["link_target_source"] = link_point
+	return context
+
+
+# --- Linked VFX preview (LINK_STRIP / link_point_t). The Game supplies the real target car each frame.
+# 30 world px bind distance (Chain Bind D) / 0.08075 world px per source px.
+const LINK_BIND_DISTANCE_SOURCE_PX := 372.0
+const LINK_LOCK_DECAY_SECONDS := 0.4
+const LINK_LOCK_MIN_INTERVAL_SECONDS := 1.0
+var _link_target_center := Vector2(300.0, -372.0)
+var _link_auto := true
+var _link_time := 0.0
+var _link_lock_decaying := false
+var _link_lock_cooldown := 0.0
+var _link_previous_ratio := 0.0
+
+
+func _active_link_target() -> Dictionary:
+	return _active_render_plan.link_target() if _active_render_plan != null and _active_render_plan.has_method("link_target") else {}
+
+
+## Target car anchor point in host source px, or null when the preset has no link.
+func _link_target_source() -> Variant:
+	var link: Dictionary = _active_link_target()
+	if link.is_empty() or _shared_state == null:
+		return null
+	var anchors: Dictionary = _shared_state.profile_data().get("anchors", {}) if _shared_state.profile_data().get("anchors", {}) is Dictionary else {}
+	var anchor: Variant = anchors.get(str(link.get("target_anchor", "CENTER")), [0.0, 0.0])
+	var offset: Variant = link.get("target_offset", [0.0, 0.0])
+	return _link_target_center + Vector2(float(anchor[0]), float(anchor[1])) + Vector2(float(offset[0]), float(offset[1]))
+
+
+func set_link_target_center(center: Vector2) -> void:
+	_link_target_center = center
+	_apply_link_state(0.0)
+
+
+func link_target_center() -> Vector2:
+	return _link_target_center
+
+
+func set_link_auto(enabled: bool) -> void:
+	_link_auto = enabled
+
+
+## Mirrors the Game: link_lock_pulse jumps to 1 when speed matching starts, then decays linearly over 0.4 s.
+func trigger_link_lock() -> void:
+	if set_runtime_input_value("link_lock_pulse", 1.0):
+		_link_lock_decaying = true
+		_link_lock_cooldown = LINK_LOCK_MIN_INTERVAL_SECONDS
+
+
+func _advance_link(delta: float) -> void:
+	if _active_link_target().is_empty():
+		_sync_link_target_car()
+		return
+	if _link_auto:
+		_link_time += delta
+		# Gap breathes 0.7D..1.45D (corner/slip stretch) while the lateral offset drifts by about a lane.
+		_link_target_center = Vector2(300.0 + 70.0 * sin(_link_time * 0.37), -LINK_BIND_DISTANCE_SOURCE_PX * (1.08 + 0.38 * sin(_link_time * 0.55)))
+	_apply_link_state(delta)
+
+
+func _apply_link_state(delta: float) -> void:
+	_sync_link_target_car()
+	if _active_link_target().is_empty():
+		return
+	var ratio := clampf(maxf(-_link_target_center.y, 0.0) / LINK_BIND_DISTANCE_SOURCE_PX, 0.0, 2.0)
+	set_runtime_input_value("link_distance_ratio", ratio)
+	_link_lock_cooldown = maxf(_link_lock_cooldown - delta, 0.0)
+	if _link_auto and _link_previous_ratio < 1.0 and ratio >= 1.0 and _link_lock_cooldown <= 0.0:
+		trigger_link_lock()
+	_link_previous_ratio = ratio
+	if _link_lock_decaying and _runtime_input_values_by_name.has("link_lock_pulse"):
+		var next := maxf(float(_runtime_input_values_by_name["link_lock_pulse"]) - delta / LINK_LOCK_DECAY_SECONDS, 0.0)
+		set_runtime_input_value("link_lock_pulse", next)
+		_link_lock_decaying = next > 0.0
+	_sync_link_controls()
+
+
+func _sync_link_target_car() -> void:
+	var center: Variant = _link_target_center if not _active_link_target().is_empty() else null
+	for canvas in [_edit_canvas(), _game_canvas()]:
+		if canvas != null and canvas.has_method("set_link_target_car"):
+			canvas.set_link_target_car(center)
+
+
+func _ensure_link_ui() -> void:
+	var controls := get_node_or_null("PreviewControls") as VBoxContainer
+	if controls == null or controls.get_node_or_null("LinkRow") != null:
+		return
+	var row := HBoxContainer.new()
+	row.name = "LinkRow"
+	controls.add_child(row)
+	var title := Label.new()
+	title.text = "LINK TARGET"
+	row.add_child(title)
+	for spec in [["LinkForwardSlider", "Fwd", 0.0, 900.0], ["LinkSideSlider", "Side", -600.0, 600.0]]:
+		var label := Label.new()
+		label.text = str(spec[1])
+		row.add_child(label)
+		var slider := HSlider.new()
+		slider.name = str(spec[0])
+		slider.min_value = float(spec[2])
+		slider.max_value = float(spec[3])
+		slider.custom_minimum_size = Vector2(110.0, 0.0)
+		slider.value_changed.connect(_on_link_slider_changed)
+		row.add_child(slider)
+	var auto := CheckBox.new()
+	auto.name = "LinkAuto"
+	auto.text = "Auto"
+	auto.button_pressed = _link_auto
+	auto.toggled.connect(func(enabled: bool) -> void: set_link_auto(enabled))
+	row.add_child(auto)
+	var lock := Button.new()
+	lock.name = "LinkLock"
+	lock.text = "Lock"
+	lock.pressed.connect(trigger_link_lock)
+	row.add_child(lock)
+	var ratio := Label.new()
+	ratio.name = "LinkRatio"
+	row.add_child(ratio)
+
+
+func _on_link_slider_changed(_value: float) -> void:
+	var forward := get_node_or_null("PreviewControls/LinkRow/LinkForwardSlider") as HSlider
+	var side := get_node_or_null("PreviewControls/LinkRow/LinkSideSlider") as HSlider
+	if forward == null or side == null:
+		return
+	_link_auto = false
+	var auto := get_node_or_null("PreviewControls/LinkRow/LinkAuto") as CheckBox
+	if auto != null:
+		auto.set_pressed_no_signal(false)
+	set_link_target_center(Vector2(side.value, -forward.value))
+
+
+func _sync_link_controls() -> void:
+	var row := get_node_or_null("PreviewControls/LinkRow") as HBoxContainer
+	if row == null:
+		return
+	row.visible = not _active_link_target().is_empty()
+	(row.get_node("LinkForwardSlider") as HSlider).set_value_no_signal(-_link_target_center.y)
+	(row.get_node("LinkSideSlider") as HSlider).set_value_no_signal(_link_target_center.x)
+	(row.get_node("LinkRatio") as Label).text = "ratio %.2f  lock %.2f" % [float(_runtime_input_values_by_name.get("link_distance_ratio", 0.0)), float(_runtime_input_values_by_name.get("link_lock_pulse", 0.0))]
 
 
 func _configure_render_hosts() -> void:
@@ -329,6 +477,7 @@ func _rebuild_render_runtime() -> void:
 	_update_preview_status_label()
 	_present_render_packets()
 	_update_runtime_input_controls()
+	_apply_link_state(0.0)
 
 
 func _present_render_packets() -> void:

@@ -93,7 +93,7 @@ func _accumulate_instance(values: Dictionary, instance: RefCounted) -> void:
 			values["ring_active_potential"] += _ring_potential(parameters)
 		"GLOW":
 			values["glow_instance_count"] += 1
-		"TEXTURED_SPRITE":
+		"TEXTURED_SPRITE", "LINK_STRIP":
 			values["persistent_textured_sprite_instance_count"] += 1
 		"SHIELD":
 			values["shield_instance_count"] += 1

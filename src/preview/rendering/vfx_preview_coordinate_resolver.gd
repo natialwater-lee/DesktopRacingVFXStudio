@@ -6,6 +6,10 @@ static func canonical_origin(instance: RefCounted, frame_context: Dictionary) ->
 	var layer_spec: RefCounted = instance.layer_spec()
 	var offset: Vector2 = layer_spec.authored_offset() as Vector2
 	var source_origin: Vector2 = instance.anchor_source_position() + offset
+	# link_point_t: spawn at that fraction of the straight link (anchor+offset -> link target), sampled at spawn.
+	var link_t: float = layer_spec.link_point_t() if layer_spec.has_method("link_point_t") else -1.0
+	if link_t >= 0.0 and frame_context.get("link_target_source") is Vector2:
+		source_origin = source_origin.lerp(frame_context["link_target_source"], link_t)
 	match layer_spec.effective_space():
 		"VEHICLE_FOLLOW_WORLD_TRAIL":
 			return vehicle_source_to_world(source_origin, frame_context)

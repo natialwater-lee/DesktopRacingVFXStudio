@@ -417,6 +417,54 @@
       "source_path": "res://assets/vfx/talent_rebound_contact_mist.png",
       "package_file_name": "talent_rebound_contact_mist.png"
     },
+    "fx.chain_bind_chain_links": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_chain_links.png",
+      "package_file_name": "talent_chain_bind_chain_links.png"
+    },
+    "fx.chain_bind_chain_links_heat": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_chain_links_heat.png",
+      "package_file_name": "talent_chain_bind_chain_links_heat.png"
+    },
+    "fx.chain_bind_heat_glow": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_heat_glow.png",
+      "package_file_name": "talent_chain_bind_heat_glow.png"
+    },
+    "fx.chain_bind_shackle": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_shackle.png",
+      "package_file_name": "talent_chain_bind_shackle.png"
+    },
+    "fx.chain_bind_shackle_heat": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_shackle_heat.png",
+      "package_file_name": "talent_chain_bind_shackle_heat.png"
+    },
+    "fx.chain_bind_clamp": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_clamp.png",
+      "package_file_name": "talent_chain_bind_clamp.png"
+    },
+    "fx.chain_bind_clamp_heat": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_clamp_heat.png",
+      "package_file_name": "talent_chain_bind_clamp_heat.png"
+    },
+    "fx.chain_bind_snap_flash": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_chain_bind_snap_flash.png",
+      "package_file_name": "talent_chain_bind_snap_flash.png"
+    },
     "fx.drift_master_neon_tail": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

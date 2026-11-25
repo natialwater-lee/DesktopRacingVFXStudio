@@ -46,6 +46,9 @@
       },
       "default": []
     },
+    "link_target": {
+      "$ref": "#/$defs/link_target"
+    },
     "phases": {
       "$ref": "#/$defs/phases"
     }
@@ -182,8 +185,43 @@
         "TRANSFORM_SCALE_X",
         "TRANSFORM_SCALE_Y",
         "VISUAL_OPACITY_MULTIPLIER",
-        "VISUAL_BEND_OFFSET_X"
+        "VISUAL_BEND_OFFSET_X",
+        "LINK_SAG_OFFSET"
       ]
+    },
+    "link_target": {
+      "type": "object",
+      "required": ["source_anchor", "target_anchor"],
+      "additionalProperties": false,
+      "properties": {
+        "source_anchor": {"$ref": "#/$defs/anchor"},
+        "target_anchor": {"$ref": "#/$defs/anchor"},
+        "target_offset": {
+          "$ref": "#/$defs/number_vector2",
+          "default": [0.0, 0.0]
+        }
+      }
+    },
+    "link_strip_parameters": {
+      "type": "object",
+      "required": ["texture_asset_ref", "texture_mode", "width_source_px"],
+      "additionalProperties": false,
+      "properties": {
+        "texture_asset_ref": {"$ref": "#/$defs/logical_id"},
+        "texture_mode": {"type": "string", "enum": ["TILE", "STRETCH"]},
+        "width_source_px": {"type": "number", "minimum": 0.001, "maximum": 2000.0},
+        "opacity": {"type": "number", "minimum": 0.0, "maximum": 1.0, "default": 1.0},
+        "color_rgba": {"$ref": "#/$defs/color_rgba", "default": [1.0, 1.0, 1.0, 1.0]},
+        "start_inset_source_px": {"type": "number", "minimum": 0.0, "default": 0.0},
+        "end_inset_source_px": {"type": "number", "minimum": 0.0, "default": 0.0},
+        "sag_source_px": {"type": "number", "default": 0.0},
+        "shift_source_px": {"$ref": "#/$defs/number_vector2", "default": [0.0, 0.0]},
+        "segments": {"type": "integer", "minimum": 1, "maximum": 16, "default": 8},
+        "reveal_seconds": {"type": "number", "minimum": 0.0, "default": 0.0},
+        "retract_seconds": {"type": "number", "minimum": 0.0, "default": 0.0},
+        "gap_seconds": {"type": "number", "minimum": 0.0, "default": 0.0},
+        "gap_sag_source_px": {"type": "number", "default": 0.0}
+      }
     },
     "runtime_modulation_operation": {
       "type": "string",
@@ -333,6 +371,11 @@
         },
         "visual_bend": {
           "$ref": "#/$defs/visual_bend"
+        },
+        "link_point_t": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
         },
         "parameters": {
           "type": "object"
@@ -697,6 +740,9 @@
     "TEXTURED_SPRITE": {
       "parameters_ref": "#/$defs/textured_sprite_parameters"
     },
+    "LINK_STRIP": {
+      "parameters_ref": "#/$defs/link_strip_parameters"
+    },
     "SHIELD": {
       "parameters_ref": "#/$defs/shield_parameters"
     }
@@ -752,6 +798,18 @@
       "default": 0.0
     },
     "defense_impact": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
+    },
+    "link_distance_ratio": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "default": 0.0
+    },
+    "link_lock_pulse": {
       "type": "number",
       "minimum": 0.0,
       "maximum": 1.0,
@@ -977,7 +1035,7 @@
         "TRANSFORM_SCALE_X": {
           "operation": "MULTIPLY",
           "minimum_effective": 0.001,
-          "compatible_layer_types": ["TEXTURED_SPRITE"]
+          "compatible_layer_types": ["TEXTURED_SPRITE", "LINK_STRIP"]
         },
         "TRANSFORM_SCALE_Y": {
           "operation": "MULTIPLY",
@@ -987,7 +1045,11 @@
         "VISUAL_OPACITY_MULTIPLIER": {
           "operation": "MULTIPLY",
           "minimum_effective": 0.0,
-          "compatible_layer_types": ["TEXTURED_SPRITE"]
+          "compatible_layer_types": ["TEXTURED_SPRITE", "LINK_STRIP"]
+        },
+        "LINK_SAG_OFFSET": {
+          "operation": "ADD",
+          "compatible_layer_types": ["LINK_STRIP"]
         },
         "VISUAL_BEND_OFFSET_X": {
           "operation": "ADD",
