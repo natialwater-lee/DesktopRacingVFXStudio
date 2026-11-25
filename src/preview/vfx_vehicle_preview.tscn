@@ -166,6 +166,21 @@ layout_mode = 2
 tooltip_text = "Simulate one drift: drift_active rises in 0.05 s, holds 0.5 s, falls in 0.4 s like the Game"
 text = "Drift"
 
+[node name="BattleEngagedLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+text = "Battle"
+
+[node name="BattleEngagedSlider" type="HSlider" parent="PreviewControls/RuntimeInputsRow"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="BattleEngagedToggle" type="CheckButton" parent="PreviewControls/RuntimeInputsRow"]
+layout_mode = 2
+tooltip_text = "Ramp battle_engaged like the Game (rise 0.1 s, fall 0.4 s)"
+
 [node name="EffectRadiusLabel" type="Label" parent="PreviewControls/RuntimeInputsRow"]
 layout_mode = 2
 text = "Radius"

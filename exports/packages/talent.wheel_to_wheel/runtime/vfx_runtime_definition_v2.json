@@ -1,0 +1,1005 @@
+{
+  "coordinate_contract": {
+    "front_axis": "-Y",
+    "origin": "CENTER",
+    "vehicle_source_canvas_size_px": [
+      256,
+      512
+    ]
+  },
+  "phases": [
+    {
+      "duration_seconds": 0.5,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.spill",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.spill.in",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.spill.out_x",
+              "mapping": {
+                "input_max": 0.5,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.7,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.spill.settle_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.5,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.spill.flash",
+              "mapping": {
+                "input_max": 0.7,
+                "input_min": 0.2,
+                "output_max": 1.0,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.wheel_to_wheel_flank_spill"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.2
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.body",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.body.in",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.body.out_x",
+              "mapping": {
+                "input_max": 0.5,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.7,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.body.settle_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.5,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.7,
+            "texture_asset_ref": "fx.wheel_to_wheel_flank_body"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.2
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.edge",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.edge.in",
+              "mapping": {
+                "input_max": 0.2,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.edge.out_x",
+              "mapping": {
+                "input_max": 0.5,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.7,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.edge.settle_x",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.5,
+                "output_max": 0.869565217391304,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.edge.flash",
+              "mapping": {
+                "input_max": 0.7,
+                "input_min": 0.2,
+                "output_max": 1.0,
+                "output_min": 1.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.wheel_to_wheel_flank_edge"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.2
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "start.wave_body",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.wave_body.in",
+              "mapping": {
+                "input_max": 0.08,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.wave_body.out",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.36,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.wave_body.grow_x",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.0,
+                "output_max": 1.4,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.wave_body.grow_y",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.0,
+                "output_max": 1.4,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.wave_body.travel_y",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.0,
+                "output_max": -160.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.95,
+            "texture_asset_ref": "fx.wheel_to_wheel_wave_body"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 6,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              -200.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.45,
+              0.45
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.wave_rim",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "start.wave_rim.in",
+              "mapping": {
+                "input_max": 0.08,
+                "input_min": 0.0,
+                "output_max": 1.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.wave_rim.out",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.36,
+                "output_max": 0.0,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "start.wave_rim.grow_x",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.0,
+                "output_max": 1.4,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "start.wave_rim.grow_y",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.0,
+                "output_max": 1.4,
+                "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "start.wave_rim.travel_y",
+              "mapping": {
+                "input_max": 0.8,
+                "input_min": 0.0,
+                "output_max": -160.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel.intro",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 1.0,
+            "texture_asset_ref": "fx.wheel_to_wheel_wave_rim"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 7,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              -200.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              0.45,
+              0.45
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "start"
+    },
+    {
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.spill",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.spill.battle_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.7,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.spill.battle_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.spill.battle_lean",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -50.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.55,
+            "texture_asset_ref": "fx.wheel_to_wheel_flank_spill"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.2
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "loop.body",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.body.battle_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.35,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.body.battle_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.body.battle_lean",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -50.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.7,
+            "texture_asset_ref": "fx.wheel_to_wheel_flank_body"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.2
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.edge",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [
+            {
+              "id": "loop.edge.battle_a",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.18,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "loop.edge.battle_w",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": 1.1,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "loop.edge.battle_lean",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": 0.0,
+                "output_max": -50.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "input": "battle_engaged",
+                "type": "RUNTIME_INPUT"
+              },
+              "target": "TRANSFORM_OFFSET_Y"
+            }
+          ],
+          "parameters": {
+            "opacity": 0.85,
+            "texture_asset_ref": "fx.wheel_to_wheel_flank_edge"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.2
+            ]
+          },
+          "type": "TEXTURED_SPRITE"
+        }
+      ],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.4,
+      "layers": [
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.spill",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.55,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 368.8,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 461.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_flank_spill"
+          },
+          "render_plane": "UNDER_VEHICLE",
+          "sort_order": 0,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ALPHA",
+          "enabled": true,
+          "id": "end.body",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.7,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 368.8,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 461.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_flank_body"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 1,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "end.edge",
+          "importance": "CORE",
+          "modulation_clamps": [],
+          "modulations": [],
+          "parameters": {
+            "acceleration": [
+              0.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.85,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "burst_count": 1.0,
+            "color_rgba": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "direction_degrees": 0.0,
+            "emission_mode": "BURST",
+            "emitter": {
+              "shape": "POINT"
+            },
+            "lifetime_seconds": 0.4,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 368.8,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 461.0,
+            "speed_max": 0.0,
+            "speed_min": 0.0,
+            "spread_degrees": 0.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_flank_edge"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 2,
+          "space_mode": "VEHICLE_LOCAL",
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              0.0,
+              29.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        }
+      ],
+      "name": "end"
+    }
+  ],
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Wheel to Wheel",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.wheel_to_wheel"
+  },
+  "required_vehicle_anchors": [
+    "CENTER"
+  ],
+  "runtime_definition_version": 2,
+  "runtime_inputs": [
+    {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "name": "battle_engaged",
+      "value_type": "number"
+    }
+  ],
+  "runtime_modulation_sources": [
+    {
+      "frequency_hz": 2.0,
+      "id": "wheel_to_wheel.intro",
+      "type": "LINEAR_PHASE"
+    }
+  ]
+}

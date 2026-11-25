@@ -1,0 +1,108 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 70968,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wheel_to_wheel_contact_flash",
+      "package_path": "assets/talent_wheel_to_wheel_contact_flash.png",
+      "sha256": "8c7caa82d840b7bdd141e8fda34966c0d85662b0dacf2ca7d765b5ea4a9fb6ed"
+    },
+    {
+      "byte_size": 871,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wheel_to_wheel_spark",
+      "package_path": "assets/talent_wheel_to_wheel_spark.png",
+      "sha256": "319c4bc6230654ac02774bf1a797fb8b489e90501e58117054b5b0aded5eccf8"
+    },
+    {
+      "byte_size": 49800,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wheel_to_wheel_spark_fan_l",
+      "package_path": "assets/talent_wheel_to_wheel_spark_fan_l.png",
+      "sha256": "af976b141c88340585e3c4d68d385aa97678bd114269a9b95e1241351ed3b1ae"
+    },
+    {
+      "byte_size": 87664,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wheel_to_wheel_wave_body",
+      "package_path": "assets/talent_wheel_to_wheel_wave_body.png",
+      "sha256": "cbcfe7931429e2b2161c1c428943cc676935abe8b907681fab376635fb33f9eb"
+    },
+    {
+      "byte_size": 30848,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.wheel_to_wheel_wave_rim",
+      "package_path": "assets/talent_wheel_to_wheel_wave_rim.png",
+      "sha256": "bca68d712080a78b6e23c6efe1dcae0ba1992d8bf7889de4248aacbe2911c86a"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 70968,
+      "path": "assets/talent_wheel_to_wheel_contact_flash.png",
+      "sha256": "8c7caa82d840b7bdd141e8fda34966c0d85662b0dacf2ca7d765b5ea4a9fb6ed"
+    },
+    {
+      "byte_size": 871,
+      "path": "assets/talent_wheel_to_wheel_spark.png",
+      "sha256": "319c4bc6230654ac02774bf1a797fb8b489e90501e58117054b5b0aded5eccf8"
+    },
+    {
+      "byte_size": 49800,
+      "path": "assets/talent_wheel_to_wheel_spark_fan_l.png",
+      "sha256": "af976b141c88340585e3c4d68d385aa97678bd114269a9b95e1241351ed3b1ae"
+    },
+    {
+      "byte_size": 87664,
+      "path": "assets/talent_wheel_to_wheel_wave_body.png",
+      "sha256": "cbcfe7931429e2b2161c1c428943cc676935abe8b907681fab376635fb33f9eb"
+    },
+    {
+      "byte_size": 30848,
+      "path": "assets/talent_wheel_to_wheel_wave_rim.png",
+      "sha256": "bca68d712080a78b6e23c6efe1dcae0ba1992d8bf7889de4248aacbe2911c86a"
+    },
+    {
+      "byte_size": 14489,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "c41fbda4e8b10ee00efa30dcb6d56da578df269200567a19661082b72fe2f5e6"
+    },
+    {
+      "byte_size": 13763,
+      "path": "source/talent.wheel_to_wheel_grind_left.vfx.json",
+      "sha256": "14ad0c4fd35d8441ee51e4125111e15f3fd6fc3ff0f4c3894b645d1087b00505"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.wheel_to_wheel_grind_left",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Wheel to Wheel Grind Left",
+    "lifecycle_mode": "ONE_SHOT",
+    "preset_id": "talent.wheel_to_wheel_grind_left",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 5,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": []
+  },
+  "runtime_definition": {
+    "byte_size": 14489,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "c41fbda4e8b10ee00efa30dcb6d56da578df269200567a19661082b72fe2f5e6",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 13763,
+    "path": "source/talent.wheel_to_wheel_grind_left.vfx.json",
+    "sha256": "14ad0c4fd35d8441ee51e4125111e15f3fd6fc3ff0f4c3894b645d1087b00505"
+  }
+}

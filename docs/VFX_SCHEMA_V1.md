@@ -176,6 +176,7 @@ The Schema extension `x_vfx_runtime_inputs` contains the only accepted names and
 | `link_distance_ratio` | number, 0 through 2, default 0; distance to the linked vehicle divided by the talent's bind distance (Chain Bind D), unsmoothed |
 | `link_lock_pulse` | number, 0 through 1, default 0; set to 1 when speed matching to the linked vehicle starts (at most once per second), then decays linearly to 0 over 0.4 s (Game-owned) |
 | `drift_active` | number, 0 through 1, default 0; the vehicle is drifting while Drift Master is active, smoothed by the Game (rise about 0.05 s, fall about 0.4 s) |
+| `battle_engaged` | number, 0 through 1, default 0; the vehicle is the rear car of an overtake battle while Wheel to Wheel is active, smoothed by the Game (rise about 0.1 s, fall about 0.4 s) |
 
 A Preset lists only inputs it requires. Phase 0 initially declared only the
 input names and value contracts. The additive Runtime Modulation v1 contract
@@ -249,6 +250,15 @@ effect ends. A Game without a supplier must reject a package that declares it.
 Studio Preview exposes it as a slider plus a Drift button that rises, holds 0.5 s
 and falls with the same timing. Added 2026-11-26 for `talent.drift_master`; Game
 supply is pending (step ③).
+`battle_engaged` is the unsigned scalar Runtime Input (`0.0..1.0`, default `0.0`):
+`1.0` while `CarAgent.get_wheel_to_wheel_visual_state().in_battle` is true (the
+vehicle is the rear car of an overtake battle) and Wheel to Wheel is active. The
+Game owns smoothing (linear rise about 0.1 s, fall about 0.4 s, evaluated only for
+effects that declare the input), starts at `0.0` when an effect starts, holds its
+value while the race is paused, and stops updating when the effect ends. A Game
+without a supplier must reject a package that declares it. Studio Preview exposes
+it as a slider plus a Battle toggle with the same rise/fall. Added 2026-11-26 for
+`talent.wheel_to_wheel`; Game supply is pending (step ③).
 
 The Schema-owned `RUNTIME_MODULATION_CONFIGURATION` rule is the contract for
 `OSCILLATOR/SINE`, `LINEAR_PHASE`, and `LINEAR_RANGE` mappings. In Phase A every modulation target is

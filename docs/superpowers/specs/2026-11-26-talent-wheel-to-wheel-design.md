@@ -1,6 +1,6 @@
 # 휠투휠(Wheel to Wheel) 경기용 VFX 연출 제안 — ①단계
 
-- 작성: 2026-11-26 (이펙트툴 세션). 상태: **① 확정(지훈 11-26, "제안대로 확정") — GPT 아트 대기**.
+- 작성: 2026-11-26 (이펙트툴 세션). 상태: **② 시안 승인·package 생성 완료 (지훈 11-26, "이대로 진행")** — ③ 게임 연결 대기. ② 결과는 9절.
 - 재능 id: `wheel_to_wheel`. 게임 기능은 개발 중(브랜치 `claude/new-talent-wheel-to-wheel-144667`, 미커밋·미병합).
 - 예정 preset/package ID:
   - `talent.wheel_to_wheel` — 재능 차에 12초. 시작·유지·종료.
@@ -159,3 +159,42 @@
 
 - GPT 아트 요청서: `docs/handoffs/2026-11-26-wheel-to-wheel-gpt-art-request.md`.
 - 다음: GPT 아트가 오면 ② 시안·package 4개. ③ 게임 연결은 휠투휠 기능이 게임 master에 병합된 뒤.
+
+## 9. ② Studio 시안 — 최종 (지훈 승인 2026-11-26, v1 그대로)
+
+GPT 아트 5장 검수 통과: 크기 모두 요청대로, 반달 본체·테 정렬 일치, 차 자리 비움, 주황 없음. 압력파 노란 테 면적 9 %.
+
+- 아트 처리 `tools/wheel_to_wheel_art_prep.gd` → `assets/vfx/talent_wheel_to_wheel_*.png` 9장:
+  - 반달 테는 크림빛이라 레몬 노랑 쪽으로 보정(TEXTURED_SPRITE에 색 곱하기가 없음). 노면 반사 `flank_spill` = 테를 넓게 흐린 것.
+  - 압력파는 같은 픽셀에서 공기 본체(ALPHA)와 노란 테만(ADDITIVE)으로 나눔.
+  - 불꽃 분수는 오른쪽 앞 모서리용 그대로(`_r`), 왼쪽은 좌우 반전(`_l`).
+  - 불티 `talent_wheel_to_wheel_spark` = 분노의 추월 스파크(빨강)를 흰색으로 바꾼 것. 빨강에는 레몬을 곱해도 노래지지 않아서다.
+- 새 입력 `battle_engaged`: 스키마, `VFX_SCHEMA_V1.md`, 아키텍처 문서, preview Battle 슬라이더 + 토글(올림 0.1초, 내림 0.4초).
+- 생성기 `tools/wheel_to_wheel_preset_generator.gd` → `presets/examples/talent.wheel_to_wheel{,_surge,_grind_left,_grind_right}.vfx.json`. 테스트 `tests/preview/test_wheel_to_wheel_authoring.gd`.
+- package 4개, 모두 Runtime v2: `exports/packages/talent.wheel_to_wheel`, `_surge`, `_grind_left`, `_grind_right`.
+- 수정 이력(첫 캡처 → v1): 반달이 옆 차를 덮어 가로 1.2→1.0배, 배틀 중 넓어짐 ×1.15→×1.1. 불티가 빨갛게 나와 흰색 사본으로 교체. 차고 나가는 압력파가 반달에 묻혀 시작 위치를 바깥(x 250)으로, 이동 150, 크기 0.75로.
+
+| 값 (source px, 차 캔버스 256×512, 화면 1px ≈ 12.4) | |
+|---|---|
+| 반달 3장(반사·본체·테) | CENTER + (0, 29), 배율 (1.0, 1.2). 평상시 투명도 0.55 / 0.7 / 0.85 |
+| `battle_engaged` 1 | 투명도 ×1.7 / ×1.35 / ×1.18, 가로 ×1.1, 앞으로 50(약 4px) |
+| START 0.5초 | 반달 가로 0.7→1.15→1.0, 테·반사 ×1.6 번쩍, 앞코 압력파 1회 |
+| END 0.4초 | 입자 복사본으로 페이드(크기 ×0.8로 접힘) |
+| surge 0.55초 | 앞코(0, −230)에서 압력파가 앞으로 250 이동·0.6→1.4배, 앞코 섬광, 앞 양 모서리(±100, −215) 불티 5개씩 |
+| grind 0.6초 | 상대 쪽 앞 모서리에 불꽃 분수(1.3배, 0.55→1.15배로 퍼짐)·섬광·불티 9개, 반대쪽 (∓250, −60)에서 압력파가 바깥으로 150 |
+
+부하: LOOP 스프라이트 3장, 입자 0개(8대 24 그리기). surge는 스프라이트 3장 + 입자 10개, grind는 스프라이트 4장 + 입자 9개.
+
+테스트(1회, 2026-11-26): preview 469/0, editor 401/4(기존 기준 실패 4개 — 라이브러리 25행 검사는 통과).
+
+### ③ 게임 연결 때 할 일·확인
+- Game에 `battle_engaged` 공급자를 만든다. `get_wheel_to_wheel_visual_state().in_battle` → 올림 0.1초 / 내림 0.4초, 선언한 effect만 평가한다. loader는 공급자가 없으면 거부한다.
+- `RaceAbilityVfxIntegrationController`:
+  - `wheel_to_wheel` 발동 → `talent.wheel_to_wheel` START/LOOP, 종료 → END. 교대·제거 때는 강제 정리.
+  - `wheel_to_wheel_event`에서 `battle_start`가 오면 surge, `hold_resisted`가 오면 grind를 재생한다. 같은 package가 다시 오면 이전 것을 정리하고 새로 시작하며, 최소 간격은 0.4초다.
+  - grind 쪽 고르기(3-3): 상대의 `current_lane_offset` − 내 `current_lane_offset`의 부호. 거의 0이면 내 차선 변경 방향의 반대쪽, 둘 다 0이면 `_right`. 차선 부호와 화면 좌우의 관계는 실제 트랙에서 확인한다.
+- 실제 경기 확인:
+  - 나란히 달릴 때 반달이 옆 차를 얼마나 덮는지
+  - 밝은 트랙에서 반달이 보이는지
+  - 8대가 연속으로 신호를 낼 때 1회 package 부하
+  - 기능 세션 측정값(발동당 신호 횟수)으로 최소 간격이 적절한지
