@@ -39,14 +39,14 @@
       "sha256": "7fb431f8a4df9b98cb430e24643664abe63c5db658991dae993e3f9a5130def6"
     },
     {
-      "byte_size": 62129,
+      "byte_size": 66245,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "593388d50a7a64ff30b8efaeee02f7a76ae0222b9c933154824b4d09164ea5fd"
+      "sha256": "f548a4f3145a0b5ada6afd11de621c3a075ecc3a2863d89facef3d769c959fe9"
     },
     {
-      "byte_size": 59925,
+      "byte_size": 64041,
       "path": "source/talent.drift_master.vfx.json",
-      "sha256": "aefaec9444b97c5cedf1b97ec67406c743a4e03e93b84a8c2142cc79dba7b430"
+      "sha256": "7ae0bfd9cadb0d19cbff801cd4a86c842bd9b9a3e4445deec48f74192e55af56"
     }
   ],
   "package_format_version": 1,
@@ -74,14 +74,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 62129,
+    "byte_size": 66245,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "593388d50a7a64ff30b8efaeee02f7a76ae0222b9c933154824b4d09164ea5fd",
+    "sha256": "f548a4f3145a0b5ada6afd11de621c3a075ecc3a2863d89facef3d769c959fe9",
     "version": 2
   },
   "source": {
-    "byte_size": 59925,
+    "byte_size": 64041,
     "path": "source/talent.drift_master.vfx.json",
-    "sha256": "aefaec9444b97c5cedf1b97ec67406c743a4e03e93b84a8c2142cc79dba7b430"
+    "sha256": "7ae0bfd9cadb0d19cbff801cd4a86c842bd9b9a3e4445deec48f74192e55af56"
   }
 }

@@ -30,10 +30,13 @@ static func run(t: TestAssert) -> void:
 	for s in ["l", "r"]:
 		for id in ["loop.tail_" + s, "loop.haze_" + s]:
 			var layer: Dictionary = loop.get(id, {})
-			# Bend follows the corner just driven: right turn (+0.2) shifts the tail end to +x.
+			# Bend + swing follow the corner just driven: a right turn shifts the tail end to +x (negative rotation about
+			# the head). Full scale at |turn| 0.1, the measured corner p90 (0.2 is almost never reached in a race).
 			var bend: Array = layer.get("modulations", []).filter(func(m: Dictionary) -> bool: return m.get("target") == "VISUAL_BEND_OFFSET_X")
+			var swing: Array = layer.get("modulations", []).filter(func(m: Dictionary) -> bool: return m.get("target") == "TRANSFORM_ROTATION_DEGREES")
 			ok = ok and layer.has("visual_bend") and bend.size() == 1 and float(bend[0]["mapping"]["output_max"]) > 0.0 \
-				and is_equal_approx(float(bend[0]["mapping"]["input_max"]), 0.2)
+				and is_equal_approx(float(bend[0]["mapping"]["input_max"]), 0.1) \
+				and swing.size() == 1 and float(swing[0]["mapping"]["output_max"]) < 0.0 and is_equal_approx(float(swing[0]["mapping"]["input_max"]), 0.1)
 		var smoke: Dictionary = loop.get("loop.smoke_" + s, {})
 		var hidden: Array = smoke.get("modulations", []).filter(func(m: Dictionary) -> bool: return m["source"].get("input") == "drift_active" and m.get("target") == "VISUAL_OPACITY_MULTIPLIER")
 		ok = ok and smoke.get("blend_mode") == "ALPHA" and hidden.size() == 1 and float(hidden[0]["mapping"]["output_min"]) == 0.0

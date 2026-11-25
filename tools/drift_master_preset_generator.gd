@@ -13,7 +13,12 @@ const HEAD_TEXEL_Y := -240.0           # both tail textures start at texel y 16 
 const TAIL_SPAN := 420.0               # texels from head to the faded tail end
 const TAIL := [2.1, 1.6, 0.85]         # neon tail [scale X, scale Y, opacity]
 const HAZE := [2.0, 1.7, 1.0]          # neon body: fills between the two strands and glows past them
-const BEND_SOURCE_PX := 130.0          # tail tip shift at |turn| 0.2 (same in source px for tail and haze)
+# Measured 2026-11-26 in a real race: corner |turn| median 0.046, p90 0.1, so 0.1 is full scale (the old
+# 0.2 full scale followed only ~13 % of the driven path). Bend is capped by the textures' side padding (haze ~160 px),
+# so the whole tail also turns about its head; together the tip moves ~290 source px at full scale.
+const TURN_FULL := 0.1
+const BEND_SOURCE_PX := 150.0          # tail tip shift at |turn| >= TURN_FULL (same in source px for tail and haze)
+const SWING_DEGREES := 12.0            # tail turn about its head at |turn| >= TURN_FULL (right turn -> tail to +x)
 const SMOKE := Vector2(110.0, 340.0)   # drift smoke centre (source px), behind the rear bumper
 const SMOKE_SCALE := 1.7
 const SMOKE_OPACITY := 0.85
@@ -71,7 +76,7 @@ func _init() -> void:
 			_mod(mid + ".drift", _input("drift_active"), 0.0, 1.0, 0.0, 1.0, "MULTIPLY", "VISUAL_OPACITY_MULTIPLIER"),
 			_mod(mid + ".grow_x", _input("drift_active"), 0.0, 1.0, 0.8, 1.2, "MULTIPLY", "TRANSFORM_SCALE_X"),
 			_mod(mid + ".grow_y", _input("drift_active"), 0.0, 1.0, 0.8, 1.2, "MULTIPLY", "TRANSFORM_SCALE_Y"),
-			_mod(mid + ".outward", _input("turn_rate_normalized"), -0.2, 0.2, SMOKE_OUTWARD, -SMOKE_OUTWARD, "ADD", "TRANSFORM_OFFSET_X")]))
+			_mod(mid + ".outward", _input("turn_rate_normalized"), -TURN_FULL, TURN_FULL, SMOKE_OUTWARD, -SMOKE_OUTWARD, "ADD", "TRANSFORM_OFFSET_X")]))
 		# END: TEXTURED_SPRITE cannot ramp in END (effect-local time is unknown there), so fade particle copies.
 		# PARTICLE size is half of the texture's longest displayed side; particles are not bent.
 		end_layers.append(_particle("end.haze_" + s, "fx.drift_master_tail_haze", "ADDITIVE", haze_centre, 3, _fade(256.0 * HAZE[1], HAZE[2] * 0.9)))
@@ -97,13 +102,13 @@ func _init() -> void:
 	quit(0)
 
 
-# Harder corner (|turn| -> 0.2): tail up to x1.15 longer and x1.2 brighter. Two clamped half-ranges make |turn|.
+# Harder corner (|turn| -> TURN_FULL): tail up to x1.15 longer and x1.2 brighter. Two clamped half-ranges make |turn|.
 func _corner_mods(id: String) -> Array:
 	return [
-		_mod(id + ".corner_l_r", _input("turn_rate_normalized"), 0.0, 0.2, 1.0, 1.15, "MULTIPLY", "TRANSFORM_SCALE_Y"),
-		_mod(id + ".corner_l_l", _input("turn_rate_normalized"), -0.2, 0.0, 1.15, 1.0, "MULTIPLY", "TRANSFORM_SCALE_Y"),
-		_mod(id + ".corner_a_r", _input("turn_rate_normalized"), 0.0, 0.2, 1.0, 1.2, "MULTIPLY", "VISUAL_OPACITY_MULTIPLIER"),
-		_mod(id + ".corner_a_l", _input("turn_rate_normalized"), -0.2, 0.0, 1.2, 1.0, "MULTIPLY", "VISUAL_OPACITY_MULTIPLIER")]
+		_mod(id + ".corner_l_r", _input("turn_rate_normalized"), 0.0, TURN_FULL, 1.0, 1.15, "MULTIPLY", "TRANSFORM_SCALE_Y"),
+		_mod(id + ".corner_l_l", _input("turn_rate_normalized"), -TURN_FULL, 0.0, 1.15, 1.0, "MULTIPLY", "TRANSFORM_SCALE_Y"),
+		_mod(id + ".corner_a_r", _input("turn_rate_normalized"), 0.0, TURN_FULL, 1.0, 1.2, "MULTIPLY", "VISUAL_OPACITY_MULTIPLIER"),
+		_mod(id + ".corner_a_l", _input("turn_rate_normalized"), -TURN_FULL, 0.0, 1.2, 1.0, "MULTIPLY", "VISUAL_OPACITY_MULTIPLIER")]
 
 
 # START: drawn out from the head in 0.35 s to x1.15 length, settling to x1.0 by the end of START.
@@ -115,9 +120,11 @@ func _grow_mods(id: String) -> Array:
 
 
 # Tail follows the corner just driven: right turn (+) moves the tail end to +x (inside), like the road trace.
+# Swing: the tail turns about its head (modulation pivot); a negative angle moves the tail end (+y) to +x.
 func _add_bend(layer: Dictionary, bend_texels: float) -> void:
 	layer["visual_bend"] = {"axis": "LOCAL_Y_POSITIVE", "curve": "QUADRATIC", "start_ratio": 0.1, "span_source_px": TAIL_SPAN}
-	layer["modulations"].append(_mod(layer["id"] + ".bend", _input("turn_rate_normalized"), -0.2, 0.2, -bend_texels, bend_texels, "ADD", "VISUAL_BEND_OFFSET_X"))
+	layer["modulations"].append(_mod(layer["id"] + ".bend", _input("turn_rate_normalized"), -TURN_FULL, TURN_FULL, -bend_texels, bend_texels, "ADD", "VISUAL_BEND_OFFSET_X"))
+	layer["modulations"].append(_mod(layer["id"] + ".swing", _input("turn_rate_normalized"), -TURN_FULL, TURN_FULL, SWING_DEGREES, -SWING_DEGREES, "ADD", "TRANSFORM_ROTATION_DEGREES"))
 	layer["modulation_clamps"] = [{"target": "VISUAL_BEND_OFFSET_X", "min_effective": -bend_texels, "max_effective": bend_texels}]
 
 
