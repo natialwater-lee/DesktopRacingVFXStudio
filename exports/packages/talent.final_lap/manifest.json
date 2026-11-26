@@ -1,0 +1,159 @@
+{
+  "asset_dependencies": [
+    {
+      "byte_size": 33960,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_charge_flash",
+      "package_path": "assets/talent_final_lap_charge_flash.png",
+      "sha256": "56c5fc515fb7a33b409efb74bd9b0c809dd20561c433a87ac21aec50e4384c64"
+    },
+    {
+      "byte_size": 194957,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_charge_ring",
+      "package_path": "assets/talent_final_lap_charge_ring.png",
+      "sha256": "d8c646d21dcdaaba177bc15c793a07fe65c98879a798f71992a7bfb1e48b6dec"
+    },
+    {
+      "byte_size": 69560,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_finish_line",
+      "package_path": "assets/talent_final_lap_finish_line.png",
+      "sha256": "315871cb5ba05d0caa27d32cbe2f3f1d0fb3bdbb221d495c21183d8a6baa45af"
+    },
+    {
+      "byte_size": 78068,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_flag_body_l",
+      "package_path": "assets/talent_final_lap_flag_body_l.png",
+      "sha256": "70258f57ff90bf21aededc2f03c4cd08899272de3215ec76c84abff72386f156"
+    },
+    {
+      "byte_size": 78181,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_flag_body_r",
+      "package_path": "assets/talent_final_lap_flag_body_r.png",
+      "sha256": "b2d54fcad51f2db3324fd8823ae556e07f59b203cf5abe638f2789476971f798"
+    },
+    {
+      "byte_size": 10329,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_flag_piece",
+      "package_path": "assets/talent_final_lap_flag_piece.png",
+      "sha256": "42ff54ec0607f65ba8672bbbbcafd9286f2ec7d8a1e2284823624cecbf4a2e65"
+    },
+    {
+      "byte_size": 126687,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_flag_sheen_l",
+      "package_path": "assets/talent_final_lap_flag_sheen_l.png",
+      "sha256": "758a6489620eb55e3e0843ede45891e42c905bdbbc570eadd7de566b5db9057a"
+    },
+    {
+      "byte_size": 126784,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_flag_sheen_r",
+      "package_path": "assets/talent_final_lap_flag_sheen_r.png",
+      "sha256": "0ff5d9b753930852072a73436cc6336b9ff97fff3cd905d89524e2b623b277ec"
+    },
+    {
+      "byte_size": 90010,
+      "kind": "TEXTURE_PNG",
+      "logical_id": "fx.final_lap_flag_spill",
+      "package_path": "assets/talent_final_lap_flag_spill.png",
+      "sha256": "ae1416fca6ee83aa836e3f025862010a21a5a1a4d1f797903d52b3ec66f90209"
+    }
+  ],
+  "files": [
+    {
+      "byte_size": 33960,
+      "path": "assets/talent_final_lap_charge_flash.png",
+      "sha256": "56c5fc515fb7a33b409efb74bd9b0c809dd20561c433a87ac21aec50e4384c64"
+    },
+    {
+      "byte_size": 194957,
+      "path": "assets/talent_final_lap_charge_ring.png",
+      "sha256": "d8c646d21dcdaaba177bc15c793a07fe65c98879a798f71992a7bfb1e48b6dec"
+    },
+    {
+      "byte_size": 69560,
+      "path": "assets/talent_final_lap_finish_line.png",
+      "sha256": "315871cb5ba05d0caa27d32cbe2f3f1d0fb3bdbb221d495c21183d8a6baa45af"
+    },
+    {
+      "byte_size": 78068,
+      "path": "assets/talent_final_lap_flag_body_l.png",
+      "sha256": "70258f57ff90bf21aededc2f03c4cd08899272de3215ec76c84abff72386f156"
+    },
+    {
+      "byte_size": 78181,
+      "path": "assets/talent_final_lap_flag_body_r.png",
+      "sha256": "b2d54fcad51f2db3324fd8823ae556e07f59b203cf5abe638f2789476971f798"
+    },
+    {
+      "byte_size": 10329,
+      "path": "assets/talent_final_lap_flag_piece.png",
+      "sha256": "42ff54ec0607f65ba8672bbbbcafd9286f2ec7d8a1e2284823624cecbf4a2e65"
+    },
+    {
+      "byte_size": 126687,
+      "path": "assets/talent_final_lap_flag_sheen_l.png",
+      "sha256": "758a6489620eb55e3e0843ede45891e42c905bdbbc570eadd7de566b5db9057a"
+    },
+    {
+      "byte_size": 126784,
+      "path": "assets/talent_final_lap_flag_sheen_r.png",
+      "sha256": "0ff5d9b753930852072a73436cc6336b9ff97fff3cd905d89524e2b623b277ec"
+    },
+    {
+      "byte_size": 90010,
+      "path": "assets/talent_final_lap_flag_spill.png",
+      "sha256": "ae1416fca6ee83aa836e3f025862010a21a5a1a4d1f797903d52b3ec66f90209"
+    },
+    {
+      "byte_size": 73729,
+      "path": "runtime/vfx_runtime_definition_v2.json",
+      "sha256": "57aa341af60e5b68dc75c38a85341b95c4bb43893f6e1e1295645b58a2a4ce1b"
+    },
+    {
+      "byte_size": 71182,
+      "path": "source/talent.final_lap.vfx.json",
+      "sha256": "35f597668c70dc4589afa575bc7a2b9c9873d8eb47ad62e0c0556fe8a0e6a783"
+    }
+  ],
+  "package_format_version": 1,
+  "package_id": "talent.final_lap",
+  "preset": {
+    "category": "RACE_TALENT",
+    "default_space_mode": "VEHICLE_LOCAL",
+    "display_name": "Final Lap",
+    "lifecycle_mode": "START_LOOP_END",
+    "preset_id": "talent.final_lap",
+    "vfx_schema_version": 1
+  },
+  "requirements": {
+    "importance_summary": {
+      "CORE": 20,
+      "DETAIL": 0,
+      "EXTRA": 0
+    },
+    "required_vehicle_anchors": [
+      "CENTER"
+    ],
+    "runtime_inputs": [
+      "turn_rate_normalized",
+      "boost_active"
+    ]
+  },
+  "runtime_definition": {
+    "byte_size": 73729,
+    "path": "runtime/vfx_runtime_definition_v2.json",
+    "sha256": "57aa341af60e5b68dc75c38a85341b95c4bb43893f6e1e1295645b58a2a4ce1b",
+    "version": 2
+  },
+  "source": {
+    "byte_size": 71182,
+    "path": "source/talent.final_lap.vfx.json",
+    "sha256": "35f597668c70dc4589afa575bc7a2b9c9873d8eb47ad62e0c0556fe8a0e6a783"
+  }
+}

@@ -323,6 +323,42 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_drift_master_drift_smoke.png"
     },
+    "fx.final_lap_flag_body_l": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_flag_body_l.png"
+    },
+    "fx.final_lap_flag_body_r": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_flag_body_r.png"
+    },
+    "fx.final_lap_flag_sheen_l": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_flag_sheen_l.png"
+    },
+    "fx.final_lap_flag_sheen_r": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_flag_sheen_r.png"
+    },
+    "fx.final_lap_flag_spill": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_flag_spill.png"
+    },
+    "fx.final_lap_flag_piece": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_flag_piece.png"
+    },
+    "fx.final_lap_finish_line": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_finish_line.png"
+    },
+    "fx.final_lap_charge_ring": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_charge_ring.png"
+    },
+    "fx.final_lap_charge_flash": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_final_lap_charge_flash.png"
+    },
     "fx.underdog_revolt_flame_streak": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_underdog_revolt_flame_streak.png"

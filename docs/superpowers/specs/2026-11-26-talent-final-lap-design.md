@@ -1,6 +1,6 @@
 # 파이널 랩(Final Lap) 경기용 VFX 연출 제안 — ①단계
 
-- 작성: 2026-11-26 (이펙트툴 세션). 상태: **① 확정(지훈 11-26, "제안대로 확정") — GPT 아트 대기**.
+- 작성: 2026-11-26 (이펙트툴 세션). 상태: **② 시안 승인(지훈 11-26, v2 "이대로 진행"), package 생성 — ③ 게임 연결 대기**.
 - 재능 id: `final_lap`. 게임 기능은 개발 전(휠투휠 → 체인 바인드 다음, 마지막 차례).
 - 예정 preset/package ID: `talent.final_lap` — 재능 차에 20초. 시작·유지·종료. 순간 package 없음.
 - 기준 자료:
@@ -161,3 +161,30 @@
 
 - GPT 아트 요청서: `docs/handoffs/2026-11-26-final-lap-gpt-art-request.md`.
 - 다음: GPT 아트가 오면 ② 시안·package. ③ 게임 연결은 파이널 랩 기능이 게임 master에 병합된 뒤.
+
+## 9. ② Studio 시안 — 최종 (지훈 승인 2026-11-26, v2)
+
+- v1 검토: 리본이 차 앞에서부터 곧은 기둥 두 개로 서서 리바운드 레일처럼 보임 → 좌우 리본을 나누고 앞바퀴 옆에서 시작해 뒤로 5° 벌어지게, 광택 0.55→0.42, 반사 0.35→0.5, 섬광 ×2.4→×3.4.
+- 지훈 v1 반려: "지속시간 동안 이펙트가 멈춰 있다, 움직여야 한다". 원인 = 펄럭임을 `visual_bend`에만 걸었고 Studio preview는 휨을 그리지 않음. v2에서 미리보기와 게임 모두 보이는 움직임을 더함:
+  - 리본 흔들림: 앞끝 피벗 회전 ±3.5°(1.1Hz, 좌우 위상 0°/160°)
+  - 천 물결: 폭 ±7%(2.6Hz), 광택 반짝임 ×0.65~1.25(3.3Hz)
+  - 체커 조각: GPT 리본에서 2×2칸을 잘라 만든 `fx.final_lap_flag_piece`가 리본 아래쪽(±222, +285)에서 뒤로 돌며 날아감. CONTINUOUS 5.5/s·수명 0.7·최대 6/쪽·크기 70→40·ALPHA
+  - 게임 전용: bend 펄럭임(1.3Hz ±22 + 2.1Hz ±12 source px, 좌우 위상 다름) + 코너 휨(turn ±0.1 → ±55 px)
+- 뺀 것: 체커 무늬 흐름(톱니 이동 + 교차). GPT 리본은 접힌 곳마다 칸이 달라 반복 주기 상관 0.46 → 교차하면 회색으로 번짐.
+- 아트 손질(`tools/final_lap_art_prep.gd`): 반사 알파의 직선 끊김(y 280, 0.6→0) 블러(한 줄 차 0.03), 리본·광택 좌우 96 텍셀 여백 + 좌우 분할(352×768), 조각 그림 생성. 총 9장.
+
+| 구간 | 내용 (값은 `tools/final_lap_preset_generator.gd`) |
+|---|---|
+| START 0.7초 | 충전 고리 ×2.25→×0.5 (0~0.3초) → 섬광 ×3.4 (0.24~0.48초) → 결승선 띠(×1.15) 앞코 앞 −330에서 뒤로 680 이동 (0.25~0.65초) → 리본·광택·반사 길이 ×0.2→1.1→1.0 펼침 (0.3~0.7초) |
+| LOOP | 반사(ADDITIVE 0.5) / 좌우 리본(ALPHA 0.9, 폭 ×1.15·길이 ×1.0, 앞끝 y −120, 5° 벌어짐) / 좌우 광택(ADDITIVE 0.42) / 좌우 체커 조각. `boost_active`: 길이 ×1.25, 광택 0.9, 반사 0.9 |
+| END 0.4초 | 반사·리본·광택 PARTICLE 복사본 페이드(휘지 않음) |
+
+- 부하: LOOP 차 1대 스프라이트 5(bend 4) + 조각 입자 최대 12 → 8대 40 그리기 + 입자 96.
+- package: `exports/packages/talent.final_lap/` (Runtime Definition v2, 입력 `turn_rate_normalized`·`boost_active`, 텍스처 9장).
+- 테스트: `tests/preview/test_final_lap_authoring.gd`, 편집기 smoke 재능 22행.
+
+### ③ 게임 연결 때 할 일·확인
+- 파이널 랩 기능이 게임 master에 병합된 뒤. package 복사 + `vfx_package_catalog.json` + `RaceAbilityVfxIntegrationController.ABILITY_PRESET_IDS`에 `final_lap` → `talent.final_lap`.
+- 게임 화면에서 확인: bend 펄럭임(OSCILLATOR가 `VISUAL_BEND_OFFSET_X`를 움직이는 첫 사례), 흔들림과 휨이 같이 걸릴 때 어색하지 않은지, 코너 휨 방향, 리본이 bend 여백에서 잘리지 않는지.
+- 일반 부스터와 겹침(그리기 순서), 슈퍼 부스터 작동 중 모습, 완주로 끝날 때 END.
+- 8대 강제 발동 부하. 무거우면 조각 입자 → 광택 순으로 줄인다.
