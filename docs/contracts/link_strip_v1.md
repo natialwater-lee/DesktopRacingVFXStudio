@@ -1,6 +1,6 @@
 # LINK_STRIP v1 — 연결형 VFX 계약 (Studio ↔ Game)
 
-- 작성: 2026-11-26 (이펙트툴 세션, 체인 바인드 ②). 상태: **Studio 구현 완료, Game 미지원**(③에서 구현).
+- 작성: 2026-11-26 (이펙트툴 세션, 체인 바인드 ②). 상태: **Studio 구현 완료, Game ③ 구현**(2026-11-26, Game 브랜치 `claude/chain-bind-vfx`: `VfxLinkStripRuntimeRenderer`, 기하 `VfxLinkStripGeometry.gd`는 이 문서 2절 파일의 사본).
 - 첫 사용: `talent.chain_bind`, `talent.chain_bind_break`. 설계: `docs/superpowers/specs/2026-11-26-talent-chain-bind-design.md`.
 - 목적: 한 차(호스트)에 붙은 effect가 **다른 차(링크 대상)**까지 매 프레임 길이·방향이 바뀌는 띠를 그린다. 기존 레이어는 모두 차 한 대의 고정 좌표만 써서 이 표현이 불가능했다.
 
@@ -35,7 +35,7 @@ LINK_STRIP 또는 `link_point_t`를 쓰는 preset은 `link_target`이 **필수**
 | `gap_seconds` | 0 | phase 시작부터 가운데 틈이 0→전체로 벌어짐(선형) |
 | `gap_sag_source_px` | 0 | 틈이 벌어지는 만큼 더해지는 처짐 |
 
-reveal / retract / gap은 **phase-local 시간**(렌더러가 phase 시작에 0부터 잼)이라 END·ONE_SHOT에서도 동작한다.
+reveal / retract / gap은 **phase-local 시간**(렌더러가 phase 시작에 0부터 잼)이라 END·ONE_SHOT에서도 동작한다. Game은 ONE_SHOT을 받지 않으므로 끊김 package는 START_LOOP_END(START = 끊김, 빈 LOOP, END 0.05초)로 내보내고 Game이 START 뒤에 멈춘다.
 
 ### PARTICLE `link_point_t` (0~1, 선택)
 `VEHICLE_LOCAL` PARTICLE만. 생성 순간의 발생 원점 = lerp(Anchor + offset, 링크 대상 점, t). 이후 입자는 기존 규칙(호스트 차 로컬)대로 움직인다. 링크 대상이 없으면 Anchor 위치.
@@ -67,7 +67,7 @@ reveal / retract / gap은 **phase-local 시간**(렌더러가 phase 시작에 0�
 
 ## 6. Studio preview
 - 링크 preset을 열면 대상 차(청색 틴트)와 "LINK TARGET" 줄이 나타난다: Fwd/Side 슬라이더(source px), Auto(0.7D↔1.45D 왕복), Lock 버튼, 비율 표시.
-- `link_distance_ratio`는 앞쪽 거리 / 372 source px(D = 30 월드 px ÷ 0.08075)로 자동 계산. Auto에서 비율이 1을 넘는 순간 lock pulse.
+- `link_distance_ratio`는 앞쪽 거리 / 681 source px(D = 55 월드 px ÷ 0.08075, 기획 값 11-26. 처음엔 30 = 372였음)로 자동 계산. Auto에서 비율이 1을 넘는 순간 lock pulse.
 - preview는 한 번에 preset 하나만 재생한다. 짝 package(족쇄)는 따로 열어 본다.
 
 ## 7. 검증

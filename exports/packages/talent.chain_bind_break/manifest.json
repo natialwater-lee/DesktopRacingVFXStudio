@@ -75,14 +75,14 @@
       "sha256": "869f6adcc994ee1b5ef863aedcadf21d1a7948e9a8a8fa04612f3458c3f0bbb9"
     },
     {
-      "byte_size": 13953,
+      "byte_size": 14095,
       "path": "runtime/vfx_runtime_definition_v3.json",
-      "sha256": "0af756a726cffd1a4ce77055a885fc0fac0987b9474ffaffc0a4bdca9093b037"
+      "sha256": "0f538fbc582d6ef05b74c7ccfe11e54422958ca83240fc2e2562a1a05ca85d26"
     },
     {
-      "byte_size": 11299,
+      "byte_size": 11413,
       "path": "source/talent.chain_bind_break.vfx.json",
-      "sha256": "5cdf282a8ef3b69e939ecb1a9369be8869f66d3d2f5d320931c69aeb86297e97"
+      "sha256": "25d3f7ad855f909c0e1eb5524c93a95e595710c4a7fc57dd0847e38311aad2cd"
     }
   ],
   "package_format_version": 1,
@@ -91,7 +91,7 @@
     "category": "RACE_TALENT",
     "default_space_mode": "VEHICLE_LOCAL",
     "display_name": "Chain Bind Break",
-    "lifecycle_mode": "ONE_SHOT",
+    "lifecycle_mode": "START_LOOP_END",
     "preset_id": "talent.chain_bind_break",
     "vfx_schema_version": 1
   },
@@ -108,14 +108,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 13953,
+    "byte_size": 14095,
     "path": "runtime/vfx_runtime_definition_v3.json",
-    "sha256": "0af756a726cffd1a4ce77055a885fc0fac0987b9474ffaffc0a4bdca9093b037",
+    "sha256": "0f538fbc582d6ef05b74c7ccfe11e54422958ca83240fc2e2562a1a05ca85d26",
     "version": 3
   },
   "source": {
-    "byte_size": 11299,
+    "byte_size": 11413,
     "path": "source/talent.chain_bind_break.vfx.json",
-    "sha256": "5cdf282a8ef3b69e939ecb1a9369be8869f66d3d2f5d320931c69aeb86297e97"
+    "sha256": "25d3f7ad855f909c0e1eb5524c93a95e595710c4a7fc57dd0847e38311aad2cd"
   }
 }

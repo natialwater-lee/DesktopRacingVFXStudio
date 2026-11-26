@@ -132,9 +132,11 @@ func _break() -> Dictionary:
 			"emission_mode": "BURST", "burst_count": 6.0, "lifetime_seconds": 0.4, "size_start": 60.0, "size_end": 18.0,
 			"alpha_start": 1.0, "alpha_end": 0.0, "color_rgba": AMBER, "direction_degrees": 180.0, "spread_degrees": 240.0,
 			"speed_min": 200.0, "speed_max": 420.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 360.0}), 1.0)]
-	return _preset("talent.chain_bind_break", "Chain Bind Break", "ONE_SHOT", [],
+	# The Game runs START_LOOP_END only: START = the break, an empty LOOP and a short empty END. The Game stops it
+	# after START (VfxService normal_stop_after_seconds), as for the Wheel to Wheel moment packages.
+	return _preset("talent.chain_bind_break", "Chain Bind Break", "START_LOOP_END", [],
 		[{"id": src, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / 0.7}],
-		{"one_shot": {"duration_seconds": 0.7, "layers": layers}}, true)
+		{"start": {"duration_seconds": 0.7, "layers": layers}, "loop": {"layers": []}, "end": {"duration_seconds": 0.05, "layers": []}}, true)
 
 
 # --- helpers

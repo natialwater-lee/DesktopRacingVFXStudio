@@ -255,3 +255,8 @@ GPT 아트 5장 검수 통과: 크기 모두 요청대로, 사슬 타일 위아�
   - 짧은 사슬의 실제 길이 분포(기능 세션 측정)
   - 8쌍 부하
 - Studio preview는 한 번에 preset 하나만 재생한다. 사슬 + 족쇄 동시 모습은 Game 캡처로 확인한다.
+
+### ③ 게임 연결 (2026-11-26, Game 브랜치 `claude/chain-bind-vfx`)
+- 기능 세션 결과로 바뀐 점: D = 55(기획서, 지훈 11-26). 지속 끝 사유는 `duration_elapsed`. Studio preview의 거리 기준도 681 source px(55 ÷ 0.08075)로 맞췄다.
+- 끊김 package는 Game이 ONE_SHOT을 받지 않아 START_LOOP_END(START = 끊김 0.7초, 빈 LOOP, 빈 END 0.05초)로 바꿨다. 휠투휠 순간 package와 같은 방식이고, Game이 START 뒤에 멈춘다.
+- Game 구현: LINK_TARGET_V1 로더, `VfxLinkStripRuntimeRenderer`(기하는 `vfx_link_strip_geometry.gd` 사본), `LINK_SAG_OFFSET`, 입력 2개, 차량 Anchor FRONT(0, −220). 족쇄는 발동 context로 시작하고 대상당 하나를 공유한다.

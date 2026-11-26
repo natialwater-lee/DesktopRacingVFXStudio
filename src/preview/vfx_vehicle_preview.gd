@@ -272,11 +272,11 @@ func _frame_context() -> Dictionary:
 
 
 # --- Linked VFX preview (LINK_STRIP / link_point_t). The Game supplies the real target car each frame.
-# 30 world px bind distance (Chain Bind D) / 0.08075 world px per source px.
-const LINK_BIND_DISTANCE_SOURCE_PX := 372.0
+# 55 world px bind distance (Chain Bind D, design value since 2026-11-26) / 0.08075 world px per source px.
+const LINK_BIND_DISTANCE_SOURCE_PX := 681.0
 const LINK_LOCK_DECAY_SECONDS := 0.4
 const LINK_LOCK_MIN_INTERVAL_SECONDS := 1.0
-var _link_target_center := Vector2(300.0, -372.0)
+var _link_target_center := Vector2(300.0, -681.0)
 var _link_auto := true
 var _link_time := 0.0
 var _link_lock_decaying := false
@@ -364,7 +364,7 @@ func _ensure_link_ui() -> void:
 	var title := Label.new()
 	title.text = "LINK TARGET"
 	row.add_child(title)
-	for spec in [["LinkForwardSlider", "Fwd", 0.0, 900.0], ["LinkSideSlider", "Side", -600.0, 600.0]]:
+	for spec in [["LinkForwardSlider", "Fwd", 0.0, 1400.0], ["LinkSideSlider", "Side", -600.0, 600.0]]:
 		var label := Label.new()
 		label.text = str(spec[1])
 		row.add_child(label)
