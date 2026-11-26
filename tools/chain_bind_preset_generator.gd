@@ -11,8 +11,8 @@ const RING_OFFSET := [0.0, -5.0]         # chain start (ring centre) from FRONT
 const SHACKLE_OFFSET := [0.0, -10.0]     # shackle sprite centre from REAR_CENTER
 const SHACKLE_SCALE := 0.64              # 440 px band -> ~280 source px, wraps the rear corners
 const TARGET_EYE := [0.0, 40.0]          # shackle eye from REAR_CENTER = link end
-const CHAIN_WIDTH := 190.0               # strip width; the chain fills 62 % -> ~9.5 screen px. TILE = 2 links per 2 x width
-const GLOW_WIDTH := 420.0
+const CHAIN_WIDTH := 150.0               # strip width; the chain fills 62 % -> ~7.5 screen px (190 read too thick in race, 11-26). TILE = 2 links per 2 x width
+const GLOW_WIDTH := 330.0               # scaled with the chain (420 at 190)
 const SLACK_SAG := 55.0                  # ~4.4 screen px of drag sag when the chain is slack
 const START_SEC := 0.9
 const REVEAL_SEC := 0.12

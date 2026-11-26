@@ -50,7 +50,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -100,7 +100,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2.0,
@@ -150,7 +150,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3.0,
@@ -307,7 +307,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -388,7 +388,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2.0,
@@ -517,7 +517,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3.0,
@@ -782,7 +782,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1.0,
@@ -832,7 +832,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2.0,
@@ -898,7 +898,7 @@
             "segments": 10.0,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3.0,
