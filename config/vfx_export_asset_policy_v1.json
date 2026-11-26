@@ -483,6 +483,60 @@
       "source_path": "res://assets/vfx/talent_drift_master_drift_smoke.png",
       "package_file_name": "talent_drift_master_drift_smoke.png"
     },
+    "fx.final_lap_flag_body_l": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_flag_body_l.png",
+      "package_file_name": "talent_final_lap_flag_body_l.png"
+    },
+    "fx.final_lap_flag_body_r": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_flag_body_r.png",
+      "package_file_name": "talent_final_lap_flag_body_r.png"
+    },
+    "fx.final_lap_flag_sheen_l": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_flag_sheen_l.png",
+      "package_file_name": "talent_final_lap_flag_sheen_l.png"
+    },
+    "fx.final_lap_flag_sheen_r": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_flag_sheen_r.png",
+      "package_file_name": "talent_final_lap_flag_sheen_r.png"
+    },
+    "fx.final_lap_flag_spill": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_flag_spill.png",
+      "package_file_name": "talent_final_lap_flag_spill.png"
+    },
+    "fx.final_lap_flag_piece": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_flag_piece.png",
+      "package_file_name": "talent_final_lap_flag_piece.png"
+    },
+    "fx.final_lap_finish_line": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_finish_line.png",
+      "package_file_name": "talent_final_lap_finish_line.png"
+    },
+    "fx.final_lap_charge_ring": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_charge_ring.png",
+      "package_file_name": "talent_final_lap_charge_ring.png"
+    },
+    "fx.final_lap_charge_flash": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_final_lap_charge_flash.png",
+      "package_file_name": "talent_final_lap_charge_flash.png"
+    },
     "fx.underdog_revolt_flame_streak": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",
