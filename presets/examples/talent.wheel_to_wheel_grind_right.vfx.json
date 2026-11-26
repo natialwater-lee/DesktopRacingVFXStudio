@@ -3,10 +3,17 @@
   "default_space_mode": "VEHICLE_LOCAL",
   "display_name": "Wheel to Wheel Grind Right",
   "lifecycle": {
-    "mode": "ONE_SHOT"
+    "mode": "START_LOOP_END"
   },
   "phases": {
-    "one_shot": {
+    "end": {
+      "duration_seconds": 0.05,
+      "layers": []
+    },
+    "loop": {
+      "layers": []
+    },
+    "start": {
       "duration_seconds": 0.6,
       "layers": [
         {

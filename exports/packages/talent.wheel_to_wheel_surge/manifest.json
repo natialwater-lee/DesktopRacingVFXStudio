@@ -51,14 +51,14 @@
       "sha256": "bca68d712080a78b6e23c6efe1dcae0ba1992d8bf7889de4248aacbe2911c86a"
     },
     {
-      "byte_size": 13239,
+      "byte_size": 13381,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "78a3851aff1e9f4086fb78432fe3789f95667de80318aab5e8d4ca5b331f93e9"
+      "sha256": "1b44f0305787fcb893b5806e47bbc298c9a879003004a272dd05fb53102ac38c"
     },
     {
-      "byte_size": 12392,
+      "byte_size": 12506,
       "path": "source/talent.wheel_to_wheel_surge.vfx.json",
-      "sha256": "8dd5b2246ddb20b09b09bf8a2f1b0849a9ebb1c981b33539b22d53e7830db7a6"
+      "sha256": "2d2f5f9249fed72c171044bbca4b872fe9dcba7ac57012d22cc6268fc37042df"
     }
   ],
   "package_format_version": 1,
@@ -67,7 +67,7 @@
     "category": "RACE_TALENT",
     "default_space_mode": "VEHICLE_LOCAL",
     "display_name": "Wheel to Wheel Surge",
-    "lifecycle_mode": "ONE_SHOT",
+    "lifecycle_mode": "START_LOOP_END",
     "preset_id": "talent.wheel_to_wheel_surge",
     "vfx_schema_version": 1
   },
@@ -83,14 +83,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 13239,
+    "byte_size": 13381,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "78a3851aff1e9f4086fb78432fe3789f95667de80318aab5e8d4ca5b331f93e9",
+    "sha256": "1b44f0305787fcb893b5806e47bbc298c9a879003004a272dd05fb53102ac38c",
     "version": 2
   },
   "source": {
-    "byte_size": 12392,
+    "byte_size": 12506,
     "path": "source/talent.wheel_to_wheel_surge.vfx.json",
-    "sha256": "8dd5b2246ddb20b09b09bf8a2f1b0849a9ebb1c981b33539b22d53e7830db7a6"
+    "sha256": "2d2f5f9249fed72c171044bbca4b872fe9dcba7ac57012d22cc6268fc37042df"
   }
 }

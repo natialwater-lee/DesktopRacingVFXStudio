@@ -29,9 +29,11 @@ static func run(t: TestAssert) -> void:
 			return m.source.get("input") == "battle_engaged" and m.target == "TRANSFORM_OFFSET_Y" and float(m.mapping.output_max) < 0.0))
 	t.expect_true(main.lifecycle.mode == "START_LOOP_END" and main.runtime_inputs == ["battle_engaged"] and battle_ok,
 		"Wheel to Wheel LOOP: three flank sprites, battle_engaged leans them forward")
-	t.expect_true(surge.lifecycle.mode == "ONE_SHOT" and left.lifecycle.mode == "ONE_SHOT" and right.lifecycle.mode == "ONE_SHOT" \
-		and surge.runtime_inputs.is_empty() and left.runtime_inputs.is_empty(),
-		"Surge and grind are input-free one-shots the Game restarts on each event")
+	var moments_ok := true
+	for m in [surge, left, right]:
+		moments_ok = moments_ok and m.lifecycle.mode == "START_LOOP_END" and m.runtime_inputs.is_empty() and not m.phases.start.layers.is_empty() \
+			and m.phases.loop.layers.is_empty() and m.phases.end.layers.is_empty() and float(m.phases.end.duration_seconds) > 0.0
+	t.expect_true(moments_ok, "Surge and grind are input-free moment packages: START only, empty LOOP/END (the Game stops them after START)")
 	# Grind mirrors: sparks at the front corner on the opponent's side (left = -x), kick wave out on the other side.
 	var l_fan := _layer(left, "one_shot.spark_fan")
 	var r_fan := _layer(right, "one_shot.spark_fan")

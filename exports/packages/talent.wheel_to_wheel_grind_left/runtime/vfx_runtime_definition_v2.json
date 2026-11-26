@@ -471,14 +471,23 @@
           "type": "TEXTURED_SPRITE"
         }
       ],
-      "name": "one_shot"
+      "name": "start"
+    },
+    {
+      "layers": [],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.05,
+      "layers": [],
+      "name": "end"
     }
   ],
   "preset": {
     "category": "RACE_TALENT",
     "default_space_mode": "VEHICLE_LOCAL",
     "display_name": "Wheel to Wheel Grind Left",
-    "lifecycle_mode": "ONE_SHOT",
+    "lifecycle_mode": "START_LOOP_END",
     "preset_id": "talent.wheel_to_wheel_grind_left"
   },
   "required_vehicle_anchors": [

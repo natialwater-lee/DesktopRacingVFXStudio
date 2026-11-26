@@ -435,14 +435,23 @@
           "type": "PARTICLE"
         }
       ],
-      "name": "one_shot"
+      "name": "start"
+    },
+    {
+      "layers": [],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.05,
+      "layers": [],
+      "name": "end"
     }
   ],
   "preset": {
     "category": "RACE_TALENT",
     "default_space_mode": "VEHICLE_LOCAL",
     "display_name": "Wheel to Wheel Surge",
-    "lifecycle_mode": "ONE_SHOT",
+    "lifecycle_mode": "START_LOOP_END",
     "preset_id": "talent.wheel_to_wheel_surge"
   },
   "required_vehicle_anchors": [

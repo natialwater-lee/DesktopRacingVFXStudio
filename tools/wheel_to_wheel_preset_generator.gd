@@ -6,8 +6,8 @@ extends SceneTree
 #
 # Main (12 s): white pressure crescents on both flanks (ALPHA air body + lemon ADD edge + lemon road spill).
 #   battle_engaged (Game-smoothed 0..1, rear car of a battle) makes them denser, wider and leans them forward.
-# Surge (battle_start, one shot): a pressure wave thrown forward from the nose + nose flash + corner sparks.
-# Grind (hold_resisted, one shot): spark fountain + flash at the front corner on the opponent's side, and a pressure
+# Surge (battle_start, moment package): a pressure wave thrown forward from the nose + nose flash + corner sparks.
+# Grind (hold_resisted, moment package): spark fountain + flash at the front corner on the opponent's side, and a pressure
 #   wave kicking out to the other side (the side the car escapes to). left/right = side the opponent is on.
 # Units: offsets are vehicle source px (canvas 256 x 512, front -Y); pivots are texture texels from the centre.
 const OUT_DIR := "res://presets/examples/"
@@ -29,6 +29,7 @@ const START_SEC := 0.5
 const END_SEC := 0.4
 const SURGE_SEC := 0.55
 const GRIND_SEC := 0.6
+const MOMENT_END_SEC := 0.05          # empty END of the moment packages (the Game requires END > 0)
 
 
 func _init() -> void:
@@ -80,8 +81,8 @@ func _surge() -> Dictionary:
 		_mod("one_shot.nose_flash.out", t, 0.12, 0.4, 1.0, 0.0, "VISUAL_OPACITY_MULTIPLIER")]))
 	for sx in [-1.0, 1.0]:
 		layers.append(_sparks("one_shot.sparks_%s" % ("l" if sx < 0.0 else "r"), [FRONT_CORNER.x * sx, FRONT_CORNER.y], 35.0 * sx, 5.0, 0.4, 55.0))
-	return _preset("talent.wheel_to_wheel_surge", "Wheel to Wheel Surge", "ONE_SHOT", [],
-		[{"id": t, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / SURGE_SEC}], {"one_shot": {"duration_seconds": SURGE_SEC, "layers": layers}})
+	return _preset("talent.wheel_to_wheel_surge", "Wheel to Wheel Surge", "START_LOOP_END", [],
+		[{"id": t, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / SURGE_SEC}], _moment(SURGE_SEC, layers))
 
 
 ## side = -1: the opponent is on my left (sparks at my front-left, I kick out to the right); +1 the mirror.
@@ -104,11 +105,17 @@ func _grind(side: float) -> Dictionary:
 	# Kick-out wave on the escape side: crescent rotated to bulge outward, pushed ~10 screen px out.
 	layers += _wave("one_shot.kick", t, [-250.0 * side, -60.0], -90.0 * side, [-150.0 * side, 0.0], 0.75, 0.0, 0.7)
 	var label := "Left" if side < 0.0 else "Right"
-	return _preset("talent.wheel_to_wheel_grind_" + label.to_lower(), "Wheel to Wheel Grind " + label, "ONE_SHOT", [],
-		[{"id": t, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / GRIND_SEC}], {"one_shot": {"duration_seconds": GRIND_SEC, "layers": layers}})
+	return _preset("talent.wheel_to_wheel_grind_" + label.to_lower(), "Wheel to Wheel Grind " + label, "START_LOOP_END", [],
+		[{"id": t, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / GRIND_SEC}], _moment(GRIND_SEC, layers))
 
 
 # --- helpers
+
+## Moment package: the Game runs START_LOOP_END only, so a one-shot is START = the moment, an empty LOOP and a short
+## empty END; the Game stops it after START (VfxService option normal_stop_after_seconds, as Pit Stop Ace does).
+func _moment(seconds: float, layers: Array) -> Dictionary:
+	return {"start": {"duration_seconds": seconds, "layers": layers}, "loop": {"layers": []}, "end": {"duration_seconds": MOMENT_END_SEC, "layers": []}}
+
 
 ## Pressure wave (ALPHA air + ADD rim): moves by `travel` (source px) and grows x0.6 -> x1.4 over phase t0..t1, fading out.
 func _wave(id: String, source: String, offset: Array, rotation: float, travel: Array, scale: float, t0: float, t1: float) -> Array:

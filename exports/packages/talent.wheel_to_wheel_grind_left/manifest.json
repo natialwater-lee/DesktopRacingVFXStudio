@@ -63,14 +63,14 @@
       "sha256": "bca68d712080a78b6e23c6efe1dcae0ba1992d8bf7889de4248aacbe2911c86a"
     },
     {
-      "byte_size": 14489,
+      "byte_size": 14631,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "c41fbda4e8b10ee00efa30dcb6d56da578df269200567a19661082b72fe2f5e6"
+      "sha256": "b5c342ed80d12ac90d59320b7d4d50b5dd00a95399359a8bcbb1a44cc5f6827a"
     },
     {
-      "byte_size": 13763,
+      "byte_size": 13877,
       "path": "source/talent.wheel_to_wheel_grind_left.vfx.json",
-      "sha256": "14ad0c4fd35d8441ee51e4125111e15f3fd6fc3ff0f4c3894b645d1087b00505"
+      "sha256": "0c3e1d6257f698a978dd4374ab4c0787e5ccbcb9866aa4dc336fc2df76e276c9"
     }
   ],
   "package_format_version": 1,
@@ -79,7 +79,7 @@
     "category": "RACE_TALENT",
     "default_space_mode": "VEHICLE_LOCAL",
     "display_name": "Wheel to Wheel Grind Left",
-    "lifecycle_mode": "ONE_SHOT",
+    "lifecycle_mode": "START_LOOP_END",
     "preset_id": "talent.wheel_to_wheel_grind_left",
     "vfx_schema_version": 1
   },
@@ -95,14 +95,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 14489,
+    "byte_size": 14631,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "c41fbda4e8b10ee00efa30dcb6d56da578df269200567a19661082b72fe2f5e6",
+    "sha256": "b5c342ed80d12ac90d59320b7d4d50b5dd00a95399359a8bcbb1a44cc5f6827a",
     "version": 2
   },
   "source": {
-    "byte_size": 13763,
+    "byte_size": 13877,
     "path": "source/talent.wheel_to_wheel_grind_left.vfx.json",
-    "sha256": "14ad0c4fd35d8441ee51e4125111e15f3fd6fc3ff0f4c3894b645d1087b00505"
+    "sha256": "0c3e1d6257f698a978dd4374ab4c0787e5ccbcb9866aa4dc336fc2df76e276c9"
   }
 }

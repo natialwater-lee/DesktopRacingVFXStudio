@@ -198,3 +198,9 @@ GPT 아트 5장 검수 통과: 크기 모두 요청대로, 반달 본체·테 �
   - 밝은 트랙에서 반달이 보이는지
   - 8대가 연속으로 신호를 낼 때 1회 package 부하
   - 기능 세션 측정값(발동당 신호 횟수)으로 최소 간격이 적절한지
+
+### ③ 시작 전 변경 (2026-11-26): 순간 package를 START_LOOP_END로
+- Game은 `START_LOOP_END`만 받고 END 길이 > 0을 요구한다(`VfxRendererFactory.preflight_effect`). `ONE_SHOT`은 거부된다.
+- 그래서 surge·grind는 **START = 순간 연출, 빈 LOOP, 빈 END 0.05초**로 바꿨다. 레이어·시간은 그대로다.
+- Game은 시작할 때 `normal_stop_after_seconds` = START 길이(surge 0.55, grind 0.6)를 넘겨 START가 끝나면 멈춘다. 피트스톱 에이스와 같은 경로다.
+- package 3개는 REPLACE_EXISTING으로 다시 export했다. preview 469/0.
