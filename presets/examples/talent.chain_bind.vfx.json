@@ -21,66 +21,6 @@
           "anchors": [
             "FRONT"
           ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.chain_shadow",
-          "importance": "CORE",
-          "modulations": [
-            {
-              "id": "end.chain_shadow.tension",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.7,
-                "output_max": -55.0,
-                "output_min": 0.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "link_distance_ratio",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "LINK_SAG_OFFSET"
-            }
-          ],
-          "parameters": {
-            "color_rgba": [
-              0.0,
-              0.0,
-              0.0,
-              1.0
-            ],
-            "opacity": 0.5,
-            "retract_seconds": 0.35,
-            "sag_source_px": 55.0,
-            "segments": 10,
-            "shift_source_px": [
-              22.0,
-              34.0
-            ],
-            "texture_asset_ref": "fx.chain_bind_heat_glow",
-            "texture_mode": "STRETCH",
-            "width_source_px": 230.0
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "transform": {
-            "offset": [
-              0.0,
-              -5.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "LINK_STRIP"
-        },
-        {
-          "anchors": [
-            "FRONT"
-          ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
           "id": "end.chain_glow",
@@ -110,7 +50,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -160,7 +100,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2,
@@ -210,7 +150,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3,
@@ -291,65 +231,6 @@
           "anchors": [
             "FRONT"
           ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "loop.chain_shadow",
-          "importance": "CORE",
-          "modulations": [
-            {
-              "id": "loop.chain_shadow.tension",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.7,
-                "output_max": -55.0,
-                "output_min": 0.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "link_distance_ratio",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "LINK_SAG_OFFSET"
-            }
-          ],
-          "parameters": {
-            "color_rgba": [
-              0.0,
-              0.0,
-              0.0,
-              1.0
-            ],
-            "opacity": 0.5,
-            "sag_source_px": 55.0,
-            "segments": 10,
-            "shift_source_px": [
-              22.0,
-              34.0
-            ],
-            "texture_asset_ref": "fx.chain_bind_heat_glow",
-            "texture_mode": "STRETCH",
-            "width_source_px": 230.0
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "transform": {
-            "offset": [
-              0.0,
-              -5.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "LINK_STRIP"
-        },
-        {
-          "anchors": [
-            "FRONT"
-          ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
           "id": "loop.chain_glow",
@@ -426,7 +307,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -507,7 +388,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2,
@@ -636,7 +517,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3,
@@ -856,66 +737,6 @@
           "anchors": [
             "FRONT"
           ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "start.chain_shadow",
-          "importance": "CORE",
-          "modulations": [
-            {
-              "id": "start.chain_shadow.sag",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.3,
-                "output_max": 0.0,
-                "output_min": -55.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "source_id": "chain_bind.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "LINK_SAG_OFFSET"
-            }
-          ],
-          "parameters": {
-            "color_rgba": [
-              0.0,
-              0.0,
-              0.0,
-              1.0
-            ],
-            "opacity": 0.5,
-            "reveal_seconds": 0.12,
-            "sag_source_px": 55.0,
-            "segments": 10,
-            "shift_source_px": [
-              22.0,
-              34.0
-            ],
-            "texture_asset_ref": "fx.chain_bind_heat_glow",
-            "texture_mode": "STRETCH",
-            "width_source_px": 230.0
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "transform": {
-            "offset": [
-              0.0,
-              -5.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "LINK_STRIP"
-        },
-        {
-          "anchors": [
-            "FRONT"
-          ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
           "id": "start.chain_glow",
@@ -961,7 +782,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -1011,7 +832,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2,
@@ -1077,7 +898,7 @@
             "segments": 10,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3,

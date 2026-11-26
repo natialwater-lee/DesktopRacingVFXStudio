@@ -68,7 +68,7 @@
             "start_inset_source_px": 0.0,
             "texture_asset_ref": "fx.chain_bind_heat_glow",
             "texture_mode": "STRETCH",
-            "width_source_px": 420.0
+            "width_source_px": 330.0
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 1,
@@ -139,7 +139,7 @@
             "start_inset_source_px": 0.0,
             "texture_asset_ref": "fx.chain_bind_chain_links",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 2,
@@ -210,7 +210,7 @@
             "start_inset_source_px": 0.0,
             "texture_asset_ref": "fx.chain_bind_chain_links_heat",
             "texture_mode": "TILE",
-            "width_source_px": 190.0
+            "width_source_px": 150.0
           },
           "render_plane": "OVER_VEHICLE",
           "sort_order": 3,
@@ -488,14 +488,23 @@
           "type": "PARTICLE"
         }
       ],
-      "name": "one_shot"
+      "name": "start"
+    },
+    {
+      "layers": [],
+      "name": "loop"
+    },
+    {
+      "duration_seconds": 0.05,
+      "layers": [],
+      "name": "end"
     }
   ],
   "preset": {
     "category": "RACE_TALENT",
     "default_space_mode": "VEHICLE_LOCAL",
     "display_name": "Chain Bind Break",
-    "lifecycle_mode": "ONE_SHOT",
+    "lifecycle_mode": "START_LOOP_END",
     "preset_id": "talent.chain_bind_break"
   },
   "required_capabilities": [

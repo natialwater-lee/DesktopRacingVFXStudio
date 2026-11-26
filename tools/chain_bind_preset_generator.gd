@@ -11,10 +11,8 @@ const RING_OFFSET := [0.0, -5.0]         # chain start (ring centre) from FRONT
 const SHACKLE_OFFSET := [0.0, -10.0]     # shackle sprite centre from REAR_CENTER
 const SHACKLE_SCALE := 0.64              # 440 px band -> ~280 source px, wraps the rear corners
 const TARGET_EYE := [0.0, 40.0]          # shackle eye from REAR_CENTER = link end
-const CHAIN_WIDTH := 190.0               # strip width; the chain fills 62 % -> ~9.5 screen px. TILE = 2 links per 2 x width
-const GLOW_WIDTH := 420.0
-const SHADOW_WIDTH := 230.0
-const SHADOW_SHIFT := [22.0, 34.0]
+const CHAIN_WIDTH := 150.0               # strip width; the chain fills 62 % -> ~7.5 screen px (190 read too thick in race, 11-26). TILE = 2 links per 2 x width
+const GLOW_WIDTH := 330.0               # scaled with the chain (420 at 190)
 const SLACK_SAG := 55.0                  # ~4.4 screen px of drag sag when the chain is slack
 const START_SEC := 0.9
 const REVEAL_SEC := 0.12
@@ -35,10 +33,9 @@ func _binder() -> Dictionary:
 	var start := []
 	var loop := []
 	var end := []
+	# No drop-shadow strip: removed for load (2026-11-26, 지훈: first planned cut; 8 pairs = 8 fewer strips per phase).
 	# --- START: chain whipped out (reveal), red hot, then cools toward the slack look while sag drops in.
 	var intro := "chain_bind.intro"
-	start.append(_link("start.chain_shadow", "fx.chain_bind_heat_glow", "STRETCH", "UNDER_VEHICLE", "ALPHA", 0, SHADOW_WIDTH, 0.5,
-		{"color_rgba": [0.0, 0.0, 0.0, 1.0], "shift_source_px": SHADOW_SHIFT, "reveal_seconds": REVEAL_SEC}, _intro_sag("start.chain_shadow")))
 	start.append(_link("start.chain_glow", "fx.chain_bind_heat_glow", "STRETCH", "UNDER_VEHICLE", "ADDITIVE", 1, GLOW_WIDTH, 0.9,
 		{"reveal_seconds": REVEAL_SEC}, _intro_sag("start.chain_glow") + [_mod("start.chain_glow.cool", intro, 0.35, 1.0, 1.0, 0.45, "VISUAL_OPACITY_MULTIPLIER")]))
 	start.append(_link("start.chain_links", "fx.chain_bind_chain_links", "TILE", "OVER_VEHICLE", "ALPHA", 2, CHAIN_WIDTH, 1.0,
@@ -51,8 +48,6 @@ func _binder() -> Dictionary:
 			_mod(id + ".flash_x", intro, 0.0, 0.33, 1.6, 1.0, "TRANSFORM_SCALE_X"),
 			_mod(id + ".flash_y", intro, 0.0, 0.33, 1.6, 1.0, "TRANSFORM_SCALE_Y")]))
 	# --- LOOP: everything reacts to the real distance; lock pulse = "clank" when speed matching starts.
-	loop.append(_link("loop.chain_shadow", "fx.chain_bind_heat_glow", "STRETCH", "UNDER_VEHICLE", "ALPHA", 0, SHADOW_WIDTH, 0.5,
-		{"color_rgba": [0.0, 0.0, 0.0, 1.0], "shift_source_px": SHADOW_SHIFT}, [_sag_by_ratio("loop.chain_shadow")]))
 	loop.append(_link("loop.chain_glow", "fx.chain_bind_heat_glow", "STRETCH", "UNDER_VEHICLE", "ADDITIVE", 1, GLOW_WIDTH, 0.85, {},
 		[_sag_by_ratio("loop.chain_glow")] + _heat_mods("loop.chain_glow", 0.45, 1.35, 1.5, true)))
 	loop.append(_link("loop.chain_links", "fx.chain_bind_chain_links", "TILE", "OVER_VEHICLE", "ALPHA", 2, CHAIN_WIDTH, 1.0, {},
@@ -64,8 +59,6 @@ func _binder() -> Dictionary:
 		_heat_mods("loop.clamp_heat", 0.3, 1.3, 1.35, false)))
 	loop.append(_lock_flash("loop.lock_flash", "FRONT", RING_OFFSET, 0.6))
 	# --- END: the chain reels back into the clamp (retract), clamp fades via particle copies.
-	end.append(_link("end.chain_shadow", "fx.chain_bind_heat_glow", "STRETCH", "UNDER_VEHICLE", "ALPHA", 0, SHADOW_WIDTH, 0.5,
-		{"color_rgba": [0.0, 0.0, 0.0, 1.0], "shift_source_px": SHADOW_SHIFT, "retract_seconds": 0.35}, [_sag_by_ratio("end.chain_shadow")]))
 	end.append(_link("end.chain_glow", "fx.chain_bind_heat_glow", "STRETCH", "UNDER_VEHICLE", "ADDITIVE", 1, GLOW_WIDTH, 0.5,
 		{"retract_seconds": 0.35}, [_sag_by_ratio("end.chain_glow")]))
 	end.append(_link("end.chain_links", "fx.chain_bind_chain_links", "TILE", "OVER_VEHICLE", "ALPHA", 2, CHAIN_WIDTH, 1.0,
@@ -132,9 +125,11 @@ func _break() -> Dictionary:
 			"emission_mode": "BURST", "burst_count": 6.0, "lifetime_seconds": 0.4, "size_start": 60.0, "size_end": 18.0,
 			"alpha_start": 1.0, "alpha_end": 0.0, "color_rgba": AMBER, "direction_degrees": 180.0, "spread_degrees": 240.0,
 			"speed_min": 200.0, "speed_max": 420.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 360.0}), 1.0)]
-	return _preset("talent.chain_bind_break", "Chain Bind Break", "ONE_SHOT", [],
+	# The Game runs START_LOOP_END only: START = the break, an empty LOOP and a short empty END. The Game stops it
+	# after START (VfxService normal_stop_after_seconds), as for the Wheel to Wheel moment packages.
+	return _preset("talent.chain_bind_break", "Chain Bind Break", "START_LOOP_END", [],
 		[{"id": src, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / 0.7}],
-		{"one_shot": {"duration_seconds": 0.7, "layers": layers}}, true)
+		{"start": {"duration_seconds": 0.7, "layers": layers}, "loop": {"layers": []}, "end": {"duration_seconds": 0.05, "layers": []}}, true)
 
 
 # --- helpers
