@@ -26,7 +26,7 @@ static func run(t: TestAssert) -> void:
 	var link_counts := []
 	for phase in ["start", "loop", "end"]:
 		link_counts.append(binder.phases[phase].layers.filter(func(l): return l.type == "LINK_STRIP").size())
-	t.expect_true(binder.get("link_target", {}).get("target_anchor") == "REAR_CENTER" and link_counts == [4, 4, 4] \
+	t.expect_true(binder.get("link_target", {}).get("target_anchor") == "REAR_CENTER" and link_counts == [3, 3, 3] \
 		and binder.runtime_inputs == ["link_distance_ratio", "link_lock_pulse"] and not shackle.has("link_target") \
 		and broken.lifecycle.mode == "START_LOOP_END" and broken.phases.start.layers.any(func(l): return l.get("link_point_t", -1.0) == 0.5) \
 		and broken.phases.loop.layers.is_empty() and broken.phases.end.layers.is_empty() and broken.phases.end.duration_seconds > 0.0,

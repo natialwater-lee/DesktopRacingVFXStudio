@@ -75,14 +75,14 @@
       "sha256": "3ef2307d327910bab61631b70d7912979f173415a351f065184f6eaefe017e76"
     },
     {
-      "byte_size": 42022,
+      "byte_size": 36191,
       "path": "runtime/vfx_runtime_definition_v3.json",
-      "sha256": "5543a6bd2729469d61407d1cb054468b4fbc879e2f70b9ffae4da76386aad2db"
+      "sha256": "5619160c427c461f0f1957ca130029101a875c342c43f1d72e8ae835d6ee67ff"
     },
     {
-      "byte_size": 34674,
+      "byte_size": 29939,
       "path": "source/talent.chain_bind.vfx.json",
-      "sha256": "80a3b6fe837cf3dd15f191b46f5f9e5df247962f7a98ccb3f8afd7062a909b20"
+      "sha256": "afc32281e9435d07b256f6e4e0fb81ab3cf6fe19b7906c30c5ce5d7e24b90d0c"
     }
   ],
   "package_format_version": 1,
@@ -97,7 +97,7 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 18,
+      "CORE": 15,
       "DETAIL": 0,
       "EXTRA": 0
     },
@@ -111,14 +111,14 @@
     ]
   },
   "runtime_definition": {
-    "byte_size": 42022,
+    "byte_size": 36191,
     "path": "runtime/vfx_runtime_definition_v3.json",
-    "sha256": "5543a6bd2729469d61407d1cb054468b4fbc879e2f70b9ffae4da76386aad2db",
+    "sha256": "5619160c427c461f0f1957ca130029101a875c342c43f1d72e8ae835d6ee67ff",
     "version": 3
   },
   "source": {
-    "byte_size": 34674,
+    "byte_size": 29939,
     "path": "source/talent.chain_bind.vfx.json",
-    "sha256": "80a3b6fe837cf3dd15f191b46f5f9e5df247962f7a98ccb3f8afd7062a909b20"
+    "sha256": "afc32281e9435d07b256f6e4e0fb81ab3cf6fe19b7906c30c5ce5d7e24b90d0c"
   }
 }
