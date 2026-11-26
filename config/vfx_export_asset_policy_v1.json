@@ -465,6 +465,60 @@
       "source_path": "res://assets/vfx/talent_chain_bind_snap_flash.png",
       "package_file_name": "talent_chain_bind_snap_flash.png"
     },
+    "fx.wheel_to_wheel_flank_body": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_flank_body.png",
+      "package_file_name": "talent_wheel_to_wheel_flank_body.png"
+    },
+    "fx.wheel_to_wheel_flank_edge": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_flank_edge.png",
+      "package_file_name": "talent_wheel_to_wheel_flank_edge.png"
+    },
+    "fx.wheel_to_wheel_flank_spill": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_flank_spill.png",
+      "package_file_name": "talent_wheel_to_wheel_flank_spill.png"
+    },
+    "fx.wheel_to_wheel_wave_body": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_wave_body.png",
+      "package_file_name": "talent_wheel_to_wheel_wave_body.png"
+    },
+    "fx.wheel_to_wheel_wave_rim": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_wave_rim.png",
+      "package_file_name": "talent_wheel_to_wheel_wave_rim.png"
+    },
+    "fx.wheel_to_wheel_spark_fan_r": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_spark_fan_r.png",
+      "package_file_name": "talent_wheel_to_wheel_spark_fan_r.png"
+    },
+    "fx.wheel_to_wheel_spark_fan_l": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_spark_fan_l.png",
+      "package_file_name": "talent_wheel_to_wheel_spark_fan_l.png"
+    },
+    "fx.wheel_to_wheel_contact_flash": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_contact_flash.png",
+      "package_file_name": "talent_wheel_to_wheel_contact_flash.png"
+    },
+    "fx.wheel_to_wheel_spark": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_spark.png",
+      "package_file_name": "talent_wheel_to_wheel_spark.png"
+    },
     "fx.drift_master_neon_tail": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

@@ -311,6 +311,42 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_chain_bind_snap_flash.png"
     },
+    "fx.wheel_to_wheel_flank_body": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_flank_body.png"
+    },
+    "fx.wheel_to_wheel_flank_edge": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_flank_edge.png"
+    },
+    "fx.wheel_to_wheel_flank_spill": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_flank_spill.png"
+    },
+    "fx.wheel_to_wheel_wave_body": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_wave_body.png"
+    },
+    "fx.wheel_to_wheel_wave_rim": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_wave_rim.png"
+    },
+    "fx.wheel_to_wheel_spark_fan_r": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_spark_fan_r.png"
+    },
+    "fx.wheel_to_wheel_spark_fan_l": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_spark_fan_l.png"
+    },
+    "fx.wheel_to_wheel_contact_flash": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_contact_flash.png"
+    },
+    "fx.wheel_to_wheel_spark": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_spark.png"
+    },
     "fx.drift_master_neon_tail": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_drift_master_neon_tail.png"
