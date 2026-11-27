@@ -22,17 +22,17 @@ const ENGAGED_LEAN := -50.0              # source px forward (~4 screen px) at b
 # opacity/rate modulation in the Game, so battle_engaged drives only a faint road haze (the old spill sprite).
 const HAZE_IDLE := 0.2                   # was the 0.55 spill; battle_engaged x2.25 -> 0.45
 const HAZE_ENGAGED_GAIN := 2.25
-const WISP_TEX := ["fx.wheel_to_wheel_turbulence_a", "fx.wheel_to_wheel_turbulence_b"]   # GPT wisps widened x2.75 (tools/wheel_to_wheel_turbulence_prep.gd)
+const WISP_TEX := ["fx.wheel_to_wheel_turbulence_a", "fx.wheel_to_wheel_turbulence_b"]   # GPT wisps widened x4 (tools/wheel_to_wheel_turbulence_prep.gd)
 const WISP_ORIGIN := Vector2(128.0, -60.0)    # beside the front door, a little behind the nose (car body half width ~100)
-const WISP_BOX := [25.0, 60.0]
+const WISP_BOX := [12.0, 60.0]           # narrow birth lane beside the door (was 25 wide)
 const WISP_SPEED := [650.0, 950.0]       # x 0.45 s -> 290..430 source px back (past the tail, ~25..35 screen px)
 const WISP_LIFE := 0.45
 const WISP_SIZE := [60.0, 100.0]         # half long side: ~10 -> ~16 screen px long
-const WISP_ALPHA := 0.45                 # 0.3 (the art README's 30 %) was barely visible in the race (11-27)
+const WISP_ALPHA := 0.6                  # 0.3 (the art README's 30 %) was barely visible; 0.45 still weak on the bright bridge (Jihoon 11-27)
 const WISP_RATE := 6.0                   # per layer; 2 layers a side -> ~12 alive per car
 const WISP_TINT := [1.0, 0.97, 0.9, 1.0]
-const WISP_SCATTER := 120.0              # outward acceleration: the wisps open out toward the tail
-const WISP_BEND := 8.0                   # +- texels of sine bend (keeps the widened wisp inside the 128 px sprite)
+const WISP_SCATTER := 20.0               # small outward drift: straight back, only a slight opening at the tail (Jihoon 11-27: no sprinkler look; was 120)
+const WISP_BEND := 5.0                   # +- texels of sine bend: a gentle waver, not a sway (was 8)
 # [texture index, bend frequency Hz, phase degrees] per layer; left/right use different beats so they never sway together.
 const WISP_LAYERS := {"l": [[0, 1.3, 0.0], [1, 1.9, 120.0]], "r": [[0, 1.6, 200.0], [1, 2.2, 300.0]]}
 const EMBER_RATE := 2.0
@@ -105,8 +105,8 @@ func _wisps(phase: String) -> Array:
 			var layer := _particle(id, WISP_TEX[spec[0]], "CENTER", origin, "OVER_VEHICLE", "ADDITIVE", 3, {
 				"emission_mode": "CONTINUOUS", "emission_rate_per_second": WISP_RATE, "max_particles": 4.0,
 				"lifetime_seconds": WISP_LIFE, "emitter": {"shape": "BOX", "size": WISP_BOX},
-				"direction_degrees": 180.0, "spread_degrees": 4.0, "speed_min": WISP_SPEED[0], "speed_max": WISP_SPEED[1],
-				"acceleration": [WISP_SCATTER * sx, 0.0], "angular_velocity_min_degrees_per_second": -8.0, "angular_velocity_max_degrees_per_second": 8.0,
+				"direction_degrees": 180.0, "spread_degrees": 1.0, "speed_min": WISP_SPEED[0], "speed_max": WISP_SPEED[1],
+				"acceleration": [WISP_SCATTER * sx, 0.0], "angular_velocity_min_degrees_per_second": 0.0, "angular_velocity_max_degrees_per_second": 0.0,
 				"size_start": WISP_SIZE[0], "size_end": WISP_SIZE[1], "size_multiplier_min": 0.8, "size_multiplier_max": 1.2,
 				"alpha_start": WISP_ALPHA, "alpha_end": 0.0, "color_rgba": WISP_TINT})
 			# Sway: the whole stream bends with a sine (each layer its own beat) -> wavering, broken-looking flow.
@@ -119,7 +119,7 @@ func _wisps(phase: String) -> Array:
 			out.append(layer)
 		out.append(_particle("%s.ember_%s" % [phase, side], "fx.wheel_to_wheel_spark", "CENTER", origin, "OVER_VEHICLE", "ADDITIVE", 4, {
 			"emission_mode": "CONTINUOUS", "emission_rate_per_second": EMBER_RATE, "max_particles": 2.0, "lifetime_seconds": 0.4,
-			"emitter": {"shape": "BOX", "size": WISP_BOX}, "direction_degrees": 180.0, "spread_degrees": 10.0,
+			"emitter": {"shape": "BOX", "size": WISP_BOX}, "direction_degrees": 180.0, "spread_degrees": 3.0,
 			"speed_min": 500.0, "speed_max": 800.0, "acceleration": [WISP_SCATTER * sx, 0.0],
 			"size_start": 36.0, "size_end": 12.0, "alpha_start": 0.5, "alpha_end": 0.0, "color_rgba": LEMON}))
 	return out

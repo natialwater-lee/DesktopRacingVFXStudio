@@ -2,13 +2,13 @@ extends SceneTree
 # Prepares the GPT Wheel to Wheel turbulence wisps (64 x 256, flow = image down) for the Studio. Run:
 #   godot --headless --path <studio> --script res://tools/wheel_to_wheel_turbulence_prep.gd -- <folder with the 2 GPT PNGs>
 # Writes res://assets/vfx/talent_wheel_to_wheel_turbulence_{a,b}.png and prints checks.
-# Particles scale uniformly, so the width is baked in: each wisp is widened x2.75 into a 128 x 256 canvas (the long side
-# stays 256, so particle sizes keep their length). At ~10..16 screen px long that makes the wisp ~2..3 px wide on screen
-# (the delivered 1:10 wisp was under 1 px and not visible in the race).
+# Particles scale uniformly, so the width is baked in: each wisp is widened x4 into a 160 x 256 canvas (the long side
+# stays 256, so particle sizes keep their length). At ~10..16 screen px long that makes the wisp ~3..4 px wide on screen
+# (the delivered 1:10 wisp was under 1 px and not visible in the race; x2.75 was still weak, Jihoon 11-27).
 # Design: docs/superpowers/specs/2026-11-26-talent-wheel-to-wheel-design.md section 11
 const OUT := "res://assets/vfx/"
-const WIDEN := 2.75
-const OUT_SIZE := Vector2i(128, 256)
+const WIDEN := 4.0
+const OUT_SIZE := Vector2i(160, 256)     # wide enough for the x4 wisp + sway (b reached the edge at 128)
 const BORDER := 3
 
 

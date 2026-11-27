@@ -7,7 +7,7 @@ const AssetRegistry = preload("res://src/preview/rendering/vfx_preview_asset_reg
 const AssetResolver = preload("res://src/preview/rendering/vfx_preview_asset_resolver.gd")
 const DIR = "res://presets/examples/"
 const ASSETS := {
-	"fx.wheel_to_wheel_turbulence_a": Vector2i(128, 256), "fx.wheel_to_wheel_turbulence_b": Vector2i(128, 256),
+	"fx.wheel_to_wheel_turbulence_a": Vector2i(160, 256), "fx.wheel_to_wheel_turbulence_b": Vector2i(160, 256),
 	"fx.wheel_to_wheel_flank_spill": Vector2i(512, 768), "fx.wheel_to_wheel_wave_body": Vector2i(512, 256),
 	"fx.wheel_to_wheel_wave_rim": Vector2i(512, 256), "fx.wheel_to_wheel_spark_fan_r": Vector2i(256, 256),
 	"fx.wheel_to_wheel_spark_fan_l": Vector2i(256, 256), "fx.wheel_to_wheel_contact_flash": Vector2i(256, 256),

@@ -72,8 +72,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -83,8 +83,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -97,13 +97,13 @@
           ],
           "parameters": {
             "acceleration": [
-              -120.0,
+              -20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -116,7 +116,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -130,7 +130,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
           },
           "render_plane": "OVER_VEHICLE",
@@ -169,8 +169,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -180,8 +180,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -194,13 +194,13 @@
           ],
           "parameters": {
             "acceleration": [
-              -120.0,
+              -20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -213,7 +213,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -227,7 +227,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
           },
           "render_plane": "OVER_VEHICLE",
@@ -268,7 +268,7 @@
           "modulations": [],
           "parameters": {
             "acceleration": [
-              -120.0,
+              -20.0,
               0.0
             ],
             "alpha_end": 0.0,
@@ -287,7 +287,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -301,7 +301,7 @@
             "size_start": 36.0,
             "speed_max": 800.0,
             "speed_min": 500.0,
-            "spread_degrees": 10.0,
+            "spread_degrees": 3.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_spark"
           },
           "render_plane": "OVER_VEHICLE",
@@ -334,8 +334,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -345,8 +345,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -359,13 +359,13 @@
           ],
           "parameters": {
             "acceleration": [
-              120.0,
+              20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -378,7 +378,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -392,7 +392,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
           },
           "render_plane": "OVER_VEHICLE",
@@ -431,8 +431,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -442,8 +442,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -456,13 +456,13 @@
           ],
           "parameters": {
             "acceleration": [
-              120.0,
+              20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -475,7 +475,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -489,7 +489,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
           },
           "render_plane": "OVER_VEHICLE",
@@ -530,7 +530,7 @@
           "modulations": [],
           "parameters": {
             "acceleration": [
-              120.0,
+              20.0,
               0.0
             ],
             "alpha_end": 0.0,
@@ -549,7 +549,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -563,7 +563,7 @@
             "size_start": 36.0,
             "speed_max": 800.0,
             "speed_min": 500.0,
-            "spread_degrees": 10.0,
+            "spread_degrees": 3.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_spark"
           },
           "render_plane": "OVER_VEHICLE",
@@ -914,8 +914,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -925,8 +925,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -939,13 +939,13 @@
           ],
           "parameters": {
             "acceleration": [
-              -120.0,
+              -20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -958,7 +958,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -972,7 +972,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
           },
           "render_plane": "OVER_VEHICLE",
@@ -1011,8 +1011,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -1022,8 +1022,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1036,13 +1036,13 @@
           ],
           "parameters": {
             "acceleration": [
-              -120.0,
+              -20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -1055,7 +1055,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -1069,7 +1069,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
           },
           "render_plane": "OVER_VEHICLE",
@@ -1110,7 +1110,7 @@
           "modulations": [],
           "parameters": {
             "acceleration": [
-              -120.0,
+              -20.0,
               0.0
             ],
             "alpha_end": 0.0,
@@ -1129,7 +1129,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -1143,7 +1143,7 @@
             "size_start": 36.0,
             "speed_max": 800.0,
             "speed_min": 500.0,
-            "spread_degrees": 10.0,
+            "spread_degrees": 3.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_spark"
           },
           "render_plane": "OVER_VEHICLE",
@@ -1176,8 +1176,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -1187,8 +1187,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1201,13 +1201,13 @@
           ],
           "parameters": {
             "acceleration": [
-              120.0,
+              20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -1220,7 +1220,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -1234,7 +1234,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
           },
           "render_plane": "OVER_VEHICLE",
@@ -1273,8 +1273,8 @@
           "importance": "CORE",
           "modulation_clamps": [
             {
-              "max_effective": 8.0,
-              "min_effective": -8.0,
+              "max_effective": 5.0,
+              "min_effective": -5.0,
               "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
@@ -1284,8 +1284,8 @@
               "mapping": {
                 "input_max": 1.0,
                 "input_min": -1.0,
-                "output_max": 8.0,
-                "output_min": -8.0,
+                "output_max": 5.0,
+                "output_min": -5.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
@@ -1298,13 +1298,13 @@
           ],
           "parameters": {
             "acceleration": [
-              120.0,
+              20.0,
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.45,
-            "angular_velocity_max_degrees_per_second": 8.0,
-            "angular_velocity_min_degrees_per_second": -8.0,
+            "alpha_start": 0.6,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
             "color_rgba": [
               1.0,
               0.97,
@@ -1317,7 +1317,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -1331,7 +1331,7 @@
             "size_start": 60.0,
             "speed_max": 950.0,
             "speed_min": 650.0,
-            "spread_degrees": 4.0,
+            "spread_degrees": 1.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
           },
           "render_plane": "OVER_VEHICLE",
@@ -1372,7 +1372,7 @@
           "modulations": [],
           "parameters": {
             "acceleration": [
-              120.0,
+              20.0,
               0.0
             ],
             "alpha_end": 0.0,
@@ -1391,7 +1391,7 @@
             "emitter": {
               "shape": "BOX",
               "size": [
-                25.0,
+                12.0,
                 60.0
               ]
             },
@@ -1405,7 +1405,7 @@
             "size_start": 36.0,
             "speed_max": 800.0,
             "speed_min": 500.0,
-            "spread_degrees": 10.0,
+            "spread_degrees": 3.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_spark"
           },
           "render_plane": "OVER_VEHICLE",
