@@ -4,8 +4,8 @@ extends SceneTree
 # Output: presets/examples/talent.wheel_to_wheel{,_surge,_grind_left,_grind_right}.vfx.json
 # Design: docs/superpowers/specs/2026-11-26-talent-wheel-to-wheel-design.md (1 screen px ~ 12.4 source px in game)
 #
-# Main (12 s): white pressure crescents on both flanks (ALPHA air body + lemon ADD edge + lemon road spill).
-#   battle_engaged (Game-smoothed 0..1, rear car of a battle) makes them denser, wider and leans them forward.
+# Main (talent duration): sustain v2 — short warm-white turbulence wisps flow back along both flanks and scatter behind,
+#   with a few lemon embers and a faint road haze. battle_engaged (Game-smoothed 0..1) lifts the haze (both sides alike).
 # Surge (battle_start, moment package): a pressure wave thrown forward from the nose + nose flash + corner sparks.
 # Grind (hold_resisted, moment package): spark fountain + flash at the front corner on the opponent's side, and a pressure
 #   wave kicking out to the other side (the side the car escapes to). left/right = side the opponent is on.
@@ -15,10 +15,27 @@ const OUT_DIR := "res://presets/examples/"
 const FLANK_SCALE := [1.0, 1.2]          # car hole 200 x 400 texels -> 200 x 480 source px (narrower X keeps the arcs off a car alongside)
 const FLANK_OFFSET := [0.0, 29.0]        # image centre below the car centre (24 texels x 1.2)
 const FLANK_HALF_LONG := 461.0      # particle copy size = half the displayed long side (768 x 1.2 / 2)
-const IDLE := {"spill": 0.55, "body": 0.7, "edge": 0.85}
-const ENGAGED_GAIN := {"spill": 1.7, "body": 1.35, "edge": 1.18}   # x idle opacity at battle_engaged 1
 const ENGAGED_WIDTH := 1.1
 const ENGAGED_LEAN := -50.0              # source px forward (~4 screen px) at battle_engaged 1
+# Sustain v2 (Jihoon 11-27: the white crescents are too crisp and static, a white blob in a pack): no fixed band. Short
+# warm-white turbulence wisps are born beside the front doors, flow back past the tail and scatter. Particles cannot take
+# opacity/rate modulation in the Game, so battle_engaged drives only a faint road haze (the old spill sprite).
+const HAZE_IDLE := 0.2                   # was the 0.55 spill; battle_engaged x2.25 -> 0.45
+const HAZE_ENGAGED_GAIN := 2.25
+const WISP_TEX := ["fx.wheel_to_wheel_turbulence_a", "fx.wheel_to_wheel_turbulence_b"]   # GPT wisps widened x2.75 (tools/wheel_to_wheel_turbulence_prep.gd)
+const WISP_ORIGIN := Vector2(128.0, -60.0)    # beside the front door, a little behind the nose (car body half width ~100)
+const WISP_BOX := [25.0, 60.0]
+const WISP_SPEED := [650.0, 950.0]       # x 0.45 s -> 290..430 source px back (past the tail, ~25..35 screen px)
+const WISP_LIFE := 0.45
+const WISP_SIZE := [60.0, 100.0]         # half long side: ~10 -> ~16 screen px long
+const WISP_ALPHA := 0.45                 # 0.3 (the art README's 30 %) was barely visible in the race (11-27)
+const WISP_RATE := 6.0                   # per layer; 2 layers a side -> ~12 alive per car
+const WISP_TINT := [1.0, 0.97, 0.9, 1.0]
+const WISP_SCATTER := 120.0              # outward acceleration: the wisps open out toward the tail
+const WISP_BEND := 8.0                   # +- texels of sine bend (keeps the widened wisp inside the 128 px sprite)
+# [texture index, bend frequency Hz, phase degrees] per layer; left/right use different beats so they never sway together.
+const WISP_LAYERS := {"l": [[0, 1.3, 0.0], [1, 1.9, 120.0]], "r": [[0, 1.6, 200.0], [1, 2.2, 300.0]]}
+const EMBER_RATE := 2.0
 const FRONT_CORNER := Vector2(100.0, -215.0)
 const FAN_ORIGIN_R := Vector2(-80.0, -80.0)   # spark origin texel (48, 48) from the 256 px image centre
 const LEMON := [1.0, 0.9, 0.45, 1.0]     # spark tint (white-hot copy of the Furious Overtake spark; Chain Bind uses amber)
@@ -51,35 +68,61 @@ func _init() -> void:
 
 func _main() -> Dictionary:
 	var intro := "wheel_to_wheel.intro"
-	var start := []
-	var loop := []
-	var end := []
-	for part in [["spill", "fx.wheel_to_wheel_flank_spill", "ADDITIVE", "UNDER_VEHICLE", 0], ["body", "fx.wheel_to_wheel_flank_body", "ALPHA", "OVER_VEHICLE", 1], ["edge", "fx.wheel_to_wheel_flank_edge", "ADDITIVE", "OVER_VEHICLE", 2]]:
-		var key: String = part[0]
-		# START: the arcs burst out of the body sides (x0.7 -> x1.15 -> x1.0), edge and spill flash x1.6 then settle.
-		var sid := "start." + key
-		var start_mods := [
-			_mod(sid + ".in", intro, 0.0, 0.2, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER"),
-			_mod(sid + ".out_x", intro, 0.0, 0.5, 0.7, 1.15, "TRANSFORM_SCALE_X"),
-			_mod(sid + ".settle_x", intro, 0.5, 1.0, 1.0, 1.0 / 1.15, "TRANSFORM_SCALE_X")]
-		if key != "body":
-			start_mods.append(_mod(sid + ".flash", intro, 0.2, 0.7, 1.6, 1.0, "VISUAL_OPACITY_MULTIPLIER"))
-		start.append(_sprite(sid, part[1], "CENTER", FLANK_OFFSET, FLANK_SCALE, part[2], part[3], part[4], IDLE[key], start_mods))
-		# LOOP: idle look; battle_engaged -> denser, wider, leaning forward ("shoulder in").
-		var lid := "loop." + key
-		loop.append(_sprite(lid, part[1], "CENTER", FLANK_OFFSET, FLANK_SCALE, part[2], part[3], part[4], IDLE[key], [
-			_input_mod(lid + ".battle_a", "battle_engaged", 0.0, 1.0, 1.0, ENGAGED_GAIN[key], "VISUAL_OPACITY_MULTIPLIER"),
-			_input_mod(lid + ".battle_w", "battle_engaged", 0.0, 1.0, 1.0, ENGAGED_WIDTH, "TRANSFORM_SCALE_X"),
-			_input_mod(lid + ".battle_lean", "battle_engaged", 0.0, 1.0, 0.0, ENGAGED_LEAN, "TRANSFORM_OFFSET_Y")]))
-		# END: TEXTURED_SPRITE cannot ramp in END, so fade a particle copy that also folds in (size x0.8).
-		end.append(_particle("end." + key, part[1], "CENTER", FLANK_OFFSET, part[3], part[2], part[4], {
-			"emission_mode": "BURST", "burst_count": 1.0, "lifetime_seconds": END_SEC,
-			"size_start": FLANK_HALF_LONG, "size_end": FLANK_HALF_LONG * 0.8, "alpha_start": IDLE[key], "alpha_end": 0.0}))
-	# START: one small pressure wave off the nose announces the activation.
+	var sources := [{"id": intro, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / START_SEC}]
+	for side in WISP_LAYERS:
+		for i in WISP_LAYERS[side].size():
+			var spec: Array = WISP_LAYERS[side][i]
+			sources.append({"id": "wheel_to_wheel.sway_%s%d" % [side, i], "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": spec[1], "phase_degrees": spec[2]})
+	var haze := ["fx.wheel_to_wheel_flank_spill", "ADDITIVE", "UNDER_VEHICLE", 0]
+	# START: the haze fades in, the wisps start flowing at once (their particles drain into LOOP), one small pressure wave.
+	var start := [_sprite("start.haze", haze[0], "CENTER", FLANK_OFFSET, FLANK_SCALE, haze[1], haze[2], haze[3], HAZE_IDLE, [
+		_mod("start.haze.in", intro, 0.0, 0.4, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER")])]
+	start += _wisps("start")
 	start += _wave("start.wave", intro, [0.0, -200.0], 0.0, [0.0, -160.0], 0.45, 0.0, 0.8)
-	return _preset("talent.wheel_to_wheel", "Wheel to Wheel", "START_LOOP_END", ["battle_engaged"],
-		[{"id": intro, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / START_SEC}],
+	# LOOP: flowing wisps + embers; battle_engaged lifts only the faint haze (both sides alike in v1), wider and leaning in.
+	var loop := [_sprite("loop.haze", haze[0], "CENTER", FLANK_OFFSET, FLANK_SCALE, haze[1], haze[2], haze[3], HAZE_IDLE, [
+		_input_mod("loop.haze.battle_a", "battle_engaged", 0.0, 1.0, 1.0, HAZE_ENGAGED_GAIN, "VISUAL_OPACITY_MULTIPLIER"),
+		_input_mod("loop.haze.battle_w", "battle_engaged", 0.0, 1.0, 1.0, ENGAGED_WIDTH, "TRANSFORM_SCALE_X"),
+		_input_mod("loop.haze.battle_lean", "battle_engaged", 0.0, 1.0, 0.0, ENGAGED_LEAN, "TRANSFORM_OFFSET_Y")])]
+	loop += _wisps("loop")
+	# END: the LOOP wisps stop emitting and drain on their own (~0.45 s); the haze fades as a particle copy.
+	var end := [_particle("end.haze", haze[0], "CENTER", FLANK_OFFSET, haze[2], haze[1], haze[3], {
+		"emission_mode": "BURST", "burst_count": 1.0, "lifetime_seconds": END_SEC,
+		"size_start": FLANK_HALF_LONG, "size_end": FLANK_HALF_LONG * 0.9, "alpha_start": HAZE_IDLE, "alpha_end": 0.0})]
+	return _preset("talent.wheel_to_wheel", "Wheel to Wheel", "START_LOOP_END", ["battle_engaged"], sources,
 		{"start": {"duration_seconds": START_SEC, "layers": start}, "loop": {"layers": loop}, "end": {"duration_seconds": END_SEC, "layers": end}})
+
+
+## Two wisp streams per side (different art, speed spread and sway beat) + a few lemon embers per side.
+func _wisps(phase: String) -> Array:
+	var out := []
+	for side in WISP_LAYERS:
+		var sx := -1.0 if side == "l" else 1.0
+		var origin := [WISP_ORIGIN.x * sx, WISP_ORIGIN.y]
+		for i in WISP_LAYERS[side].size():
+			var spec: Array = WISP_LAYERS[side][i]
+			var id := "%s.wisp_%s%d" % [phase, side, i]
+			var layer := _particle(id, WISP_TEX[spec[0]], "CENTER", origin, "OVER_VEHICLE", "ADDITIVE", 3, {
+				"emission_mode": "CONTINUOUS", "emission_rate_per_second": WISP_RATE, "max_particles": 4.0,
+				"lifetime_seconds": WISP_LIFE, "emitter": {"shape": "BOX", "size": WISP_BOX},
+				"direction_degrees": 180.0, "spread_degrees": 4.0, "speed_min": WISP_SPEED[0], "speed_max": WISP_SPEED[1],
+				"acceleration": [WISP_SCATTER * sx, 0.0], "angular_velocity_min_degrees_per_second": -8.0, "angular_velocity_max_degrees_per_second": 8.0,
+				"size_start": WISP_SIZE[0], "size_end": WISP_SIZE[1], "size_multiplier_min": 0.8, "size_multiplier_max": 1.2,
+				"alpha_start": WISP_ALPHA, "alpha_end": 0.0, "color_rgba": WISP_TINT})
+			# Sway: the whole stream bends with a sine (each layer its own beat) -> wavering, broken-looking flow.
+			layer["visual_bend"] = {"axis": "LOCAL_Y_POSITIVE", "curve": "QUADRATIC", "span_source_px": 220.0, "start_ratio": 0.3}
+			layer["transform"]["modulation_pivot_local"] = [0.0, 0.0]
+			layer["modulations"] = [{"id": id + ".sway", "operation": "ADD", "target": "VISUAL_BEND_OFFSET_X",
+				"source": {"type": "PRESET_SOURCE", "source_id": "wheel_to_wheel.sway_%s%d" % [side, i]},
+				"mapping": {"type": "LINEAR_RANGE", "input_min": -1.0, "input_max": 1.0, "output_min": -WISP_BEND, "output_max": WISP_BEND}}]
+			layer["modulation_clamps"] = [{"target": "VISUAL_BEND_OFFSET_X", "min_effective": -WISP_BEND, "max_effective": WISP_BEND}]
+			out.append(layer)
+		out.append(_particle("%s.ember_%s" % [phase, side], "fx.wheel_to_wheel_spark", "CENTER", origin, "OVER_VEHICLE", "ADDITIVE", 4, {
+			"emission_mode": "CONTINUOUS", "emission_rate_per_second": EMBER_RATE, "max_particles": 2.0, "lifetime_seconds": 0.4,
+			"emitter": {"shape": "BOX", "size": WISP_BOX}, "direction_degrees": 180.0, "spread_degrees": 10.0,
+			"speed_min": 500.0, "speed_max": 800.0, "acceleration": [WISP_SCATTER * sx, 0.0],
+			"size_start": 36.0, "size_end": 12.0, "alpha_start": 0.5, "alpha_end": 0.0, "color_rgba": LEMON}))
+	return out
 
 
 func _surge() -> Dictionary:

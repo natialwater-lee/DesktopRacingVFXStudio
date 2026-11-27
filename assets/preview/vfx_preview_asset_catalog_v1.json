@@ -347,6 +347,14 @@
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_wheel_to_wheel_spark.png"
     },
+    "fx.wheel_to_wheel_turbulence_a": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_turbulence_a.png"
+    },
+    "fx.wheel_to_wheel_turbulence_b": {
+      "source": "TEXTURE",
+      "texture_path": "res://assets/vfx/talent_wheel_to_wheel_turbulence_b.png"
+    },
     "fx.drift_master_neon_tail": {
       "source": "TEXTURE",
       "texture_path": "res://assets/vfx/talent_drift_master_neon_tail.png"

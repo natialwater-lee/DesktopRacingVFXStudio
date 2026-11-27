@@ -519,6 +519,18 @@
       "source_path": "res://assets/vfx/talent_wheel_to_wheel_spark.png",
       "package_file_name": "talent_wheel_to_wheel_spark.png"
     },
+    "fx.wheel_to_wheel_turbulence_a": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_turbulence_a.png",
+      "package_file_name": "talent_wheel_to_wheel_turbulence_a.png"
+    },
+    "fx.wheel_to_wheel_turbulence_b": {
+      "export_policy": "EXPORTABLE",
+      "kind": "TEXTURE_PNG",
+      "source_path": "res://assets/vfx/talent_wheel_to_wheel_turbulence_b.png",
+      "package_file_name": "talent_wheel_to_wheel_turbulence_b.png"
+    },
     "fx.drift_master_neon_tail": {
       "export_policy": "EXPORTABLE",
       "kind": "TEXTURE_PNG",

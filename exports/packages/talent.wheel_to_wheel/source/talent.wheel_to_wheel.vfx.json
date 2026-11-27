@@ -15,7 +15,7 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "end.spill",
+          "id": "end.haze",
           "importance": "CORE",
           "parameters": {
             "acceleration": [
@@ -23,7 +23,7 @@
               0.0
             ],
             "alpha_end": 0.0,
-            "alpha_start": 0.55,
+            "alpha_start": 0.2,
             "angular_velocity_max_degrees_per_second": 0.0,
             "angular_velocity_min_degrees_per_second": 0.0,
             "burst_count": 1.0,
@@ -41,7 +41,7 @@
             "lifetime_seconds": 0.4,
             "rotation_max_degrees": 0.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 368.8,
+            "size_end": 414.9,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
             "size_start": 461.0,
@@ -52,118 +52,6 @@
           },
           "render_plane": "UNDER_VEHICLE",
           "sort_order": 0.0,
-          "transform": {
-            "offset": [
-              0.0,
-              29.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ALPHA",
-          "enabled": true,
-          "id": "end.body",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.7,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "burst_count": 1.0,
-            "color_rgba": [
-              1.0,
-              1.0,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 0.0,
-            "emission_mode": "BURST",
-            "emitter": {
-              "shape": "POINT"
-            },
-            "lifetime_seconds": 0.4,
-            "rotation_max_degrees": 0.0,
-            "rotation_min_degrees": 0.0,
-            "size_end": 368.8,
-            "size_multiplier_max": 1.0,
-            "size_multiplier_min": 1.0,
-            "size_start": 461.0,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
-            "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.wheel_to_wheel_flank_body"
-          },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 1.0,
-          "transform": {
-            "offset": [
-              0.0,
-              29.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "end.edge",
-          "importance": "CORE",
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.85,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "burst_count": 1.0,
-            "color_rgba": [
-              1.0,
-              1.0,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 0.0,
-            "emission_mode": "BURST",
-            "emitter": {
-              "shape": "POINT"
-            },
-            "lifetime_seconds": 0.4,
-            "rotation_max_degrees": 0.0,
-            "rotation_min_degrees": 0.0,
-            "size_end": 368.8,
-            "size_multiplier_max": 1.0,
-            "size_multiplier_min": 1.0,
-            "size_start": 461.0,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
-            "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.wheel_to_wheel_flank_edge"
-          },
-          "render_plane": "OVER_VEHICLE",
-          "sort_order": 2.0,
           "transform": {
             "offset": [
               0.0,
@@ -187,15 +75,15 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.spill",
+          "id": "loop.haze",
           "importance": "CORE",
           "modulations": [
             {
-              "id": "loop.spill.battle_a",
+              "id": "loop.haze.battle_a",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": 0.0,
-                "output_max": 1.7,
+                "output_max": 2.25,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
@@ -207,7 +95,7 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
-              "id": "loop.spill.battle_w",
+              "id": "loop.haze.battle_w",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": 0.0,
@@ -223,7 +111,7 @@
               "target": "TRANSFORM_SCALE_X"
             },
             {
-              "id": "loop.spill.battle_lean",
+              "id": "loop.haze.battle_lean",
               "mapping": {
                 "input_max": 1.0,
                 "input_min": 0.0,
@@ -240,7 +128,7 @@
             }
           ],
           "parameters": {
-            "opacity": 0.55,
+            "opacity": 0.2,
             "texture_asset_ref": "fx.wheel_to_wheel_flank_spill"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -266,82 +154,97 @@
           "anchors": [
             "CENTER"
           ],
-          "blend_mode": "ALPHA",
+          "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.body",
+          "id": "loop.wisp_l0",
           "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
           "modulations": [
             {
-              "id": "loop.body.battle_a",
+              "id": "loop.wisp_l0.sway",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.35,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "loop.body.battle_w",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.1,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.body.battle_lean",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": -50.0,
-                "output_min": 0.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
               "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
+                "source_id": "wheel_to_wheel.sway_l0",
+                "type": "PRESET_SOURCE"
               },
-              "target": "TRANSFORM_OFFSET_Y"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
-            "opacity": 0.7,
-            "texture_asset_ref": "fx.wheel_to_wheel_flank_body"
+            "acceleration": [
+              -120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
           },
           "render_plane": "OVER_VEHICLE",
-          "sort_order": 1.0,
+          "sort_order": 3.0,
           "transform": {
             "modulation_pivot_local": [
               0.0,
               0.0
             ],
             "offset": [
-              0.0,
-              29.0
+              -128.0,
+              -60.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
               1.0,
-              1.2
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE"
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
         },
         {
           "anchors": [
@@ -349,80 +252,409 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.edge",
+          "id": "loop.wisp_l1",
           "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
           "modulations": [
             {
-              "id": "loop.edge.battle_a",
+              "id": "loop.wisp_l1.sway",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.18,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "loop.edge.battle_w",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.1,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.edge.battle_lean",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": -50.0,
-                "output_min": 0.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "ADD",
               "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
+                "source_id": "wheel_to_wheel.sway_l1",
+                "type": "PRESET_SOURCE"
               },
-              "target": "TRANSFORM_OFFSET_Y"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
-            "opacity": 0.85,
-            "texture_asset_ref": "fx.wheel_to_wheel_flank_edge"
+            "acceleration": [
+              -120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
           },
           "render_plane": "OVER_VEHICLE",
-          "sort_order": 2.0,
+          "sort_order": 3.0,
           "transform": {
             "modulation_pivot_local": [
               0.0,
               0.0
             ],
             "offset": [
-              0.0,
-              29.0
+              -128.0,
+              -60.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
               1.0,
-              1.2
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE"
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.ember_l",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              -120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.9,
+              0.45,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 2.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 12.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 36.0,
+            "speed_max": 800.0,
+            "speed_min": 500.0,
+            "spread_degrees": 10.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_spark"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 4.0,
+          "transform": {
+            "offset": [
+              -128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.wisp_r0",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.wisp_r0.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel.sway_r0",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "acceleration": [
+              120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.wisp_r1",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "loop.wisp_r1.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel.sway_r1",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "acceleration": [
+              120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "loop.ember_r",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.9,
+              0.45,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 2.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 12.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 36.0,
+            "speed_max": 800.0,
+            "speed_min": 500.0,
+            "spread_degrees": 10.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_spark"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 4.0,
+          "transform": {
+            "offset": [
+              128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
         }
       ]
     },
@@ -435,13 +667,13 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.spill",
+          "id": "start.haze",
           "importance": "CORE",
           "modulations": [
             {
-              "id": "start.spill.in",
+              "id": "start.haze.in",
               "mapping": {
-                "input_max": 0.2,
+                "input_max": 0.4,
                 "input_min": 0.0,
                 "output_max": 1.0,
                 "output_min": 0.0,
@@ -453,58 +685,10 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "start.spill.out_x",
-              "mapping": {
-                "input_max": 0.5,
-                "input_min": 0.0,
-                "output_max": 1.15,
-                "output_min": 0.7,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.spill.settle_x",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.5,
-                "output_max": 0.869565217391304,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.spill.flash",
-              "mapping": {
-                "input_max": 0.7,
-                "input_min": 0.2,
-                "output_max": 1.0,
-                "output_min": 1.6,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
             }
           ],
           "parameters": {
-            "opacity": 0.55,
+            "opacity": 0.2,
             "texture_asset_ref": "fx.wheel_to_wheel_flank_spill"
           },
           "render_plane": "UNDER_VEHICLE",
@@ -530,82 +714,97 @@
           "anchors": [
             "CENTER"
           ],
-          "blend_mode": "ALPHA",
+          "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.body",
+          "id": "start.wisp_l0",
           "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
           "modulations": [
             {
-              "id": "start.body.in",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "start.body.out_x",
-              "mapping": {
-                "input_max": 0.5,
-                "input_min": 0.0,
-                "output_max": 1.15,
-                "output_min": 0.7,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.body.settle_x",
+              "id": "start.wisp_l0.sway",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.5,
-                "output_max": 0.869565217391304,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
                 "type": "LINEAR_RANGE"
               },
-              "operation": "MULTIPLY",
+              "operation": "ADD",
               "source": {
-                "source_id": "wheel_to_wheel.intro",
+                "source_id": "wheel_to_wheel.sway_l0",
                 "type": "PRESET_SOURCE"
               },
-              "target": "TRANSFORM_SCALE_X"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
-            "opacity": 0.7,
-            "texture_asset_ref": "fx.wheel_to_wheel_flank_body"
+            "acceleration": [
+              -120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
           },
           "render_plane": "OVER_VEHICLE",
-          "sort_order": 1.0,
+          "sort_order": 3.0,
           "transform": {
             "modulation_pivot_local": [
               0.0,
               0.0
             ],
             "offset": [
-              0.0,
-              29.0
+              -128.0,
+              -60.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
               1.0,
-              1.2
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE"
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
         },
         {
           "anchors": [
@@ -613,96 +812,409 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.edge",
+          "id": "start.wisp_l1",
           "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
           "modulations": [
             {
-              "id": "start.edge.in",
-              "mapping": {
-                "input_max": 0.2,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "start.edge.out_x",
-              "mapping": {
-                "input_max": 0.5,
-                "input_min": 0.0,
-                "output_max": 1.15,
-                "output_min": 0.7,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.edge.settle_x",
+              "id": "start.wisp_l1.sway",
               "mapping": {
                 "input_max": 1.0,
-                "input_min": 0.5,
-                "output_max": 0.869565217391304,
-                "output_min": 1.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
                 "type": "LINEAR_RANGE"
               },
-              "operation": "MULTIPLY",
+              "operation": "ADD",
               "source": {
-                "source_id": "wheel_to_wheel.intro",
+                "source_id": "wheel_to_wheel.sway_l1",
                 "type": "PRESET_SOURCE"
               },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "start.edge.flash",
-              "mapping": {
-                "input_max": 0.7,
-                "input_min": 0.2,
-                "output_max": 1.0,
-                "output_min": 1.6,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
+              "target": "VISUAL_BEND_OFFSET_X"
             }
           ],
           "parameters": {
-            "opacity": 0.85,
-            "texture_asset_ref": "fx.wheel_to_wheel_flank_edge"
+            "acceleration": [
+              -120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
           },
           "render_plane": "OVER_VEHICLE",
-          "sort_order": 2.0,
+          "sort_order": 3.0,
           "transform": {
             "modulation_pivot_local": [
               0.0,
               0.0
             ],
             "offset": [
-              0.0,
-              29.0
+              -128.0,
+              -60.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
               1.0,
-              1.2
+              1.0
             ]
           },
-          "type": "TEXTURED_SPRITE"
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.ember_l",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              -120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.9,
+              0.45,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 2.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 12.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 36.0,
+            "speed_max": 800.0,
+            "speed_min": 500.0,
+            "spread_degrees": 10.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_spark"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 4.0,
+          "transform": {
+            "offset": [
+              -128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.wisp_r0",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.wisp_r0.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel.sway_r0",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "acceleration": [
+              120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_a"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.wisp_r1",
+          "importance": "CORE",
+          "modulation_clamps": [
+            {
+              "max_effective": 8.0,
+              "min_effective": -8.0,
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "modulations": [
+            {
+              "id": "start.wisp_r1.sway",
+              "mapping": {
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": 8.0,
+                "output_min": -8.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel.sway_r1",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_BEND_OFFSET_X"
+            }
+          ],
+          "parameters": {
+            "acceleration": [
+              120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.45,
+            "angular_velocity_max_degrees_per_second": 8.0,
+            "angular_velocity_min_degrees_per_second": -8.0,
+            "color_rgba": [
+              1.0,
+              0.97,
+              0.9,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 6.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.45,
+            "max_particles": 4.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 100.0,
+            "size_multiplier_max": 1.2,
+            "size_multiplier_min": 0.8,
+            "size_start": 60.0,
+            "speed_max": 950.0,
+            "speed_min": 650.0,
+            "spread_degrees": 4.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_turbulence_b"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 3.0,
+          "transform": {
+            "modulation_pivot_local": [
+              0.0,
+              0.0
+            ],
+            "offset": [
+              128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE",
+          "visual_bend": {
+            "axis": "LOCAL_Y_POSITIVE",
+            "curve": "QUADRATIC",
+            "span_source_px": 220.0,
+            "start_ratio": 0.3
+          }
+        },
+        {
+          "anchors": [
+            "CENTER"
+          ],
+          "blend_mode": "ADDITIVE",
+          "enabled": true,
+          "id": "start.ember_r",
+          "importance": "CORE",
+          "parameters": {
+            "acceleration": [
+              120.0,
+              0.0
+            ],
+            "alpha_end": 0.0,
+            "alpha_start": 0.5,
+            "angular_velocity_max_degrees_per_second": 0.0,
+            "angular_velocity_min_degrees_per_second": 0.0,
+            "color_rgba": [
+              1.0,
+              0.9,
+              0.45,
+              1.0
+            ],
+            "direction_degrees": 180.0,
+            "emission_mode": "CONTINUOUS",
+            "emission_rate_per_second": 2.0,
+            "emitter": {
+              "shape": "BOX",
+              "size": [
+                25.0,
+                60.0
+              ]
+            },
+            "lifetime_seconds": 0.4,
+            "max_particles": 2.0,
+            "rotation_max_degrees": 0.0,
+            "rotation_min_degrees": 0.0,
+            "size_end": 12.0,
+            "size_multiplier_max": 1.0,
+            "size_multiplier_min": 1.0,
+            "size_start": 36.0,
+            "speed_max": 800.0,
+            "speed_min": 500.0,
+            "spread_degrees": 10.0,
+            "sprite_asset_ref": "fx.wheel_to_wheel_spark"
+          },
+          "render_plane": "OVER_VEHICLE",
+          "sort_order": 4.0,
+          "transform": {
+            "offset": [
+              128.0,
+              -60.0
+            ],
+            "rotation_degrees": 0.0,
+            "scale": [
+              1.0,
+              1.0
+            ]
+          },
+          "type": "PARTICLE"
         },
         {
           "anchors": [
@@ -942,6 +1454,34 @@
       "frequency_hz": 2.0,
       "id": "wheel_to_wheel.intro",
       "type": "LINEAR_PHASE"
+    },
+    {
+      "frequency_hz": 1.3,
+      "id": "wheel_to_wheel.sway_l0",
+      "phase_degrees": 0.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.9,
+      "id": "wheel_to_wheel.sway_l1",
+      "phase_degrees": 120.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 1.6,
+      "id": "wheel_to_wheel.sway_r0",
+      "phase_degrees": 200.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
+    },
+    {
+      "frequency_hz": 2.2,
+      "id": "wheel_to_wheel.sway_r1",
+      "phase_degrees": 300.0,
+      "type": "OSCILLATOR",
+      "wave": "SINE"
     }
   ],
   "schema_version": 1.0
