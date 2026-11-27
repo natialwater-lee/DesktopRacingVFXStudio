@@ -1,13 +1,6 @@
 {
   "asset_dependencies": [
     {
-      "byte_size": 33579,
-      "kind": "TEXTURE_PNG",
-      "logical_id": "fx.wheel_to_wheel_flank_spill",
-      "package_path": "assets/talent_wheel_to_wheel_flank_spill.png",
-      "sha256": "168eec8bcdbf9ca83c3e54122b66c5e016eb894cea97c5bc9c98a575ad84509a"
-    },
-    {
       "byte_size": 871,
       "kind": "TEXTURE_PNG",
       "logical_id": "fx.wheel_to_wheel_spark",
@@ -45,11 +38,6 @@
   ],
   "files": [
     {
-      "byte_size": 33579,
-      "path": "assets/talent_wheel_to_wheel_flank_spill.png",
-      "sha256": "168eec8bcdbf9ca83c3e54122b66c5e016eb894cea97c5bc9c98a575ad84509a"
-    },
-    {
       "byte_size": 871,
       "path": "assets/talent_wheel_to_wheel_spark.png",
       "sha256": "319c4bc6230654ac02774bf1a797fb8b489e90501e58117054b5b0aded5eccf8"
@@ -75,14 +63,14 @@
       "sha256": "bca68d712080a78b6e23c6efe1dcae0ba1992d8bf7889de4248aacbe2911c86a"
     },
     {
-      "byte_size": 43703,
+      "byte_size": 38036,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "95a4bb870d30620259762a53d64a3f2d5d73bae6b5298b6a76077509e57b6a26"
+      "sha256": "9dc4dcf81f40d75a0af4dbd2078896970c5c68f2144dd80d91ee6ace00c48f2c"
     },
     {
-      "byte_size": 41739,
+      "byte_size": 36533,
       "path": "source/talent.wheel_to_wheel.vfx.json",
-      "sha256": "984805e779f5707cf47c3c429a05ed61d648cb17f3f1f458b5fffacb77c4c45b"
+      "sha256": "89628493c2fd8736bd675bf517cd15290cd8c9e494dddbc90d41a0418bf8d9b0"
     }
   ],
   "package_format_version": 1,
@@ -97,26 +85,24 @@
   },
   "requirements": {
     "importance_summary": {
-      "CORE": 17,
+      "CORE": 14,
       "DETAIL": 0,
       "EXTRA": 0
     },
     "required_vehicle_anchors": [
       "CENTER"
     ],
-    "runtime_inputs": [
-      "battle_engaged"
-    ]
+    "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 43703,
+    "byte_size": 38036,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "95a4bb870d30620259762a53d64a3f2d5d73bae6b5298b6a76077509e57b6a26",
+    "sha256": "9dc4dcf81f40d75a0af4dbd2078896970c5c68f2144dd80d91ee6ace00c48f2c",
     "version": 2
   },
   "source": {
-    "byte_size": 41739,
+    "byte_size": 36533,
     "path": "source/talent.wheel_to_wheel.vfx.json",
-    "sha256": "984805e779f5707cf47c3c429a05ed61d648cb17f3f1f458b5fffacb77c4c45b"
+    "sha256": "89628493c2fd8736bd675bf517cd15290cd8c9e494dddbc90d41a0418bf8d9b0"
   }
 }

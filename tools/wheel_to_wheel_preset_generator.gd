@@ -4,24 +4,16 @@ extends SceneTree
 # Output: presets/examples/talent.wheel_to_wheel{,_surge,_grind_left,_grind_right}.vfx.json
 # Design: docs/superpowers/specs/2026-11-26-talent-wheel-to-wheel-design.md (1 screen px ~ 12.4 source px in game)
 #
-# Main (talent duration): sustain v2 — short warm-white turbulence wisps flow back along both flanks and scatter behind,
-#   with a few lemon embers and a faint road haze. battle_engaged (Game-smoothed 0..1) lifts the haze (both sides alike).
+# Main (talent duration): sustain v2 — short warm-white turbulence wisps flow straight back along both flanks and open
+#   slightly behind the tail, with a few lemon embers. No battle_engaged layer: the road haze traced the old crescent (11-28).
 # Surge (battle_start, moment package): a pressure wave thrown forward from the nose + nose flash + corner sparks.
 # Grind (hold_resisted, moment package): spark fountain + flash at the front corner on the opponent's side, and a pressure
 #   wave kicking out to the other side (the side the car escapes to). left/right = side the opponent is on.
 # Units: offsets are vehicle source px (canvas 256 x 512, front -Y); pivots are texture texels from the centre.
 const OUT_DIR := "res://presets/examples/"
-# Flank art: the car hole is texels x 156..356, y 160..560 of 512 x 768 -> its centre is 24 texels above the image centre.
-const FLANK_SCALE := [1.0, 1.2]          # car hole 200 x 400 texels -> 200 x 480 source px (narrower X keeps the arcs off a car alongside)
-const FLANK_OFFSET := [0.0, 29.0]        # image centre below the car centre (24 texels x 1.2)
-const FLANK_HALF_LONG := 461.0      # particle copy size = half the displayed long side (768 x 1.2 / 2)
-const ENGAGED_WIDTH := 1.1
-const ENGAGED_LEAN := -50.0              # source px forward (~4 screen px) at battle_engaged 1
 # Sustain v2 (Jihoon 11-27: the white crescents are too crisp and static, a white blob in a pack): no fixed band. Short
-# warm-white turbulence wisps are born beside the front doors, flow back past the tail and scatter. Particles cannot take
-# opacity/rate modulation in the Game, so battle_engaged drives only a faint road haze (the old spill sprite).
-const HAZE_IDLE := 0.2                   # was the 0.55 spill; battle_engaged x2.25 -> 0.45
-const HAZE_ENGAGED_GAIN := 2.25
+# warm-white turbulence wisps are born beside the front doors and flow back past the tail. The faint road haze that
+# battle_engaged used to lift is gone (its art was the old crescent edge blurred, 11-28): the grind moment shows the battle.
 const WISP_TEX := ["fx.wheel_to_wheel_turbulence_a", "fx.wheel_to_wheel_turbulence_b"]   # GPT wisps widened x4 (tools/wheel_to_wheel_turbulence_prep.gd)
 const WISP_ORIGIN := Vector2(128.0, -60.0)    # beside the front door, a little behind the nose (car body half width ~100)
 const WISP_BOX := [12.0, 60.0]           # narrow birth lane beside the door (was 25 wide)
@@ -73,23 +65,13 @@ func _main() -> Dictionary:
 		for i in WISP_LAYERS[side].size():
 			var spec: Array = WISP_LAYERS[side][i]
 			sources.append({"id": "wheel_to_wheel.sway_%s%d" % [side, i], "type": "OSCILLATOR", "wave": "SINE", "frequency_hz": spec[1], "phase_degrees": spec[2]})
-	var haze := ["fx.wheel_to_wheel_flank_spill", "ADDITIVE", "UNDER_VEHICLE", 0]
-	# START: the haze fades in, the wisps start flowing at once (their particles drain into LOOP), one small pressure wave.
-	var start := [_sprite("start.haze", haze[0], "CENTER", FLANK_OFFSET, FLANK_SCALE, haze[1], haze[2], haze[3], HAZE_IDLE, [
-		_mod("start.haze.in", intro, 0.0, 0.4, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER")])]
-	start += _wisps("start")
+	# START: the wisps start flowing at once (their particles drain into LOOP) + one small pressure wave off the nose.
+	var start := _wisps("start")
 	start += _wave("start.wave", intro, [0.0, -200.0], 0.0, [0.0, -160.0], 0.45, 0.0, 0.8)
-	# LOOP: flowing wisps + embers; battle_engaged lifts only the faint haze (both sides alike in v1), wider and leaning in.
-	var loop := [_sprite("loop.haze", haze[0], "CENTER", FLANK_OFFSET, FLANK_SCALE, haze[1], haze[2], haze[3], HAZE_IDLE, [
-		_input_mod("loop.haze.battle_a", "battle_engaged", 0.0, 1.0, 1.0, HAZE_ENGAGED_GAIN, "VISUAL_OPACITY_MULTIPLIER"),
-		_input_mod("loop.haze.battle_w", "battle_engaged", 0.0, 1.0, 1.0, ENGAGED_WIDTH, "TRANSFORM_SCALE_X"),
-		_input_mod("loop.haze.battle_lean", "battle_engaged", 0.0, 1.0, 0.0, ENGAGED_LEAN, "TRANSFORM_OFFSET_Y")])]
-	loop += _wisps("loop")
-	# END: the LOOP wisps stop emitting and drain on their own (~0.45 s); the haze fades as a particle copy.
-	var end := [_particle("end.haze", haze[0], "CENTER", FLANK_OFFSET, haze[2], haze[1], haze[3], {
-		"emission_mode": "BURST", "burst_count": 1.0, "lifetime_seconds": END_SEC,
-		"size_start": FLANK_HALF_LONG, "size_end": FLANK_HALF_LONG * 0.9, "alpha_start": HAZE_IDLE, "alpha_end": 0.0})]
-	return _preset("talent.wheel_to_wheel", "Wheel to Wheel", "START_LOOP_END", ["battle_engaged"], sources,
+	# LOOP: flowing wisps + embers. END: empty; the LOOP wisps stop emitting and drain on their own (~0.45 s).
+	var loop := _wisps("loop")
+	var end := []
+	return _preset("talent.wheel_to_wheel", "Wheel to Wheel", "START_LOOP_END", [], sources,
 		{"start": {"duration_seconds": START_SEC, "layers": start}, "loop": {"layers": loop}, "end": {"duration_seconds": END_SEC, "layers": end}})
 
 
@@ -266,13 +248,6 @@ func _mod(id: String, source_id: String, in_min: float, in_max: float, out_min: 
 	var op := "ADD" if target in ["TRANSFORM_OFFSET_X", "TRANSFORM_OFFSET_Y"] else "MULTIPLY"
 	return {"id": id, "operation": op, "target": target,
 		"source": {"type": "PRESET_SOURCE", "source_id": source_id},
-		"mapping": {"type": "LINEAR_RANGE", "input_min": in_min, "input_max": in_max, "output_min": out_min, "output_max": out_max}}
-
-
-func _input_mod(id: String, input: String, in_min: float, in_max: float, out_min: float, out_max: float, target: String) -> Dictionary:
-	var op := "ADD" if target in ["TRANSFORM_OFFSET_X", "TRANSFORM_OFFSET_Y"] else "MULTIPLY"
-	return {"id": id, "operation": op, "target": target,
-		"source": {"type": "RUNTIME_INPUT", "input": input},
 		"mapping": {"type": "LINEAR_RANGE", "input_min": in_min, "input_max": in_max, "output_min": out_min, "output_max": out_max}}
 
 

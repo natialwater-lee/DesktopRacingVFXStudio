@@ -24,13 +24,11 @@ static func run(t: TestAssert) -> void:
 	if main.is_empty() or surge.is_empty() or left.is_empty() or right.is_empty():
 		return
 	var loop: Array = main.phases.loop.layers
-	# Sustain v2 (section 11): one road-haze sprite driven by battle_engaged, four flowing wisp streams (bent by their own
-	# sine beat, flowing back) and two lemon ember streams. Game particles take only bend modulation.
+	# Sustain v2 (section 11): four flowing wisp streams (bent by their own sine beat, flowing back) and two lemon ember
+	# streams; no sprite and no runtime input (the battle_engaged road haze was removed 11-28). Particles take only bend.
 	var sprites := loop.filter(func(l: Dictionary) -> bool: return l.type == "TEXTURED_SPRITE")
 	var wisps := loop.filter(func(l: Dictionary) -> bool: return l.type == "PARTICLE" and str(l.parameters.sprite_asset_ref).begins_with("fx.wheel_to_wheel_turbulence_"))
 	var embers := loop.filter(func(l: Dictionary) -> bool: return l.type == "PARTICLE" and l.parameters.sprite_asset_ref == "fx.wheel_to_wheel_spark")
-	var haze_ok: bool = sprites.size() == 1 and sprites[0].modulations.any(func(m: Dictionary) -> bool:
-		return m.source.get("input") == "battle_engaged" and m.target == "VISUAL_OPACITY_MULTIPLIER" and float(m.mapping.output_max) > 1.0)
 	var beats := {}
 	var wisps_ok: bool = wisps.size() == 4 and wisps.all(func(l: Dictionary) -> bool:
 		var p: Dictionary = l.parameters
@@ -39,9 +37,9 @@ static func run(t: TestAssert) -> void:
 	for l in wisps:
 		beats[l.modulations[0].source.source_id] = true
 	var left_n: int = wisps.filter(func(l: Dictionary) -> bool: return float(l.transform.offset[0]) < 0.0).size()
-	t.expect_true(main.lifecycle.mode == "START_LOOP_END" and main.runtime_inputs == ["battle_engaged"] and haze_ok and wisps_ok \
-		and beats.size() == 4 and left_n == 2 and embers.size() == 2 and loop.size() == 7,
-		"Wheel to Wheel LOOP: battle haze sprite + 4 backward wisp streams (2 a side, each its own sway beat) + 2 ember streams")
+	t.expect_true(main.lifecycle.mode == "START_LOOP_END" and main.runtime_inputs.is_empty() and sprites.is_empty() and wisps_ok \
+		and beats.size() == 4 and left_n == 2 and embers.size() == 2 and loop.size() == 6 and main.phases.end.layers.is_empty(),
+		"Wheel to Wheel LOOP: 4 backward wisp streams (2 a side, each its own sway beat) + 2 ember streams, no haze, empty END")
 	var moments_ok := true
 	for m in [surge, left, right]:
 		moments_ok = moments_ok and m.lifecycle.mode == "START_LOOP_END" and m.runtime_inputs.is_empty() and not m.phases.start.layers.is_empty() \
@@ -57,7 +55,7 @@ static func run(t: TestAssert) -> void:
 		and float(l_kick.transform.offset[0]) > 0.0 and float(r_kick.transform.offset[0]) < 0.0 \
 		and is_equal_approx(float(l_kick.transform.rotation_degrees), 90.0) and is_equal_approx(float(r_kick.transform.rotation_degrees), -90.0),
 		"Grind left/right mirror: sparks on the opponent's side, kick wave bulging out on the escape side")
-	var expected := {"talent.wheel_to_wheel": ["fx.wheel_to_wheel_flank_spill", "fx.wheel_to_wheel_spark", "fx.wheel_to_wheel_turbulence_a", "fx.wheel_to_wheel_turbulence_b", "fx.wheel_to_wheel_wave_body", "fx.wheel_to_wheel_wave_rim"],
+	var expected := {"talent.wheel_to_wheel": ["fx.wheel_to_wheel_spark", "fx.wheel_to_wheel_turbulence_a", "fx.wheel_to_wheel_turbulence_b", "fx.wheel_to_wheel_wave_body", "fx.wheel_to_wheel_wave_rim"],
 		"talent.wheel_to_wheel_surge": ["fx.wheel_to_wheel_contact_flash", "fx.wheel_to_wheel_spark", "fx.wheel_to_wheel_wave_body", "fx.wheel_to_wheel_wave_rim"],
 		"talent.wheel_to_wheel_grind_left": ["fx.wheel_to_wheel_contact_flash", "fx.wheel_to_wheel_spark", "fx.wheel_to_wheel_spark_fan_l", "fx.wheel_to_wheel_wave_body", "fx.wheel_to_wheel_wave_rim"]}
 	var ok := true

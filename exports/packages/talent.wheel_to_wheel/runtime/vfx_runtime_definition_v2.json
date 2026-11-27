@@ -17,57 +17,6 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "start.haze",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "start.haze.in",
-              "mapping": {
-                "input_max": 0.4,
-                "input_min": 0.0,
-                "output_max": 1.0,
-                "output_min": 0.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "source_id": "wheel_to_wheel.intro",
-                "type": "PRESET_SOURCE"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.2,
-            "texture_asset_ref": "fx.wheel_to_wheel_flank_spill"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              0.0,
-              29.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.2
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
           "id": "start.wisp_l0",
           "importance": "CORE",
           "modulation_clamps": [
@@ -827,89 +776,6 @@
           ],
           "blend_mode": "ADDITIVE",
           "enabled": true,
-          "id": "loop.haze",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [
-            {
-              "id": "loop.haze.battle_a",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 2.25,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "VISUAL_OPACITY_MULTIPLIER"
-            },
-            {
-              "id": "loop.haze.battle_w",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": 1.1,
-                "output_min": 1.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "MULTIPLY",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_SCALE_X"
-            },
-            {
-              "id": "loop.haze.battle_lean",
-              "mapping": {
-                "input_max": 1.0,
-                "input_min": 0.0,
-                "output_max": -50.0,
-                "output_min": 0.0,
-                "type": "LINEAR_RANGE"
-              },
-              "operation": "ADD",
-              "source": {
-                "input": "battle_engaged",
-                "type": "RUNTIME_INPUT"
-              },
-              "target": "TRANSFORM_OFFSET_Y"
-            }
-          ],
-          "parameters": {
-            "opacity": 0.2,
-            "texture_asset_ref": "fx.wheel_to_wheel_flank_spill"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              0.0,
-              29.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.2
-            ]
-          },
-          "type": "TEXTURED_SPRITE"
-        },
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
           "id": "loop.wisp_l0",
           "importance": "CORE",
           "modulation_clamps": [
@@ -1433,71 +1299,7 @@
     },
     {
       "duration_seconds": 0.4,
-      "layers": [
-        {
-          "anchors": [
-            "CENTER"
-          ],
-          "blend_mode": "ADDITIVE",
-          "enabled": true,
-          "id": "end.haze",
-          "importance": "CORE",
-          "modulation_clamps": [],
-          "modulations": [],
-          "parameters": {
-            "acceleration": [
-              0.0,
-              0.0
-            ],
-            "alpha_end": 0.0,
-            "alpha_start": 0.2,
-            "angular_velocity_max_degrees_per_second": 0.0,
-            "angular_velocity_min_degrees_per_second": 0.0,
-            "burst_count": 1.0,
-            "color_rgba": [
-              1.0,
-              1.0,
-              1.0,
-              1.0
-            ],
-            "direction_degrees": 0.0,
-            "emission_mode": "BURST",
-            "emitter": {
-              "shape": "POINT"
-            },
-            "lifetime_seconds": 0.4,
-            "rotation_max_degrees": 0.0,
-            "rotation_min_degrees": 0.0,
-            "size_end": 414.9,
-            "size_multiplier_max": 1.0,
-            "size_multiplier_min": 1.0,
-            "size_start": 461.0,
-            "speed_max": 0.0,
-            "speed_min": 0.0,
-            "spread_degrees": 0.0,
-            "sprite_asset_ref": "fx.wheel_to_wheel_flank_spill"
-          },
-          "render_plane": "UNDER_VEHICLE",
-          "sort_order": 0,
-          "space_mode": "VEHICLE_LOCAL",
-          "transform": {
-            "modulation_pivot_local": [
-              0.0,
-              0.0
-            ],
-            "offset": [
-              0.0,
-              29.0
-            ],
-            "rotation_degrees": 0.0,
-            "scale": [
-              1.0,
-              1.0
-            ]
-          },
-          "type": "PARTICLE"
-        }
-      ],
+      "layers": [],
       "name": "end"
     }
   ],
@@ -1512,15 +1314,7 @@
     "CENTER"
   ],
   "runtime_definition_version": 2,
-  "runtime_inputs": [
-    {
-      "default": 0.0,
-      "maximum": 1.0,
-      "minimum": 0.0,
-      "name": "battle_engaged",
-      "value_type": "number"
-    }
-  ],
+  "runtime_inputs": [],
   "runtime_modulation_sources": [
     {
       "frequency_hz": 2.0,
