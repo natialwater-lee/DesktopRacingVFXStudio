@@ -69,13 +69,15 @@ static func _test_fan_hub_geometry_without_rotation(tests: TestAssert) -> void:
 
 
 # Rings are particles: an even emission interval keeps several rings in flight at all times.
+# Fix A (2026-11-27): rings are born at the fan housing edge (half size 125) at 0.6 opacity, and the right fan emits at
+# 6.5/s against the left 7/s so the two fans do not flash on the same beat.
 static func _test_ring_emitter_flow_is_continuous(tests: TestAssert) -> void:
 	var loop_layers: Array = _data().get("phases", {}).get("loop", {}).get("layers", [])
 	var parameters: Dictionary = {}
 	for layer in loop_layers:
 		if layer.get("id") == "loop.left_rings":
 			parameters = layer.get("parameters", {})
-	var params_match: bool = parameters.get("sprite_asset_ref") == "fx.rotor_lift_air_ring" and parameters.get("emission_mode") == "CONTINUOUS" 		and is_equal_approx(float(parameters.get("emission_rate_per_second", 0.0)), 7.0) and is_equal_approx(float(parameters.get("lifetime_seconds", 0.0)), 0.45) 		and is_equal_approx(float(parameters.get("size_start", 0.0)), 107.0) and is_equal_approx(float(parameters.get("size_end", 0.0)), 309.0) 		and is_equal_approx(float(parameters.get("speed_max", -1.0)), 0.0) and parameters.get("emitter", {}).get("shape") == "POINT"
+	var params_match: bool = parameters.get("sprite_asset_ref") == "fx.rotor_lift_air_ring" and parameters.get("emission_mode") == "CONTINUOUS" 		and is_equal_approx(float(parameters.get("emission_rate_per_second", 0.0)), 7.0) and is_equal_approx(float(parameters.get("lifetime_seconds", 0.0)), 0.45) 		and is_equal_approx(float(parameters.get("size_start", 0.0)), 125.0) and is_equal_approx(float(parameters.get("alpha_start", 0.0)), 0.6) and is_equal_approx(float(parameters.get("size_end", 0.0)), 309.0) 		and is_equal_approx(float(parameters.get("speed_max", -1.0)), 0.0) and parameters.get("emitter", {}).get("shape") == "POINT"
 	var plan_result := VfxPreviewRenderPlanBuilderModel.new(_registry()).build(_data())
 	var runtime := _runtime(plan_result.value) if plan_result.success else null
 	var minimum_in_flight := 99
@@ -87,7 +89,7 @@ static func _test_ring_emitter_flow_is_continuous(tests: TestAssert) -> void:
 			runtime.advance(1.0 / 60.0, {"preview_time": preview_time})
 			if tick >= 40:
 				minimum_in_flight = mini(minimum_in_flight, _packets(runtime.draw_packets(), "loop.left_rings").size())
-	tests.expect_true(params_match and runtime != null and minimum_in_flight >= 3, "LOOP ring emitter releases a 215 -> 618 px air ring every 1/7 s with 0.45 s life, so at least three rings are always in flight (got %d)" % minimum_in_flight)
+	tests.expect_true(params_match and runtime != null and minimum_in_flight >= 3, "LOOP ring emitter releases a 250 -> 618 px air ring (from 0.6 opacity) every 1/7 s with 0.45 s life, so at least three rings are always in flight (got %d)" % minimum_in_flight)
 
 
 static func _test_start_blast_fades_by_phase_end(tests: TestAssert) -> void:

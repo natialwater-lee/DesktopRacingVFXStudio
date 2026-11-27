@@ -24,9 +24,9 @@ static func _test_rotor_lift_catalog_and_frames(tests: TestAssert) -> void:
 	tests.expect_true(
 		catalog.equipment_type_for_preset("equipment.rotor_lift.downwash") == "rotor_lift" \
 		and catalog.equipment_type_for_preset("talent.solo_run.static_ribbon").is_empty() \
-		and catalog.marks("rotor_lift") == ["mk1", "mk2", "mk3", "mk4"] and all_marks_loaded \
+		and catalog.marks("rotor_lift") == ["mk1", "mk2", "mk3", "mk4", "mk5"] and all_marks_loaded \
 		and retract.size() == deploy.size() and retract[0] == deploy[deploy.size() - 1] and retract[retract.size() - 1] == deploy[0],
-		"Rotor Lift preview catalog resolves the downwash preset, Mk.I-IV, 24 active and 12 deploy frames, and RETRACT as reversed deploy"
+		"Rotor Lift preview catalog resolves the downwash preset, Mk.I-V, 24 active and 12 deploy frames, and RETRACT as reversed deploy"
 	)
 
 
@@ -76,9 +76,20 @@ static func _test_game_copy_parity(tests: TestAssert) -> void:
 	var entry := catalog.entry("rotor_lift")
 	var matched := parsed is Dictionary
 	var game_marks: Array[String] = []
-	for definition in (parsed.get("definitions", []) if parsed is Dictionary else []):
-		if not definition is Dictionary or definition.get("equipment_type_id") != "rotor_lift" or not bool(definition.get("enabled", true)):
+	# Since Game 44572a62 (2026-10-14) the visual fields live on the equipment type; a mark may still override them.
+	var type_visual: Dictionary = {}
+	for equipment_type in (parsed.get("equipment_types", []) if parsed is Dictionary else []):
+		if equipment_type is Dictionary and equipment_type.get("equipment_type_id") == "rotor_lift":
+			type_visual = equipment_type
+	matched = matched and not type_visual.is_empty()
+	for raw_definition in (parsed.get("definitions", []) if parsed is Dictionary else []):
+		if not raw_definition is Dictionary or raw_definition.get("equipment_type_id") != "rotor_lift" or not bool(raw_definition.get("enabled", true)):
 			continue
+		var definition: Dictionary = {}
+		for key in ["visual_layer", "visual_anchor", "runtime_visual", "equipment_scale", "active_frame_rate", "retract_duration_seconds", "vehicle_visual_overrides"]:
+			if type_visual.has(key):
+				definition[key] = type_visual[key]
+		definition.merge(raw_definition, true)
 		var mark_id := str(definition.get("mark_id"))
 		game_marks.append(mark_id)
 		matched = matched \

@@ -29,12 +29,12 @@
     {
       "byte_size": 16632,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "58947b57596f9a85d808a6ab10f86bce77d9057ac7c4bb927efedbe052eb1bd8"
+      "sha256": "5ebca4434bc5d684d3d176c38c337436ec1712f16d99980278482b22f2c95c36"
     },
     {
       "byte_size": 16057,
       "path": "source/equipment.rotor_lift.downwash.vfx.json",
-      "sha256": "2a670091558af4da73a3598b5425dd99f064c3914fc876388aee082e0febf848"
+      "sha256": "0b8b41416cd8d10445fc41d41a528d1d852ca44da1982d2a1d915ae403bf9ed0"
     }
   ],
   "package_format_version": 1,
@@ -61,12 +61,12 @@
   "runtime_definition": {
     "byte_size": 16632,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "58947b57596f9a85d808a6ab10f86bce77d9057ac7c4bb927efedbe052eb1bd8",
+    "sha256": "5ebca4434bc5d684d3d176c38c337436ec1712f16d99980278482b22f2c95c36",
     "version": 2
   },
   "source": {
     "byte_size": 16057,
     "path": "source/equipment.rotor_lift.downwash.vfx.json",
-    "sha256": "2a670091558af4da73a3598b5425dd99f064c3914fc876388aee082e0febf848"
+    "sha256": "0b8b41416cd8d10445fc41d41a528d1d852ca44da1982d2a1d915ae403bf9ed0"
   }
 }
