@@ -20,16 +20,25 @@ const ENGAGED_GAIN := {"spill": 1.7, "body": 1.35, "edge": 1.18}   # x idle opac
 const ENGAGED_WIDTH := 1.1
 const ENGAGED_LEAN := -50.0              # source px forward (~4 screen px) at battle_engaged 1
 const FRONT_CORNER := Vector2(100.0, -215.0)
-const WAVE_SCALE := 0.65                 # 420 px crescent -> ~270 source px (~22 screen px)
-const FAN_SCALE := 1.3                   # longest spark line 190 texels -> ~250 source px (~20 screen px)
 const FAN_ORIGIN_R := Vector2(-80.0, -80.0)   # spark origin texel (48, 48) from the 256 px image centre
-const FLASH_SCALE := 0.85
 const LEMON := [1.0, 0.9, 0.45, 1.0]     # spark tint (white-hot copy of the Furious Overtake spark; Chain Bind uses amber)
 const START_SEC := 0.5
 const END_SEC := 0.4
-const SURGE_SEC := 0.55
-const GRIND_SEC := 0.6
+const SURGE_SEC := 0.9
+const GRIND_SEC := 0.9
 const MOMENT_END_SEC := 0.05          # empty END of the moment packages (the Game requires END > 0)
+# Moment look (hit v1, Jihoon 11-27: "the contact moment is too short to see"): a fast burst, then a slow fade, ~0.9 s.
+#   Seconds: in 0 -> 0.04, peak until 0.12, drop to 55 % by 0.30, fade to 0 by 0.88 (before START ends at 0.9).
+const HIT_IN_SEC := 0.04
+const HIT_PEAK_SEC := 0.12
+const HIT_SETTLE_SEC := 0.30
+const HIT_SETTLE_LEVEL := 0.55
+const HIT_FADE_END_SEC := 0.88
+const HIT_BURST_SEC := 0.15           # waves / fan reach most of their size and travel in this time
+const HIT_WAVE_SCALE := 0.75          # surge wave (was 0.65)
+const HIT_KICK_SCALE := 0.85          # grind kick-out wave (was 0.75)
+const HIT_FAN_SCALE := 1.45           # grind spark fan (was 1.3)
+const HIT_FLASH_SCALE := 1.1          # nose / contact flash (was 0.85)
 
 
 func _init() -> void:
@@ -75,12 +84,11 @@ func _main() -> Dictionary:
 
 func _surge() -> Dictionary:
 	var t := "wheel_to_wheel_surge.time"
-	var layers := _wave("one_shot.wave", t, [0.0, -230.0], 0.0, [0.0, -250.0], WAVE_SCALE, 0.0, 0.85)
-	layers.append(_sprite("one_shot.nose_flash", "fx.wheel_to_wheel_contact_flash", "CENTER", [0.0, -240.0], [FLASH_SCALE, FLASH_SCALE], "ADDITIVE", "OVER_VEHICLE", 5, 1.0, [
-		_mod("one_shot.nose_flash.in", t, 0.0, 0.06, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER"),
-		_mod("one_shot.nose_flash.out", t, 0.12, 0.4, 1.0, 0.0, "VISUAL_OPACITY_MULTIPLIER")]))
+	# Same end point as before (250 forward): the wave does not reach further over the opponent, it just stays longer.
+	var layers := _hit_wave("one_shot.wave", t, SURGE_SEC, [0.0, -230.0], 0.0, [0.0, -250.0], HIT_WAVE_SCALE)
+	layers.append(_hit_flash("one_shot.nose_flash", t, SURGE_SEC, [0.0, -240.0]))
 	for sx in [-1.0, 1.0]:
-		layers.append(_sparks("one_shot.sparks_%s" % ("l" if sx < 0.0 else "r"), [FRONT_CORNER.x * sx, FRONT_CORNER.y], 35.0 * sx, 5.0, 0.4, 55.0))
+		layers.append(_sparks("one_shot.sparks_%s" % ("l" if sx < 0.0 else "r"), [FRONT_CORNER.x * sx, FRONT_CORNER.y], 35.0 * sx, 5.0, 0.75, 55.0))
 	return _preset("talent.wheel_to_wheel_surge", "Wheel to Wheel Surge", "START_LOOP_END", [],
 		[{"id": t, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / SURGE_SEC}], _moment(SURGE_SEC, layers))
 
@@ -91,19 +99,19 @@ func _grind(side: float) -> Dictionary:
 	var corner := [FRONT_CORNER.x * side, FRONT_CORNER.y]
 	var fan_tex := "fx.wheel_to_wheel_spark_fan_r" if side > 0.0 else "fx.wheel_to_wheel_spark_fan_l"
 	var origin := Vector2(FAN_ORIGIN_R.x * side, FAN_ORIGIN_R.y)
-	var fan_centre := [corner[0] - origin.x * FAN_SCALE, corner[1] - origin.y * FAN_SCALE]
+	var fan_centre := [corner[0] - origin.x * HIT_FAN_SCALE, corner[1] - origin.y * HIT_FAN_SCALE]
+	var fan_id := "one_shot.spark_fan"
+	# Fan spreads from the spark origin (pivot): x0.55 -> x1.15 in the burst, then slowly to x1.25.
+	var fan_mods := _hit_opacity(fan_id, t, GRIND_SEC)
+	for axis in ["X", "Y"]:
+		fan_mods.append(_mod("%s.grow_%s" % [fan_id, axis.to_lower()], t, 0.0, HIT_BURST_SEC / GRIND_SEC, 0.55, 1.15, "TRANSFORM_SCALE_" + axis))
+		fan_mods.append(_mod("%s.spread_%s" % [fan_id, axis.to_lower()], t, HIT_BURST_SEC / GRIND_SEC, HIT_FADE_END_SEC / GRIND_SEC, 1.0, 1.25 / 1.15, "TRANSFORM_SCALE_" + axis))
 	var layers := [
-		_sprite("one_shot.spark_fan", fan_tex, "CENTER", fan_centre, [FAN_SCALE, FAN_SCALE], "ADDITIVE", "OVER_VEHICLE", 4, 1.0, [
-			_mod("one_shot.spark_fan.in", t, 0.0, 0.05, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER"),
-			_mod("one_shot.spark_fan.out", t, 0.3, 0.75, 1.0, 0.0, "VISUAL_OPACITY_MULTIPLIER"),
-			_mod("one_shot.spark_fan.grow_x", t, 0.0, 0.5, 0.55, 1.15, "TRANSFORM_SCALE_X"),
-			_mod("one_shot.spark_fan.grow_y", t, 0.0, 0.5, 0.55, 1.15, "TRANSFORM_SCALE_Y")], [origin.x, origin.y]),
-		_sprite("one_shot.contact_flash", "fx.wheel_to_wheel_contact_flash", "CENTER", corner, [FLASH_SCALE, FLASH_SCALE], "ADDITIVE", "OVER_VEHICLE", 5, 1.0, [
-			_mod("one_shot.contact_flash.in", t, 0.0, 0.05, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER"),
-			_mod("one_shot.contact_flash.out", t, 0.1, 0.35, 1.0, 0.0, "VISUAL_OPACITY_MULTIPLIER")]),
-		_sparks("one_shot.sparks", corner, 125.0 * side, 9.0, 0.45, 60.0)]
-	# Kick-out wave on the escape side: crescent rotated to bulge outward, pushed ~10 screen px out.
-	layers += _wave("one_shot.kick", t, [-250.0 * side, -60.0], -90.0 * side, [-150.0 * side, 0.0], 0.75, 0.0, 0.7)
+		_sprite(fan_id, fan_tex, "CENTER", fan_centre, [HIT_FAN_SCALE, HIT_FAN_SCALE], "ADDITIVE", "OVER_VEHICLE", 4, 1.0, fan_mods, [origin.x, origin.y]),
+		_hit_flash("one_shot.contact_flash", t, GRIND_SEC, corner),
+		_sparks("one_shot.sparks", corner, 125.0 * side, 9.0, 0.75, 60.0)]
+	# Kick-out wave on the escape side: crescent rotated to bulge outward, pushed ~10 screen px out (same end point as before).
+	layers += _hit_wave("one_shot.kick", t, GRIND_SEC, [-250.0 * side, -60.0], -90.0 * side, [-150.0 * side, 0.0], HIT_KICK_SCALE)
 	var label := "Left" if side < 0.0 else "Right"
 	return _preset("talent.wheel_to_wheel_grind_" + label.to_lower(), "Wheel to Wheel Grind " + label, "START_LOOP_END", [],
 		[{"id": t, "type": "LINEAR_PHASE", "frequency_hz": 1.0 / GRIND_SEC}], _moment(GRIND_SEC, layers))
@@ -137,12 +145,54 @@ func _wave(id: String, source: String, offset: Array, rotation: float, travel: A
 	return out
 
 
+## Moment opacity envelope (multiplied ranges over the phase): burst in, hold the peak, quick drop to 55 %, slow fade out.
+func _hit_opacity(id: String, source: String, seconds: float) -> Array:
+	return [
+		_mod(id + ".in", source, 0.0, HIT_IN_SEC / seconds, 0.0, 1.0, "VISUAL_OPACITY_MULTIPLIER"),
+		_mod(id + ".settle", source, HIT_PEAK_SEC / seconds, HIT_SETTLE_SEC / seconds, 1.0, HIT_SETTLE_LEVEL, "VISUAL_OPACITY_MULTIPLIER"),
+		_mod(id + ".out", source, HIT_SETTLE_SEC / seconds, HIT_FADE_END_SEC / seconds, 1.0, 0.0, "VISUAL_OPACITY_MULTIPLIER")]
+
+
+## Moment pressure wave (ALPHA air + ADD rim): most of the growth (x0.6 -> x1.2) and travel (68 %) in the burst, then
+## slowly to x1.35 and the full `travel` while it fades. The end point stays where the 11-26 wave ended.
+func _hit_wave(id: String, source: String, seconds: float, offset: Array, rotation: float, travel: Array, scale: float) -> Array:
+	var out := []
+	var burst := HIT_BURST_SEC / seconds
+	var fade_end := HIT_FADE_END_SEC / seconds
+	for part in [["body", "fx.wheel_to_wheel_wave_body", "ALPHA", 6, 0.95], ["rim", "fx.wheel_to_wheel_wave_rim", "ADDITIVE", 7, 1.0]]:
+		var lid := "%s_%s" % [id, part[0]]
+		var mods := _hit_opacity(lid, source, seconds)
+		for axis in ["X", "Y"]:
+			mods.append(_mod("%s.grow_%s" % [lid, axis.to_lower()], source, 0.0, burst, 0.6, 1.2, "TRANSFORM_SCALE_" + axis))
+			mods.append(_mod("%s.drift_%s" % [lid, axis.to_lower()], source, burst, fade_end, 1.0, 1.35 / 1.2, "TRANSFORM_SCALE_" + axis))
+		for i in 2:
+			if travel[i] != 0.0:
+				var axis: String = ["x", "y"][i]
+				var target: String = ["TRANSFORM_OFFSET_X", "TRANSFORM_OFFSET_Y"][i]
+				mods.append(_mod("%s.travel_%s" % [lid, axis], source, 0.0, burst, 0.0, travel[i] * 0.68, target))
+				mods.append(_mod("%s.coast_%s" % [lid, axis], source, burst, fade_end, 0.0, travel[i] * 0.32, target))
+		var layer := _sprite(lid, part[1], "CENTER", offset, [scale, scale], part[2], "OVER_VEHICLE", part[3], part[4], mods)
+		layer["transform"]["rotation_degrees"] = rotation
+		out.append(layer)
+	return out
+
+
+## Moment flash: swells x1.15 at the peak, then shrinks to x0.8 while it lingers as a glow.
+func _hit_flash(id: String, source: String, seconds: float, offset: Array) -> Dictionary:
+	var mods := _hit_opacity(id, source, seconds)
+	for axis in ["X", "Y"]:
+		mods.append(_mod("%s.swell_%s" % [id, axis.to_lower()], source, 0.0, HIT_PEAK_SEC / seconds, 0.9, 1.15, "TRANSFORM_SCALE_" + axis))
+		mods.append(_mod("%s.shrink_%s" % [id, axis.to_lower()], source, HIT_PEAK_SEC / seconds, HIT_FADE_END_SEC / seconds, 1.0, 0.8 / 1.15, "TRANSFORM_SCALE_" + axis))
+	return _sprite(id, "fx.wheel_to_wheel_contact_flash", "CENTER", offset, [HIT_FLASH_SCALE, HIT_FLASH_SCALE], "ADDITIVE", "OVER_VEHICLE", 5, 1.0, mods)
+
+
 ## Lemon sparks (white-hot copy of the Furious Overtake spark, tinted): direction degrees clockwise from forward (0 forward, 90 right, 180 back).
+## Hit v1: longer life at lower speed (about the same reach), a bit bigger.
 func _sparks(id: String, offset: Array, direction: float, count: float, life: float, spread: float) -> Dictionary:
 	return _particle(id, "fx.wheel_to_wheel_spark", "CENTER", offset, "OVER_VEHICLE", "ADDITIVE", 8, {
-		"emission_mode": "BURST", "burst_count": count, "lifetime_seconds": life, "size_start": 95.0, "size_end": 28.0,
+		"emission_mode": "BURST", "burst_count": count, "lifetime_seconds": life, "size_start": 120.0, "size_end": 36.0,
 		"alpha_start": 1.0, "alpha_end": 0.0, "color_rgba": LEMON, "direction_degrees": fposmod(direction, 360.0),
-		"spread_degrees": spread, "speed_min": 300.0, "speed_max": 620.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 360.0})
+		"spread_degrees": spread, "speed_min": 180.0, "speed_max": 380.0, "rotation_min_degrees": 0.0, "rotation_max_degrees": 360.0})
 
 
 func _preset(id: String, name: String, mode: String, inputs: Array, sources: Array, phases: Dictionary) -> Dictionary:

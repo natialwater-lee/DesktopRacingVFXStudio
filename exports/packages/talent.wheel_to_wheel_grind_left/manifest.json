@@ -63,14 +63,14 @@
       "sha256": "bca68d712080a78b6e23c6efe1dcae0ba1992d8bf7889de4248aacbe2911c86a"
     },
     {
-      "byte_size": 14631,
+      "byte_size": 23819,
       "path": "runtime/vfx_runtime_definition_v2.json",
-      "sha256": "b5c342ed80d12ac90d59320b7d4d50b5dd00a95399359a8bcbb1a44cc5f6827a"
+      "sha256": "49a9a7505b7a0bd68a3d3ebd5a65c9695c5b631a26f83bbb0f98c3be75f0ef65"
     },
     {
-      "byte_size": 13877,
+      "byte_size": 23065,
       "path": "source/talent.wheel_to_wheel_grind_left.vfx.json",
-      "sha256": "0c3e1d6257f698a978dd4374ab4c0787e5ccbcb9866aa4dc336fc2df76e276c9"
+      "sha256": "a42d3b6897ac029cb716aa19e38114af2edce3a3840a8a1a85e0766a58a6b5f9"
     }
   ],
   "package_format_version": 1,
@@ -95,14 +95,14 @@
     "runtime_inputs": []
   },
   "runtime_definition": {
-    "byte_size": 14631,
+    "byte_size": 23819,
     "path": "runtime/vfx_runtime_definition_v2.json",
-    "sha256": "b5c342ed80d12ac90d59320b7d4d50b5dd00a95399359a8bcbb1a44cc5f6827a",
+    "sha256": "49a9a7505b7a0bd68a3d3ebd5a65c9695c5b631a26f83bbb0f98c3be75f0ef65",
     "version": 2
   },
   "source": {
-    "byte_size": 13877,
+    "byte_size": 23065,
     "path": "source/talent.wheel_to_wheel_grind_left.vfx.json",
-    "sha256": "0c3e1d6257f698a978dd4374ab4c0787e5ccbcb9866aa4dc336fc2df76e276c9"
+    "sha256": "a42d3b6897ac029cb716aa19e38114af2edce3a3840a8a1a85e0766a58a6b5f9"
   }
 }
