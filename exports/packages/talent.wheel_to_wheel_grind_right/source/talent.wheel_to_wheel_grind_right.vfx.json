@@ -14,7 +14,7 @@
       "layers": []
     },
     "start": {
-      "duration_seconds": 0.6,
+      "duration_seconds": 0.9,
       "layers": [
         {
           "anchors": [
@@ -28,7 +28,7 @@
             {
               "id": "one_shot.spark_fan.in",
               "mapping": {
-                "input_max": 0.05,
+                "input_max": 0.0444444444444444,
                 "input_min": 0.0,
                 "output_max": 1.0,
                 "output_min": 0.0,
@@ -42,10 +42,26 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
+              "id": "one_shot.spark_fan.settle",
+              "mapping": {
+                "input_max": 0.333333333333333,
+                "input_min": 0.133333333333333,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
               "id": "one_shot.spark_fan.out",
               "mapping": {
-                "input_max": 0.75,
-                "input_min": 0.3,
+                "input_max": 0.977777777777778,
+                "input_min": 0.333333333333333,
                 "output_max": 0.0,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
@@ -60,7 +76,7 @@
             {
               "id": "one_shot.spark_fan.grow_x",
               "mapping": {
-                "input_max": 0.5,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 0.55,
@@ -74,12 +90,44 @@
               "target": "TRANSFORM_SCALE_X"
             },
             {
+              "id": "one_shot.spark_fan.spread_x",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": 1.08695652173913,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
               "id": "one_shot.spark_fan.grow_y",
               "mapping": {
-                "input_max": 0.5,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
                 "output_max": 1.15,
                 "output_min": 0.55,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "one_shot.spark_fan.spread_y",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": 1.08695652173913,
+                "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -102,13 +150,13 @@
               -80.0
             ],
             "offset": [
-              204.0,
-              -111.0
+              216.0,
+              -99.0
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              1.3,
-              1.3
+              1.45,
+              1.45
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -125,7 +173,7 @@
             {
               "id": "one_shot.contact_flash.in",
               "mapping": {
-                "input_max": 0.05,
+                "input_max": 0.0444444444444444,
                 "input_min": 0.0,
                 "output_max": 1.0,
                 "output_min": 0.0,
@@ -139,10 +187,26 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
+              "id": "one_shot.contact_flash.settle",
+              "mapping": {
+                "input_max": 0.333333333333333,
+                "input_min": 0.133333333333333,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
               "id": "one_shot.contact_flash.out",
               "mapping": {
-                "input_max": 0.35,
-                "input_min": 0.1,
+                "input_max": 0.977777777777778,
+                "input_min": 0.333333333333333,
                 "output_max": 0.0,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
@@ -153,6 +217,70 @@
                 "type": "PRESET_SOURCE"
               },
               "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
+              "id": "one_shot.contact_flash.swell_x",
+              "mapping": {
+                "input_max": 0.133333333333333,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.9,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "one_shot.contact_flash.shrink_x",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.133333333333333,
+                "output_max": 0.695652173913044,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "one_shot.contact_flash.swell_y",
+              "mapping": {
+                "input_max": 0.133333333333333,
+                "input_min": 0.0,
+                "output_max": 1.15,
+                "output_min": 0.9,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "one_shot.contact_flash.shrink_y",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.133333333333333,
+                "output_max": 0.695652173913044,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
             }
           ],
           "parameters": {
@@ -172,8 +300,8 @@
             ],
             "rotation_degrees": 0.0,
             "scale": [
-              0.85,
-              0.85
+              1.1,
+              1.1
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -207,15 +335,15 @@
             "emitter": {
               "shape": "POINT"
             },
-            "lifetime_seconds": 0.45,
+            "lifetime_seconds": 0.75,
             "rotation_max_degrees": 360.0,
             "rotation_min_degrees": 0.0,
-            "size_end": 28.0,
+            "size_end": 36.0,
             "size_multiplier_max": 1.0,
             "size_multiplier_min": 1.0,
-            "size_start": 95.0,
-            "speed_max": 620.0,
-            "speed_min": 300.0,
+            "size_start": 120.0,
+            "speed_max": 380.0,
+            "speed_min": 180.0,
             "spread_degrees": 60.0,
             "sprite_asset_ref": "fx.wheel_to_wheel_spark"
           },
@@ -246,7 +374,7 @@
             {
               "id": "one_shot.kick_body.in",
               "mapping": {
-                "input_max": 0.08,
+                "input_max": 0.0444444444444444,
                 "input_min": 0.0,
                 "output_max": 1.0,
                 "output_min": 0.0,
@@ -260,10 +388,26 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
+              "id": "one_shot.kick_body.settle",
+              "mapping": {
+                "input_max": 0.333333333333333,
+                "input_min": 0.133333333333333,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
               "id": "one_shot.kick_body.out",
               "mapping": {
-                "input_max": 0.7,
-                "input_min": 0.315,
+                "input_max": 0.977777777777778,
+                "input_min": 0.333333333333333,
                 "output_max": 0.0,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
@@ -278,10 +422,26 @@
             {
               "id": "one_shot.kick_body.grow_x",
               "mapping": {
-                "input_max": 0.7,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
-                "output_max": 1.4,
+                "output_max": 1.2,
                 "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "one_shot.kick_body.drift_x",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": 1.125,
+                "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -294,10 +454,26 @@
             {
               "id": "one_shot.kick_body.grow_y",
               "mapping": {
-                "input_max": 0.7,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
-                "output_max": 1.4,
+                "output_max": 1.2,
                 "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "one_shot.kick_body.drift_y",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": 1.125,
+                "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -310,9 +486,25 @@
             {
               "id": "one_shot.kick_body.travel_x",
               "mapping": {
-                "input_max": 0.7,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
-                "output_max": -150.0,
+                "output_max": -102.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "one_shot.kick_body.coast_x",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": -48.0,
                 "output_min": 0.0,
                 "type": "LINEAR_RANGE"
               },
@@ -341,8 +533,8 @@
             ],
             "rotation_degrees": -90.0,
             "scale": [
-              0.75,
-              0.75
+              0.85,
+              0.85
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -359,7 +551,7 @@
             {
               "id": "one_shot.kick_rim.in",
               "mapping": {
-                "input_max": 0.08,
+                "input_max": 0.0444444444444444,
                 "input_min": 0.0,
                 "output_max": 1.0,
                 "output_min": 0.0,
@@ -373,10 +565,26 @@
               "target": "VISUAL_OPACITY_MULTIPLIER"
             },
             {
+              "id": "one_shot.kick_rim.settle",
+              "mapping": {
+                "input_max": 0.333333333333333,
+                "input_min": 0.133333333333333,
+                "output_max": 0.55,
+                "output_min": 1.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "VISUAL_OPACITY_MULTIPLIER"
+            },
+            {
               "id": "one_shot.kick_rim.out",
               "mapping": {
-                "input_max": 0.7,
-                "input_min": 0.315,
+                "input_max": 0.977777777777778,
+                "input_min": 0.333333333333333,
                 "output_max": 0.0,
                 "output_min": 1.0,
                 "type": "LINEAR_RANGE"
@@ -391,10 +599,26 @@
             {
               "id": "one_shot.kick_rim.grow_x",
               "mapping": {
-                "input_max": 0.7,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
-                "output_max": 1.4,
+                "output_max": 1.2,
                 "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_X"
+            },
+            {
+              "id": "one_shot.kick_rim.drift_x",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": 1.125,
+                "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -407,10 +631,26 @@
             {
               "id": "one_shot.kick_rim.grow_y",
               "mapping": {
-                "input_max": 0.7,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
-                "output_max": 1.4,
+                "output_max": 1.2,
                 "output_min": 0.6,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "MULTIPLY",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_SCALE_Y"
+            },
+            {
+              "id": "one_shot.kick_rim.drift_y",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": 1.125,
+                "output_min": 1.0,
                 "type": "LINEAR_RANGE"
               },
               "operation": "MULTIPLY",
@@ -423,9 +663,25 @@
             {
               "id": "one_shot.kick_rim.travel_x",
               "mapping": {
-                "input_max": 0.7,
+                "input_max": 0.166666666666667,
                 "input_min": 0.0,
-                "output_max": -150.0,
+                "output_max": -102.0,
+                "output_min": 0.0,
+                "type": "LINEAR_RANGE"
+              },
+              "operation": "ADD",
+              "source": {
+                "source_id": "wheel_to_wheel_grind.time",
+                "type": "PRESET_SOURCE"
+              },
+              "target": "TRANSFORM_OFFSET_X"
+            },
+            {
+              "id": "one_shot.kick_rim.coast_x",
+              "mapping": {
+                "input_max": 0.977777777777778,
+                "input_min": 0.166666666666667,
+                "output_max": -48.0,
                 "output_min": 0.0,
                 "type": "LINEAR_RANGE"
               },
@@ -454,8 +710,8 @@
             ],
             "rotation_degrees": -90.0,
             "scale": [
-              0.75,
-              0.75
+              0.85,
+              0.85
             ]
           },
           "type": "TEXTURED_SPRITE"
@@ -467,7 +723,7 @@
   "runtime_inputs": [],
   "runtime_modulation_sources": [
     {
-      "frequency_hz": 1.66666666666667,
+      "frequency_hz": 1.11111111111111,
       "id": "wheel_to_wheel_grind.time",
       "type": "LINEAR_PHASE"
     }
